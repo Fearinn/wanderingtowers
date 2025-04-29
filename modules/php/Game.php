@@ -24,10 +24,6 @@ require_once(APP_GAMEMODULE_PATH . "module/table/table.game.php");
 
 class Game extends \Table
 {
-    private array $TILES;
-    private array $TOWERS;
-    private array $SETUP_COUNTS;
-
     public function __construct()
     {
         parent::__construct();
@@ -93,24 +89,7 @@ class Game extends \Table
      * @param int $from_version
      * @return void
      */
-    public function upgradeTableDb($from_version)
-    {
-        //       if ($from_version <= 1404301345)
-        //       {
-        //            // ! important ! Use DBPREFIX_<table_name> for all tables
-        //
-        //            $sql = "ALTER TABLE DBPREFIX_xxxxxxx ....";
-        //            $this->applyDbUpgradeToAllDB( $sql );
-        //       }
-        //
-        //       if ($from_version <= 1405061421)
-        //       {
-        //            // ! important ! Use DBPREFIX_<table_name> for all tables
-        //
-        //            $sql = "CREATE TABLE DBPREFIX_xxxxxxx ....";
-        //            $this->applyDbUpgradeToAllDB( $sql );
-        //       }
-    }
+    public function upgradeTableDb($from_version) {}
 
     protected function getAllDatas(): array
     {
@@ -167,42 +146,14 @@ class Game extends \Table
 
         $this->activeNextPlayer();
 
-        $towerCards = [];
-        foreach ($this->TOWERS as $tower_id => $tower) {
-            $towerCards[] = [
-                "type" => (string) $tower["raven"],
-                "type_arg" => $tower_id,
-                "nbr" => 1,
-            ];
-        }
-        $this->tower_cards->createCards($towerCards, "deck");
+        $TowerManager = new TowerManager($this);
+        $TowerManager->setupCards();
 
-        $towerCards = $this->tower_cards->getCardsInLocation("deck");
-        foreach ($towerCards as $towerCard_id => $towerCard) {
-            $tower_id = (int) $towerCard["type_arg"];
-            $this->tower_cards->moveCard($towerCard_id, "board", $tower_id);
-        }
+        $WizardManager = new WizardManager($this);
+        $WizardManager->setupCards();
 
-        $players = $this->loadPlayersBasicInfos();
-        $playersNbr = count($players);
-
-        $wizardCards = [];
-        $potionCards = [];
-        foreach ($players as $player_id => $player) {
-            $setupCounts = (array) $this->SETUP_COUNTS[$playersNbr];
-            $wizardsNbr = (int) $setupCounts["wizards"];
-            $wizardCards[] = ["type" => $player["player_color"], "type_arg" => $player_id, "nbr" => $wizardsNbr];
-
-            $potionsNbr = (int) $setupCounts["potions"];
-            $potionCards[] = ["type" => $player["player_color"], "type_arg" => $player_id, "nbr" => $potionsNbr];
-        }
-        $this->wizard_cards->createCards($wizardCards, "deck");
-        $this->potion_cards->createCards($potionCards, "deck");
-
-        foreach ($players as $player_id => $player) {
-            $this->DbQuery("UPDATE wizard SET card_location='hand', card_location_arg={$player_id} WHERE card_type_arg={$player_id}");
-            $this->DbQuery("UPDATE potion SET card_location='hand', card_location_arg={$player_id} WHERE card_type_arg={$player_id}");
-        }
+        $PotionManager = new PotionManager($this);
+        $PotionManager->setupCards();
     }
 
     /**

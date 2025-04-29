@@ -150,6 +150,12 @@ namespace Bga\GameFramework {
 
     abstract class Table extends \APP_Object
     {
+        public array $TILES;
+        public array $TOWERS;
+        public array $SETUP_COUNTS;
+        public \Deck $tower_cards;
+        public \Deck $wizard_cards;
+        public \Deck $potion_cards;
         /**
          * Access the underlying game state object.
          */
