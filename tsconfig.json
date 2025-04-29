@@ -1,0 +1,17 @@
+{
+  "rootDir": ".",
+  "compilerOptions": {
+    "target": "es5",
+    "module": "none",
+    "lib": ["dom", "esnext"],
+    "sourceMap": false,
+    "typeRoots": ["src/types", "./types", "./node_modules/@types"],
+    "outFile": "wanderingtowers.js"
+  },
+  "files": [
+    "src/types/bga-framework.d.ts",
+    "src/types/wanderingtowers.d.ts",
+    "src/GameBody.ts",
+    "src/define.ts",
+  ]
+}

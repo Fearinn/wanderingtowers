@@ -4,16 +4,17 @@
   "description": "",
   "main": "wanderingtowers.js",
   "scripts": {
-    "build:scss": "sass --no-source-map src/wanderingtowers.scss wanderingtowers.css",
-    "watch:scss": "sass --no-source-map --watch src/wanderingtowers.scss wanderingtowers.css",
-    "init": "pnpm install bga-ts-template && pnpm exec bga-init WanderingTowers \"Matheus Gomes matheusgomesforwork@gmail.com\" source --typescript --scss --vscode-extension-pack --gameinfos.jsonc --gameoptions.jsonc --gamepreferences.jsonc --stats.jsonc",
-    "build": "pnpm exec bga-build",
-    "watch": "pnpm exec bga-build --watch"
+    "build:ts": "tsc",
+    "build:scss": "sass --no-source-map src/styles/wanderingtowers.scss wanderingtowers.css",
+    "watch:ts": "tsc --watch",
+    "watch:scss": "sass --watch src/styles/wanderingtowers.scss wanderingtowers.css",
+    "watch": "pnpm run watch:ts && pnpm run watch:scss",
+    "build": "pnpm run build:ts && pnpm run build:scss"
   },
   "author": "Matheus Gomes",
-  "license": "BGA",
-  "dependencies": {
-    "bga-ts-template": "^2.0.6",
-    "typescript": "^5.8.3"
+  "license": "MIT",
+  "devDependencies": {
+    "sass": "^1.32.6",
+    "typescript": "^4"
   }
 }

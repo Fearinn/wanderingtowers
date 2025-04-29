@@ -13,50 +13,34 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define("bgagame/wanderingtowers", ["require", "exports", "ebg/core/gamegui", "ebg/counter"], function (require, exports, Gamegui) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var WanderingTowers = (function (_super) {
-        __extends(WanderingTowers, _super);
-        function WanderingTowers() {
-            var _this = _super.call(this) || this;
-            _this.setupNotifications = function () {
-                console.log("notifications subscriptions setup");
-            };
-            console.log("wanderingtowers constructor");
-            return _this;
-        }
-        WanderingTowers.prototype.setup = function (gamedatas) {
-            console.log("Starting game setup");
-            var player_id;
-            for (player_id in gamedatas.players) {
-                var player = gamedatas.players[player_id];
-            }
-            this.setupNotifications();
-            console.log("Ending game setup");
-        };
-        WanderingTowers.prototype.onEnteringState = function () {
-            var _a = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                _a[_i] = arguments[_i];
-            }
-            var stateName = _a[0], state = _a[1];
-            console.log("Entering state: " + stateName);
-        };
-        WanderingTowers.prototype.onLeavingState = function (stateName) {
-            console.log("Leaving state: " + stateName);
-        };
-        WanderingTowers.prototype.onUpdateActionButtons = function () {
-            var _a = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                _a[_i] = arguments[_i];
-            }
-            var stateName = _a[0], args = _a[1];
-            console.log("onUpdateActionButtons: " + stateName, args);
-            if (!this.isCurrentPlayerActive())
-                return;
-        };
-        return WanderingTowers;
-    }(Gamegui));
-    window.bgagame = { wanderingtowers: WanderingTowers };
+// @ts-ignore
+GameGui = (function () {
+    // this hack required so we fake extend GameGui
+    function GameGui() { }
+    return GameGui;
+})();
+// Note: it does not really extend it in es6 way, you cannot call super you have to use dojo way
+var GameBody = /** @class */ (function (_super) {
+    __extends(GameBody, _super);
+    // @ts-ignore
+    function GameBody() {
+        var _this = this;
+        return _this;
+    }
+    GameBody.prototype.setup = function (gamedatas) {
+        this.setupNotifications();
+    };
+    GameBody.prototype.onEnteringState = function (stateName, args) { };
+    GameBody.prototype.onLeavingState = function (stateName) { };
+    GameBody.prototype.onUpdateActionButtons = function (stateName, args) { };
+    GameBody.prototype.setupNotifications = function () { };
+    return GameBody;
+}(GameGui));
+define([
+    "dojo", "dojo/_base/declare",
+    "ebg/core/gamegui",
+    "ebg/counter",
+    "ebg/stock"
+], function (dojo, declare) {
+    return declare("bgagame.wanderingtowers", ebg.core.gamegui, new GameBody());
 });
