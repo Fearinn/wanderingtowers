@@ -1,0 +1,247 @@
+<?php
+
+/**
+ *------
+ * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
+ * WanderingTowers implementation : © Matheus Gomes matheusgomesforwork@gmail.com
+ *
+ * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
+ * See http://en.boardgamearena.com/#!doc/Studio for more information.
+ * -----
+ *
+ * Game.php
+ *
+ * This is the main file for your game logic.
+ *
+ * In this PHP file, you are going to defines the rules of the game.
+ */
+
+declare(strict_types=1);
+
+namespace Bga\Games\WanderingTowers;
+
+require_once(APP_GAMEMODULE_PATH . "module/table/table.game.php");
+
+class Game extends \Table
+{
+    private array $TILES;
+    private array $TOWERS;
+    private array $SETUP_COUNTS;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        require "material.inc.php";
+
+        $this->initGameStateLabels([]);
+
+        $this->tower_cards = $this->getNew("module.common.deck");
+        $this->tower_cards->init("tower");
+
+        $this->wizard_cards = $this->getNew("module.common.deck");
+        $this->wizard_cards->init("wizard");
+
+        $this->potion_cards = $this->getNew("module.common.deck");
+        $this->potion_cards->init("potion");
+    }
+
+    /**
+     * Player action, example content.
+     *
+     * In this scenario, each time a player plays a card, this method will be called. This method is called directly
+     * by the action trigger on the front side with `bgaPerformAction`.
+     *
+     * @throws BgaUserException
+     */
+
+    /**
+     * Game state arguments, example content.
+     *
+     * This method returns some additional information that is very specific to the `playerTurn` game state.
+     *
+     * @return array
+     * @see ./states.inc.php
+     */
+
+    /**
+     * Compute and return the current game progression.
+     *
+     * The number returned must be an integer between 0 and 100.
+     *
+     * This method is called each time we are in a game state with the "updateGameProgression" property set to true.
+     *
+     * @return int
+     * @see ./states.inc.php
+     */
+    public function getGameProgression()
+    {
+        // TODO: compute and return the game progression
+
+        return 0;
+    }
+
+
+    /**
+     * Migrate database.
+     *
+     * You don't have to care about this until your game has been published on BGA. Once your game is on BGA, this
+     * method is called everytime the system detects a game running with your old database scheme. In this case, if you
+     * change your database scheme, you just have to apply the needed changes in order to update the game database and
+     * allow the game to continue to run with your new version.
+     *
+     * @param int $from_version
+     * @return void
+     */
+    public function upgradeTableDb($from_version)
+    {
+        //       if ($from_version <= 1404301345)
+        //       {
+        //            // ! important ! Use DBPREFIX_<table_name> for all tables
+        //
+        //            $sql = "ALTER TABLE DBPREFIX_xxxxxxx ....";
+        //            $this->applyDbUpgradeToAllDB( $sql );
+        //       }
+        //
+        //       if ($from_version <= 1405061421)
+        //       {
+        //            // ! important ! Use DBPREFIX_<table_name> for all tables
+        //
+        //            $sql = "CREATE TABLE DBPREFIX_xxxxxxx ....";
+        //            $this->applyDbUpgradeToAllDB( $sql );
+        //       }
+    }
+
+    protected function getAllDatas(): array
+    {
+        $result = [];
+
+        // WARNING: We must only return information visible by the current player.
+        $current_player_id = (int) $this->getCurrentPlayerId();
+
+        $result["players"] = $this->getCollectionFromDb(
+            "SELECT `player_id` `id`, `player_score` `score` FROM `player`"
+        );
+
+        return $result;
+    }
+
+    /**
+     * Returns the game name.
+     *
+     * IMPORTANT: Please do not modify.
+     */
+    protected function getGameName()
+    {
+        return "wanderingtowers";
+    }
+
+    /**
+     * This method is called only once, when a new game is launched. In this method, you must setup the game
+     *  according to the game rules, so that the game is ready to be played.
+     */
+    protected function setupNewGame($players, $options = [])
+    {
+        $gameinfos = $this->getGameinfos();
+        $default_colors = $gameinfos['player_colors'];
+
+        foreach ($players as $player_id => $player) {
+            $query_values[] = vsprintf("('%s', '%s', '%s', '%s', '%s')", [
+                $player_id,
+                array_shift($default_colors),
+                $player["player_canal"],
+                addslashes($player["player_name"]),
+                addslashes($player["player_avatar"]),
+            ]);
+        }
+
+        static::DbQuery(
+            sprintf(
+                "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar) VALUES %s",
+                implode(",", $query_values)
+            )
+        );
+
+        $this->reattributeColorsBasedOnPreferences($players, $gameinfos["player_colors"]);
+        $this->reloadPlayersBasicInfos();
+
+        $this->activeNextPlayer();
+
+        $towerCards = [];
+        foreach ($this->TOWERS as $tower_id => $tower) {
+            $towerCards[] = [
+                "type" => (string) $tower["raven"],
+                "type_arg" => $tower_id,
+                "nbr" => 1,
+            ];
+        }
+        $this->tower_cards->createCards($towerCards, "deck");
+
+        $towerCards = $this->tower_cards->getCardsInLocation("deck");
+        foreach ($towerCards as $towerCard_id => $towerCard) {
+            $tower_id = (int) $towerCard["type_arg"];
+            $this->tower_cards->moveCard($towerCard_id, "board", $tower_id);
+        }
+
+        $players = $this->loadPlayersBasicInfos();
+        $playersNbr = count($players);
+
+        $wizardCards = [];
+        $potionCards = [];
+        foreach ($players as $player_id => $player) {
+            $setupCounts = (array) $this->SETUP_COUNTS[$playersNbr];
+            $wizardsNbr = (int) $setupCounts["wizards"];
+            $wizardCards[] = ["type" => $player["player_color"], "type_arg" => $player_id, "nbr" => $wizardsNbr];
+
+            $potionsNbr = (int) $setupCounts["potions"];
+            $potionCards[] = ["type" => $player["player_color"], "type_arg" => $player_id, "nbr" => $potionsNbr];
+        }
+        $this->wizard_cards->createCards($wizardCards, "deck");
+        $this->potion_cards->createCards($potionCards, "deck");
+
+        foreach ($players as $player_id => $player) {
+            $this->DbQuery("UPDATE wizard SET card_location='hand', card_location_arg={$player_id} WHERE card_type_arg={$player_id}");
+            $this->DbQuery("UPDATE potion SET card_location='hand', card_location_arg={$player_id} WHERE card_type_arg={$player_id}");
+        }
+    }
+
+    /**
+     * This method is called each time it is the turn of a player who has quit the game (= "zombie" player).
+     * You can do whatever you want in order to make sure the turn of this player ends appropriately
+     * (ex: pass).
+     *
+     * Important: your zombie code will be called when the player leaves the game. This action is triggered
+     * from the main site and propagated to the gameserver from a server, not from a browser.
+     * As a consequence, there is no current player associated to this action. In your zombieTurn function,
+     * you must _never_ use `getCurrentPlayerId()` or `getCurrentPlayerName()`, otherwise it will fail with a
+     * "Not logged" error message.
+     *
+     * @param array{ type: string, name: string } $state
+     * @param int $active_player
+     * @return void
+     * @throws feException if the zombie mode is not supported at this game state.
+     */
+    protected function zombieTurn(array $state, int $active_player): void
+    {
+        $state_name = $state["name"];
+
+        if ($state["type"] === "activeplayer") {
+            switch ($state_name) {
+                default: {
+                        $this->gamestate->nextState("zombiePass");
+                        break;
+                    }
+            }
+
+            return;
+        }
+
+        // Make sure player is in a non-blocking status for role turn.
+        if ($state["type"] === "multipleactiveplayer") {
+            $this->gamestate->setPlayerNonMultiactive($active_player, '');
+            return;
+        }
+
+        throw new \feException("Zombie mode not supported at this game state: \"{$state_name}\".");
+    }
+}
