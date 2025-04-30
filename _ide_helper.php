@@ -152,10 +152,12 @@ namespace Bga\GameFramework {
     {
         public array $SPACES;
         public array $TOWERS;
+        public array $MOVES;
         public array $SETUP_COUNTS;
         public \Deck $tower_cards;
         public \Deck $wizard_cards;
         public \Deck $potion_cards;
+        public \Deck $move_cards;
         /**
          * Access the underlying game state object.
          */

@@ -6,9 +6,7 @@ class WizardManager extends CardManager
 {
     public function __construct(\Table $game)
     {
-        parent::__construct($game);
-        $this->deck = $this->game->wizard_cards;
-        $this->database = "wizard";
+        parent::__construct($game, $game->wizard_cards);
     }
 
     public function setupCards(): void

@@ -8,9 +8,10 @@ class CardManager
     public \Deck $deck;
     public string $database;
 
-    public function __construct($game)
+    public function __construct($game, $deck)
     {
         $this->game = $game;
+        $this->deck = $deck;
     }
 
     public function createCards(array $cards, string $location = "deck")
@@ -42,9 +43,14 @@ class CardManager
 
     public function transferCard(string $from, string $to, int $from_arg = null, int $to_arg = null): void
     {
-            $card = $this->getCardInLocation($from, $from_arg);
-            $card_id = (int) $card["id"];
-            $this->deck->moveCard($card_id, $to, $to_arg);
+        $card = $this->getCardInLocation($from, $from_arg);
+        $card_id = (int) $card["id"];
+        $this->deck->moveCard($card_id, $to, $to_arg);
+    }
+
+    public function pickCards(int $nbr, int $player_id, string $location = "deck"): array
+    {
+        return $this->deck->pickCards($nbr, $location, $player_id);
     }
 
     public function countCards(string $location, int $location_arg = null): int

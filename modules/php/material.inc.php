@@ -139,3 +139,132 @@ $this->SETUP_COUNTS = [
         "potions" => 4,
     ],
 ];
+
+$this->MOVES = [
+    1 => [
+        "type" => "tower",
+        "tower" => 5,
+        "wizard" => 0,
+        "count" => 4,
+    ],
+    2 => [
+        "type" => "tower",
+        "tower" => 5,
+        "wizard" => 1,
+        "count" => 6,
+    ],
+    3 => [
+        "type" => "tower",
+        "tower" => 4,
+        "wizard" => 0,
+        "count" => 4,
+    ],
+    4 => [
+        "type" => "tower",
+        "tower" => 4,
+        "wizard" => 2,
+        "count" => 6,
+    ],
+    5 => [
+        "type" => "tower",
+        "tower" => 4,
+        "wizard" => 4,
+        "count" => 3,
+    ],
+    6 => [
+        "type" => "tower",
+        "tower" => 3,
+        "wizard" => 0,
+        "count" => 4,
+    ],
+    7 => [
+        "type" => "tower",
+        "tower" => 3,
+        "wizard" => 3,
+        "count" => 3,
+    ],
+    8 => [
+        "type" => "tower",
+        "tower" => 2,
+        "wizard" => 0,
+        "count" => 4,
+    ],
+    9 => [
+        "type" => "tower",
+        "tower" => 2,
+        "wizard" => 2,
+        "count" => 3,
+    ],
+    10 => [
+        "type" => "tower",
+        "tower" => 2,
+        "wizard" => 4,
+        "count" => 6,
+    ],
+    11 => [
+        "type" => "tower",
+        "tower" => 1,
+        "wizard" => 0,
+        "count" => 4,
+    ],
+    12 => [
+        "type" => "tower",
+        "tower" => 1,
+        "wizard" => 1,
+        "count" => 3,
+    ],
+    13 => [
+        "type" => "tower",
+        "tower" => 1,
+        "wizard" => 5,
+        "count" => 6,
+    ],
+    14 => [
+        "type" => "tower",
+        "tower" => "dice",
+        "wizard" => 0,
+        "count" => 4,
+    ],
+    15 => [
+        "type" => "both",
+        "tower" => "dice",
+        "wizard" => "dice",
+        "count" => 6,
+    ],
+    16 => [
+        "type" => "wizard",
+        "tower" => 0,
+        "wizard" => "dice",
+        "count" => 4,
+    ],
+    17 => [
+        "type" => "wizard",
+        "tower" => 0,
+        "wizard" => 1,
+        "count" => 4,
+    ],
+    18 => [
+        "type" => "wizard",
+        "tower" => 0,
+        "wizard" => 2,
+        "count" => 4,
+    ],
+    19 => [
+        "type" => "wizard",
+        "tower" => 0,
+        "wizard" => 3,
+        "count" => 4,
+    ],
+    20 => [
+        "type" => "wizard",
+        "tower" => 0,
+        "wizard" => 4,
+        "count" => 4,
+    ],
+    21 => [
+        "type" => "wizard",
+        "tower" => 0,
+        "wizard" => 5,
+        "count" => 4,
+    ],
+];

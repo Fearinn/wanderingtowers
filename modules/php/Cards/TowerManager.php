@@ -5,10 +5,7 @@ namespace Bga\Games\WanderingTowers\Cards;
 class TowerManager extends CardManager
 {
     public function __construct($game) {
-        parent::__construct($game);
-
-        $this->deck = $this->game->tower_cards;
-        $this->database = "tower";
+        parent::__construct($game, $game->tower_cards);
     }
 
     public function setupCards(): void {

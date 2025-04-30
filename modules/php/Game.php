@@ -23,6 +23,7 @@ namespace Bga\Games\WanderingTowers;
 use Bga\Games\WanderingTowers\Cards\TowerManager;
 use Bga\Games\WanderingTowers\Cards\WizardManager;
 use Bga\Games\WanderingTowers\Cards\PotionManager;
+use Bga\Games\WanderingTowers\Cards\MoveManager;
 
 require_once(APP_GAMEMODULE_PATH . "module/table/table.game.php");
 
@@ -44,6 +45,9 @@ class Game extends \Table
 
         $this->potion_cards = $this->getNew("module.common.deck");
         $this->potion_cards->init("potion");
+
+        $this->move_cards = $this->getNew("module.common.deck");
+        $this->move_cards->init("move");
     }
 
     /**
@@ -163,6 +167,9 @@ class Game extends \Table
 
         $PotionManager = new PotionManager($this);
         $PotionManager->setupCards();
+
+        $MoveManager = new MoveManager($this);
+        $MoveManager->setupCards();
     }
 
     /**
