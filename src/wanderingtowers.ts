@@ -6,7 +6,7 @@ GameGui = (function () {
 })();
 
 // Note: it does not really extend it in es6 way, you cannot call super you have to use dojo way
-class GameBody extends GameGui {
+class WanderingTowers extends GameGui {
   // @ts-ignore
   constructor() {}
 

@@ -20,27 +20,28 @@ GameGui = (function () {
     return GameGui;
 })();
 // Note: it does not really extend it in es6 way, you cannot call super you have to use dojo way
-var GameBody = /** @class */ (function (_super) {
-    __extends(GameBody, _super);
+var WanderingTowers = /** @class */ (function (_super) {
+    __extends(WanderingTowers, _super);
     // @ts-ignore
-    function GameBody() {
+    function WanderingTowers() {
         var _this = this;
         return _this;
     }
-    GameBody.prototype.setup = function (gamedatas) {
+    WanderingTowers.prototype.setup = function (gamedatas) {
         this.setupNotifications();
     };
-    GameBody.prototype.onEnteringState = function (stateName, args) { };
-    GameBody.prototype.onLeavingState = function (stateName) { };
-    GameBody.prototype.onUpdateActionButtons = function (stateName, args) { };
-    GameBody.prototype.setupNotifications = function () { };
-    return GameBody;
+    WanderingTowers.prototype.onEnteringState = function (stateName, args) { };
+    WanderingTowers.prototype.onLeavingState = function (stateName) { };
+    WanderingTowers.prototype.onUpdateActionButtons = function (stateName, args) { };
+    WanderingTowers.prototype.setupNotifications = function () { };
+    return WanderingTowers;
 }(GameGui));
 define([
-    "dojo", "dojo/_base/declare",
+    "dojo",
+    "dojo/_base/declare",
     "ebg/core/gamegui",
     "ebg/counter",
-    "ebg/stock"
+    "ebg/stock",
 ], function (dojo, declare) {
-    return declare("bgagame.wanderingtowers", ebg.core.gamegui, new GameBody());
+    return declare("bgagame.wanderingtowers", ebg.core.gamegui, new WanderingTowers());
 });
