@@ -13,6 +13,88 @@
  * WanderingTowers stylesheet
  *
  */
+:root {
+  --spaceWidth: 140px;
+}
+
+.wtw_spaces {
+  position: relative;
+  aspect-ratio: 1;
+  width: calc(var(--spaceWidth) * 5.8);
+}
+
+.wtw_space {
+  position: absolute;
+  background-color: red;
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+  aspect-ratio: 1;
+  width: var(--spaceWidth);
+}
+.wtw_space[data-space="1"] {
+  top: calc(var(--spaceWidth) * 0.7);
+  left: calc(var(--spaceWidth) * 0.7);
+}
+.wtw_space[data-space="2"] {
+  top: 0;
+  left: calc(var(--spaceWidth) * 1.4);
+}
+.wtw_space[data-space="3"] {
+  top: 0;
+  left: calc(var(--spaceWidth) * 2.4);
+}
+.wtw_space[data-space="4"] {
+  top: 0;
+  left: calc(var(--spaceWidth) * 3.4);
+}
+.wtw_space[data-space="5"] {
+  top: calc(var(--spaceWidth) * 0.7);
+  left: calc(var(--spaceWidth) * 4.1);
+}
+.wtw_space[data-space="6"] {
+  top: calc(var(--spaceWidth) * 1.4);
+  left: calc(var(--spaceWidth) * 4.8);
+}
+.wtw_space[data-space="7"] {
+  top: calc(var(--spaceWidth) * 2.4);
+  left: calc(var(--spaceWidth) * 4.8);
+}
+.wtw_space[data-space="8"] {
+  top: calc(var(--spaceWidth) * 3.4);
+  left: calc(var(--spaceWidth) * 4.8);
+}
+.wtw_space[data-space="9"] {
+  top: calc(var(--spaceWidth) * 4.1);
+  left: calc(var(--spaceWidth) * 4.1);
+}
+.wtw_space[data-space="10"] {
+  top: calc(var(--spaceWidth) * 4.8);
+  left: calc(var(--spaceWidth) * 3.4);
+}
+.wtw_space[data-space="11"] {
+  top: calc(var(--spaceWidth) * 4.8);
+  left: calc(var(--spaceWidth) * 2.4);
+}
+.wtw_space[data-space="12"] {
+  top: calc(var(--spaceWidth) * 4.8);
+  left: calc(var(--spaceWidth) * 1.4);
+}
+.wtw_space[data-space="13"] {
+  top: calc(var(--spaceWidth) * 4.1);
+  left: calc(var(--spaceWidth) * 0.7);
+}
+.wtw_space[data-space="14"] {
+  top: calc(var(--spaceWidth) * 3.4);
+  left: 0;
+}
+.wtw_space[data-space="15"] {
+  top: calc(var(--spaceWidth) * 2.4);
+  left: 0;
+}
+.wtw_space[data-space="16"] {
+  top: calc(var(--spaceWidth) * 1.4);
+  left: 0;
+}
+
 .wtw_gameArea {
   display: flex;
   flex-direction: column;

@@ -1,6 +1,6 @@
 <?php
 
-$this->TILES = [
+$this->SPACES = [
     1 => [
         "raven" => true,
         "setupWizards" => 0,

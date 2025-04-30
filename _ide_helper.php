@@ -150,7 +150,7 @@ namespace Bga\GameFramework {
 
     abstract class Table extends \APP_Object
     {
-        public array $TILES;
+        public array $SPACES;
         public array $TOWERS;
         public array $SETUP_COUNTS;
         public \Deck $tower_cards;
