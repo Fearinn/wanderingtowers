@@ -14,10 +14,10 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 // @ts-ignore
-GameGui = (function () {
+WanderingTowersGui = (function () {
     // this hack required so we fake extend GameGui
-    function GameGui() { }
-    return GameGui;
+    function WanderingTowersGui() { }
+    return WanderingTowersGui;
 })();
 // Note: it does not really extend it in es6 way, you cannot call super you have to use dojo way
 var WanderingTowers = /** @class */ (function (_super) {
@@ -28,6 +28,13 @@ var WanderingTowers = /** @class */ (function (_super) {
         return _this;
     }
     WanderingTowers.prototype.setup = function (gamedatas) {
+        this.wtw = {
+            managers: {},
+        };
+        this.wtw.managers.zoom = new ZoomManager({
+            element: document.getElementById("wtw_gameArea"),
+            localStorageZoomKey: "wanderingtowers-zoom",
+        });
         this.setupNotifications();
     };
     WanderingTowers.prototype.onEnteringState = function (stateName, args) { };
@@ -35,7 +42,7 @@ var WanderingTowers = /** @class */ (function (_super) {
     WanderingTowers.prototype.onUpdateActionButtons = function (stateName, args) { };
     WanderingTowers.prototype.setupNotifications = function () { };
     return WanderingTowers;
-}(GameGui));
+}(WanderingTowersGui));
 define([
     "dojo",
     "dojo/_base/declare",

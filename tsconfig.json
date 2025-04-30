@@ -9,6 +9,7 @@
     "outFile": "wanderingtowers.js"
   },
   "files": [
+    "src/types/bga-zoom.d.ts",
     "src/types/bga-framework.d.ts",
     "src/types/wanderingtowers.d.ts",
     "src/wanderingtowers.ts",

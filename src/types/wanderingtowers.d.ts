@@ -11,6 +11,14 @@ interface Card {
     number: number;
 }
 
+declare class WanderingTowersGui extends GameGui {
+    wtw: {
+        managers: {
+            zoom?: ZoomManager,
+        },
+    }
+}
+
 interface WanderingTowersGamedatas {
     current_player_id: string;
     decision: {decision_type: string};

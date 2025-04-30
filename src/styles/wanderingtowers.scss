@@ -13,6 +13,9 @@
  *
  */
 
+@use "libs/bga-zoom";
+@use "libs/bga-dice";
+@use "libs/bga-cards";
 @use "board";
 
 .wtw_gameArea {
