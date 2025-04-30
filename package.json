@@ -7,8 +7,8 @@
     "build:ts": "tsc",
     "build:scss": "sass --no-source-map src/styles/wanderingtowers.scss wanderingtowers.css",
     "watch:ts": "tsc --watch",
-    "watch:scss": "sass --watch src/styles/wanderingtowers.scss wanderingtowers.css",
-    "watch": "pnpm run watch:ts && pnpm run watch:scss",
+    "watch:scss": "sass --watch --no-source-map src/styles/wanderingtowers.scss wanderingtowers.css",
+    "watch": "pnpm run /^watch:.*/",
     "build": "pnpm run build:ts && pnpm run build:scss"
   },
   "author": "Matheus Gomes",
