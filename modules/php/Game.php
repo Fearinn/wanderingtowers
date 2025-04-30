@@ -20,6 +20,10 @@ declare(strict_types=1);
 
 namespace Bga\Games\WanderingTowers;
 
+use Bga\Games\WanderingTowers\Cards\TowerManager;
+use Bga\Games\WanderingTowers\Cards\WizardManager;
+use Bga\Games\WanderingTowers\Cards\PotionManager;
+
 require_once(APP_GAMEMODULE_PATH . "module/table/table.game.php");
 
 class Game extends \Table
