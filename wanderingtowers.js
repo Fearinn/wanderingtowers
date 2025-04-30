@@ -42,6 +42,9 @@ define([
     "ebg/core/gamegui",
     "ebg/counter",
     "ebg/stock",
+    "".concat(g_gamethemeurl, "modules/js/bga-zoom.js"),
+    "".concat(g_gamethemeurl, "modules/js/bga-help.js"),
+    "".concat(g_gamethemeurl, "modules/js/bga-cards.js"),
 ], function (dojo, declare) {
     return declare("bgagame.wanderingtowers", ebg.core.gamegui, new WanderingTowers());
 });

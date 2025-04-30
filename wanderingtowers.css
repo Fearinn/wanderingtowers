@@ -13,3 +13,12 @@
  * WanderingTowers stylesheet
  *
  */
+.wtw_gameArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 8px;
+  width: 100%;
+}

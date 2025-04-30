@@ -10,7 +10,7 @@ class WanderingTowers extends GameGui {
   // @ts-ignore
   constructor() {}
 
-  public setup(gamedatas: any) {
+  public setup(gamedatas: WanderingTowersGamedatas) {
     this.setupNotifications();
   }
   public onEnteringState(stateName: string, args: any) {}
