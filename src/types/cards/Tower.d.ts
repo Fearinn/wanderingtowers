@@ -1,0 +1,3 @@
+interface TowerCard extends Card {
+
+}

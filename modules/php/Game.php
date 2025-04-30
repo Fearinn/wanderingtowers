@@ -97,16 +97,21 @@ class Game extends \Table
 
     protected function getAllDatas(): array
     {
-        $result = [];
-
         // WARNING: We must only return information visible by the current player.
         $current_player_id = (int) $this->getCurrentPlayerId();
 
-        $result["players"] = $this->getCollectionFromDb(
-            "SELECT `player_id` `id`, `player_score` `score` FROM `player`"
-        );
+        $TowerManager = new TowerManager($this);
+        $WizardManager = new WizardManager($this);
+        $PotionManager = new PotionManager($this);
 
-        return $result;
+        $gamedatas = [
+            "players" => $this->getCollectionFromDb("SELECT `player_id` `id`, `player_score` `score` FROM `player`"),
+            "towerCards" => $TowerManager->getCards("board"),
+            "wizardCards" => $WizardManager->getCards("board"),
+            "potionCards" => $PotionManager->getCards("board"),
+        ];
+
+        return $gamedatas;
     }
 
     /**

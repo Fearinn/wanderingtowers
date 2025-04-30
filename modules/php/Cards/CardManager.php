@@ -6,8 +6,9 @@ class CardManager
 {
     public \Table $game;
     public \Deck $deck;
-    
-    public function __construct($game) {
+
+    public function __construct($game)
+    {
         $this->game = $game;
     }
 
@@ -20,5 +21,10 @@ class CardManager
     {
         $this->createCards($cards, $deck, $location);
         $deck->shuffle($location);
+    }
+
+    public function getCards(string $location): array
+    {
+        return array_values($this->deck->getCardsInLocation($location));
     }
 }

@@ -2,15 +2,6 @@
  * Your game interfaces
  */
 
-// remove this if you don't use cards. If you do, make sure the types are correct . By default, some number are send as string, I suggest to cast to right type in PHP.
-interface Card {
-    id: number;
-    location: string;
-    location_arg: number;
-    type: number;
-    number: number;
-}
-
 declare class WanderingTowersGui extends GameGui {
     wtw: {
         managers: {
@@ -31,5 +22,7 @@ interface WanderingTowersGamedatas {
     players: { [playerId: number]: Player };
     tablespeed: string;
 
-    // Add here variables you set up in getAllDatas
+    towerCards: TowerCard[];
+    wizardCards: WizardCard[];
+    potionCards: PotionCard[];
 }
