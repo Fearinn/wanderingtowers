@@ -107,8 +107,8 @@ class Game extends \Table
         $gamedatas = [
             "players" => $this->getCollectionFromDb("SELECT `player_id` `id`, `player_score` `score` FROM `player`"),
             "towerCards" => $TowerManager->getCards("board"),
-            "wizardCards" => $WizardManager->getCards("board"),
-            "potionCards" => $PotionManager->getCards("board"),
+            "wizardCards" => $WizardManager->getCards("tower"),
+            "potionCards" => $PotionManager->getCards("hand"),
         ];
 
         return $gamedatas;

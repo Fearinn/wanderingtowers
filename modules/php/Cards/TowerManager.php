@@ -8,6 +8,7 @@ class TowerManager extends CardManager
         parent::__construct($game);
 
         $this->deck = $this->game->tower_cards;
+        $this->database = "tower";
     }
 
     public function setupCards(): void {
@@ -19,7 +20,7 @@ class TowerManager extends CardManager
                 "nbr" => 1,
             ];
         }
-        $this->createCards($towerCards, $this->deck);
+        $this->createCards($towerCards);
 
         $towerCards = $this->getCards("deck");
         foreach ($towerCards as $towerCard_id => $towerCard) {

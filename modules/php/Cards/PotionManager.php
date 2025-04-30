@@ -8,21 +8,23 @@ class PotionManager extends CardManager
     {
         parent::__construct($game);
         $this->deck = $this->game->potion_cards;
+        $this->database = "potion";
     }
 
     public function setupCards(): void
     {
         $players = $this->game->loadPlayersBasicInfos();
-        $playersNbr = count($players);
+        $playerNbr = count($players);
+
+        $setupCounts = (array) $this->game->SETUP_COUNTS[$playerNbr];
+        $potionCount = (int) $setupCounts["potions"];
 
         $potionCards = [];
         foreach ($players as $player_id => $player) {
-            $setupCounts = (array) $this->game->SETUP_COUNTS[$playersNbr];
-
-            $potionsNbr = (int) $setupCounts["potions"];
-            $potionCards[] = ["type" => $player["player_color"], "type_arg" => $player_id, "nbr" => $potionsNbr];
+         
+            $potionCards[] = ["type" => $player["player_color"], "type_arg" => $player_id, "nbr" => $potionCount];
         }
-        $this->createCards($potionCards, $this->deck);
+        $this->createCards($potionCards);
 
         foreach ($players as $player_id => $player) {
             $this->game->DbQuery("UPDATE potion SET card_location='hand', card_location_arg={$player_id} WHERE card_type_arg={$player_id}");

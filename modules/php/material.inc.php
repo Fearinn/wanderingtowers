@@ -3,82 +3,82 @@
 $this->SPACES = [
     1 => [
         "raven" => true,
-        "setupWizards" => 0,
+        "setupWizardCount" => 0,
         "landscape" => 1,
     ],
     2 => [
         "raven" => false,
-        "setupWizards" => 3,
+        "setupWizardCount" => 3,
         "landscape" => 1,
     ],
     3 => [
         "raven" => false,
-        "setupWizards" => 3,
+        "setupWizardCount" => 3,
         "landscape" => 1,
     ],
     4 => [
         "raven" => false,
-        "setupWizards" => 3,
+        "setupWizardCount" => 3,
         "landscape" => 1,
     ],
     5 => [
         "raven" => true,
-        "setupWizards" => 2,
+        "setupWizardCount" => 2,
         "landscape" => 2,
     ],
     6 => [
         "raven" => false,
-        "setupWizards" => 2,
+        "setupWizardCount" => 2,
         "landscape" => 2,
     ],
     7 => [
         "raven" => false,
-        "setupWizards" => 2,
+        "setupWizardCount" => 2,
         "landscape" => 2,
     ],
     8 => [
         "raven" => false,
-        "setupWizards" => 1,
+        "setupWizardCount" => 1,
         "landscape" => 2,
     ],
     9 => [
         "raven" => true,
-        "setupWizards" => 1,
+        "setupWizardCount" => 1,
         "landscape" => 3,
     ],
     10 => [
         "raven" => false,
-        "setupWizards" => 1,
+        "setupWizardCount" => 1,
         "landscape" => 3,
     ],
     11 => [
         "raven" => false,
-        "setupWizards" => 1,
+        "setupWizardCount" => 1,
         "landscape" => 3,
     ],
     12 => [
         "raven" => false,
-        "setupWizards" => 0,
+        "setupWizardCount" => 0,
         "landscape" => 3,
     ],
     13 => [
         "raven" => true,
-        "setupWizards" => 0,
+        "setupWizardCount" => 0,
         "landscape" => 4,
     ],
     14 => [
         "raven" => false,
-        "setupWizards" => 0,
+        "setupWizardCount" => 0,
         "landscape" => 4,
     ],
     15 => [
         "raven" => false,
-        "setupWizards" => 0,
+        "setupWizardCount" => 0,
         "landscape" => 4,
     ],
     16 => [
         "raven" => false,
-        "setupWizards" => 0,
+        "setupWizardCount" => 0,
         "landscape" => 4,
     ],
 ];
