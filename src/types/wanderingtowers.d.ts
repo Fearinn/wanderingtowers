@@ -25,4 +25,5 @@ interface WanderingTowersGamedatas {
     towerCards: TowerCard[];
     wizardCards: WizardCard[];
     potionCards: PotionCard[];
+    hand: MoveCard[];
 }

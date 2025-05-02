@@ -1,0 +1,1 @@
+interface MoveCard extends Card {}

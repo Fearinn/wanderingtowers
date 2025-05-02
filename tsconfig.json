@@ -11,6 +11,7 @@
     "outFile": "wanderingtowers.js"
   },
   "files": [
+    "src/types/cards/Move.d.ts",
     "src/types/cards/Potion.d.ts",
     "src/types/cards/Wizard.d.ts",
     "src/types/cards/Tower.d.ts",

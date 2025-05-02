@@ -41,9 +41,14 @@ class CardManager
         return $card;
     }
 
-    public function getCards(string $location, string $location_arg = null): array
+    public function getCards(string $location, int $location_arg = null): array
     {
         return array_values($this->deck->getCardsInLocation($location, $location_arg));
+    }
+
+    public function getPlayerHand(int $player_id): array
+    {
+        return array_values($this->deck->getPlayerHand($player_id));
     }
 
     public function getCardInLocation(string $location, $location_arg): array
@@ -69,7 +74,8 @@ class CardManager
         $this->deck->moveCard($card_id, $to, $to_arg);
     }
 
-    public function moveCard(int $card_id, string $location, string $location_arg = null) {
+    public function moveCard(int $card_id, string $location, string $location_arg = null)
+    {
         $this->deck->moveCard($card_id, $location, $location_arg);
     }
 

@@ -120,12 +120,14 @@ class Game extends \Table
         $TowerManager = new TowerManager($this);
         $WizardManager = new WizardManager($this);
         $PotionManager = new PotionManager($this);
+        $MoveManager = new MoveManager($this);
 
         $gamedatas = [
             "players" => $this->getCollectionFromDb("SELECT `player_id` `id`, `player_score` `score` FROM `player`"),
             "towerCards" => $TowerManager->getCards("board"),
             "wizardCards" => $WizardManager->getCards("tower"),
             "potionCards" => $PotionManager->getCards("hand"),
+            "hand" => $MoveManager->getPlayerHand($current_player_id),
         ];
 
         return $gamedatas;
