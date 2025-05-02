@@ -5,6 +5,7 @@ namespace Bga\Games\WanderingTowers\Cards\Move;
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\Actions\Types\StringParam;
 use Bga\GameFramework\Table;
+use Bga\Games\WanderingTowers\Dice\Dice;
 
 class Move extends MoveManager
 {
@@ -32,7 +33,14 @@ class Move extends MoveManager
 
     public function getSteps(#[StringParam(enum: ["wizard", "tower"])] string $side): int
     {
-        return (int) $this->move[$side];
+        $steps = $this->move[$side];
+
+        if ($steps === "dice") {
+            $Dice = new Dice($this->game);
+            $steps = $Dice->roll();
+        }
+
+        return (int) $steps;
     }
 
     public function getOwner()

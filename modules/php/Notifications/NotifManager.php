@@ -16,7 +16,7 @@ class NotifManager
         $this->notify = $game->notify;
     }
 
-    public function decoratePlayerName(string $message, array &$args): void
+    private function decoratePlayerName(string $message, array &$args): void
     {
         if (
             isset($args["player_id"]) &&
