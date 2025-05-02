@@ -30,7 +30,12 @@ class CardManager
 
     public function getCard(int $card_id): array
     {
-        return $this->deck->getCard($card_id);
+        $card = $this->deck->getCard($card_id);
+        if (!$card) {
+            throw new \BgaVisibleSystemException("Card not found");
+        }
+
+        return $card;
     }
 
     public function getCards(string $location, string $location_arg = null): array
@@ -43,7 +48,7 @@ class CardManager
         $cards = $this->getCards($location, $location_arg);
 
         if (!$cards) {
-            throw new \BgaVisibleSystemException("no card found: {$location}, {$location_arg}");
+            throw new \BgaVisibleSystemException("No card found");
         }
 
         return reset($cards);

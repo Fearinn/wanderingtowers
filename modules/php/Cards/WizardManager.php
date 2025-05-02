@@ -2,6 +2,8 @@
 
 namespace Bga\Games\WanderingTowers\Cards;
 
+use Bga\Games\WanderingTowers\Notifications\NotifManager;
+
 class WizardManager extends CardManager
 {
     public function __construct(\Table $game)
@@ -40,9 +42,9 @@ class WizardManager extends CardManager
             return;
         }
 
-        if ($this->countOnTower($space_id) < $setupWizardCount) {
+        if ($this->countOnSpace($space_id) < $setupWizardCount) {
             if ($this->countCards("hand", $player_id) > 0) {
-                $this->transferCard("hand", "tower", $player_id, $space_id);
+                $this->transferCard("hand", "space", $player_id, $space_id);
             }
 
             $player_id = $this->game->getPlayerAfter($player_id);
@@ -53,28 +55,41 @@ class WizardManager extends CardManager
         $this->setupOnTowers($player_id, $space_id);
     }
 
-    public function countOnTower(int $tower_id): int
+    public function countOnSpace(int $tower_id): int
     {
-        return $this->countCards("tower", $tower_id);
+        return $this->countCards("space", $tower_id);
     }
 
-    public function getTower(int $wizardCard_id): int
+    public function getSpaceId(int $wizardCard_id): int
+    {
+        $wizardCard = (array) $this->getCard($wizardCard_id);
+        return $wizardCard["location_arg"];
+    }
+
+    public function moveBySteps(int $wizardCard_id, int $steps): void
+    {
+        $space_id = $this->getSpaceId($wizardCard_id);
+        $space_id = $space_id = $steps;
+
+        $this->moveLocationArg($wizardCard_id, $space_id);
+
+        $NotifManager = new NotifManager($this->game);
+        $NotifManager->all(
+            "moveWizard",
+            clienttranslate('${player_name} moves a wizard by ${steps_label} spaces'),
+            [
+                "steps" => $steps,
+                "steps_label" => $steps
+            ]
+        );
+    }
+
+    public function validateOwner(int $wizardCard_id, int $player_id): void
     {
         $wizardCard = $this->getCard($wizardCard_id);
 
-        return (int) $wizardCard["location_arg"];
-    }
-
-    public function moveSteps(int $wizardCard_id, int $steps): void
-    {
-        $towerCard_id = $this->getTower($wizardCard_id);
-        $TowerManager = new TowerManager($this->game);
-        $space_id = $TowerManager->getSpace($towerCard_id);
-        $space_id += $steps;
-
-        $towerCard_id = $TowerManager->getCardIdBySpace($space_id);
-        $this->moveLocationArg($wizardCard_id, $towerCard_id);
-
-        $this->game->notify->all("test", "SUCCESS - {$towerCard_id}");
+        if ((int) $wizardCard["type_arg"] !== $player_id) {
+            throw new \BgaVisibleSystemException("Invalid wizard owner");
+        }
     }
 }

@@ -28,14 +28,7 @@ class TowerManager extends CardManager
         }
     }
 
-    public function getCardIdBySpace(int $space_id): int
-    {
-        $towerCards = $this->getCardsByLocationArg($space_id);
-        $towerCard = reset($towerCards);
-        return (int) $towerCard["id"];
-    }
-
-    public function getSpace(int $towerCard_id): int
+    public function getSpaceId(int $towerCard_id): int
     {
         $towerCard = $this->getCard($towerCard_id);
         return (int) $towerCard["location_arg"];

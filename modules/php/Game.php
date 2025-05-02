@@ -20,11 +20,13 @@ declare(strict_types=1);
 
 namespace Bga\Games\WanderingTowers;
 
+use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\Games\WanderingTowers\Actions\ActMoveWizard;
 use Bga\Games\WanderingTowers\Cards\TowerManager;
 use Bga\Games\WanderingTowers\Cards\WizardManager;
 use Bga\Games\WanderingTowers\Cards\PotionManager;
 use Bga\Games\WanderingTowers\Cards\MoveManager;
+use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
 require_once(APP_GAMEMODULE_PATH . "module/table/table.game.php");
 
@@ -49,8 +51,11 @@ class Game extends \Table
 
         $this->move_cards = $this->getNew("module.common.deck");
         $this->move_cards->init("move");
+
+        $NotifManager = new NotifManager($this);
+        $NotifManager->addDecorator();
     }
-    
+
     /**
      * Player action, example content.
      *
@@ -59,6 +64,13 @@ class Game extends \Table
      *
      * @throws BgaUserException
      */
+
+    public function actMoveWizard(#[IntParam(min: 1, max: 90)] int $moveCard_id, #[IntParam(min: 1, max: 16)] int $wizard_id): void
+    {
+        $player_id = (int) $this->getActivePlayerId();
+        $ActMoveWizard = new ActMoveWizard($this);
+        $ActMoveWizard->act($player_id, $moveCard_id, $wizard_id);
+    }
 
     /**
      * Game state arguments, example content.
@@ -215,7 +227,9 @@ class Game extends \Table
 
     public function debug_actMoveWizard(int $moveCard_id, int $wizardCard_id): void
     {
+        $player_id = (int) $this->getActivePlayerId();
+
         $ActMoveWizard = new ActMoveWizard($this);
-        $ActMoveWizard->call($moveCard_id, $wizardCard_id);
+        $ActMoveWizard->act($player_id, $moveCard_id, $wizardCard_id);
     }
 }

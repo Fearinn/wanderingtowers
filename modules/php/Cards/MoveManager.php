@@ -39,4 +39,13 @@ class MoveManager extends CardManager
         $move = $this->getMove($moveCard_id);
         return (int) $move[$side];
     }
+
+    public function validateType(int $moveCard_id, #[StringParam(enum: ["wizard", "tower"])] $side): void
+    {
+        $move = $this->getMove($moveCard_id);
+
+        if ($move["type"] !== $side) {
+            throw new \BgaVisibleSystemException("Wrong move type");
+        }
+    }
 }
