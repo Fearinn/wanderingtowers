@@ -4,7 +4,6 @@ namespace Bga\Games\WanderingTowers\Cards\Wizard;
 
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Cards\CardManager;
-use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
 class WizardManager extends CardManager
 {
@@ -40,12 +39,12 @@ class WizardManager extends CardManager
         $space = (array) $this->game->SPACES[$space_id];
         $setupWizardCount = (int) $space["setupWizardCount"];
 
-        if ($setupWizardCount === 0 || $this->countCards("hand") === 0) {
+        if ($setupWizardCount === 0 || $this->countCardsInLocation("hand") === 0) {
             return;
         }
 
         if ($this->countOnSpace($space_id) < $setupWizardCount) {
-            if ($this->countCards("hand", $player_id) > 0) {
+            if ($this->countCardsInLocation("hand", $player_id) > 0) {
                 $this->transferCard("hand", "space", $player_id, $space_id);
             }
 
@@ -57,8 +56,8 @@ class WizardManager extends CardManager
         $this->setupOnTowers($player_id, $space_id);
     }
 
-    public function countOnSpace(int $tower_id): int
+    public function countOnSpace(int $space_id): int
     {
-        return $this->countCards("space", $tower_id);
+        return $this->countCardsInLocation("space", $space_id);
     }
 }

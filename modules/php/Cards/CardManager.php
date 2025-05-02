@@ -69,7 +69,11 @@ class CardManager
         $this->deck->moveCard($card_id, $to, $to_arg);
     }
 
-    public function moveLocationArg(int $card_id, int $location_arg): void
+    public function moveCard(int $card_id, string $location, string $location_arg = null) {
+        $this->deck->moveCard($card_id, $location, $location_arg);
+    }
+
+    public function moveByLocationArg(int $card_id, int $location_arg): void
     {
         $this->game->DbQuery("UPDATE {$this->dbTable} SET card_location_arg={$location_arg} WHERE card_id={$card_id}");
     }
@@ -79,7 +83,7 @@ class CardManager
         return $this->deck->pickCards($nbr, $location, $player_id);
     }
 
-    public function countCards(string $location, int $location_arg = null): int
+    public function countCardsInLocation(string $location, int $location_arg = null): int
     {
         return $this->deck->countCardsInLocation($location, $location_arg);
     }

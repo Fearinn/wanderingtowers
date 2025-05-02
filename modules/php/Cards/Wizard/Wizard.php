@@ -31,7 +31,7 @@ class Wizard extends WizardManager
         $space_id = $this->getSpaceId($this->card_id);
         $space_id = $space_id = $steps;
 
-        $this->moveLocationArg($this->card_id, $space_id);
+        $this->moveByLocationArg($this->card_id, $space_id);
 
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(

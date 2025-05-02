@@ -21,12 +21,12 @@ class TowerManager extends CardManager
                 "nbr" => 1,
             ];
         }
-        $this->createCards($towerCards);
+        $this->createCards($towerCards, "board");
 
         $towerCards = $this->getCards("deck");
         foreach ($towerCards as $towerCard_id => $towerCard) {
             $tower_id = (int) $towerCard["type_arg"];
-            $this->deck->moveCard($towerCard_id, "board", $tower_id);
+            $this->moveByLocationArg($towerCard_id, $tower_id);
         }
     }
 }

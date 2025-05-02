@@ -18,6 +18,7 @@ class ActMoveWizard
     {
         $Move = new Move($this->game, $moveCard_id);
         $Move->validateType("wizard");
+        $Move->validateHand($player_id);
 
         $Wizard = new Wizard($this->game, $wizardCard_id);
         $Wizard->validateOwner($player_id);

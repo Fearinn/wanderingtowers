@@ -17,12 +17,17 @@ class Move extends MoveManager
     {
         parent::__construct($game);
 
-        $card = $this->getCard($wizardCard_id);
         $this->card_id = $wizardCard_id;
+        $card = $this->getCard($this->card_id);
 
         $this->id = (int) $card["type_arg"];
         $this->move = $this->game->MOVES[$this->id];
         $this->type = (string) $this->move["type"];
+    }
+
+    public function getMoveCard(): array
+    {
+        return $this->getCard($this->card_id);
     }
 
     public function getSteps(#[StringParam(enum: ["wizard", "tower"])] string $side): int
@@ -30,10 +35,23 @@ class Move extends MoveManager
         return (int) $this->move[$side];
     }
 
+    public function getOwner()
+    {
+        $card = $this->getMoveCard();
+        return (int) $card["location_arg"];
+    }
+
     public function validateType(#[StringParam(enum: ["wizard", "tower"])] string $side): void
     {
         if ($this->type !== "both" && $this->type !== $side) {
             throw new \BgaVisibleSystemException("Wrong move type");
+        }
+    }
+
+    public function validateHand(int $player_id): void
+    {
+        if ($this->getMoveCard()["location"] !== "hand" || $this->getOwner() !== $player_id) {
+            throw new \BgaVisibleSystemException("This movement card is not in your hand");
         }
     }
 }
