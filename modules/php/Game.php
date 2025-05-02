@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace Bga\Games\WanderingTowers;
 
+use Bga\Games\WanderingTowers\Actions\ActMoveWizard;
 use Bga\Games\WanderingTowers\Cards\TowerManager;
 use Bga\Games\WanderingTowers\Cards\WizardManager;
 use Bga\Games\WanderingTowers\Cards\PotionManager;
@@ -49,7 +50,7 @@ class Game extends \Table
         $this->move_cards = $this->getNew("module.common.deck");
         $this->move_cards->init("move");
     }
-
+    
     /**
      * Player action, example content.
      *
@@ -210,5 +211,11 @@ class Game extends \Table
         }
 
         throw new \feException("Zombie mode not supported at this game state: \"{$state_name}\".");
+    }
+
+    public function debug_actMoveWizard(int $moveCard_id, int $wizardCard_id): void
+    {
+        $ActMoveWizard = new ActMoveWizard($this);
+        $ActMoveWizard->call($moveCard_id, $wizardCard_id);
     }
 }

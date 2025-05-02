@@ -6,7 +6,7 @@ class WizardManager extends CardManager
 {
     public function __construct(\Table $game)
     {
-        parent::__construct($game, $game->wizard_cards);
+        parent::__construct($game, $game->wizard_cards, "wizard");
     }
 
     public function setupCards(): void
@@ -56,5 +56,25 @@ class WizardManager extends CardManager
     public function countOnTower(int $tower_id): int
     {
         return $this->countCards("tower", $tower_id);
+    }
+
+    public function getTower(int $wizardCard_id): int
+    {
+        $wizardCard = $this->getCard($wizardCard_id);
+
+        return (int) $wizardCard["location_arg"];
+    }
+
+    public function moveSteps(int $wizardCard_id, int $steps): void
+    {
+        $towerCard_id = $this->getTower($wizardCard_id);
+        $TowerManager = new TowerManager($this->game);
+        $space_id = $TowerManager->getSpace($towerCard_id);
+        $space_id += $steps;
+
+        $towerCard_id = $TowerManager->getCardIdBySpace($space_id);
+        $this->moveLocationArg($wizardCard_id, $towerCard_id);
+
+        $this->game->notify->all("test", "SUCCESS - {$towerCard_id}");
     }
 }

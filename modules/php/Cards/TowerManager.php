@@ -4,11 +4,13 @@ namespace Bga\Games\WanderingTowers\Cards;
 
 class TowerManager extends CardManager
 {
-    public function __construct($game) {
-        parent::__construct($game, $game->tower_cards);
+    public function __construct($game)
+    {
+        parent::__construct($game, $game->tower_cards, "tower");
     }
 
-    public function setupCards(): void {
+    public function setupCards(): void
+    {
         $towerCards = [];
         foreach ($this->game->TOWERS as $tower_id => $tower) {
             $towerCards[] = [
@@ -24,5 +26,18 @@ class TowerManager extends CardManager
             $tower_id = (int) $towerCard["type_arg"];
             $this->deck->moveCard($towerCard_id, "board", $tower_id);
         }
+    }
+
+    public function getCardIdBySpace(int $space_id): int
+    {
+        $towerCards = $this->getCardsByLocationArg($space_id);
+        $towerCard = reset($towerCards);
+        return (int) $towerCard["id"];
+    }
+
+    public function getSpace(int $towerCard_id): int
+    {
+        $towerCard = $this->getCard($towerCard_id);
+        return (int) $towerCard["location_arg"];
     }
 }

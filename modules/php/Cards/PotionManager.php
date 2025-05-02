@@ -6,7 +6,7 @@ class PotionManager extends CardManager
 {
     public function __construct(\Table $game)
     {
-        parent::__construct($game, $game->potion_cards);
+        parent::__construct($game, $game->potion_cards, "potion");
     }
 
     public function setupCards(): void
