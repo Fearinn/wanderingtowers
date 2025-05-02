@@ -22,10 +22,10 @@ namespace Bga\Games\WanderingTowers;
 
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\Games\WanderingTowers\Actions\ActMoveWizard;
-use Bga\Games\WanderingTowers\Cards\TowerManager;
-use Bga\Games\WanderingTowers\Cards\WizardManager;
-use Bga\Games\WanderingTowers\Cards\PotionManager;
-use Bga\Games\WanderingTowers\Cards\MoveManager;
+use Bga\Games\WanderingTowers\Cards\Tower\TowerManager;
+use Bga\Games\WanderingTowers\Cards\Wizard\WizardManager;
+use Bga\Games\WanderingTowers\Cards\Potion\PotionManager;
+use Bga\Games\WanderingTowers\Cards\Move\MoveManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
 require_once(APP_GAMEMODULE_PATH . "module/table/table.game.php");

@@ -1,6 +1,8 @@
 <?php
 
-namespace Bga\Games\WanderingTowers\Cards;
+namespace Bga\Games\WanderingTowers\Cards\Tower;
+
+use Bga\Games\WanderingTowers\Cards\CardManager;
 
 class TowerManager extends CardManager
 {
@@ -26,11 +28,5 @@ class TowerManager extends CardManager
             $tower_id = (int) $towerCard["type_arg"];
             $this->deck->moveCard($towerCard_id, "board", $tower_id);
         }
-    }
-
-    public function getSpaceId(int $towerCard_id): int
-    {
-        $towerCard = $this->getCard($towerCard_id);
-        return (int) $towerCard["location_arg"];
     }
 }

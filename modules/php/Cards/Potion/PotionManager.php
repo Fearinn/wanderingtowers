@@ -1,10 +1,13 @@
 <?php
 
-namespace Bga\Games\WanderingTowers\Cards;
+namespace Bga\Games\WanderingTowers\Cards\Potion;
+
+use Bga\GameFramework\Table;
+use Bga\Games\WanderingTowers\Cards\CardManager;
 
 class PotionManager extends CardManager
 {
-    public function __construct(\Table $game)
+    public function __construct(Table $game)
     {
         parent::__construct($game, $game->potion_cards, "potion");
     }

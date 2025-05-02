@@ -1,12 +1,14 @@
 <?php
 
-namespace Bga\Games\WanderingTowers\Cards;
+namespace Bga\Games\WanderingTowers\Cards\Wizard;
 
+use Bga\GameFramework\Table;
+use Bga\Games\WanderingTowers\Cards\CardManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
 class WizardManager extends CardManager
 {
-    public function __construct(\Table $game)
+    public function __construct(Table $game)
     {
         parent::__construct($game, $game->wizard_cards, "wizard");
     }
@@ -58,38 +60,5 @@ class WizardManager extends CardManager
     public function countOnSpace(int $tower_id): int
     {
         return $this->countCards("space", $tower_id);
-    }
-
-    public function getSpaceId(int $wizardCard_id): int
-    {
-        $wizardCard = (array) $this->getCard($wizardCard_id);
-        return $wizardCard["location_arg"];
-    }
-
-    public function moveBySteps(int $wizardCard_id, int $steps): void
-    {
-        $space_id = $this->getSpaceId($wizardCard_id);
-        $space_id = $space_id = $steps;
-
-        $this->moveLocationArg($wizardCard_id, $space_id);
-
-        $NotifManager = new NotifManager($this->game);
-        $NotifManager->all(
-            "moveWizard",
-            clienttranslate('${player_name} moves a wizard by ${steps_label} spaces'),
-            [
-                "steps" => $steps,
-                "steps_label" => $steps
-            ]
-        );
-    }
-
-    public function validateOwner(int $wizardCard_id, int $player_id): void
-    {
-        $wizardCard = $this->getCard($wizardCard_id);
-
-        if ((int) $wizardCard["type_arg"] !== $player_id) {
-            throw new \BgaVisibleSystemException("Invalid wizard owner");
-        }
     }
 }

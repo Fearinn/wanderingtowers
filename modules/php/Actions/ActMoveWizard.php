@@ -2,8 +2,8 @@
 
 namespace Bga\Games\WanderingTowers\Actions;
 
-use Bga\Games\WanderingTowers\Cards\MoveManager;
-use Bga\Games\WanderingTowers\Cards\WizardManager;
+use Bga\Games\WanderingTowers\Cards\Move\Move;
+use Bga\Games\WanderingTowers\Cards\Wizard\Wizard;
 
 class ActMoveWizard
 {
@@ -16,21 +16,21 @@ class ActMoveWizard
 
     public function validate(int $player_id, int $moveCard_id, int $wizardCard_id): void
     {
-        $MoveManager = new MoveManager($this->game);
-        $MoveManager->validateType($moveCard_id, "wizard");
+        $Move = new Move($this->game, $moveCard_id);
+        $Move->validateType("wizard");
 
-        $WizardManager = new WizardManager($this->game);
-        $WizardManager->validateOwner($wizardCard_id, $player_id);
+        $Wizard = new Wizard($this->game, $wizardCard_id);
+        $Wizard->validateOwner($player_id);
     }
 
     public function act(int $player_id, int $moveCard_id, int $wizardCard_id): void
     {
         $this->validate($player_id, $moveCard_id, $wizardCard_id);
 
-        $MoveManager = new MoveManager($this->game);
-        $steps = $MoveManager->getSteps($moveCard_id, "wizard");
+        $Move = new Move($this->game, $moveCard_id);
+        $steps = $Move->getSteps("wizard");
 
-        $WizardManager = new WizardManager($this->game);
-        $WizardManager->moveBySteps($wizardCard_id, $steps);
+        $Wizard = new Wizard($this->game, $wizardCard_id);
+        $Wizard->moveBySteps($wizardCard_id, $steps);
     }
 }

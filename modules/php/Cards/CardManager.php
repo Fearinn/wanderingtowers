@@ -2,14 +2,17 @@
 
 namespace Bga\Games\WanderingTowers\Cards;
 
+use Bga\GameFramework\Table;
+use Deck;
+
 class CardManager
 {
-    public \Table $game;
-    public \Deck $deck;
+    public Table $game;
+    public Deck $deck;
     public string $dbTable;
     public string $cardProps;
 
-    public function __construct(\Table $game, \Deck $deck, string $dbTable)
+    public function __construct(Table $game, Deck $deck, string $dbTable)
     {
         $this->game = $game;
         $this->deck = $deck;
