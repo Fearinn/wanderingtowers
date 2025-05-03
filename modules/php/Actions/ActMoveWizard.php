@@ -8,12 +8,12 @@ use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Cards\Move\Move;
 use Bga\Games\WanderingTowers\Cards\Wizard\Wizard;
 
-
 use const Bga\Games\WanderingTowers\G_REROLLS;
+use const Bga\Games\WanderingTowers\G_WIZARD;
 use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
 use const Bga\Games\WanderingTowers\TR_REROLL_DICE;
 
-class ActMoveWizard
+class ActMoveWizard extends ActionManager
 {
     public Table $game;
     public $gamestate;
@@ -21,29 +21,28 @@ class ActMoveWizard
 
     public function __construct(Table $game)
     {
-        $this->game = $game;
-        $this->gamestate = $this->game->gamestate;
-        $this->globals = $this->game->globals;
+        parent::__construct($game);
     }
 
-    public function validate(int $player_id, int $moveCard_id, int $wizardCard_id): void
+    public function validate(int $moveCard_id, int $wizardCard_id): void
     {
         $Move = new Move($this->game, $moveCard_id);
         $Move->validateType("wizard");
-        $Move->validateHand($player_id);
+        $Move->validateHand($this->player_id);
 
         $Wizard = new Wizard($this->game, $wizardCard_id);
-        $Wizard->validateOwner($player_id);
+        $Wizard->validateOwner($this->player_id);
     }
 
-    public function act(int $player_id, int $moveCard_id, int $wizardCard_id): void
+    public function act(int $moveCard_id, int $wizardCard_id): void
     {
-        $this->validate($player_id, $moveCard_id, $wizardCard_id);
+        $this->validate($this->player_id, $moveCard_id, $wizardCard_id);
 
         $Move = new Move($this->game, $moveCard_id);
         $steps = $Move->getSteps("wizard");
 
         if ($this->globals->get(G_REROLLS, 0) > 0) {
+            $this->globals->set(G_WIZARD, $wizardCard_id);
             $this->gamestate->nextState(TR_REROLL_DICE);
             return;
         }

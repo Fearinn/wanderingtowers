@@ -3,15 +3,22 @@
 namespace Bga\Games\WanderingTowers\Dice;
 
 use Bga\GameFramework\Actions\Types\IntParam;
+use Bga\GameFramework\Db\Globals;
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
+
+use const Bga\Games\WanderingTowers\G_DICE_FACE;
+use const Bga\Games\WanderingTowers\G_REROLLS;
 
 class Dice
 {
     public Table $game;
+    public Globals $globals;
+
     public function __construct(Table $game)
     {
         $this->game = $game;
+        $this->globals = $this->game->globals;
     }
 
     public function roll(): int
@@ -28,6 +35,7 @@ class Dice
             ],
         );
 
+        $this->globals->set(G_DICE_FACE, $face);
         return $face;
     }
 
@@ -39,6 +47,7 @@ class Dice
             clienttranslate('${player_name} rerolls the die'),
         );
 
+        $this->globals->inc(G_REROLLS, -1);
         return $this->roll();
     }
 }

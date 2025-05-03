@@ -21,14 +21,19 @@ declare(strict_types=1);
 namespace Bga\Games\WanderingTowers;
 
 use Bga\GameFramework\Actions\Types\IntParam;
+use Bga\Games\WanderingTowers\Actions\ActAcceptRoll;
 use Bga\Games\WanderingTowers\Actions\ActMoveWizard;
+use Bga\Games\WanderingTowers\Actions\ActRerollDice;
 use Bga\Games\WanderingTowers\Cards\Tower\TowerManager;
 use Bga\Games\WanderingTowers\Cards\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Cards\Potion\PotionManager;
 use Bga\Games\WanderingTowers\Cards\Move\MoveManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
+use Bga\Games\WanderingTowers\States\StRerollDice;
 
 const G_REROLLS = "rerolls";
+const G_DICE_FACE = "diceFace";
+const G_WIZARD = "wizard";
 const TR_REROLL_DICE = "rerollDice";
 const TR_NEXT_PLAYER = "nextPlayer";
 
@@ -69,11 +74,23 @@ class Game extends \Table
      * @throws BgaUserException
      */
 
-    public function actMoveWizard(#[IntParam(min: 1, max: 90)] int $moveCard_id, #[IntParam(min: 1, max: 16)] int $wizard_id): void
-    {
-        $player_id = (int) $this->getActivePlayerId();
+    public function actMoveWizard(
+        #[IntParam(min: 1, max: 90)] int $moveCard_id,
+        #[IntParam(min: 1, max: 16)] int $wizard_id
+    ): void {
         $ActMoveWizard = new ActMoveWizard($this);
-        $ActMoveWizard->act($player_id, $moveCard_id, $wizard_id);
+        $ActMoveWizard->act($moveCard_id, $wizard_id);
+    }
+
+    public function actRerollDice(): void
+    {
+        $ActRerollDice = new ActRerollDice($this);
+        $ActRerollDice->act();
+    }
+
+    public function actAcceptRoll(): void {
+        $ActAcceptRoll = new ActAcceptRoll($this);
+        $ActAcceptRoll->call();
     }
 
     /**
@@ -84,6 +101,11 @@ class Game extends \Table
      * @return array
      * @see ./states.inc.php
      */
+
+    public function st_rerollDice(): void {
+        $StRerollDice = new StRerollDice($this);
+        $StRerollDice->call();
+    }
 
     /**
      * Compute and return the current game progression.
@@ -191,6 +213,7 @@ class Game extends \Table
         $MoveManager->setupCards();
 
         $this->globals->set(G_REROLLS, 0);
+        $this->globals->set(G_DICE_FACE, 3);
     }
 
     /**
@@ -236,5 +259,9 @@ class Game extends \Table
     public function debug_actMoveWizard(int $moveCard_id, int $wizardCard_id): void
     {
         $this->actMoveWizard($moveCard_id, $wizardCard_id);
+    }
+
+    public function debug_rerollDice(): void {
+        $this->actRerollDice();
     }
 }

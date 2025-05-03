@@ -54,8 +54,10 @@ $machinestates = [
 		"description" => clienttranslate('${actplayer} may you may reroll the die'),
 		"descriptionmyturn" => clienttranslate('${you} may you may reroll the die'),
 		"type" => "activeplayer",
-		"possibleactions" => ["actRerollDice", "actPassReroll"],
+		"action" => "st_rerollDice",
+		"possibleactions" => ["actRerollDice", "actAcceptReroll"],
 		"transitions" => [
+			TR_REROLL_DICE => ST_REROLL_DICE,
 			TR_NEXT_PLAYER => ST_PLAYER_TURN,
 			"pass" => 2,
 		],

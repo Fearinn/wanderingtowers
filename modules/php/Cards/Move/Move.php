@@ -65,9 +65,7 @@ class Move extends MoveManager
     }
 
     public function validateHand(int $player_id): void
-    {
-        return;
-        
+    {   
         if ($this->getMoveCard()["location"] !== "hand" || $this->getOwner() !== $player_id) {
             throw new \BgaVisibleSystemException("This movement card is not in your hand");
         }
