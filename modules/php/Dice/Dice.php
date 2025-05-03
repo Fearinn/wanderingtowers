@@ -2,6 +2,7 @@
 
 namespace Bga\Games\WanderingTowers\Dice;
 
+use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
@@ -28,5 +29,16 @@ class Dice
         );
 
         return $face;
+    }
+
+    public function reroll(): int
+    {
+        $NotifManager = new NotifManager($this->game);
+        $NotifManager->all(
+            "message",
+            clienttranslate('${player_name} rerolls the die'),
+        );
+
+        return $this->roll();
     }
 }

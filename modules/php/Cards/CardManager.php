@@ -2,6 +2,7 @@
 
 namespace Bga\Games\WanderingTowers\Cards;
 
+use Bga\GameFramework\Db\Globals;
 use Bga\GameFramework\Table;
 use Deck;
 
@@ -9,12 +10,14 @@ class CardManager
 {
     public Table $game;
     public Deck $deck;
+    public Globals $globals;
     public string $dbTable;
     public string $cardProps;
 
     public function __construct(Table $game, Deck $deck, string $dbTable)
     {
         $this->game = $game;
+        $this->globals = $this->game->globals;
         $this->deck = $deck;
         $this->dbTable = $dbTable;
         $this->cardProps = "card_id id, card_type type, card_type_arg type_arg, card_location location, card_location_arg location_arg";

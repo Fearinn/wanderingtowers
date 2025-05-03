@@ -1,7 +1,11 @@
 <?php
+
 declare(strict_types=1);
+
+use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
+use const Bga\Games\WanderingTowers\TR_REROLL_DICE;
+
 /*
- * THIS FILE HAS BEEN AUTOMATICALLY GENERATED. ANY CHANGES MADE DIRECTLY MAY BE OVERWRITTEN.
  *------
  * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
  * WanderingTowers implementation : © Matheus Gomes matheusgomesforwork@gmail.com
@@ -11,42 +15,57 @@ declare(strict_types=1);
  * -----
  */
 
-/**
- * TYPE CHECKING ONLY, this function is never called.
- * If there are any undefined function errors here, you MUST rename the action within the game states file, or create the function in the game class.
- * If the function does not match the parameters correctly, you are either calling an invalid function, or you have incorrectly added parameters to a state function.
- */
 if (false) {
 	/** @var wanderingtowers $game */
-	
 }
 
-$machinestates = array(
-	1 => array(
-		'name' => 'gameSetup',
-		'description' => '',
-		'type' => 'manager',
-		'action' => 'stGameSetup',
-		'transitions' => array(
-			'' => 2,
-		),
-	),
-	2 => array(
-		'name' => 'playerTurn',
-		'description' => clienttranslate('${actplayer} must play a card or pass'),
-		'descriptionmyturn' => clienttranslate('${you} must play a card or pass'),
-		'type' => 'activeplayer',
-		'possibleactions' => ['playCard', 'pass'],
-		'transitions' => array(
-			'playCard' => 2,
-			'pass' => 2,
-		),
-	),
-	99 => array(
-		'name' => 'gameEnd',
-		'description' => clienttranslate('End of game'),
-		'type' => 'manager',
-		'action' => 'stGameEnd',
-		'args' => 'argGameEnd',
-	),
-);
+if (!defined("ST_GAME_END")) {
+	define("ST_SETUP", 1);
+	define("ST_PLAYER_TURN", 2);
+	define("ST_REROLL_DICE", 3);
+	define("ST_GAME_END", 99);
+}
+
+$machinestates = [
+	ST_SETUP => [
+		"name" => "gameSetup",
+		"description" => "",
+		"type" => "manager",
+		"action" => "stGameSetup",
+		"transitions" => [
+			"" => 2,
+		],
+	],
+	ST_PLAYER_TURN => [
+		"name" => "playerTurn",
+		"description" => clienttranslate('${actplayer} may play a movement card or a spell'),
+		"descriptionmyturn" => clienttranslate('${you} may play a movement card or a spell'),
+		"type" => "activeplayer",
+		"possibleactions" => ["actMoveWizard", "actPassTurn"],
+		"transitions" => [
+			TR_NEXT_PLAYER => ST_PLAYER_TURN,
+			TR_REROLL_DICE => ST_REROLL_DICE,
+			"pass" => 2,
+		],
+	],
+
+	ST_REROLL_DICE => [
+		"name" => "rerollDice",
+		"description" => clienttranslate('${actplayer} may you may reroll the die'),
+		"descriptionmyturn" => clienttranslate('${you} may you may reroll the die'),
+		"type" => "activeplayer",
+		"possibleactions" => ["actRerollDice", "actPassReroll"],
+		"transitions" => [
+			TR_NEXT_PLAYER => ST_PLAYER_TURN,
+			"pass" => 2,
+		],
+	],
+
+	ST_GAME_END => [
+		"name" => "gameEnd",
+		"description" => clienttranslate("End of game"),
+		"type" => "manager",
+		"action" => "stGameEnd",
+		"args" => "argGameEnd",
+	],
+];

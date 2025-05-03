@@ -28,6 +28,10 @@ use Bga\Games\WanderingTowers\Cards\Potion\PotionManager;
 use Bga\Games\WanderingTowers\Cards\Move\MoveManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
+const G_REROLLS = "rerolls";
+const TR_REROLL_DICE = "rerollDice";
+const TR_NEXT_PLAYER = "nextPlayer";
+
 require_once(APP_GAMEMODULE_PATH . "module/table/table.game.php");
 
 class Game extends \Table
@@ -185,6 +189,8 @@ class Game extends \Table
 
         $MoveManager = new MoveManager($this);
         $MoveManager->setupCards();
+
+        $this->globals->set(G_REROLLS, 0);
     }
 
     /**
@@ -229,9 +235,6 @@ class Game extends \Table
 
     public function debug_actMoveWizard(int $moveCard_id, int $wizardCard_id): void
     {
-        $player_id = (int) $this->getActivePlayerId();
-
-        $ActMoveWizard = new ActMoveWizard($this);
-        $ActMoveWizard->act($player_id, $moveCard_id, $wizardCard_id);
+        $this->actMoveWizard($moveCard_id, $wizardCard_id);
     }
 }

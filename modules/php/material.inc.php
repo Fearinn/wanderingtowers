@@ -220,51 +220,68 @@ $this->MOVES = [
         "count" => 6,
     ],
     14 => [
-        "type" => "tower",
-        "tower" => "dice",
-        "wizard" => 0,
-        "count" => 4,
-    ],
-    15 => [
-        "type" => "both",
-        "tower" => "dice",
-        "wizard" => "dice",
-        "count" => 6,
-    ],
-    16 => [
-        "type" => "wizard",
-        "tower" => 0,
-        "wizard" => "dice",
-        "count" => 4,
-    ],
-    17 => [
         "type" => "wizard",
         "tower" => 0,
         "wizard" => 1,
         "count" => 4,
     ],
-    18 => [
+    15 => [
         "type" => "wizard",
         "tower" => 0,
         "wizard" => 2,
         "count" => 4,
     ],
-    19 => [
+    16 => [
         "type" => "wizard",
         "tower" => 0,
         "wizard" => 3,
         "count" => 4,
     ],
-    20 => [
+    17 => [
         "type" => "wizard",
         "tower" => 0,
         "wizard" => 4,
         "count" => 4,
     ],
-    21 => [
+    18 => [
         "type" => "wizard",
         "tower" => 0,
         "wizard" => 5,
         "count" => 4,
+    ],
+    19 => [
+        "type" => "wizard",
+        "tower" => 0,
+        "wizard" => "dice",
+        "diceCount" => 3,
+        "count" => 1,
+    ],
+    20 => [
+        "type" => "tower",
+        "tower" => "dice",
+        "wizard" => 0,
+        "diceCount" => 3,
+        "count" => 1,
+    ],
+    21 => [
+        "type" => "tower",
+        "tower" => "dice",
+        "wizard" => 0,
+        "diceCount" => 2,
+        "count" => 3,
+    ],
+    22 => [
+        "type" => "both",
+        "tower" => "dice",
+        "wizard" => "dice",
+        "diceCount" => 1,
+        "count" => 6,
+    ],
+    23 => [
+        "type" => "wizard",
+        "tower" => 0,
+        "wizard" => "dice",
+        "diceCount" => 2,
+        "count" => 3,
     ],
 ];

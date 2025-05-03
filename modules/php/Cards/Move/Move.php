@@ -7,6 +7,8 @@ use Bga\GameFramework\Actions\Types\StringParam;
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Dice\Dice;
 
+use const Bga\Games\WanderingTowers\G_REROLLS;
+
 class Move extends MoveManager
 {
     public int $id;
@@ -38,6 +40,12 @@ class Move extends MoveManager
         if ($steps === "dice") {
             $Dice = new Dice($this->game);
             $steps = $Dice->roll();
+
+            $rerolls = $this->move["diceCount"] - 1;
+
+            if ($rerolls > 0) {
+                $this->globals->set(G_REROLLS, $rerolls);
+            }
         }
 
         return (int) $steps;
@@ -58,6 +66,8 @@ class Move extends MoveManager
 
     public function validateHand(int $player_id): void
     {
+        return;
+        
         if ($this->getMoveCard()["location"] !== "hand" || $this->getOwner() !== $player_id) {
             throw new \BgaVisibleSystemException("This movement card is not in your hand");
         }
