@@ -1,11 +1,11 @@
 <?php
 
-namespace Bga\Games\WanderingTowers\Cards\Move;
+namespace Bga\Games\WanderingTowers\components\Move;
 
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\Actions\Types\StringParam;
 use Bga\GameFramework\Table;
-use Bga\Games\WanderingTowers\Dice\Dice;
+use Bga\Games\WanderingTowers\components\Dice\Dice;
 
 use const Bga\Games\WanderingTowers\G_REROLLS;
 

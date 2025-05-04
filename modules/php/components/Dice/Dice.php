@@ -1,8 +1,7 @@
 <?php
 
-namespace Bga\Games\WanderingTowers\Dice;
+namespace Bga\Games\WanderingTowers\components\Dice;
 
-use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\Db\Globals;
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;

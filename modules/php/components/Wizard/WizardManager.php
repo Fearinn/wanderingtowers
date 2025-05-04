@@ -1,9 +1,9 @@
 <?php
 
-namespace Bga\Games\WanderingTowers\Cards\Wizard;
+namespace Bga\Games\WanderingTowers\components\Wizard;
 
 use Bga\GameFramework\Table;
-use Bga\Games\WanderingTowers\Cards\CardManager;
+use Bga\Games\WanderingTowers\components\CardManager;
 
 class WizardManager extends CardManager
 {

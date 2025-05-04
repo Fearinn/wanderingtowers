@@ -1,8 +1,8 @@
 <?php
 
-namespace Bga\Games\WanderingTowers\Cards\Tower;
+namespace Bga\Games\WanderingTowers\components\Tower;
 
-use Bga\Games\WanderingTowers\Cards\CardManager;
+use Bga\Games\WanderingTowers\components\CardManager;
 
 class TowerManager extends CardManager
 {

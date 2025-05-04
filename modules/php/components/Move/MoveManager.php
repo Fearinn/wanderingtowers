@@ -1,9 +1,9 @@
 <?php
 
-namespace Bga\Games\WanderingTowers\Cards\Move;
+namespace Bga\Games\WanderingTowers\components\Move;
 
 use Bga\GameFramework\Table;
-use Bga\Games\WanderingTowers\Cards\CardManager;
+use Bga\Games\WanderingTowers\components\CardManager;
 
 class MoveManager extends CardManager
 {

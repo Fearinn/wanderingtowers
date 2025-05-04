@@ -25,11 +25,11 @@ use Bga\Games\WanderingTowers\Actions\ActAcceptRoll;
 use Bga\Games\WanderingTowers\Actions\ActMoveTower;
 use Bga\Games\WanderingTowers\Actions\ActMoveWizard;
 use Bga\Games\WanderingTowers\Actions\ActRerollDice;
-use Bga\Games\WanderingTowers\Cards\Tower\TowerManager;
-use Bga\Games\WanderingTowers\Cards\Wizard\WizardManager;
-use Bga\Games\WanderingTowers\Cards\Potion\PotionManager;
-use Bga\Games\WanderingTowers\Cards\Move\MoveManager;
-use Bga\Games\WanderingTowers\Dice\Dice;
+use Bga\Games\WanderingTowers\components\Tower\TowerManager;
+use Bga\Games\WanderingTowers\components\Wizard\WizardManager;
+use Bga\Games\WanderingTowers\components\Potion\PotionManager;
+use Bga\Games\WanderingTowers\components\Move\MoveManager;
+use Bga\Games\WanderingTowers\components\Dice\Dice;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 use Bga\Games\WanderingTowers\States\StRerollDice;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\WanderingTowers\Cards;
+namespace Bga\Games\WanderingTowers\components;
 
 use Bga\GameFramework\Db\Globals;
 use Bga\GameFramework\Table;

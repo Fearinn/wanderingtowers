@@ -5,9 +5,9 @@ namespace Bga\Games\WanderingTowers\Actions;
 use Bga\GameFramework\Db\Globals;
 use Bga\GameFramework\Table;
 
-use Bga\Games\WanderingTowers\Cards\Move\Move;
-use Bga\Games\WanderingTowers\Cards\Wizard\Wizard;
-use Bga\Games\WanderingTowers\Dice\Dice;
+use Bga\Games\WanderingTowers\components\Move\Move;
+use Bga\Games\WanderingTowers\components\Wizard\Wizard;
+use Bga\Games\WanderingTowers\components\Dice\Dice;
 
 use const Bga\Games\WanderingTowers\G_DICE_FACE;
 use const Bga\Games\WanderingTowers\G_REROLLS;
