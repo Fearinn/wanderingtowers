@@ -21,8 +21,8 @@ if (false) {
 
 if (!defined("ST_GAME_END")) {
 	define("ST_SETUP", 1);
-	define("ST_PLAYER_TURN", 2);
-	define("ST_REROLL_DICE", 3);
+	define("ST_PLAYER_TURN", 3);
+	define("ST_REROLL_DICE", 2);
 	define("ST_GAME_END", 99);
 }
 

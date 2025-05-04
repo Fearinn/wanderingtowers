@@ -48,9 +48,28 @@ class WanderingTowers extends WanderingTowersGui {
 
     this.setupNotifications();
   }
-  public onEnteringState(stateName: string, args: any): void {}
+
+  performAction(action: ActionName, args = {}, options = {}) {
+    this.bgaPerformAction(action, args, options);
+  }
+
+  actRerollDice() {
+    this.performAction("actRerollDice");
+  }
+
+  public onEnteringState(stateName: StateName, args?: object): void {
+    if (!this.isCurrentPlayerActive()) {
+      return;
+    }
+
+    switch (stateName) {
+      case "rerollDice":
+        new StRerollDice(this).enter();
+    }
+  }
   public onLeavingState(stateName: string): void {}
   public onUpdateActionButtons(stateName: string, args: any): void {}
+
   public setupNotifications(): void {
     this.bgaSetupPromiseNotifications();
   }

@@ -12,6 +12,16 @@ declare class WanderingTowersGui extends GameGui {
       dice: DiceStock;
     };
   };
+
+  performAction(
+    action: string,
+    args?: object,
+    options?: {
+      checkAction?: boolean;
+    }
+  ): void;
+
+  actRerollDice(): void;
 }
 
 interface WanderingTowersGamedatas {
@@ -31,3 +41,5 @@ interface WanderingTowersGamedatas {
   potionCards: PotionCard[];
   hand: MoveCard[];
 }
+
+type ActionName = "actRerollDice";

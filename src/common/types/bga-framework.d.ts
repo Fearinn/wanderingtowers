@@ -118,14 +118,6 @@ declare class GameGui {
   onLeavingState(stateName: string): void;
   onUpdateActionButtons(stateName: string, args: any): void;
   setupNotifications(): void;
-  bgaSetupPromiseNotifications(params?: {
-    prefix?: string;
-    minDuration?: number;
-    minDurationNoText?: number;
-    ignoreNotifications?: string[];
-    onStart?: CallableFunction;
-    onEnd?: CallableFunction;
-  }): void;
 
   setClientState(newState: string, args: object): void;
   restoreServerGameState(): void;
@@ -213,6 +205,28 @@ declare class GameGui {
   dontPreloadImage(image_file_name: string): void;
   ensureSpecificGameImageLoading(list: string[]): void;
   updatePageTitle(gamestate: any);
+
+  // RECENT UPDATES
+
+  bgaSetupPromiseNotifications(params?: {
+    prefix?: string;
+    minDuration?: number;
+    minDurationNoText?: number;
+    ignoreNotifications?: string[];
+    onStart?: CallableFunction;
+    onEnd?: CallableFunction;
+  }): void;
+
+  bgaPerformAction(
+    action: string,
+    args?: object,
+    options?: {
+      lock?: boolean;
+      checkAction?: boolean;
+    }
+  ): void;
+
+  statusBar: StatusBar;
 }
 
 /* TODO repace Function by (..params) => void */
@@ -245,4 +259,19 @@ interface Player {
   name: string;
   score: string;
   zombie: number;
+}
+
+interface StatusBar {
+  addActionButton: (
+    label: string,
+    callback: Function,
+    params: {
+      id?: string;
+      color?: "primary" | "secondary" | "alert";
+      classes?: string[];
+      destination?: HTMLElement;
+      title?: string;
+    }
+  ) => HTMLButtonElement;
+  setTitle: (title: string, args?: object) => void;
 }

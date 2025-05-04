@@ -8,6 +8,6 @@
     "typeRoots": ["./node_modules/@types"],
     "outFile": "wanderingtowers.js"
   },
-  "include": ["src/**/wanderingtowers.ts","src/**/*.ts"],
+  "include": ["src/**/wanderingtowers.ts", "src/**/*.ts"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

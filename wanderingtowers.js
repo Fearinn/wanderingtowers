@@ -56,7 +56,23 @@ var WanderingTowers = /** @class */ (function (_super) {
         console.log(gamedatas.hand);
         this.setupNotifications();
     };
-    WanderingTowers.prototype.onEnteringState = function (stateName, args) { };
+    WanderingTowers.prototype.performAction = function (action, args, options) {
+        if (args === void 0) { args = {}; }
+        if (options === void 0) { options = {}; }
+        this.bgaPerformAction(action, args, options);
+    };
+    WanderingTowers.prototype.actRerollDice = function () {
+        this.performAction("actRerollDice");
+    };
+    WanderingTowers.prototype.onEnteringState = function (stateName, args) {
+        if (!this.isCurrentPlayerActive()) {
+            return;
+        }
+        switch (stateName) {
+            case "rerollDice":
+                new StRerollDice(this).enter();
+        }
+    };
     WanderingTowers.prototype.onLeavingState = function (stateName) { };
     WanderingTowers.prototype.onUpdateActionButtons = function (stateName, args) { };
     WanderingTowers.prototype.setupNotifications = function () {
@@ -117,3 +133,25 @@ var Die = /** @class */ (function (_super) {
     };
     return Die;
 }(BgaDie6));
+var StateManager = /** @class */ (function () {
+    function StateManager(game, stateName) {
+        this.game = game;
+        this.stateName = stateName;
+        this.statusBar = this.game.statusBar;
+    }
+    return StateManager;
+}());
+var StRerollDice = /** @class */ (function (_super) {
+    __extends(StRerollDice, _super);
+    function StRerollDice(game) {
+        return _super.call(this, game, "rerollDice") || this;
+    }
+    StRerollDice.prototype.enter = function () {
+        var _this = this;
+        this.statusBar.addActionButton(_("Reroll"), function () {
+            _this.game.actRerollDice();
+        }, {});
+    };
+    ;
+    return StRerollDice;
+}(StateManager));
