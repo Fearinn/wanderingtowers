@@ -1,5 +1,18 @@
 .wtw_dice {
-    position: absolute;
-    top: 50%;
-    left: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.wtw_die {
+  .bga-dice_die-faces {
+    background-color: white;
+  }
+  .bga-dice_die-face {
+    background-image: url("img/die.png");
+    background-size: 600% 100%;
+    background-color: white;
+    backface-visibility: hidden;
+  }
 }

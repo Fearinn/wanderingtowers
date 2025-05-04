@@ -18,7 +18,7 @@ class WanderingTowers extends WanderingTowersGui {
 
     const diceManager = new DiceManager(this, {
       dieTypes: {
-        dice: new BgaDie6(),
+        die: new Die(),
       },
       perspective: 0,
     });
@@ -40,7 +40,7 @@ class WanderingTowers extends WanderingTowersGui {
 
     diceStock.addDie({
       id: 1,
-      type: "dice",
+      type: "die",
       face: 3,
     });
 
@@ -56,6 +56,6 @@ class WanderingTowers extends WanderingTowersGui {
   public notif_rollDie(args: { face: number }): void {
     const { face } = args;
 
-    this.wtw.stocks.dice.rollDie({ id: 1, type: "dice", face });
+    this.wtw.stocks.dice.rollDie({ id: 1, type: "die", face });
   }
 }

@@ -34,7 +34,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         });
         var diceManager = new DiceManager(this, {
             dieTypes: {
-                dice: new BgaDie6(),
+                die: new Die(),
             },
             perspective: 0,
         });
@@ -50,7 +50,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         };
         diceStock.addDie({
             id: 1,
-            type: "dice",
+            type: "die",
             face: 3,
         });
         this.setupNotifications();
@@ -63,7 +63,7 @@ var WanderingTowers = /** @class */ (function (_super) {
     };
     WanderingTowers.prototype.notif_rollDie = function (args) {
         var face = args.face;
-        this.wtw.stocks.dice.rollDie({ id: 1, type: "dice", face: face });
+        this.wtw.stocks.dice.rollDie({ id: 1, type: "die", face: face });
     };
     return WanderingTowers;
 }(WanderingTowersGui));
@@ -73,10 +73,46 @@ define([
     "ebg/core/gamegui",
     "ebg/counter",
     "ebg/stock",
-    "".concat(g_gamethemeurl, "modules/js/bga-zoom.js"),
-    "".concat(g_gamethemeurl, "modules/js/bga-help.js"),
-    "".concat(g_gamethemeurl, "modules/js/bga-cards.js"),
-    "".concat(g_gamethemeurl, "modules/js/bga-dice.js"),
+    "".concat(g_gamethemeurl, "modules/js/libs/bga-zoom.js"),
+    "".concat(g_gamethemeurl, "modules/js/libs/bga-help.js"),
+    "".concat(g_gamethemeurl, "modules/js/libs/bga-cards.js"),
+    "".concat(g_gamethemeurl, "modules/js/libs/bga-dice.js"),
 ], function (dojo, declare) {
     return declare("bgagame.wanderingtowers", ebg.core.gamegui, new WanderingTowers());
 });
+var BgaDie6 = /** @class */ (function () {
+    /**
+     * Create the die type.
+     *
+     * @param settings the die settings
+     */
+    function BgaDie6(settings) {
+        var _a;
+        this.settings = settings;
+        this.facesCount = 6;
+        this.borderRadius = (_a = settings === null || settings === void 0 ? void 0 : settings.borderRadius) !== null && _a !== void 0 ? _a : 0;
+    }
+    /**
+     * Allow to populate the main div of the die. You can set classes or dataset, if it's informations shared by all faces.
+     *
+     * @param die the die informations
+     * @param element the die main Div element
+     */
+    BgaDie6.prototype.setupDieDiv = function (die, element) {
+        element.classList.add("bga-dice_die6");
+        element.style.setProperty("--bga-dice_border-radius", "".concat(this.borderRadius, "%"));
+    };
+    return BgaDie6;
+}());
+var Die = /** @class */ (function (_super) {
+    __extends(Die, _super);
+    function Die(settings) {
+        if (settings === void 0) { settings = { borderRadius: 0 }; }
+        return _super.call(this, settings) || this;
+    }
+    Die.prototype.setupDieDiv = function (die, element) {
+        _super.prototype.setupDieDiv.call(this, die, element);
+        element.classList.add("wtw_die");
+    };
+    return Die;
+}(BgaDie6));

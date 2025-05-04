@@ -353,24 +353,24 @@ interface BgaDie6Settings {
      */
     borderRadius?: number;
 }
-declare class BgaDie6 implements BgaDieType {
-    protected settings?: BgaDie6Settings;
-    facesCount: number;
-    protected borderRadius: number;
-    /**
-     * Create the die type.
-     *
-     * @param settings the die settings
-     */
-    constructor(settings?: BgaDie6Settings);
-    /**
-     * Allow to populate the main div of the die. You can set classes or dataset, if it's informations shared by all faces.
-     *
-     * @param die the die informations
-     * @param element the die main Div element
-     */
-    setupDieDiv(die: BgaDie, element: HTMLDivElement): void;
-}
+// declare class BgaDie6 implements BgaDieType {
+//     protected settings?: BgaDie6Settings;
+//     facesCount: number;
+//     protected borderRadius: number;
+//     /**
+//      * Create the die type.
+//      *
+//      * @param settings the die settings
+//      */
+//     constructor(settings?: BgaDie6Settings);
+//     /**
+//      * Allow to populate the main div of the die. You can set classes or dataset, if it's informations shared by all faces.
+//      *
+//      * @param die the die informations
+//      * @param element the die main Div element
+//      */
+//     setupDieDiv(die: BgaDie, element: HTMLDivElement): void;
+// }
 interface DieStockSettings {
     /**
      * Indicate the die sorting (unset means no sorting, new dice will be added at the end).
