@@ -37,6 +37,7 @@ class CardManager
     public function getCard(int $card_id): array
     {
         $card = $this->deck->getCard($card_id);
+
         if (!$card) {
             throw new \BgaVisibleSystemException("Card not found");
         }

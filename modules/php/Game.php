@@ -22,6 +22,7 @@ namespace Bga\Games\WanderingTowers;
 
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\Games\WanderingTowers\Actions\ActAcceptRoll;
+use Bga\Games\WanderingTowers\Actions\ActMoveTower;
 use Bga\Games\WanderingTowers\Actions\ActMoveWizard;
 use Bga\Games\WanderingTowers\Actions\ActRerollDice;
 use Bga\Games\WanderingTowers\Cards\Tower\TowerManager;
@@ -77,10 +78,18 @@ class Game extends \Table
 
     public function actMoveWizard(
         #[IntParam(min: 1, max: 90)] int $moveCard_id,
-        #[IntParam(min: 1, max: 16)] int $wizard_id
+        #[IntParam(min: 1, max: 18)] int $wizard_id
     ): void {
         $ActMoveWizard = new ActMoveWizard($this);
         $ActMoveWizard->act($moveCard_id, $wizard_id);
+    }
+
+    public function ActMoveTower(
+        #[IntParam(min: 1, max: 90)] int $moveCard_id,
+        #[IntParam(min: 1, max: 10)] int $towerCard_id,
+    ): void {
+        $ActMoveTower = new ActMoveTower($this);
+        $ActMoveTower->act($moveCard_id, $towerCard_id);
     }
 
     public function actRerollDice(): void
@@ -89,7 +98,8 @@ class Game extends \Table
         $ActRerollDice->act();
     }
 
-    public function actAcceptRoll(): void {
+    public function actAcceptRoll(): void
+    {
         $ActAcceptRoll = new ActAcceptRoll($this);
         $ActAcceptRoll->call();
     }
@@ -103,7 +113,8 @@ class Game extends \Table
      * @see ./states.inc.php
      */
 
-    public function st_rerollDice(): void {
+    public function st_rerollDice(): void
+    {
         $StRerollDice = new StRerollDice($this);
         $StRerollDice->call();
     }
@@ -257,13 +268,22 @@ class Game extends \Table
         throw new \feException("Zombie mode not supported at this game state: \"{$state_name}\".");
     }
 
-    public function debug_actMoveWizard(int $moveCard_id, int $wizardCard_id): void
+    public function debug_actMoveWizard(): void
     {
+        $moveCard_id = 1;
+        $wizardCard_id = 1;
         $this->actMoveWizard($moveCard_id, $wizardCard_id);
     }
 
+    public function debug_actMoveTower(): void {
+        $moveCard_id = 12;
+        $towerCard_id = 2;
 
-    public function debug_rollDice(): void {
+        $this->actMoveTower($moveCard_id, $towerCard_id);
+    }
+
+    public function debug_rollDice(): void
+    {
         $Dice = new Dice($this);
         $Dice->roll();
     }

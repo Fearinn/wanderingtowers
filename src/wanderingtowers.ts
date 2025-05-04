@@ -44,6 +44,8 @@ class WanderingTowers extends WanderingTowersGui {
       face: 3,
     });
 
+    console.log(gamedatas.hand);
+
     this.setupNotifications();
   }
   public onEnteringState(stateName: string, args: any): void {}

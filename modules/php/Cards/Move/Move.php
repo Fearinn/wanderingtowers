@@ -60,7 +60,7 @@ class Move extends MoveManager
     public function validateType(#[StringParam(enum: ["wizard", "tower"])] string $side): void
     {
         if ($this->type !== "both" && $this->type !== $side) {
-            throw new \BgaVisibleSystemException("Wrong move type");
+            throw new \BgaVisibleSystemException("Wrong movement type");
         }
     }
 

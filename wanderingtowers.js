@@ -53,6 +53,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             type: "die",
             face: 3,
         });
+        console.log(gamedatas.hand);
         this.setupNotifications();
     };
     WanderingTowers.prototype.onEnteringState = function (stateName, args) { };

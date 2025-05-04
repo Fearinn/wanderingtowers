@@ -6,14 +6,14 @@ use Bga\GameFramework\Db\Globals;
 use Bga\GameFramework\Table;
 
 use Bga\Games\WanderingTowers\Cards\Move\Move;
-use Bga\Games\WanderingTowers\Cards\Wizard\Wizard;
+use Bga\Games\WanderingTowers\Cards\Tower\Tower;
 
 use const Bga\Games\WanderingTowers\G_REROLLS;
 use const Bga\Games\WanderingTowers\G_WIZARD;
 use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
 use const Bga\Games\WanderingTowers\TR_REROLL_DICE;
 
-class ActMoveWizard extends ActionManager
+class ActMoveTower extends ActionManager
 {
     public Table $game;
     public $gamestate;
@@ -24,31 +24,28 @@ class ActMoveWizard extends ActionManager
         parent::__construct($game);
     }
 
-    public function validate(int $moveCard_id, int $wizardCard_id): void
+    public function validate(int $moveCard_id): void
     {
         $Move = new Move($this->game, $moveCard_id);
-        $Move->validateType("wizard");
+        $Move->validateType("tower");
         $Move->validateHand($this->player_id);
-
-        $Wizard = new Wizard($this->game, $wizardCard_id);
-        $Wizard->validateOwner($this->player_id);
     }
 
-    public function act(int $moveCard_id, int $wizardCard_id): void
+    public function act(int $moveCard_id, int $towerCard_id): void
     {
-        $this->validate($moveCard_id, $wizardCard_id);
+        $this->validate($moveCard_id, $towerCard_id);
 
         $Move = new Move($this->game, $moveCard_id);
-        $steps = $Move->getSteps("wizard");
+        $steps = $Move->getSteps("tower");
 
         if ($this->globals->get(G_REROLLS, 0) > 0) {
-            $this->globals->set(G_WIZARD, $wizardCard_id);
+            $this->globals->set(G_WIZARD, $towerCard_id);
             $this->gamestate->nextState(TR_REROLL_DICE);
             return;
         }
 
-        $Wizard = new Wizard($this->game, $wizardCard_id);
-        $Wizard->moveBySteps($wizardCard_id, $steps);
+        $Tower = new Tower($this->game, $towerCard_id);
+        $Tower->moveBySteps($towerCard_id, $steps);
         
         $this->gamestate->nextState(TR_NEXT_PLAYER);
     }
