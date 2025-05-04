@@ -39,7 +39,10 @@ declare class GameNotifQueue {
    * @param predicate - the function that if returned true will make framework not dispatch notification.
    * NOTE: this cannot be used for syncronious unbound notifications
    */
-  setIgnoreNotificationCheck(notif_type: string, predicate: (notif: object) => boolean): void;
+  setIgnoreNotificationCheck(
+    notif_type: string,
+    predicate: (notif: object) => boolean
+  ): void;
 
   next_log_id: number;
 }
@@ -78,7 +81,7 @@ declare class GameGui {
   bRealtime: boolean;
   notifqueue: GameNotifQueue;
   last_server_state: any;
-  scoreCtrl: {[player_id: number]: Counter};
+  scoreCtrl: { [player_id: number]: Counter };
   on_client_state: boolean;
   tooltips: string[];
   is_client_only: boolean;
@@ -88,35 +91,60 @@ declare class GameGui {
   interface_status: string;
   next_log_id: number;
 
-
   isCurrentPlayerActive(): boolean;
   getActivePlayerId(): number;
-  addActionButton(id: string, label: string, method: string | eventhandler, destination?: string, blinking?: boolean, color?: string): void;
+  addActionButton(
+    id: string,
+    label: string,
+    method: string | eventhandler,
+    destination?: string,
+    blinking?: boolean,
+    color?: string
+  ): void;
   checkAction(action: any): boolean;
-  ajaxcall(url: string, args: object, bind: GameGui, resultHandler: (result: any) => void, allHandler?: (err: any, result?: any) => void): void;
+  ajaxcall(
+    url: string,
+    args: object,
+    bind: GameGui,
+    resultHandler: (result: any) => void,
+    allHandler?: (err: any, result?: any) => void
+  ): void;
   connect(node: ElementOrId, ontype: string, handler: any): void;
   disconnect(node: ElementOrId, ontype: string): void;
-  connectClass(cls:string, ontype: string, handler: any):void;
+  connectClass(cls: string, ontype: string, handler: any): void;
 
   setup(gamedatas: object): void;
   onEnteringState(stateName: string, args: { args: any } | null): void;
   onLeavingState(stateName: string): void;
   onUpdateActionButtons(stateName: string, args: any): void;
   setupNotifications(): void;
+  bgaSetupPromiseNotifications(params?: {
+    prefix?: string;
+    minDuration?: number;
+    minDurationNoText?: number;
+    ignoreNotifications?: string[];
+    onStart?: CallableFunction;
+    onEnd?: CallableFunction;
+  }): void;
 
   setClientState(newState: string, args: object): void;
   restoreServerGameState(): void;
 
-  showMessage(msg: string, type: string):void;
-  showMoveUnauthorized():void;
+  showMessage(msg: string, type: string): void;
+  showMoveUnauthorized(): void;
   onScriptError(msg: string, url?: string, linenumber?: number): void;
   inherited(args: any): any;
   format_string_recursive(log: string, args: any[]): string;
-  clienttranslate_string(text:string):string;
+  clienttranslate_string(text: string): string;
 
   onScreenWidthChange(): void;
 
-  slideToObject(mobile_obj: string | Element, target_obj: string | Element, duration?: number, delay?: number): Animation;
+  slideToObject(
+    mobile_obj: string | Element,
+    target_obj: string | Element,
+    duration?: number,
+    delay?: number
+  ): Animation;
   slideToObjectPos(
     mobile_obj: string | Element,
     target_obj: string | Element,
@@ -134,56 +162,87 @@ declare class GameGui {
     delay?: number
   ): Animation;
 
-  displayScoring( anchor_id:string, color:string, score:number|string, duration?:number, offset_x?:number, offset_y?: number ):void;
-  showBubble(anchor_id: string, text: string, delay?: number, duration?: number, custom_class?: string): void;
+  displayScoring(
+    anchor_id: string,
+    color: string,
+    score: number | string,
+    duration?: number,
+    offset_x?: number,
+    offset_y?: number
+  ): void;
+  showBubble(
+    anchor_id: string,
+    text: string,
+    delay?: number,
+    duration?: number,
+    custom_class?: string
+  ): void;
   updateCounters(counters: any): void;
 
-  addTooltip( nodeId:string, helpStringTranslated: string, actionStringTranslated:string, delay?:number):void;
-  addTooltipHtml( nodeId: string, html: string, delay?:number ):void;
-  addTooltipHtmlToClass(cssClass: string, html: string, delay?:number ):void;
-  addTooltipToClass(cssClass: string, helpStringTranslated: string, actionStringTranslated: string, delay?:number ):void;
-  removeTooltip( nodeId: string ):void;
+  addTooltip(
+    nodeId: string,
+    helpStringTranslated: string,
+    actionStringTranslated: string,
+    delay?: number
+  ): void;
+  addTooltipHtml(nodeId: string, html: string, delay?: number): void;
+  addTooltipHtmlToClass(cssClass: string, html: string, delay?: number): void;
+  addTooltipToClass(
+    cssClass: string,
+    helpStringTranslated: string,
+    actionStringTranslated: string,
+    delay?: number
+  ): void;
+  removeTooltip(nodeId: string): void;
 
-  confirmationDialog( message:string, yesHandler:(param:any)=>void, noHandler?:(param:any)=>void, param?: any ):void;
-  multipleChoiceDialog( message: string, choices: any[], callback: (choice: number)=>void ):void;
+  confirmationDialog(
+    message: string,
+    yesHandler: (param: any) => void,
+    noHandler?: (param: any) => void,
+    param?: any
+  ): void;
+  multipleChoiceDialog(
+    message: string,
+    choices: any[],
+    callback: (choice: number) => void
+  ): void;
 
-  enablePlayerPanel(player_id: number):void;
-  disablePlayerPanel(player_id: number):void;
+  enablePlayerPanel(player_id: number): void;
+  disablePlayerPanel(player_id: number): void;
 
-  dontPreloadImage(image_file_name: string):void;
-  ensureSpecificGameImageLoading(list: string[]):void;
+  dontPreloadImage(image_file_name: string): void;
+  ensureSpecificGameImageLoading(list: string[]): void;
   updatePageTitle(gamestate: any);
 }
 
-
 /* TODO repace Function by (..params) => void */
 interface Dojo {
-    place: Function;
-    style: Function;
-    hitch: Function;
-    addClass: (nodeId: string, className: string) => {};
-    removeClass: (nodeId: string, className?: string) => {};
-    toggleClass: (nodeId: string, className: string, forceValue: boolean) => {};
-    connect: Function;
-    query: Function;
-    subscribe: Function;
-    string: any;
-    fx: any;
-    marginBox: Function;
-    fadeIn: Function;
-    trim: Function;
+  place: Function;
+  style: Function;
+  hitch: Function;
+  addClass: (nodeId: string, className: string) => {};
+  removeClass: (nodeId: string, className?: string) => {};
+  toggleClass: (nodeId: string, className: string, forceValue: boolean) => {};
+  connect: Function;
+  query: Function;
+  subscribe: Function;
+  string: any;
+  fx: any;
+  marginBox: Function;
+  fadeIn: Function;
+  trim: Function;
 }
 
 type Gamestate = any; // TODO
 
 interface Player {
-    beginner: boolean;
-    color: string;
-    color_back: any | null;
-    eliminated: number;
-    id: string;
-    is_ai: string;
-    name: string;
-    score: string;
-    zombie: number;
+  beginner: boolean;
+  color: string;
+  color_back: any | null;
+  eliminated: number;
+  id: string;
+  is_ai: string;
+  name: string;
+  score: string;
+  zombie: number;
 }

@@ -7,6 +7,7 @@ define([
   `${g_gamethemeurl}modules/js/bga-zoom.js`,
   `${g_gamethemeurl}modules/js/bga-help.js`,
   `${g_gamethemeurl}modules/js/bga-cards.js`,
+  `${g_gamethemeurl}modules/js/bga-dice.js`,
 ], function (dojo, declare) {
   return declare(
     "bgagame.wanderingtowers",

@@ -28,6 +28,7 @@ use Bga\Games\WanderingTowers\Cards\Tower\TowerManager;
 use Bga\Games\WanderingTowers\Cards\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Cards\Potion\PotionManager;
 use Bga\Games\WanderingTowers\Cards\Move\MoveManager;
+use Bga\Games\WanderingTowers\Dice\Dice;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 use Bga\Games\WanderingTowers\States\StRerollDice;
 
@@ -261,7 +262,9 @@ class Game extends \Table
         $this->actMoveWizard($moveCard_id, $wizardCard_id);
     }
 
-    public function debug_rerollDice(): void {
-        $this->actRerollDice();
+
+    public function debug_rollDice(): void {
+        $Dice = new Dice($this);
+        $Dice->roll();
     }
 }

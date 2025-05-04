@@ -12,6 +12,7 @@
 
 <div id="wtw_gameArea" class="wtw_gameArea">
   <div id="wtw_board" class="wtw_board">
+    <div id="wtw_dice" class="wtw_dice"></div>
     <div id="wtw_spaces" class="wtw_spaces">
       <div id="wtw_space-1" class="wtw_space" data-space="1"></div>
       <div id="wtw_space-2" class="wtw_space" data-space="2"></div>

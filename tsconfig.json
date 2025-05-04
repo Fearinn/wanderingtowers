@@ -5,21 +5,9 @@
     "module": "none",
     "lib": ["dom", "esnext"],
     "sourceMap": false,
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
+    "typeRoots": ["./node_modules/@types"],
     "outFile": "wanderingtowers.js"
   },
-  "files": [
-    "src/types/cards/Move.d.ts",
-    "src/types/cards/Potion.d.ts",
-    "src/types/cards/Wizard.d.ts",
-    "src/types/cards/Tower.d.ts",
-    "src/types/cards/Card.d.ts",
-    "src/types/libs/bga-zoom.d.ts",
-    "src/types/libs/bga-framework.d.ts",
-    "src/types/wanderingtowers.d.ts",
-    "src/wanderingtowers.ts",
-    "src/define.ts"
-  ]
+  "include": ["src/**/wanderingtowers.ts","src/**/*.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

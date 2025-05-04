@@ -295,6 +295,36 @@ body > .bga-dice_die {
   position: absolute;
 }
 
+.bga-dice_die .bga-dice_die-face[data-face="1"] {
+  background-position-x: 0%;
+}
+
+.bga-dice_die .bga-dice_die-face[data-face="2"] {
+  background-position-x: 20%;
+}
+
+.bga-dice_die .bga-dice_die-face[data-face="3"] {
+  background-position-x: 40%;
+}
+
+.bga-dice_die .bga-dice_die-face[data-face="4"] {
+  background-position-x: 60%;
+}
+
+.bga-dice_die .bga-dice_die-face[data-face="5"] {
+  background-position-x: 80%;
+}
+
+.bga-dice_die .bga-dice_die-face[data-face="6"] {
+  background-position-x: 100%;
+}
+
+.bga-dice_die-face {
+  background-image: url("img/die.png");
+  background-size: 600% 100%;
+  border-radius: 5px !important;
+}
+
 body > .card {
   position: absolute;
   left: -9999px;
@@ -615,6 +645,12 @@ body > .card {
 .wtw_space[data-space="16"] {
   top: calc(var(--spaceWidth) * 1.4);
   left: 0;
+}
+
+.wtw_dice {
+  position: absolute;
+  top: 50%;
+  left: 50%;
 }
 
 .wtw_gameArea {
