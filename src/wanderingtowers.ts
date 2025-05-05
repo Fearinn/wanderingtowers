@@ -1,6 +1,6 @@
 // @ts-ignore
 WanderingTowersGui = (function () {
-  // this hack required so we fake extend GameGui
+  // this hack required so we fake extend Game
   function WanderingTowersGui() {}
   return WanderingTowersGui;
 })();
@@ -43,8 +43,6 @@ class WanderingTowers extends WanderingTowersGui {
       type: "die",
       face: 3,
     });
-
-    console.log(gamedatas.hand);
 
     this.setupNotifications();
   }

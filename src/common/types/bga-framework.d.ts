@@ -1,4 +1,4 @@
-declare var gameui: GameGui;
+declare var gameui: Game;
 declare var g_replayFrom: number | undefined;
 declare var g_gamethemeurl: string;
 declare var g_themeurl: string;
@@ -70,7 +70,7 @@ declare class Counter {
   disable(): void; // Sets value to "-"
 }
 
-declare class GameGui {
+declare class Game {
   page_is_unloading: any;
   game_name: string;
   instantaneousMode: boolean;
@@ -105,7 +105,7 @@ declare class GameGui {
   ajaxcall(
     url: string,
     args: object,
-    bind: GameGui,
+    bind: Game,
     resultHandler: (result: any) => void,
     allHandler?: (err: any, result?: any) => void
   ): void;

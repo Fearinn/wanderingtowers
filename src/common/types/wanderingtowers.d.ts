@@ -2,7 +2,7 @@
  * Your game interfaces
  */
 
-declare class WanderingTowersGui extends GameGui {
+declare class WanderingTowersGui extends Game {
   wtw: {
     managers: {
       zoom: ZoomManager;

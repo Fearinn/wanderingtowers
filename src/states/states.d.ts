@@ -1,7 +1,7 @@
 interface StateManager {
     game: WanderingTowersGui,
     stateName: StateName,
-    statusBar: GameGui["statusBar"],
+    statusBar: Game["statusBar"],
     enter(): void,
 }
 

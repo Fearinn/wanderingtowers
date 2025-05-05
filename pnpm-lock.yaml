@@ -7,6 +7,19 @@ settings:
 importers:
 
   .:
+    dependencies:
+      bga-animations:
+        specifier: thoun/bga-animations#1.1.1
+        version: https://codeload.github.com/thoun/bga-animations/tar.gz/91a2747fa5f5a7402a5adfa84d976d8216269f6b
+      bga-cards:
+        specifier: thoun/bga-cards#3.1.5
+        version: https://codeload.github.com/thoun/bga-cards/tar.gz/5f3e5e6d3f1795728bf3b71ef646eaffa7579b84(bga-animations@https://codeload.github.com/thoun/bga-animations/tar.gz/91a2747fa5f5a7402a5adfa84d976d8216269f6b)
+      bga-help:
+        specifier: thoun/bga-help#1.0.0
+        version: https://codeload.github.com/thoun/bga-help/tar.gz/ccd1dcea174006d7b64755ee09ca9484f783254d
+      bga-zoom:
+        specifier: thoun/bga-zoom#1.0.4
+        version: https://codeload.github.com/thoun/bga-zoom/tar.gz/8b5fd458c3d9c92da4d66891a5b07b9e894d89f0
     devDependencies:
       sass:
         specifier: ^1.32.6
@@ -98,6 +111,24 @@ packages:
   '@parcel/watcher@2.5.1':
     resolution: {integrity: sha512-dfUnCxiN9H4ap84DvD2ubjw+3vUNpstxa0TneY/Paat8a3R4uQZDLSvWjmznAY/DoahqTHl9V46HF/Zs3F29pg==}
     engines: {node: '>= 10.0.0'}
+
+  bga-animations@https://codeload.github.com/thoun/bga-animations/tar.gz/91a2747fa5f5a7402a5adfa84d976d8216269f6b:
+    resolution: {tarball: https://codeload.github.com/thoun/bga-animations/tar.gz/91a2747fa5f5a7402a5adfa84d976d8216269f6b}
+    version: 1.1.1
+
+  bga-cards@https://codeload.github.com/thoun/bga-cards/tar.gz/5f3e5e6d3f1795728bf3b71ef646eaffa7579b84:
+    resolution: {tarball: https://codeload.github.com/thoun/bga-cards/tar.gz/5f3e5e6d3f1795728bf3b71ef646eaffa7579b84}
+    version: 3.1.1
+    peerDependencies:
+      bga-animations: '*'
+
+  bga-help@https://codeload.github.com/thoun/bga-help/tar.gz/ccd1dcea174006d7b64755ee09ca9484f783254d:
+    resolution: {tarball: https://codeload.github.com/thoun/bga-help/tar.gz/ccd1dcea174006d7b64755ee09ca9484f783254d}
+    version: 1.0.0
+
+  bga-zoom@https://codeload.github.com/thoun/bga-zoom/tar.gz/8b5fd458c3d9c92da4d66891a5b07b9e894d89f0:
+    resolution: {tarball: https://codeload.github.com/thoun/bga-zoom/tar.gz/8b5fd458c3d9c92da4d66891a5b07b9e894d89f0}
+    version: 1.0.3
 
   braces@3.0.3:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
@@ -226,6 +257,16 @@ snapshots:
       '@parcel/watcher-win32-ia32': 2.5.1
       '@parcel/watcher-win32-x64': 2.5.1
     optional: true
+
+  bga-animations@https://codeload.github.com/thoun/bga-animations/tar.gz/91a2747fa5f5a7402a5adfa84d976d8216269f6b: {}
+
+  bga-cards@https://codeload.github.com/thoun/bga-cards/tar.gz/5f3e5e6d3f1795728bf3b71ef646eaffa7579b84(bga-animations@https://codeload.github.com/thoun/bga-animations/tar.gz/91a2747fa5f5a7402a5adfa84d976d8216269f6b):
+    dependencies:
+      bga-animations: https://codeload.github.com/thoun/bga-animations/tar.gz/91a2747fa5f5a7402a5adfa84d976d8216269f6b
+
+  bga-help@https://codeload.github.com/thoun/bga-help/tar.gz/ccd1dcea174006d7b64755ee09ca9484f783254d: {}
+
+  bga-zoom@https://codeload.github.com/thoun/bga-zoom/tar.gz/8b5fd458c3d9c92da4d66891a5b07b9e894d89f0: {}
 
   braces@3.0.3:
     dependencies:
