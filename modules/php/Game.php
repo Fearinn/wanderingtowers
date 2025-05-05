@@ -226,8 +226,6 @@ class Game extends \Table
 
         $this->globals->set(G_REROLLS, 0);
         $this->globals->set(G_DICE_FACE, 3);
-        $this->globals->set(G_WIZARD, 1);
-        $this->globals->set(G_REROLLS, 2);
     }
 
     /**

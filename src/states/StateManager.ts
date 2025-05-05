@@ -15,9 +15,17 @@ class StRerollDice extends StateManager {
     this.statusBar.addActionButton(
       _("Reroll"),
       () => {
-        this.game.actRerollDice();
+        this.game.performAction("actRerollDice");
       },
       {}
     );
-  };
+
+    this.statusBar.addActionButton(
+      _("Accept"),
+      () => {
+        this.game.performAction("actAcceptRoll");
+      },
+      {}
+    );
+  }
 }

@@ -53,10 +53,6 @@ class WanderingTowers extends WanderingTowersGui {
     this.bgaPerformAction(action, args, options);
   }
 
-  actRerollDice() {
-    this.performAction("actRerollDice");
-  }
-
   public onEnteringState(stateName: StateName, args?: object): void {
     if (!this.isCurrentPlayerActive()) {
       return;

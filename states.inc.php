@@ -21,8 +21,8 @@ if (false) {
 
 if (!defined("ST_GAME_END")) {
 	define("ST_SETUP", 1);
-	define("ST_PLAYER_TURN", 3);
-	define("ST_REROLL_DICE", 2);
+	define("ST_PLAYER_TURN", 2);
+	define("ST_REROLL_DICE", 3);
 	define("ST_GAME_END", 99);
 }
 
@@ -55,7 +55,7 @@ $machinestates = [
 		"descriptionmyturn" => clienttranslate('${you} may may reroll the die'),
 		"type" => "activeplayer",
 		"action" => "st_rerollDice",
-		"possibleactions" => ["actRerollDice", "actAcceptReroll"],
+		"possibleactions" => ["actRerollDice", "actAcceptRoll"],
 		"transitions" => [
 			TR_REROLL_DICE => ST_REROLL_DICE,
 			TR_NEXT_PLAYER => ST_PLAYER_TURN,

@@ -61,9 +61,6 @@ var WanderingTowers = /** @class */ (function (_super) {
         if (options === void 0) { options = {}; }
         this.bgaPerformAction(action, args, options);
     };
-    WanderingTowers.prototype.actRerollDice = function () {
-        this.performAction("actRerollDice");
-    };
     WanderingTowers.prototype.onEnteringState = function (stateName, args) {
         if (!this.isCurrentPlayerActive()) {
             return;
@@ -149,9 +146,11 @@ var StRerollDice = /** @class */ (function (_super) {
     StRerollDice.prototype.enter = function () {
         var _this = this;
         this.statusBar.addActionButton(_("Reroll"), function () {
-            _this.game.actRerollDice();
+            _this.game.performAction("actRerollDice");
+        }, {});
+        this.statusBar.addActionButton(_("Accept"), function () {
+            _this.game.performAction("actAcceptRoll");
         }, {});
     };
-    ;
     return StRerollDice;
 }(StateManager));

@@ -14,14 +14,12 @@ declare class WanderingTowersGui extends GameGui {
   };
 
   performAction(
-    action: string,
+    action: ActionName,
     args?: object,
     options?: {
       checkAction?: boolean;
     }
   ): void;
-
-  actRerollDice(): void;
 }
 
 interface WanderingTowersGamedatas {
@@ -42,4 +40,4 @@ interface WanderingTowersGamedatas {
   hand: MoveCard[];
 }
 
-type ActionName = "actRerollDice";
+type ActionName = "actRerollDice" | "actAcceptRoll";
