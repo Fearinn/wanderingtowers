@@ -16,8 +16,8 @@
 @use "../libs/bga-zoom";
 @use "../libs/bga-dice";
 @use "../libs/bga-cards";
+@use "../components/Die/die";
 @use "board";
-@use "dice";
 
 .wtw_gameArea {
     display: flex;

@@ -6,6 +6,10 @@
 }
 
 .wtw_die {
+  &:not(.bga-animations_animated) {
+    box-shadow: 0 2px 24px 0 black;
+  }
+
   .bga-dice_die-faces {
     background-color: white;
   }
