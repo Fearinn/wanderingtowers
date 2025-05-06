@@ -36,7 +36,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             dieTypes: {
                 die: new Die(),
             },
-            perspective: 0,
+            perspective: 1000,
         });
         var diceStock = new DiceStock(diceManager, document.getElementById("wtw_dice"));
         this.wtw = {
@@ -51,7 +51,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         diceStock.addDie({
             id: 1,
             type: "die",
-            face: 3,
+            face: gamedatas.diceFace,
         });
         this.setupNotifications();
     };

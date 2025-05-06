@@ -34,6 +34,7 @@ interface WanderingTowersGamedatas {
   players: { [playerId: number]: Player };
   tablespeed: string;
 
+  diceFace: number;
   towerCards: TowerCard[];
   wizardCards: WizardCard[];
   potionCards: PotionCard[];

@@ -162,6 +162,7 @@ class Game extends \Table
 
         $gamedatas = [
             "players" => $this->getCollectionFromDb("SELECT `player_id` `id`, `player_score` `score` FROM `player`"),
+            "diceFace" => $this->globals->get(G_DICE_FACE, 3),
             "towerCards" => $TowerManager->getCards("board"),
             "wizardCards" => $WizardManager->getCards("tower"),
             "potionCards" => $PotionManager->getCards("hand"),

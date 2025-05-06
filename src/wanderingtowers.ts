@@ -20,7 +20,7 @@ class WanderingTowers extends WanderingTowersGui {
       dieTypes: {
         die: new Die(),
       },
-      perspective: 0,
+      perspective: 1000,
     });
 
     const diceStock = new DiceStock(
@@ -41,7 +41,7 @@ class WanderingTowers extends WanderingTowersGui {
     diceStock.addDie({
       id: 1,
       type: "die",
-      face: 3,
+      face: gamedatas.diceFace,
     });
 
     this.setupNotifications();
