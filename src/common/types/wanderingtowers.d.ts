@@ -12,6 +12,7 @@ declare class WanderingTowersGui extends Game {
       dice: DiceStock;
       towers: TowerStocks;
       wizards: WizardStocks;
+      moves: MoveStocks;
     };
   };
 
@@ -40,6 +41,7 @@ interface WanderingTowersGamedatas {
   towerCards: CardBase[];
   wizardCards: CardBase[];
   potionCards: CardBase[];
+  moveDeck: CardBase[];
   hand: MoveCard[];
 }
 

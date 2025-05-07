@@ -9,9 +9,13 @@
 -- See http://en.boardgamearena.com/#!doc/Studio for more information.
 -------
 -->
-
+<div id="wtw_hand" class="wtw_hand"></div>
 <div id="wtw_gameArea" class="wtw_gameArea">
   <div id="wtw_board" class="wtw_board">
+    <div id="wtw_moves" class="wtw_moves">
+      <div id="wtw_deck" class="wtw_deck"></div>
+      <div id="wtw_discard" class="wtw_discard"></div>
+    </div>
     <div id="wtw_dice" class="wtw_dice"></div>
     <div id="wtw_spaces" class="wtw_spaces">
       <div id="wtw_space-1" class="wtw_space" data-space="1">

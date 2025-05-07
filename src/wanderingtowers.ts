@@ -55,6 +55,26 @@ class WanderingTowers extends WanderingTowersGui {
       setupFrontDiv: (card, element) => {},
     });
 
+    const moveCardManager = new CardManager<CardBase>(this, {
+      cardHeight: 100,
+      cardWidth: 50,
+      getId: (card) => {
+        return `wtw_moveCard-${card.id}`;
+      },
+      setupDiv: (card, element) => {
+        const moveCard = new MoveCard(this, card);
+        moveCard.setupDiv(element);
+      },
+      setupFrontDiv: (card, element) => {
+        const moveCard = new MoveCard(this, card);
+        moveCard.setupBackDiv(element);
+      },
+      setupBackDiv: (card, element) => {
+        const moveCard = new MoveCard(this, card);
+        moveCard.setupBackDiv(element);
+      },
+    });
+
     const towerStocks = {};
     const wizardStocks = {};
     for (let space_id = 1; space_id <= 16; space_id++) {
@@ -70,6 +90,22 @@ class WanderingTowers extends WanderingTowersGui {
       );
     }
 
+    const moveStocks = {
+      hand: new CardStock(moveCardManager, document.getElementById("wtw_hand")),
+      deck: new Deck(moveCardManager, document.getElementById("wtw_deck"), {}),
+      discard: new CardStock(
+        moveCardManager,
+        document.getElementById("wtw_discard")
+      ),
+    };
+
+    for (const player_id in gamedatas.players) {
+      moveStocks.hand[player_id] = new CardStock(
+        moveCardManager,
+        document.getElementById("wtw_deck")
+      );
+    }
+
     this.wtw = {
       managers: {
         zoom: zoomManager,
@@ -79,6 +115,7 @@ class WanderingTowers extends WanderingTowersGui {
         dice: diceStock,
         towers: towerStocks,
         wizards: wizardStocks,
+        moves: moveStocks,
       },
     };
 
@@ -90,6 +127,11 @@ class WanderingTowers extends WanderingTowersGui {
     gamedatas.wizardCards.forEach((card) => {
       const wizardCard = new WizardCard(this, card);
       wizardCard.setup();
+    });
+
+    gamedatas.moveDeck.forEach((card) => {
+      const moveCard = new MoveCard(this, card);
+      moveCard.setup();
     });
 
     this.setupNotifications();

@@ -166,6 +166,7 @@ class Game extends \Table
             "towerCards" => $TowerManager->getCards("board"),
             "wizardCards" => $WizardManager->getCards("space"),
             "potionCards" => $PotionManager->getCards("hand"),
+            "moveDeck" => $MoveManager->getDeck(),
             "hand" => $MoveManager->getPlayerHand($current_player_id),
         ];
 

@@ -55,7 +55,7 @@ class CardManager
         return array_values($this->deck->getPlayerHand($player_id));
     }
 
-    public function getCardInLocation(string $location, $location_arg): array
+    public function getCardInLocation(string $location, int $location_arg = null): array
     {
         $cards = $this->getCards($location, $location_arg);
 
@@ -64,6 +64,28 @@ class CardManager
         }
 
         return reset($cards);
+    }
+
+    public function hideCard($card): array
+    {
+        $card["type_arg"] = null;
+
+        return $card;
+    }
+
+    public function hideCards($cards): array
+    {
+        $cards = array_map(function ($card) {
+            return $this->hideCard($card);
+        }, $cards);
+
+        return $cards;
+    }
+
+    public function getDeck(): array
+    {
+        $deck = $this->getCards("deck");
+        return $this->hideCards($deck);
     }
 
     public function getCardsByLocationArg(string $location_arg): array
@@ -98,7 +120,8 @@ class CardManager
         return $this->deck->countCardsInLocation($location, $location_arg);
     }
 
-    public function countCardsInHand(?int $player_id): int {
+    public function countCardsInHand(?int $player_id): int
+    {
         return $this->countCardsInLocation("hand", $player_id);
     }
 }

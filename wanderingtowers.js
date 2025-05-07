@@ -64,11 +64,38 @@ var WanderingTowers = /** @class */ (function (_super) {
             },
             setupFrontDiv: function (card, element) { },
         });
+        var moveCardManager = new CardManager(this, {
+            cardHeight: 100,
+            cardWidth: 50,
+            getId: function (card) {
+                return "wtw_moveCard-".concat(card.id);
+            },
+            setupDiv: function (card, element) {
+                var moveCard = new MoveCard(_this, card);
+                moveCard.setupDiv(element);
+            },
+            setupFrontDiv: function (card, element) {
+                var moveCard = new MoveCard(_this, card);
+                moveCard.setupBackDiv(element);
+            },
+            setupBackDiv: function (card, element) {
+                var moveCard = new MoveCard(_this, card);
+                moveCard.setupBackDiv(element);
+            },
+        });
         var towerStocks = {};
         var wizardStocks = {};
         for (var space_id = 1; space_id <= 16; space_id++) {
             towerStocks[space_id] = new CardStock(towerCardManager, document.getElementById("wtw_spaceTowers-".concat(space_id)));
             wizardStocks[space_id] = new CardStock(wizardCardManager, document.getElementById("wtw_spaceWizards-".concat(space_id)), { sort: sortFunction("type") });
+        }
+        var moveStocks = {
+            hand: new CardStock(moveCardManager, document.getElementById("wtw_hand")),
+            deck: new Deck(moveCardManager, document.getElementById("wtw_deck"), {}),
+            discard: new CardStock(moveCardManager, document.getElementById("wtw_discard")),
+        };
+        for (var player_id in gamedatas.players) {
+            moveStocks.hand[player_id] = new CardStock(moveCardManager, document.getElementById("wtw_deck"));
         }
         this.wtw = {
             managers: {
@@ -79,6 +106,7 @@ var WanderingTowers = /** @class */ (function (_super) {
                 dice: diceStock,
                 towers: towerStocks,
                 wizards: wizardStocks,
+                moves: moveStocks,
             },
         };
         gamedatas.towerCards.forEach(function (card) {
@@ -88,6 +116,10 @@ var WanderingTowers = /** @class */ (function (_super) {
         gamedatas.wizardCards.forEach(function (card) {
             var wizardCard = new WizardCard(_this, card);
             wizardCard.setup();
+        });
+        gamedatas.moveDeck.forEach(function (card) {
+            var moveCard = new MoveCard(_this, card);
+            moveCard.setup();
         });
         this.setupNotifications();
     };
@@ -2359,6 +2391,38 @@ var Die = /** @class */ (function (_super) {
     };
     return Die;
 }(BgaDie6));
+var MoveCard = /** @class */ (function (_super) {
+    __extends(MoveCard, _super);
+    function MoveCard(game, card) {
+        var _this = _super.call(this, game, card) || this;
+        _this.stocks = _this.game.wtw.stocks.moves;
+        _this.player_id = _this.location === "hand" ? _this.location_arg : null;
+        return _this;
+    }
+    MoveCard.prototype.setup = function () {
+        if (this.location === "hand") {
+            if (this.player_id) {
+                this.stocks.hand.addCard(this.card, {}, { visible: true });
+            }
+            return;
+        }
+        this.stocks.deck.addCard(this.card);
+    };
+    MoveCard.prototype.setupDiv = function (element) {
+        element.classList.add("wtw_card", "wtw_move-back");
+    };
+    MoveCard.prototype.setupFrontDiv = function (element) {
+        if (!this.type_arg) {
+            return;
+        }
+        element.style.backgroundPosition = "".concat((this.type_arg - 1) * -100, "%");
+        element.classList.add("wtw_move-front");
+    };
+    MoveCard.prototype.setupBackDiv = function (element) {
+        element.classList.add("wtw_move-back");
+    };
+    return MoveCard;
+}(Card));
 var TowerCard = /** @class */ (function (_super) {
     __extends(TowerCard, _super);
     function TowerCard(game, card) {
