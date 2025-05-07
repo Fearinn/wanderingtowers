@@ -5,9 +5,9 @@
   "main": "wanderingtowers.js",
   "scripts": {
     "build:ts": "tsc",
-    "build:scss": "sass --no-source-map src/scss/wanderingtowers.scss wanderingtowers.css",
+    "build:scss": "sass --no-source-map src/wanderingtowers.scss wanderingtowers.css",
     "watch:ts": "tsc --watch",
-    "watch:scss": "sass --watch --no-source-map src/scss/wanderingtowers.scss wanderingtowers.css",
+    "watch:scss": "sass --watch --no-source-map src/wanderingtowers.scss wanderingtowers.css",
     "watch": "pnpm run /^watch:.*/",
     "build": "pnpm run build:ts && pnpm run build:scss"
   },

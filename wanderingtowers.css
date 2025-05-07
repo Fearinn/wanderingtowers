@@ -571,6 +571,7 @@ body > .card {
 }
 .wtw_die .bga-dice_die-faces {
   background-color: white;
+  border-radius: var(--bga-dice_border-radius);
 }
 .wtw_die .bga-dice_die-face {
   background-image: url("img/die.png");
@@ -580,7 +581,29 @@ body > .card {
 }
 
 :root {
-  --spaceWidth: 140px;
+  --towerWidth: calc(var(--spaceWidth) * 0.8);
+}
+
+.wtw_tower {
+  background-image: url("img/towers.png");
+  background-position: -200%;
+  background-size: cover;
+  border-radius: 100%;
+  box-shadow: 0 2px 16px 6px black;
+  aspect-ratio: 1;
+  width: var(--towerWidth);
+}
+.wtw_tower-raven {
+  background-position: -100%;
+}
+.wtw_tower-ravenskeep {
+  background-position: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+:root {
+  --spaceWidth: 200px;
 }
 
 .wtw_spaces {
@@ -591,6 +614,9 @@ body > .card {
 
 .wtw_space {
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-image: url("img/spaces.png");
   background-size: cover;
   clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
@@ -676,6 +702,14 @@ body > .card {
   top: calc(var(--spaceWidth) * 1.4);
   left: 0;
   background-position: -1500% 0;
+}
+
+.wtw_card .card-sides {
+  width: var(--towerWidth);
+}
+.wtw_card .card-side {
+  width: var(--towerWidth);
+  box-shadow: none !important;
 }
 
 .wtw_gameArea {

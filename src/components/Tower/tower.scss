@@ -1,0 +1,23 @@
+:root {
+  --towerWidth: calc(var(--spaceWidth) * 0.8);
+}
+
+.wtw_tower {
+  background-image: url("img/towers.png");
+  background-position: -200%;
+  background-size: cover;
+  border-radius: 100%;
+  box-shadow: 0 2px 16px 6px black;
+  aspect-ratio: 1;
+  width: var(--towerWidth);
+
+  &-raven {
+    background-position: -100%;
+  }
+
+  &-ravenskeep {
+    background-position: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}

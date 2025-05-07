@@ -1,5 +1,5 @@
 :root {
-  --spaceWidth: 140px;
+  --spaceWidth: 200px;
 }
 
 .wtw_spaces {
@@ -10,6 +10,9 @@
 
 .wtw_space {
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-image: url("img/spaces.png");
   background-size: cover;
   clip-path: polygon(

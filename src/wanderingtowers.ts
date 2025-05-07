@@ -20,13 +20,41 @@ class WanderingTowers extends WanderingTowersGui {
       dieTypes: {
         die: new Die(),
       },
-      perspective: 1000,
     });
 
     const diceStock = new DiceStock(
       diceManager,
       document.getElementById("wtw_dice")
     );
+
+    diceStock.addDie({
+      id: 1,
+      type: "die",
+      face: gamedatas.diceFace,
+    });
+
+    const towerCardManager = new CardManager<CardBase>(this, {
+      setupDiv(card, element) {
+        element.classList.add("wtw_card", "wtw_tower");
+
+        if (card.type_arg == 1) {
+          element.classList.add("wtw_tower-ravenskeep");
+        }
+
+        if (Number(card.type_arg) % 2 === 0) {
+          element.classList.add("wtw_tower-raven");
+        }
+      },
+      setupFrontDiv(card, element) {},
+    });
+
+    const towerStocks = {};
+    for (let space_id = 1; space_id <= 16; space_id++) {
+      towerStocks[space_id] = new CardStock<CardBase>(
+        towerCardManager,
+        document.getElementById(`wtw_space-${space_id}`)
+      );
+    }
 
     this.wtw = {
       managers: {
@@ -35,13 +63,13 @@ class WanderingTowers extends WanderingTowersGui {
       },
       stocks: {
         dice: diceStock,
+        towers: towerStocks,
       },
     };
 
-    diceStock.addDie({
-      id: 1,
-      type: "die",
-      face: gamedatas.diceFace,
+    gamedatas.towerCards.forEach((card) => {
+      const towerCard = new TowerCard(this, card);
+      towerCard.place(card.type_arg);
     });
 
     this.setupNotifications();

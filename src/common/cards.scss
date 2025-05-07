@@ -1,0 +1,10 @@
+.wtw_card {
+  .card-sides {
+    width: var(--towerWidth);
+  }
+
+  .card-side {
+    width: var(--towerWidth);
+    box-shadow: none !important;
+  }
+}

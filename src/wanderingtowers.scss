@@ -13,11 +13,13 @@
  *
  */
 
-@use "../libs/bga-zoom";
-@use "../libs/bga-dice";
-@use "../libs/bga-cards";
-@use "../components/Die/die";
-@use "board";
+@use "libs/bga-zoom";
+@use "libs/bga-dice";
+@use "libs/bga-cards";
+@use "components/Die/die";
+@use "components/Tower/tower";
+@use "common/board";
+@use "common/cards";
 
 .wtw_gameArea {
     display: flex;

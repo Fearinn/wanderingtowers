@@ -28,6 +28,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         return _this;
     }
     WanderingTowers.prototype.setup = function (gamedatas) {
+        var _this = this;
         var zoomManager = new ZoomManager({
             element: document.getElementById("wtw_gameArea"),
             localStorageZoomKey: "wanderingtowers-zoom",
@@ -36,9 +37,29 @@ var WanderingTowers = /** @class */ (function (_super) {
             dieTypes: {
                 die: new Die(),
             },
-            perspective: 1000,
         });
         var diceStock = new DiceStock(diceManager, document.getElementById("wtw_dice"));
+        diceStock.addDie({
+            id: 1,
+            type: "die",
+            face: gamedatas.diceFace,
+        });
+        var towerCardManager = new CardManager(this, {
+            setupDiv: function (card, element) {
+                element.classList.add("wtw_card", "wtw_tower");
+                if (card.type_arg == 1) {
+                    element.classList.add("wtw_tower-ravenskeep");
+                }
+                if (Number(card.type_arg) % 2 === 0) {
+                    element.classList.add("wtw_tower-raven");
+                }
+            },
+            setupFrontDiv: function (card, element) { },
+        });
+        var towerStocks = {};
+        for (var space_id = 1; space_id <= 16; space_id++) {
+            towerStocks[space_id] = new CardStock(towerCardManager, document.getElementById("wtw_space-".concat(space_id)));
+        }
         this.wtw = {
             managers: {
                 zoom: zoomManager,
@@ -46,12 +67,12 @@ var WanderingTowers = /** @class */ (function (_super) {
             },
             stocks: {
                 dice: diceStock,
+                towers: towerStocks,
             },
         };
-        diceStock.addDie({
-            id: 1,
-            type: "die",
-            face: gamedatas.diceFace,
+        gamedatas.towerCards.forEach(function (card) {
+            var towerCard = new TowerCard(_this, card);
+            towerCard.place(card.type_arg);
         });
         this.setupNotifications();
     };
@@ -2269,6 +2290,24 @@ define([
 ], function (dojo, declare) {
     return declare("bgagame.wanderingtowers", ebg.core.gamegui, new WanderingTowers());
 });
+var Card = /** @class */ (function () {
+    function Card(game, card) {
+        this.game = game;
+        this.id = Number(card.id);
+        this.location = card.location;
+        this.location_arg = Number(card.location_arg);
+        this.type = card.type;
+        this.type_arg = Number(card.type_arg);
+        this.card = {
+            id: this.id,
+            location: this.location,
+            location_arg: this.location_arg,
+            type: this.type,
+            type_arg: this.type_arg,
+        };
+    }
+    return Card;
+}());
 var BgaDie6 = /** @class */ (function () {
     /**
      * Create the die type.
@@ -2296,7 +2335,7 @@ var BgaDie6 = /** @class */ (function () {
 var Die = /** @class */ (function (_super) {
     __extends(Die, _super);
     function Die(settings) {
-        if (settings === void 0) { settings = { borderRadius: 0 }; }
+        if (settings === void 0) { settings = { borderRadius: 12 }; }
         return _super.call(this, settings) || this;
     }
     Die.prototype.setupDieDiv = function (die, element) {
@@ -2305,6 +2344,18 @@ var Die = /** @class */ (function (_super) {
     };
     return Die;
 }(BgaDie6));
+var TowerCard = /** @class */ (function (_super) {
+    __extends(TowerCard, _super);
+    function TowerCard(game, card) {
+        var _this = _super.call(this, game, card) || this;
+        _this.stocks = _this.game.wtw.stocks.towers;
+        return _this;
+    }
+    TowerCard.prototype.place = function (space_id) {
+        this.stocks[space_id].addCard(this.card, {}, { visible: true });
+    };
+    return TowerCard;
+}(Card));
 var StateManager = /** @class */ (function () {
     function StateManager(game, stateName) {
         this.game = game;
