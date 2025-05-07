@@ -68,7 +68,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         var wizardStocks = {};
         for (var space_id = 1; space_id <= 16; space_id++) {
             towerStocks[space_id] = new CardStock(towerCardManager, document.getElementById("wtw_spaceTowers-".concat(space_id)));
-            wizardStocks[space_id] = new CardStock(wizardCardManager, document.getElementById("wtw_spaceWizards-".concat(space_id)));
+            wizardStocks[space_id] = new CardStock(wizardCardManager, document.getElementById("wtw_spaceWizards-".concat(space_id)), { sort: sortFunction("type") });
         }
         this.wtw = {
             managers: {
@@ -2395,6 +2395,7 @@ var WizardCard = /** @class */ (function (_super) {
     };
     WizardCard.prototype.setupDiv = function (element) {
         element.classList.add("wtw_card", "wtw_wizard");
+        element.style.backgroundPosition = "".concat(this.type * -100, "%");
     };
     WizardCard.prototype.place = function (space_id) {
         this.stocks[space_id].addCard(this.card, {}, { visible: true });

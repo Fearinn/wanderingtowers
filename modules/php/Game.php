@@ -189,7 +189,7 @@ class Game extends \Table
     protected function setupNewGame($players, $options = [])
     {
         $gameinfos = $this->getGameinfos();
-        $default_colors = $gameinfos['player_colors'];
+        $default_colors = $gameinfos["player_colors"];
 
         foreach ($players as $player_id => $player) {
             $query_values[] = vsprintf("('%s', '%s', '%s', '%s', '%s')", [

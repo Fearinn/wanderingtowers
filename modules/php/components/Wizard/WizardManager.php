@@ -20,9 +20,14 @@ class WizardManager extends CardManager
         $setupCounts = (array) $this->game->SETUP_COUNTS[$playerNbr];
         $wizardCount = (int) $setupCounts["wizards"];
 
+        $gameinfos = $this->game->getGameinfos();
+        $colors = $gameinfos["player_colors"];
+
         $wizardCards = [];
         foreach ($players as $player_id => $player) {
-            $wizardCards[] = ["type" => $player["player_color"], "type_arg" => $player_id, "nbr" => $wizardCount];
+            $color = $player["player_color"];
+            $k_color = array_search($color, $colors);
+            $wizardCards[] = ["type" => $k_color, "type_arg" => $player_id, "nbr" => $wizardCount];
         }
         $this->createCards($wizardCards);
 

@@ -20,6 +20,7 @@ class WizardCard extends Card {
 
   setupDiv(element: HTMLDivElement) {
     element.classList.add("wtw_card", "wtw_wizard");
+    element.style.backgroundPosition = `${this.type * -100}%`;
   }
 
   place(space_id: number) {

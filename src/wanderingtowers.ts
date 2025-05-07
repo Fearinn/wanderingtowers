@@ -65,7 +65,8 @@ class WanderingTowers extends WanderingTowersGui {
 
       wizardStocks[space_id] = new CardStock<CardBase>(
         wizardCardManager,
-        document.getElementById(`wtw_spaceWizards-${space_id}`)
+        document.getElementById(`wtw_spaceWizards-${space_id}`),
+        { sort: sortFunction("type") }
       );
     }
 
