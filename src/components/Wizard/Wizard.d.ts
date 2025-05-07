@@ -1,3 +1,0 @@
-interface WizardCard extends Card {
-
-}

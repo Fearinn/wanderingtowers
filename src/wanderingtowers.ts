@@ -34,6 +34,9 @@ class WanderingTowers extends WanderingTowersGui {
     });
 
     const towerCardManager = new CardManager<CardBase>(this, {
+      getId: (card) => {
+        return `wtw_towerCard-${card.id}`;
+      },
       setupDiv: (card, element) => {
         const towerCard = new TowerCard(this, card);
         towerCard.setupDiv(element);
@@ -41,11 +44,28 @@ class WanderingTowers extends WanderingTowersGui {
       setupFrontDiv: (card, element) => {},
     });
 
+    const wizardCardManager = new CardManager<CardBase>(this, {
+      getId: (card) => {
+        return `wtw_wizardCard-${card.id}`;
+      },
+      setupDiv: (card, element) => {
+        const wizardCard = new WizardCard(this, card);
+        wizardCard.setupDiv(element);
+      },
+      setupFrontDiv: (card, element) => {},
+    });
+
     const towerStocks = {};
+    const wizardStocks = {};
     for (let space_id = 1; space_id <= 16; space_id++) {
       towerStocks[space_id] = new CardStock<CardBase>(
         towerCardManager,
-        document.getElementById(`wtw_space-${space_id}`)
+        document.getElementById(`wtw_spaceTowers-${space_id}`)
+      );
+
+      wizardStocks[space_id] = new CardStock<CardBase>(
+        wizardCardManager,
+        document.getElementById(`wtw_spaceWizards-${space_id}`)
       );
     }
 
@@ -57,12 +77,18 @@ class WanderingTowers extends WanderingTowersGui {
       stocks: {
         dice: diceStock,
         towers: towerStocks,
+        wizards: wizardStocks,
       },
     };
 
     gamedatas.towerCards.forEach((card) => {
       const towerCard = new TowerCard(this, card);
       towerCard.setup();
+    });
+
+    gamedatas.wizardCards.forEach((card) => {
+      const wizardCard = new WizardCard(this, card);
+      wizardCard.setup();
     });
 
     this.setupNotifications();

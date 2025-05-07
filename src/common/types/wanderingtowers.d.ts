@@ -11,6 +11,7 @@ declare class WanderingTowersGui extends Game {
     stocks: {
       dice: DiceStock;
       towers: TowerStocks;
+      wizards: WizardStocks;
     };
   };
 

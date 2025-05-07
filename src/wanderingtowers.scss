@@ -18,8 +18,9 @@
 @use "libs/bga-cards";
 @use "components/Die/die";
 @use "components/Tower/tower";
-@use "common/board";
-@use "common/cards";
+@use "components/Wizard/wizard";
+@use "common/scss/board";
+@use "common/scss/cards";
 
 .wtw_gameArea {
     display: flex;

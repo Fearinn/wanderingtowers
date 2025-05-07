@@ -585,6 +585,7 @@ body > .card {
 }
 
 .wtw_tower {
+  position: relative;
   background-image: url("img/towers.png");
   background-position: -200%;
   background-size: cover;
@@ -600,6 +601,23 @@ body > .card {
   background-position: 0;
   border-radius: 0;
   box-shadow: none;
+}
+
+:root {
+  --wizardWidth: calc(var(--towerWidth) * 0.2);
+}
+
+.wtw_spaceWizards {
+  position: absolute;
+}
+
+.wtw_wizard {
+  position: relative;
+  background-image: url("img/wizards.png");
+  background-size: cover;
+  aspect-ratio: 1/1.53;
+  width: var(--wizardWidth);
+  z-index: 2;
 }
 
 :root {
@@ -705,10 +723,10 @@ body > .card {
 }
 
 .wtw_card .card-sides {
-  width: var(--towerWidth);
+  width: 100%;
 }
 .wtw_card .card-side {
-  width: var(--towerWidth);
+  width: 100%;
   box-shadow: none !important;
 }
 

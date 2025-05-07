@@ -45,15 +45,30 @@ var WanderingTowers = /** @class */ (function (_super) {
             face: gamedatas.diceFace,
         });
         var towerCardManager = new CardManager(this, {
+            getId: function (card) {
+                return "wtw_towerCard-".concat(card.id);
+            },
             setupDiv: function (card, element) {
                 var towerCard = new TowerCard(_this, card);
                 towerCard.setupDiv(element);
             },
             setupFrontDiv: function (card, element) { },
         });
+        var wizardCardManager = new CardManager(this, {
+            getId: function (card) {
+                return "wtw_wizardCard-".concat(card.id);
+            },
+            setupDiv: function (card, element) {
+                var wizardCard = new WizardCard(_this, card);
+                wizardCard.setupDiv(element);
+            },
+            setupFrontDiv: function (card, element) { },
+        });
         var towerStocks = {};
+        var wizardStocks = {};
         for (var space_id = 1; space_id <= 16; space_id++) {
-            towerStocks[space_id] = new CardStock(towerCardManager, document.getElementById("wtw_space-".concat(space_id)));
+            towerStocks[space_id] = new CardStock(towerCardManager, document.getElementById("wtw_spaceTowers-".concat(space_id)));
+            wizardStocks[space_id] = new CardStock(wizardCardManager, document.getElementById("wtw_spaceWizards-".concat(space_id)));
         }
         this.wtw = {
             managers: {
@@ -63,11 +78,16 @@ var WanderingTowers = /** @class */ (function (_super) {
             stocks: {
                 dice: diceStock,
                 towers: towerStocks,
+                wizards: wizardStocks,
             },
         };
         gamedatas.towerCards.forEach(function (card) {
             var towerCard = new TowerCard(_this, card);
             towerCard.setup();
+        });
+        gamedatas.wizardCards.forEach(function (card) {
+            var wizardCard = new WizardCard(_this, card);
+            wizardCard.setup();
         });
         this.setupNotifications();
     };
@@ -2362,6 +2382,24 @@ var TowerCard = /** @class */ (function (_super) {
         this.stocks[space_id].addCard(this.card, {}, { visible: true });
     };
     return TowerCard;
+}(Card));
+var WizardCard = /** @class */ (function (_super) {
+    __extends(WizardCard, _super);
+    function WizardCard(game, card) {
+        var _this = _super.call(this, game, card) || this;
+        _this.stocks = _this.game.wtw.stocks.wizards;
+        return _this;
+    }
+    WizardCard.prototype.setup = function () {
+        this.place(this.location_arg);
+    };
+    WizardCard.prototype.setupDiv = function (element) {
+        element.classList.add("wtw_card", "wtw_wizard");
+    };
+    WizardCard.prototype.place = function (space_id) {
+        this.stocks[space_id].addCard(this.card, {}, { visible: true });
+    };
+    return WizardCard;
 }(Card));
 var StateManager = /** @class */ (function () {
     function StateManager(game, stateName) {
