@@ -44,12 +44,12 @@ class WizardManager extends CardManager
         $space = (array) $this->game->SPACES[$space_id];
         $setupWizardCount = (int) $space["setupWizardCount"];
 
-        if ($setupWizardCount === 0 || $this->countCardsInLocation("hand") === 0) {
+        if ($setupWizardCount === 0 || $this->countCardsInHand(null) === 0) {
             return;
         }
 
         if ($this->countOnSpace($space_id) < $setupWizardCount) {
-            if ($this->countCardsInLocation("hand", $player_id) > 0) {
+            if ($this->countCardsInHand($player_id) > 0) {
                 $this->transferCard("hand", "space", $player_id, $space_id);
             }
 

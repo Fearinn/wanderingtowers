@@ -97,4 +97,8 @@ class CardManager
     {
         return $this->deck->countCardsInLocation($location, $location_arg);
     }
+
+    public function countCardsInHand(?int $player_id): int {
+        return $this->countCardsInLocation("hand", $player_id);
+    }
 }
