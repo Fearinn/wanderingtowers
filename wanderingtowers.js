@@ -46,13 +46,8 @@ var WanderingTowers = /** @class */ (function (_super) {
         });
         var towerCardManager = new CardManager(this, {
             setupDiv: function (card, element) {
-                element.classList.add("wtw_card", "wtw_tower");
-                if (card.type_arg == 1) {
-                    element.classList.add("wtw_tower-ravenskeep");
-                }
-                if (Number(card.type_arg) % 2 === 0) {
-                    element.classList.add("wtw_tower-raven");
-                }
+                var towerCard = new TowerCard(_this, card);
+                towerCard.setupDiv(element);
             },
             setupFrontDiv: function (card, element) { },
         });
@@ -72,7 +67,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         };
         gamedatas.towerCards.forEach(function (card) {
             var towerCard = new TowerCard(_this, card);
-            towerCard.place(card.type_arg);
+            towerCard.setup();
         });
         this.setupNotifications();
     };
@@ -2351,6 +2346,18 @@ var TowerCard = /** @class */ (function (_super) {
         _this.stocks = _this.game.wtw.stocks.towers;
         return _this;
     }
+    TowerCard.prototype.setup = function () {
+        this.place(this.type_arg);
+    };
+    TowerCard.prototype.setupDiv = function (element) {
+        element.classList.add("wtw_card", "wtw_tower");
+        if (this.type_arg === 1) {
+            element.classList.add("wtw_tower-ravenskeep");
+        }
+        if (this.type_arg % 2 === 0) {
+            element.classList.add("wtw_tower-raven");
+        }
+    };
     TowerCard.prototype.place = function (space_id) {
         this.stocks[space_id].addCard(this.card, {}, { visible: true });
     };

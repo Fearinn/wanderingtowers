@@ -34,18 +34,11 @@ class WanderingTowers extends WanderingTowersGui {
     });
 
     const towerCardManager = new CardManager<CardBase>(this, {
-      setupDiv(card, element) {
-        element.classList.add("wtw_card", "wtw_tower");
-
-        if (card.type_arg == 1) {
-          element.classList.add("wtw_tower-ravenskeep");
-        }
-
-        if (Number(card.type_arg) % 2 === 0) {
-          element.classList.add("wtw_tower-raven");
-        }
+      setupDiv: (card, element) => {
+        const towerCard = new TowerCard(this, card);
+        towerCard.setupDiv(element);
       },
-      setupFrontDiv(card, element) {},
+      setupFrontDiv: (card, element) => {},
     });
 
     const towerStocks = {};
@@ -69,7 +62,7 @@ class WanderingTowers extends WanderingTowersGui {
 
     gamedatas.towerCards.forEach((card) => {
       const towerCard = new TowerCard(this, card);
-      towerCard.place(card.type_arg);
+      towerCard.setup();
     });
 
     this.setupNotifications();
