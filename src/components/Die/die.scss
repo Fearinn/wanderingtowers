@@ -12,6 +12,7 @@
 
   .bga-dice_die-faces {
     background-color: white;
+    border-radius: var(--bga-dice_border-radius);
   }
   .bga-dice_die-face {
     background-image: url("img/die.png");

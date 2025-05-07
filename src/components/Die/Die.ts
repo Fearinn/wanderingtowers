@@ -27,7 +27,7 @@ class BgaDie6 implements BgaDieType {
 }
 
 class Die extends BgaDie6 {
-  constructor(settings: BgaDie6Settings = { borderRadius: 0 }) {
+  constructor(settings: BgaDie6Settings = { borderRadius: 12 }) {
     super(settings);
   }
 
