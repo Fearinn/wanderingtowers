@@ -1,7 +1,17 @@
 .wtw_gameArea {
-    --moveWidth: 50px;
+    --moveWidth: 100px;
+}
+
+.wtw_moveDeck {
+    position: relative;
 }
 
 .wtw_move {
+    aspect-ratio: 300 / 438;
     width: var(--moveWidth);
+
+    &-back {
+        background-image: url("img/moveBack.jpg");
+        background-size: cover;
+    }
 }

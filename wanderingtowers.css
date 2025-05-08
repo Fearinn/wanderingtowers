@@ -559,13 +559,6 @@ body > .card {
   display: none;
 }
 
-.wtw_dice {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-}
-
 .wtw_die:not(.bga-animations_animated) {
   box-shadow: 0 2px 24px 0 black;
 }
@@ -624,8 +617,36 @@ body > .card {
   z-index: 2;
 }
 
+.wtw_gameArea {
+  --moveWidth: 100px;
+}
+
+.wtw_moveDeck {
+  position: relative;
+}
+
+.wtw_move {
+  aspect-ratio: 300/438;
+  width: var(--moveWidth);
+}
+.wtw_move-back {
+  background-image: url("img/moveBack.jpg");
+  background-size: cover;
+}
+
 :root {
   --spaceWidth: 200px;
+}
+
+.wtw_boardCenter {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
 }
 
 .wtw_spaces {
@@ -726,12 +747,13 @@ body > .card {
   background-position: -1500% 0;
 }
 
-.wtw_card .card-sides {
-  width: 100%;
-}
 .wtw_card .card-side {
   width: 100%;
   box-shadow: none !important;
+}
+
+.wtw_deck > .wtw_card {
+  box-shadow: calc(var(--thickness) * var(--xShadowShift)) calc(var(--thickness) * var(--yShadowShift)) 0px 0px #111, calc(var(--thickness) * var(--xShadowShift)) calc(var(--thickness) * var(--yShadowShift)) 2px 1px rgba(0, 0, 0, 0.5);
 }
 
 .wtw_gameArea {

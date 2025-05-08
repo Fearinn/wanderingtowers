@@ -22,20 +22,16 @@ class MoveCard extends Card {
   setup() {
     if (this.location === "hand") {
       if (this.player_id) {
-        this.stocks.hand.addCard(
-          this.card,
-          {},
-          { visible: true }
-        );
+        this.stocks.hand.addCard(this.card, {}, { visible: true });
       }
       return;
     }
 
-    this.stocks.deck.addCard(this.card);
+    this.stocks.deck.addCard(this.card, {}, { visible: false });
   }
 
   setupDiv(element: HTMLDivElement) {
-    element.classList.add("wtw_card", "wtw_move-back");
+    element.classList.add("wtw_card", "wtw_move");
   }
 
   setupFrontDiv(element: HTMLDivElement) {

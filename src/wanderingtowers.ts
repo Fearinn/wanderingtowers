@@ -56,8 +56,8 @@ class WanderingTowers extends WanderingTowersGui {
     });
 
     const moveCardManager = new CardManager<CardBase>(this, {
-      cardHeight: 100,
-      cardWidth: 50,
+      cardHeight: 146,
+      cardWidth: 100,
       getId: (card) => {
         return `wtw_moveCard-${card.id}`;
       },
@@ -92,7 +92,13 @@ class WanderingTowers extends WanderingTowersGui {
 
     const moveStocks = {
       hand: new CardStock(moveCardManager, document.getElementById("wtw_hand")),
-      deck: new Deck(moveCardManager, document.getElementById("wtw_deck"), {}),
+      deck: new Deck(moveCardManager, document.getElementById("wtw_deck"), {
+        counter: {
+          position: "top",
+          hideWhenEmpty: true,
+          extraClasses: "text-shadow",
+        },
+      }),
       discard: new CardStock(
         moveCardManager,
         document.getElementById("wtw_discard")
