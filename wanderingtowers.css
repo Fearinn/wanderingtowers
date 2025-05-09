@@ -559,81 +559,6 @@ body > .card {
   display: none;
 }
 
-.wtw_die:not(.bga-animations_animated) {
-  box-shadow: 0 2px 24px 0 black;
-}
-.wtw_die .bga-dice_die-faces {
-  background-color: white;
-  border-radius: var(--bga-dice_border-radius);
-}
-.wtw_die .bga-dice_die-face {
-  background-image: url("img/die.png");
-  background-size: 600% 100%;
-  background-color: white;
-  backface-visibility: hidden;
-}
-
-:root {
-  --towerWidth: calc(var(--spaceWidth) * 0.75);
-}
-
-.wtw_tower {
-  position: relative;
-  background-image: url("img/towers.png");
-  background-position: -200%;
-  background-size: cover;
-  border-radius: 100%;
-  box-shadow: 0 2px 16px 6px black;
-  aspect-ratio: 1;
-  width: var(--towerWidth);
-}
-.wtw_tower-raven {
-  background-position: -100%;
-}
-.wtw_tower-ravenskeep {
-  background-position: 0;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-:root {
-  --wizardWidth: calc(var(--towerWidth) * 0.25);
-}
-
-.wtw_spaceWizards {
-  position: absolute;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: 4px;
-  row-gap: 0;
-}
-
-.wtw_wizard {
-  position: relative;
-  background-image: url("img/wizards.png");
-  background-size: cover;
-  aspect-ratio: 1/1.53;
-  width: var(--wizardWidth);
-  z-index: 2;
-}
-
-.wtw_gameArea {
-  --moveWidth: 100px;
-}
-
-.wtw_moveDeck {
-  position: relative;
-}
-
-.wtw_move {
-  aspect-ratio: 300/438;
-  width: var(--moveWidth);
-}
-.wtw_move-back {
-  background-image: url("img/moveBack.jpg");
-  background-size: cover;
-}
-
 :root {
   --spaceWidth: 200px;
 }
@@ -752,8 +677,101 @@ body > .card {
   box-shadow: none !important;
 }
 
-.wtw_deck > .wtw_card {
+.wtw_deck .wtw_card {
   box-shadow: calc(var(--thickness) * var(--xShadowShift)) calc(var(--thickness) * var(--yShadowShift)) 0px 0px #111, calc(var(--thickness) * var(--xShadowShift)) calc(var(--thickness) * var(--yShadowShift)) 2px 1px rgba(0, 0, 0, 0.5);
+}
+
+.wtw_die:not(.bga-animations_animated) {
+  box-shadow: 0 2px 24px 0 black;
+}
+.wtw_die .bga-dice_die-faces {
+  background-color: white;
+  border-radius: var(--bga-dice_border-radius);
+}
+.wtw_die .bga-dice_die-face {
+  background-image: url("img/die.png");
+  background-size: 600% 100%;
+  background-color: white;
+  backface-visibility: hidden;
+}
+
+:root {
+  --towerWidth: calc(var(--spaceWidth) * 0.75);
+}
+
+.wtw_tower {
+  position: relative;
+  background-image: url("img/towers.png");
+  background-position: -200%;
+  background-size: cover;
+  border-radius: 100%;
+  box-shadow: 0 2px 16px 6px black;
+  aspect-ratio: 1;
+  width: var(--towerWidth);
+}
+.wtw_tower-raven {
+  background-position: -100%;
+}
+.wtw_tower-ravenskeep {
+  background-position: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+:root {
+  --wizardWidth: calc(var(--towerWidth) * 0.25);
+}
+
+.wtw_spaceWizards {
+  position: absolute;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 4px;
+  row-gap: 0;
+}
+
+.wtw_wizard {
+  position: relative;
+  background-image: url("img/wizards.png");
+  background-size: cover;
+  aspect-ratio: 1/1.53;
+  width: var(--wizardWidth);
+  z-index: 2;
+}
+
+:root {
+  --moveHeight: 100px;
+}
+
+.wtw_moveDeck {
+  position: relative;
+}
+
+.wtw_hand {
+  position: fixed;
+  left: 50%;
+  bottom: -10%;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 1;
+}
+.wtw_hand:hover {
+  transition: 1s;
+  bottom: -5%;
+}
+
+.wtw_move {
+  aspect-ratio: 447/300;
+  height: var(--moveHeight);
+}
+.wtw_move .card-side {
+  box-shadow: 1px 2px 1px 2px rgba(0, 0, 0, 0.5) !important;
+  background-size: cover;
+}
+.wtw_move-front {
+  background-image: url("img/moves_1.png");
+}
+.wtw_move-back {
+  background-image: url("img/moveBack.jpg");
 }
 
 .wtw_gameArea {

@@ -16,19 +16,19 @@
 @use "libs/bga-zoom";
 @use "libs/bga-dice";
 @use "libs/bga-cards";
+@use "common/scss/board";
+@use "common/scss/cards";
 @use "components/Die/die";
 @use "components/Tower/tower";
 @use "components/Wizard/wizard";
 @use "components/Move/move";
-@use "common/scss/board";
-@use "common/scss/cards";
 
 .wtw_gameArea {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    padding: 8px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 8px;
+  width: 100%;
 }

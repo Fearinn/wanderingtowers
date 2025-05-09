@@ -56,8 +56,8 @@ class WanderingTowers extends WanderingTowersGui {
     });
 
     const moveCardManager = new CardManager<CardBase>(this, {
-      cardHeight: 146,
-      cardWidth: 100,
+      cardHeight: 100,
+      cardWidth: 146,
       getId: (card) => {
         return `wtw_moveCard-${card.id}`;
       },
@@ -67,7 +67,7 @@ class WanderingTowers extends WanderingTowersGui {
       },
       setupFrontDiv: (card, element) => {
         const moveCard = new MoveCard(this, card);
-        moveCard.setupBackDiv(element);
+        moveCard.setupFrontDiv(element);
       },
       setupBackDiv: (card, element) => {
         const moveCard = new MoveCard(this, card);
@@ -91,7 +91,13 @@ class WanderingTowers extends WanderingTowersGui {
     }
 
     const moveStocks = {
-      hand: new CardStock(moveCardManager, document.getElementById("wtw_hand")),
+      hand: new HandStock(
+        moveCardManager,
+        document.getElementById("wtw_hand"),
+        {
+          cardOverlap: "0",
+        }
+      ),
       deck: new Deck(moveCardManager, document.getElementById("wtw_deck"), {
         counter: {
           position: "top",
@@ -136,6 +142,11 @@ class WanderingTowers extends WanderingTowersGui {
     });
 
     gamedatas.moveDeck.forEach((card) => {
+      const moveCard = new MoveCard(this, card);
+      moveCard.setup();
+    });
+
+    gamedatas.hand.forEach((card) => {
       const moveCard = new MoveCard(this, card);
       moveCard.setup();
     });

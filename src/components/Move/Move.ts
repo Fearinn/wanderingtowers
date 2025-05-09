@@ -21,13 +21,13 @@ class MoveCard extends Card {
 
   setup() {
     if (this.location === "hand") {
-      if (this.player_id) {
-        this.stocks.hand.addCard(this.card, {}, { visible: true });
-      }
+      this.stocks.hand.addCard(this.card, {}, { visible: true });
+      this.stocks.hand.setCardVisible(this.card, true);
       return;
     }
 
     this.stocks.deck.addCard(this.card, {}, { visible: false });
+    this.stocks.deck.setCardVisible(this.card, false);
   }
 
   setupDiv(element: HTMLDivElement) {
@@ -39,8 +39,16 @@ class MoveCard extends Card {
       return;
     }
 
-    element.style.backgroundPosition = `${(this.type_arg - 1) * -100}%`;
     element.classList.add("wtw_move-front");
+
+    let spritePos = this.type_arg - 1;
+
+    if (spritePos >= 10) {
+      element.style.backgroundImage = `url("${g_gamethemeurl}img/moves_2.png")`;
+      spritePos -= 10;
+    }
+
+    element.style.backgroundPosition = `${spritePos * -100}%`;
   }
 
   setupBackDiv(element: HTMLDivElement) {
