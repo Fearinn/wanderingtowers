@@ -1,4 +1,4 @@
-interface CardBase {
+interface BgaCard {
   id: number;
   location: string;
   location_arg: number;
@@ -6,13 +6,13 @@ interface CardBase {
   type_arg?: number;
 }
 
-interface Card extends CardBase {
+interface Card extends BgaCard {
   game: WanderingTowersGui;
-  card: CardBase;
+  card: BgaCard;
 }
 
 class Card implements Card {
-  constructor(game: WanderingTowersGui, card: CardBase) {
+  constructor(game: WanderingTowersGui, card: BgaCard) {
     this.game = game;
 
     this.id = Number(card.id);

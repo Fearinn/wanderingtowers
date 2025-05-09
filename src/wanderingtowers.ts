@@ -33,7 +33,7 @@ class WanderingTowers extends WanderingTowersGui {
       face: gamedatas.diceFace,
     });
 
-    const towerCardManager = new CardManager<CardBase>(this, {
+    const towerCardManager = new CardManager<BgaCard>(this, {
       getId: (card) => {
         return `wtw_towerCard-${card.id}`;
       },
@@ -44,7 +44,7 @@ class WanderingTowers extends WanderingTowersGui {
       setupFrontDiv: (card, element) => {},
     });
 
-    const wizardCardManager = new CardManager<CardBase>(this, {
+    const wizardCardManager = new CardManager<BgaCard>(this, {
       getId: (card) => {
         return `wtw_wizardCard-${card.id}`;
       },
@@ -55,9 +55,10 @@ class WanderingTowers extends WanderingTowersGui {
       setupFrontDiv: (card, element) => {},
     });
 
-    const moveCardManager = new CardManager<CardBase>(this, {
+    const moveCardManager = new CardManager<BgaCard>(this, {
       cardHeight: 100,
       cardWidth: 146,
+      selectedCardClass: "wtw_move-selected",
       getId: (card) => {
         return `wtw_moveCard-${card.id}`;
       },
@@ -78,12 +79,12 @@ class WanderingTowers extends WanderingTowersGui {
     const towerStocks = {};
     const wizardStocks = {};
     for (let space_id = 1; space_id <= 16; space_id++) {
-      towerStocks[space_id] = new CardStock<CardBase>(
+      towerStocks[space_id] = new CardStock<BgaCard>(
         towerCardManager,
         document.getElementById(`wtw_spaceTowers-${space_id}`)
       );
 
-      wizardStocks[space_id] = new CardStock<CardBase>(
+      wizardStocks[space_id] = new CardStock<BgaCard>(
         wizardCardManager,
         document.getElementById(`wtw_spaceWizards-${space_id}`),
         { sort: sortFunction("type") }
@@ -91,13 +92,7 @@ class WanderingTowers extends WanderingTowersGui {
     }
 
     const moveStocks = {
-      hand: new HandStock(
-        moveCardManager,
-        document.getElementById("wtw_hand"),
-        {
-          cardOverlap: "0",
-        }
-      ),
+      hand: new MoveHandStock(this, moveCardManager),
       deck: new Deck(moveCardManager, document.getElementById("wtw_deck"), {
         counter: {
           position: "top",
@@ -111,17 +106,13 @@ class WanderingTowers extends WanderingTowersGui {
       ),
     };
 
-    for (const player_id in gamedatas.players) {
-      moveStocks.hand[player_id] = new CardStock(
-        moveCardManager,
-        document.getElementById("wtw_deck")
-      );
-    }
-
     this.wtw = {
       managers: {
         zoom: zoomManager,
         dice: diceManager,
+        moves: moveCardManager,
+        towers: towerCardManager,
+        wizards: wizardCardManager,
       },
       stocks: {
         dice: diceStock,
@@ -146,10 +137,7 @@ class WanderingTowers extends WanderingTowersGui {
       moveCard.setup();
     });
 
-    gamedatas.hand.forEach((card) => {
-      const moveCard = new MoveCard(this, card);
-      moveCard.setup();
-    });
+    moveStocks.hand.setup(gamedatas.hand);
 
     this.setupNotifications();
   }
@@ -166,6 +154,12 @@ class WanderingTowers extends WanderingTowersGui {
     switch (stateName) {
       case "rerollDice":
         new StRerollDice(this).enter();
+
+      case "playerTurn":
+        new StPlayerTurn(this).enter();
+
+      case "client_playMove":
+        new StPlayMove(this).enter();
     }
   }
   public onLeavingState(stateName: string): void {}

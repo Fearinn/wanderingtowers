@@ -1,5 +1,5 @@
 interface TowerStocks {
-  [space_id: number]: CardStock<CardBase>;
+  [space_id: number]: CardStock<BgaCard>;
 }
 
 interface TowerCard extends Card {
@@ -9,7 +9,7 @@ interface TowerCard extends Card {
 }
 
 class TowerCard extends Card {
-  constructor(game: WanderingTowersGui, card: CardBase) {
+  constructor(game: WanderingTowersGui, card: BgaCard) {
     super(game, card);
     this.stocks = this.game.wtw.stocks.towers;
   }

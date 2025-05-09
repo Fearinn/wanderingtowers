@@ -1,7 +1,12 @@
 interface MoveStocks {
-  deck: CardStock<CardBase>;
-  discard: CardStock<CardBase>;
-  hand: CardStock<CardBase>;
+  deck: CardStock<BgaCard>;
+  discard: CardStock<BgaCard>;
+  hand: MoveHandStock;
+}
+
+interface MoveHandStock extends HandStock<BgaCard> {
+  game: WanderingTowersGui;
+  setup(cards: BgaCard[]): void;
 }
 
 interface MoveCard extends Card {
@@ -12,8 +17,31 @@ interface MoveCard extends Card {
   setup(): void;
 }
 
+class MoveHandStock extends HandStock<BgaCard> {
+  constructor(game: WanderingTowersGui, manager: CardManager<BgaCard>) {
+    super(manager, document.getElementById("wtw_hand"), {
+      cardOverlap: "0",
+    });
+
+    this.game = game;
+    this.onSelectionChange = (selection, lastChange) => {};
+  }
+
+  setup(cards: BgaCard[]) {
+    cards.forEach((card) => {
+      const moveCard = new MoveCard(this.game, card);
+      moveCard.setup();
+    });
+  }
+
+  toggleSelection(enable: boolean) {
+    const selectionMode = enable ? "single" : "none";
+    this.setSelectionMode(selectionMode);
+  }
+}
+
 class MoveCard extends Card {
-  constructor(game: WanderingTowersGui, card: CardBase) {
+  constructor(game: WanderingTowersGui, card: BgaCard) {
     super(game, card);
     this.stocks = this.game.wtw.stocks.moves;
     this.player_id = this.location === "hand" ? this.location_arg : null;

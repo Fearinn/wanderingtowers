@@ -11,10 +11,11 @@
   left: 50%;
   bottom: -10%;
   transform: translateX(-50%) translateY(-50%);
+  transition: 1s;
   z-index: 1;
 
-  &:hover {
-    transition: 1s;
+  &:hover,
+  &:has(.wtw_move-selected) {
     bottom: -5%;
   }
 }
@@ -22,6 +23,12 @@
 .wtw_move {
   aspect-ratio: 447 / 300;
   height: var(--moveHeight);
+
+  &-selected {
+    outline: 3px solid red;
+    transform: translateY(-20%) !important;
+    z-index: 1;
+  }
 
   .card-side {
     box-shadow: 1px 2px 1px 2px rgba(0, 0, 0, 0.5) !important;
