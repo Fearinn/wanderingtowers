@@ -26,6 +26,11 @@ declare class WanderingTowersGui extends Game {
       checkAction?: boolean;
     }
   ): void;
+
+  setClientState(
+    newState: StateName,
+    args: { descriptionmyturn: string; client_args?: object }
+  ): void;
 }
 
 interface WanderingTowersGamedatas {
@@ -44,8 +49,12 @@ interface WanderingTowersGamedatas {
   towerCards: BgaCard[];
   wizardCards: BgaCard[];
   potionCards: BgaCard[];
-  moveDeck: BgaCard[];
-  hand: MoveCard[];
+  moveDeck: MoveCardBase[];
+  hand: MoveCardBase[];
 }
 
-type ActionName = "actRerollDice" | "actAcceptRoll";
+type ActionName =
+  | "actMoveWizard"
+  | "actMoveTower"
+  | "actRerollDice"
+  | "actAcceptRoll";

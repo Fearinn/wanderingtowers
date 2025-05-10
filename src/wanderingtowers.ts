@@ -55,7 +55,7 @@ class WanderingTowers extends WanderingTowersGui {
       setupFrontDiv: (card, element) => {},
     });
 
-    const moveCardManager = new CardManager<BgaCard>(this, {
+    const moveCardManager = new CardManager<MoveCardBase>(this, {
       cardHeight: 100,
       cardWidth: 146,
       selectedCardClass: "wtw_move-selected",
@@ -152,14 +152,21 @@ class WanderingTowers extends WanderingTowersGui {
     }
 
     switch (stateName) {
-      case "rerollDice":
-        new StRerollDice(this).enter();
-
       case "playerTurn":
         new StPlayerTurn(this).enter();
+        break;
 
       case "client_playMove":
         new StPlayMove(this).enter();
+        break;
+
+      case "client_pickMoveSide":
+        new StPickMoveSide(this).enter();
+        break;
+
+      case "rerollDice":
+        new StRerollDice(this).enter();
+        break;
     }
   }
   public onLeavingState(stateName: string): void {}

@@ -2,7 +2,7 @@ interface BgaCard {
   id: number;
   location: string;
   location_arg: number;
-  type: number;
+  type: string;
   type_arg?: number;
 }
 

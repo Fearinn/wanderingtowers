@@ -141,12 +141,18 @@ var WanderingTowers = /** @class */ (function (_super) {
             return;
         }
         switch (stateName) {
-            case "rerollDice":
-                new StRerollDice(this).enter();
             case "playerTurn":
                 new StPlayerTurn(this).enter();
+                break;
             case "client_playMove":
                 new StPlayMove(this).enter();
+                break;
+            case "client_pickMoveSide":
+                new StPickMoveSide(this).enter();
+                break;
+            case "rerollDice":
+                new StRerollDice(this).enter();
+                break;
         }
     };
     WanderingTowers.prototype.onLeavingState = function (stateName) { };
@@ -2446,7 +2452,33 @@ var MoveHandStock = /** @class */ (function (_super) {
             cardOverlap: "0",
         }) || this;
         _this.game = game;
-        _this.onSelectionChange = function (selection, lastChange) { };
+        _this.setSelectionMode("none");
+        _this.onSelectionChange = function (selection, lastChange) {
+            var card = lastChange;
+            if (selection.length > 0) {
+                if (card.type === "both") {
+                    _this.game.setClientState("client_pickMoveSide", {
+                        descriptionmyturn: _("${you} must pick whether to move a wizard or a tower"),
+                        client_args: { card: card },
+                    });
+                    return;
+                }
+                if (card.type === "tower") {
+                    _this.game.setClientState("client_pickWizard", {
+                        descriptionmyturn: _("${you} must pick a tower to move"),
+                        client_args: { card: card },
+                    });
+                }
+                if (card.type === "wizard") {
+                    _this.game.setClientState("client_pickWizard", {
+                        descriptionmyturn: _("${you} must pick a wizard to move"),
+                        client_args: { card: card },
+                    });
+                }
+                return;
+            }
+            _this.game.restoreServerGameState();
+        };
         return _this;
     }
     MoveHandStock.prototype.setup = function (cards) {
@@ -2535,7 +2567,7 @@ var WizardCard = /** @class */ (function (_super) {
     };
     WizardCard.prototype.setupDiv = function (element) {
         element.classList.add("wtw_card", "wtw_wizard");
-        element.style.backgroundPosition = "".concat(this.type * -100, "%");
+        element.style.backgroundPosition = "".concat(Number(this.type) * -100, "%");
     };
     WizardCard.prototype.place = function (space_id) {
         this.stocks[space_id].addCard(this.card, {}, { visible: true });
@@ -2549,6 +2581,14 @@ var StateManager = /** @class */ (function () {
         this.wtw = this.game.wtw;
         this.statusBar = this.game.statusBar;
     }
+    StateManager.prototype.enter = function () {
+        var _this = this;
+        if (this.stateName.includes("client_")) {
+            this.statusBar.addActionButton(_("cancel"), function () {
+                _this.game.restoreServerGameState();
+            }, { color: "alert" });
+        }
+    };
     return StateManager;
 }());
 var StRerollDice = /** @class */ (function (_super) {
@@ -2558,6 +2598,7 @@ var StRerollDice = /** @class */ (function (_super) {
     }
     StRerollDice.prototype.enter = function () {
         var _this = this;
+        _super.prototype.enter.call(this);
         this.statusBar.addActionButton(_("Reroll"), function () {
             _this.game.performAction("actRerollDice");
         }, {});
@@ -2574,6 +2615,7 @@ var StPlayerTurn = /** @class */ (function (_super) {
     }
     StPlayerTurn.prototype.enter = function () {
         var _this = this;
+        _super.prototype.enter.call(this);
         this.statusBar.addActionButton("play movement", function () {
             _this.game.setClientState("client_playMove", {
                 descriptionmyturn: _("${you} must pick a movement card"),
@@ -2588,6 +2630,7 @@ var StPlayMove = /** @class */ (function (_super) {
         return _super.call(this, game, "client_playMove") || this;
     }
     StPlayMove.prototype.enter = function () {
+        _super.prototype.enter.call(this);
         var moveHand = this.wtw.stocks.moves.hand;
         moveHand.toggleSelection(true);
     };
@@ -2596,4 +2639,25 @@ var StPlayMove = /** @class */ (function (_super) {
         moveHand.toggleSelection(false);
     };
     return StPlayMove;
+}(StateManager));
+var StPickMoveSide = /** @class */ (function (_super) {
+    __extends(StPickMoveSide, _super);
+    function StPickMoveSide(game) {
+        return _super.call(this, game, "client_pickMoveSide") || this;
+    }
+    StPickMoveSide.prototype.enter = function () {
+        var _this = this;
+        _super.prototype.enter.call(this);
+        this.statusBar.addActionButton(_("wizard"), function () {
+            _this.game.setClientState("client_pickWizard", {
+                descriptionmyturn: _("${you} must pick a wizard to move"),
+            });
+        }, {});
+        this.statusBar.addActionButton(_("tower"), function () {
+            _this.game.setClientState("client_pickTower", {
+                descriptionmyturn: _("${you} must pick a tower to move"),
+            });
+        }, {});
+    };
+    return StPickMoveSide;
 }(StateManager));
