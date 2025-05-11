@@ -78,10 +78,10 @@ class Game extends \Table
 
     public function actMoveWizard(
         #[IntParam(min: 1, max: 90)] int $moveCard_id,
-        #[IntParam(min: 1, max: 18)] int $wizard_id
+        #[IntParam(min: 1, max: 18)] int $wizardCard_id
     ): void {
         $ActMoveWizard = new ActMoveWizard($this);
-        $ActMoveWizard->act($moveCard_id, $wizard_id);
+        $ActMoveWizard->act($moveCard_id, $wizardCard_id);
     }
 
     public function ActMoveTower(

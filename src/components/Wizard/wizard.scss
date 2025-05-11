@@ -1,20 +1,25 @@
 :root {
-    --wizardWidth: calc(var(--towerWidth) * 0.25);
+  --wizardWidth: calc(var(--towerWidth) * 0.25);
 }
 
 .wtw_spaceWizards {
-    position: absolute;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 4px;
-    row-gap: 0;
+  position: absolute;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 4px;
+  row-gap: 0;
 }
 
 .wtw_wizard {
-    position: relative;
-    background-image: url("img/wizards.png");
-    background-size: cover;
-    aspect-ratio: 1 / 1.53;
-    width: var(--wizardWidth);
-    z-index: 2;
+  position: relative;
+  background-image: url("img/wizards.png");
+  background-size: cover;
+  aspect-ratio: 1 / 1.53;
+  width: var(--wizardWidth);
+  z-index: 2;
+
+  &-selected {
+    transform: scale(1.5);
+    z-index: 3;
+  }
 }

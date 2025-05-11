@@ -34,6 +34,8 @@ class MoveHandStock extends HandStock<MoveCardBase> {
     this.onSelectionChange = (selection, lastChange) => {
       const card = lastChange;
       if (selection.length > 0) {
+        this.game.wtw.globals.moveCard = card;
+
         if (card.type === "both") {
           this.game.setClientState("client_pickMoveSide", {
             descriptionmyturn: _(
@@ -45,7 +47,7 @@ class MoveHandStock extends HandStock<MoveCardBase> {
         }
 
         if (card.type === "tower") {
-          this.game.setClientState("client_pickWizard", {
+          this.game.setClientState("client_pickMoveWizard", {
             descriptionmyturn: _(
               "${you} must pick a tower to move"
             ),
@@ -54,7 +56,7 @@ class MoveHandStock extends HandStock<MoveCardBase> {
         }
 
         if (card.type === "wizard") {
-          this.game.setClientState("client_pickWizard", {
+          this.game.setClientState("client_pickMoveWizard", {
             descriptionmyturn: _(
               "${you} must pick a wizard to move"
             ),

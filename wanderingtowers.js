@@ -58,6 +58,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             getId: function (card) {
                 return "wtw_wizardCard-".concat(card.id);
             },
+            selectedCardClass: "wtw_wizard-selected",
             setupDiv: function (card, element) {
                 var wizardCard = new WizardCard(_this, card);
                 wizardCard.setupDiv(element);
@@ -85,10 +86,12 @@ var WanderingTowers = /** @class */ (function (_super) {
             },
         });
         var towerStocks = {};
-        var wizardStocks = {};
+        var wizardStocks = {
+            spaces: {},
+        };
         for (var space_id = 1; space_id <= 16; space_id++) {
             towerStocks[space_id] = new CardStock(towerCardManager, document.getElementById("wtw_spaceTowers-".concat(space_id)));
-            wizardStocks[space_id] = new CardStock(wizardCardManager, document.getElementById("wtw_spaceWizards-".concat(space_id)), { sort: sortFunction("type") });
+            wizardStocks.spaces[space_id] = new WizardSpaceStock(this, wizardCardManager, space_id);
         }
         var moveStocks = {
             hand: new MoveHandStock(this, moveCardManager),
@@ -115,21 +118,27 @@ var WanderingTowers = /** @class */ (function (_super) {
                 wizards: wizardStocks,
                 moves: moveStocks,
             },
+            globals: {},
         };
         gamedatas.towerCards.forEach(function (card) {
             var towerCard = new TowerCard(_this, card);
             towerCard.setup();
         });
-        gamedatas.wizardCards.forEach(function (card) {
-            var wizardCard = new WizardCard(_this, card);
-            wizardCard.setup();
-        });
         gamedatas.moveDeck.forEach(function (card) {
             var moveCard = new MoveCard(_this, card);
             moveCard.setup();
         });
+        gamedatas.wizardCards.forEach(function (card) {
+            var wizardCard = new WizardCard(_this, card);
+            wizardCard.setup();
+        });
         moveStocks.hand.setup(gamedatas.hand);
         this.setupNotifications();
+    };
+    WanderingTowers.prototype.addConfirmationButton = function (selection, callback) {
+        return this.statusBar.addActionButton(this.format_string_recursive(_("confirm ${selection}"), {
+            selection: _(selection),
+        }), callback, { id: "wtw_confirmationButton" });
     };
     WanderingTowers.prototype.performAction = function (action, args, options) {
         if (args === void 0) { args = {}; }
@@ -150,12 +159,24 @@ var WanderingTowers = /** @class */ (function (_super) {
             case "client_pickMoveSide":
                 new StPickMoveSide(this).enter();
                 break;
+            case "client_pickMoveWizard":
+                new StPickMoveWizard(this).enter();
+                break;
             case "rerollDice":
                 new StRerollDice(this).enter();
                 break;
         }
     };
-    WanderingTowers.prototype.onLeavingState = function (stateName) { };
+    WanderingTowers.prototype.onLeavingState = function (stateName) {
+        switch (stateName) {
+            case "client_playMove":
+                new StPlayMove(this).leave();
+                break;
+            case "client_pickMoveWizard":
+                new StPickMoveWizard(this).leave();
+                break;
+        }
+    };
     WanderingTowers.prototype.onUpdateActionButtons = function (stateName, args) { };
     WanderingTowers.prototype.setupNotifications = function () {
         this.bgaSetupPromiseNotifications();
@@ -2456,6 +2477,7 @@ var MoveHandStock = /** @class */ (function (_super) {
         _this.onSelectionChange = function (selection, lastChange) {
             var card = lastChange;
             if (selection.length > 0) {
+                _this.game.wtw.globals.moveCard = card;
                 if (card.type === "both") {
                     _this.game.setClientState("client_pickMoveSide", {
                         descriptionmyturn: _("${you} must pick whether to move a wizard or a tower"),
@@ -2464,13 +2486,13 @@ var MoveHandStock = /** @class */ (function (_super) {
                     return;
                 }
                 if (card.type === "tower") {
-                    _this.game.setClientState("client_pickWizard", {
+                    _this.game.setClientState("client_pickMoveWizard", {
                         descriptionmyturn: _("${you} must pick a tower to move"),
                         client_args: { card: card },
                     });
                 }
                 if (card.type === "wizard") {
-                    _this.game.setClientState("client_pickWizard", {
+                    _this.game.setClientState("client_pickMoveWizard", {
                         descriptionmyturn: _("${you} must pick a wizard to move"),
                         client_args: { card: card },
                     });
@@ -2555,6 +2577,50 @@ var TowerCard = /** @class */ (function (_super) {
     };
     return TowerCard;
 }(Card));
+var WizardSpaceStock = /** @class */ (function (_super) {
+    __extends(WizardSpaceStock, _super);
+    function WizardSpaceStock(game, manager, space_id) {
+        var _this = _super.call(this, manager, document.getElementById("wtw_spaceWizards-".concat(space_id)), {
+            sort: sortFunction("type"),
+        }) || this;
+        _this.game = game;
+        _this.space_id = space_id;
+        _this.setSelectionMode("none");
+        _this.onSelectionChange = function (selection, lastChange) {
+            var _a;
+            (_a = document.getElementById("wtw_confirmationButton")) === null || _a === void 0 ? void 0 : _a.remove();
+            if (selection.length > 0) {
+                _this.unselectOthers();
+                _this.game.addConfirmationButton(_("wizard"), function () {
+                    _this.game.performAction("actMoveWizard", {
+                        moveCard_id: _this.game.wtw.globals.moveCard.id,
+                        wizardCard_id: lastChange.id,
+                    });
+                });
+            }
+        };
+        return _this;
+    }
+    WizardSpaceStock.prototype.unselectOthers = function () {
+        var otherStocks = this.game.wtw.stocks.wizards.spaces;
+        for (var space_id in otherStocks) {
+            if (Number(space_id) === this.space_id) {
+                continue;
+            }
+            otherStocks[space_id].unselectAll(true);
+        }
+    };
+    WizardSpaceStock.prototype.toggleSelection = function (enable) {
+        var selectionMode = enable ? "single" : "none";
+        this.setSelectionMode(selectionMode);
+    };
+    WizardSpaceStock.prototype.getPlayerWizards = function (player_id) {
+        return this.getCards().filter(function (card) {
+            return card.type_arg === player_id;
+        });
+    };
+    return WizardSpaceStock;
+}(CardStock));
 var WizardCard = /** @class */ (function (_super) {
     __extends(WizardCard, _super);
     function WizardCard(game, card) {
@@ -2563,14 +2629,14 @@ var WizardCard = /** @class */ (function (_super) {
         return _this;
     }
     WizardCard.prototype.setup = function () {
-        this.place(this.location_arg);
+        this.place(this.card.location_arg);
     };
     WizardCard.prototype.setupDiv = function (element) {
         element.classList.add("wtw_card", "wtw_wizard");
-        element.style.backgroundPosition = "".concat(Number(this.type) * -100, "%");
+        element.style.backgroundPosition = "".concat(Number(this.card.type) * -100, "%");
     };
     WizardCard.prototype.place = function (space_id) {
-        this.stocks[space_id].addCard(this.card, {}, { visible: true });
+        this.stocks.spaces[space_id].addCard(this.card, {}, { visible: true });
     };
     return WizardCard;
 }(Card));
@@ -2635,8 +2701,8 @@ var StPlayMove = /** @class */ (function (_super) {
         moveHand.toggleSelection(true);
     };
     StPlayMove.prototype.leave = function () {
-        var moveHand = this.wtw.stocks.moves.hand;
-        moveHand.toggleSelection(false);
+        // const moveHand = this.wtw.stocks.moves.hand;
+        // moveHand.toggleSelection(false);
     };
     return StPlayMove;
 }(StateManager));
@@ -2649,15 +2715,39 @@ var StPickMoveSide = /** @class */ (function (_super) {
         var _this = this;
         _super.prototype.enter.call(this);
         this.statusBar.addActionButton(_("wizard"), function () {
-            _this.game.setClientState("client_pickWizard", {
+            _this.game.setClientState("client_pickMoveWizard", {
                 descriptionmyturn: _("${you} must pick a wizard to move"),
             });
         }, {});
         this.statusBar.addActionButton(_("tower"), function () {
-            _this.game.setClientState("client_pickTower", {
+            _this.game.setClientState("client_pickMoveTower", {
                 descriptionmyturn: _("${you} must pick a tower to move"),
             });
         }, {});
     };
     return StPickMoveSide;
+}(StateManager));
+var StPickMoveWizard = /** @class */ (function (_super) {
+    __extends(StPickMoveWizard, _super);
+    function StPickMoveWizard(game) {
+        return _super.call(this, game, "client_pickMoveWizard") || this;
+    }
+    StPickMoveWizard.prototype.enter = function () {
+        _super.prototype.enter.call(this);
+        var wizardStocks = this.game.wtw.stocks.wizards.spaces;
+        for (var space_id in wizardStocks) {
+            var stock = wizardStocks[space_id];
+            stock.toggleSelection(true);
+            var selectableCards = stock.getPlayerWizards(this.game.player_id);
+            stock.setSelectableCards(selectableCards);
+        }
+    };
+    StPickMoveWizard.prototype.leave = function () {
+        var wizardStocks = this.game.wtw.stocks.wizards.spaces;
+        for (var space_id in wizardStocks) {
+            var stock = wizardStocks[space_id];
+            stock.toggleSelection(false);
+        }
+    };
+    return StPickMoveWizard;
 }(StateManager));

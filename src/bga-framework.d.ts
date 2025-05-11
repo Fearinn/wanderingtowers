@@ -126,7 +126,7 @@ declare class Game {
   showMoveUnauthorized(): void;
   onScriptError(msg: string, url?: string, linenumber?: number): void;
   inherited(args: any): any;
-  format_string_recursive(log: string, args: any[]): string;
+  format_string_recursive(log: string, args: object): string;
   clienttranslate_string(text: string): string;
 
   onScreenWidthChange(): void;

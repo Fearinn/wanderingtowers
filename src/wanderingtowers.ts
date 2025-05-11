@@ -44,10 +44,11 @@ class WanderingTowers extends WanderingTowersGui {
       setupFrontDiv: (card, element) => {},
     });
 
-    const wizardCardManager = new CardManager<BgaCard>(this, {
+    const wizardCardManager = new CardManager<WizardCardBase>(this, {
       getId: (card) => {
         return `wtw_wizardCard-${card.id}`;
       },
+      selectedCardClass: "wtw_wizard-selected",
       setupDiv: (card, element) => {
         const wizardCard = new WizardCard(this, card);
         wizardCard.setupDiv(element);
@@ -77,17 +78,19 @@ class WanderingTowers extends WanderingTowersGui {
     });
 
     const towerStocks = {};
-    const wizardStocks = {};
+    const wizardStocks = {
+      spaces: {},
+    };
     for (let space_id = 1; space_id <= 16; space_id++) {
       towerStocks[space_id] = new CardStock<BgaCard>(
         towerCardManager,
         document.getElementById(`wtw_spaceTowers-${space_id}`)
       );
 
-      wizardStocks[space_id] = new CardStock<BgaCard>(
+      wizardStocks.spaces[space_id] = new WizardSpaceStock(
+        this,
         wizardCardManager,
-        document.getElementById(`wtw_spaceWizards-${space_id}`),
-        { sort: sortFunction("type") }
+        space_id
       );
     }
 
@@ -120,6 +123,7 @@ class WanderingTowers extends WanderingTowersGui {
         wizards: wizardStocks,
         moves: moveStocks,
       },
+      globals: {},
     };
 
     gamedatas.towerCards.forEach((card) => {
@@ -127,14 +131,14 @@ class WanderingTowers extends WanderingTowersGui {
       towerCard.setup();
     });
 
-    gamedatas.wizardCards.forEach((card) => {
-      const wizardCard = new WizardCard(this, card);
-      wizardCard.setup();
-    });
-
     gamedatas.moveDeck.forEach((card) => {
       const moveCard = new MoveCard(this, card);
       moveCard.setup();
+    });
+
+    gamedatas.wizardCards.forEach((card) => {
+      const wizardCard = new WizardCard(this, card);
+      wizardCard.setup();
     });
 
     moveStocks.hand.setup(gamedatas.hand);
@@ -142,7 +146,17 @@ class WanderingTowers extends WanderingTowersGui {
     this.setupNotifications();
   }
 
-  performAction(action: ActionName, args = {}, options = {}) {
+  public addConfirmationButton(selection: string, callback: () => void) {
+    return this.statusBar.addActionButton(
+      this.format_string_recursive(_("confirm ${selection}"), {
+        selection: _(selection),
+      }),
+      callback,
+      { id: "wtw_confirmationButton" }
+    );
+  }
+
+  public performAction(action: ActionName, args = {}, options = {}) {
     this.bgaPerformAction(action, args, options);
   }
 
@@ -164,12 +178,27 @@ class WanderingTowers extends WanderingTowersGui {
         new StPickMoveSide(this).enter();
         break;
 
+      case "client_pickMoveWizard":
+        new StPickMoveWizard(this).enter();
+        break;
+
       case "rerollDice":
         new StRerollDice(this).enter();
         break;
     }
   }
-  public onLeavingState(stateName: string): void {}
+
+  public onLeavingState(stateName: StateName): void {
+    switch (stateName) {
+      case "client_playMove":
+        new StPlayMove(this).leave();
+        break;
+
+      case "client_pickMoveWizard":
+        new StPickMoveWizard(this).leave();
+        break;
+    }
+  }
   public onUpdateActionButtons(stateName: string, args: any): void {}
 
   public setupNotifications(): void {

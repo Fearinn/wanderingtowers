@@ -9,7 +9,7 @@ declare class WanderingTowersGui extends Game {
       dice: DiceManager;
       moves: CardManager<BgaCard>;
       towers: CardManager<BgaCard>;
-      wizards: CardManager<BgaCard>;
+      wizards: CardManager<WizardCardBase>;
     };
     stocks: {
       dice: DiceStock;
@@ -17,6 +17,9 @@ declare class WanderingTowersGui extends Game {
       wizards: WizardStocks;
       moves: MoveStocks;
     };
+    globals: {
+      moveCard?: MoveCardBase;
+    }
   };
 
   performAction(
@@ -31,6 +34,8 @@ declare class WanderingTowersGui extends Game {
     newState: StateName,
     args: { descriptionmyturn: string; client_args?: object }
   ): void;
+
+  addConfirmationButton(title: string, callback: () => void): HTMLButtonElement;
 }
 
 interface WanderingTowersGamedatas {
@@ -47,7 +52,7 @@ interface WanderingTowersGamedatas {
 
   diceFace: number;
   towerCards: BgaCard[];
-  wizardCards: BgaCard[];
+  wizardCards: WizardCardBase[];
   potionCards: BgaCard[];
   moveDeck: MoveCardBase[];
   hand: MoveCardBase[];

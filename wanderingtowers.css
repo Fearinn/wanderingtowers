@@ -725,7 +725,7 @@ body > .card {
 .wtw_spaceWizards {
   position: absolute;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   column-gap: 4px;
   row-gap: 0;
 }
@@ -737,6 +737,10 @@ body > .card {
   aspect-ratio: 1/1.53;
   width: var(--wizardWidth);
   z-index: 2;
+}
+.wtw_wizard-selected {
+  transform: scale(1.5);
+  z-index: 3;
 }
 
 :root {

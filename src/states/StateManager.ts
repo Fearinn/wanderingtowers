@@ -11,8 +11,8 @@ type StateName =
   | "rerollDice"
   | "client_playMove"
   | "client_pickMoveSide"
-  | "client_pickWizard"
-  | "client_pickTower";
+  | "client_pickMoveWizard"
+  | "client_pickMoveTower";
 
 class StateManager implements StateManager {
   constructor(game: WanderingTowersGui, stateName: StateName) {
@@ -94,8 +94,8 @@ class StPlayMove extends StateManager {
   }
 
   leave() {
-    const moveHand = this.wtw.stocks.moves.hand;
-    moveHand.toggleSelection(false);
+    // const moveHand = this.wtw.stocks.moves.hand;
+    // moveHand.toggleSelection(false);
   }
 }
 
@@ -110,7 +110,7 @@ class StPickMoveSide extends StateManager {
     this.statusBar.addActionButton(
       _("wizard"),
       () => {
-        this.game.setClientState("client_pickWizard", {
+        this.game.setClientState("client_pickMoveWizard", {
           descriptionmyturn: _("${you} must pick a wizard to move"),
         });
       },
@@ -120,11 +120,39 @@ class StPickMoveSide extends StateManager {
     this.statusBar.addActionButton(
       _("tower"),
       () => {
-        this.game.setClientState("client_pickTower", {
+        this.game.setClientState("client_pickMoveTower", {
           descriptionmyturn: _("${you} must pick a tower to move"),
         });
       },
       {}
     );
+  }
+}
+
+class StPickMoveWizard extends StateManager {
+  constructor(game: WanderingTowers) {
+    super(game, "client_pickMoveWizard");
+  }
+
+  enter() {
+    super.enter();
+
+    const wizardStocks = this.game.wtw.stocks.wizards.spaces;
+    for (const space_id in wizardStocks) {
+      const stock = wizardStocks[space_id];
+      stock.toggleSelection(true);
+
+      const selectableCards = stock.getPlayerWizards(this.game.player_id);
+      stock.setSelectableCards(selectableCards);
+    }
+  }
+
+  leave() {
+    const wizardStocks = this.game.wtw.stocks.wizards.spaces;
+
+    for (const space_id in wizardStocks) {
+      const stock = wizardStocks[space_id];
+      stock.toggleSelection(false);
+    }
   }
 }
