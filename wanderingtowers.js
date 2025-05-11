@@ -172,6 +172,9 @@ var WanderingTowers = /** @class */ (function (_super) {
             case "client_playMove":
                 new StPlayMove(this).leave();
                 break;
+            case "client_pickMoveSide":
+                new StPickMoveSide(this).leave();
+                break;
             case "client_pickMoveWizard":
                 new StPickMoveWizard(this).leave();
                 break;
@@ -2548,6 +2551,17 @@ var MoveCard = /** @class */ (function (_super) {
     MoveCard.prototype.setupBackDiv = function (element) {
         element.classList.add("wtw_move-back");
     };
+    MoveCard.prototype.toggleSelection = function (enabled, stock) {
+        if (stock === void 0) { stock = this.stocks.hand; }
+        stock.toggleSelection(enabled);
+        if (enabled) {
+            this.select(true);
+        }
+    };
+    MoveCard.prototype.select = function (silent) {
+        if (silent === void 0) { silent = false; }
+        this.stocks.hand.selectCard(this.card, silent);
+    };
     return MoveCard;
 }(Card));
 var TowerCard = /** @class */ (function (_super) {
@@ -2714,8 +2728,8 @@ var StPlayMove = /** @class */ (function (_super) {
         moveHand.toggleSelection(true);
     };
     StPlayMove.prototype.leave = function () {
-        // const moveHand = this.wtw.stocks.moves.hand;
-        // moveHand.toggleSelection(false);
+        var moveHand = this.wtw.stocks.moves.hand;
+        moveHand.toggleSelection(false);
     };
     return StPlayMove;
 }(StateManager));
@@ -2737,6 +2751,14 @@ var StPickMoveSide = /** @class */ (function (_super) {
                 descriptionmyturn: _("${you} must pick a tower to move"),
             });
         }, {});
+        var card = this.game.wtw.globals.moveCard;
+        var moveCard = new MoveCard(this.game, card);
+        moveCard.toggleSelection(true);
+    };
+    StPickMoveSide.prototype.leave = function () {
+        var card = this.game.wtw.globals.moveCard;
+        var moveCard = new MoveCard(this.game, card);
+        moveCard.toggleSelection(false);
     };
     return StPickMoveSide;
 }(StateManager));
@@ -2747,6 +2769,9 @@ var StPickMoveWizard = /** @class */ (function (_super) {
     }
     StPickMoveWizard.prototype.enter = function () {
         _super.prototype.enter.call(this);
+        var card = this.game.wtw.globals.moveCard;
+        var moveCard = new MoveCard(this.game, card);
+        moveCard.toggleSelection(true);
         var wizardStocks = this.game.wtw.stocks.wizards.spaces;
         for (var space_id in wizardStocks) {
             var stock = wizardStocks[space_id];
@@ -2756,6 +2781,9 @@ var StPickMoveWizard = /** @class */ (function (_super) {
         }
     };
     StPickMoveWizard.prototype.leave = function () {
+        var card = this.game.wtw.globals.moveCard;
+        var moveCard = new MoveCard(this.game, card);
+        moveCard.toggleSelection(false);
         var wizardStocks = this.game.wtw.stocks.wizards.spaces;
         for (var space_id in wizardStocks) {
             var stock = wizardStocks[space_id];

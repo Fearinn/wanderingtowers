@@ -47,18 +47,14 @@ class MoveHandStock extends HandStock<MoveCardBase> {
 
         if (card.type === "tower") {
           this.game.setClientState("client_pickMoveWizard", {
-            descriptionmyturn: _(
-              "${you} must pick a tower to move"
-            ),
+            descriptionmyturn: _("${you} must pick a tower to move"),
             client_args: { card },
           });
         }
 
         if (card.type === "wizard") {
           this.game.setClientState("client_pickMoveWizard", {
-            descriptionmyturn: _(
-              "${you} must pick a wizard to move"
-            ),
+            descriptionmyturn: _("${you} must pick a wizard to move"),
             client_args: { card },
           });
         }
@@ -101,11 +97,11 @@ class MoveCard extends Card {
     this.stocks.deck.setCardVisible(this.card, false);
   }
 
-  setupDiv(element: HTMLDivElement) {
+  setupDiv(element: HTMLDivElement): void {
     element.classList.add("wtw_card", "wtw_move");
   }
 
-  setupFrontDiv(element: HTMLDivElement) {
+  setupFrontDiv(element: HTMLDivElement): void {
     if (!this.type_arg) {
       return;
     }
@@ -122,7 +118,19 @@ class MoveCard extends Card {
     element.style.backgroundPosition = `${spritePos * -100}%`;
   }
 
-  setupBackDiv(element: HTMLDivElement) {
+  setupBackDiv(element: HTMLDivElement): void {
     element.classList.add("wtw_move-back");
+  }
+
+  toggleSelection(enabled: boolean, stock = this.stocks.hand): void {
+    stock.toggleSelection(enabled);
+
+    if (enabled) {
+      this.select(true);
+    }
+  }
+
+  select(silent = false): void {
+    this.stocks.hand.selectCard(this.card, silent);
   }
 }

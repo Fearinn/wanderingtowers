@@ -194,12 +194,16 @@ class WanderingTowers extends WanderingTowersGui {
         new StPlayMove(this).leave();
         break;
 
+      case "client_pickMoveSide":
+        new StPickMoveSide(this).leave();
+        break;
+
       case "client_pickMoveWizard":
         new StPickMoveWizard(this).leave();
         break;
     }
   }
-  public onUpdateActionButtons(stateName: string, args: any): void {}
+  public onUpdateActionButtons(stateName: string, args: object): void {}
 
   public setupNotifications(): void {
     this.bgaSetupPromiseNotifications({

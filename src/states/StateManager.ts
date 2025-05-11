@@ -94,8 +94,8 @@ class StPlayMove extends StateManager {
   }
 
   leave() {
-    // const moveHand = this.wtw.stocks.moves.hand;
-    // moveHand.toggleSelection(false);
+    const moveHand = this.wtw.stocks.moves.hand;
+    moveHand.toggleSelection(false);
   }
 }
 
@@ -126,6 +126,16 @@ class StPickMoveSide extends StateManager {
       },
       {}
     );
+
+    const card = this.game.wtw.globals.moveCard;
+    const moveCard = new MoveCard(this.game, card);
+    moveCard.toggleSelection(true);
+  }
+
+  leave() {
+    const card = this.game.wtw.globals.moveCard;
+    const moveCard = new MoveCard(this.game, card);
+    moveCard.toggleSelection(false);
   }
 }
 
@@ -136,6 +146,10 @@ class StPickMoveWizard extends StateManager {
 
   enter() {
     super.enter();
+
+    const card = this.game.wtw.globals.moveCard;
+    const moveCard = new MoveCard(this.game, card);
+    moveCard.toggleSelection(true);
 
     const wizardStocks = this.game.wtw.stocks.wizards.spaces;
     for (const space_id in wizardStocks) {
@@ -148,6 +162,10 @@ class StPickMoveWizard extends StateManager {
   }
 
   leave() {
+    const card = this.game.wtw.globals.moveCard;
+    const moveCard = new MoveCard(this.game, card);
+    moveCard.toggleSelection(false);
+
     const wizardStocks = this.game.wtw.stocks.wizards.spaces;
 
     for (const space_id in wizardStocks) {
