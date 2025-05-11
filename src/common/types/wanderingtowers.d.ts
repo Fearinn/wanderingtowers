@@ -5,6 +5,7 @@
 declare class WanderingTowersGui extends Game {
   wtw: {
     managers: {
+      notification: NotificationManager;
       zoom: ZoomManager;
       dice: DiceManager;
       moves: CardManager<BgaCard>;
@@ -19,7 +20,7 @@ declare class WanderingTowersGui extends Game {
     };
     globals: {
       moveCard?: MoveCardBase;
-    }
+    };
   };
 
   performAction(

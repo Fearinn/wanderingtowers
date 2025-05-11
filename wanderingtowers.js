@@ -33,6 +33,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             element: document.getElementById("wtw_gameArea"),
             localStorageZoomKey: "wanderingtowers-zoom",
         });
+        var notificationManager = new NotificationManager(this);
         var diceManager = new DiceManager(this, {
             dieTypes: {
                 die: new Die(),
@@ -106,6 +107,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         };
         this.wtw = {
             managers: {
+                notification: notificationManager,
                 zoom: zoomManager,
                 dice: diceManager,
                 moves: moveCardManager,
@@ -179,7 +181,9 @@ var WanderingTowers = /** @class */ (function (_super) {
     };
     WanderingTowers.prototype.onUpdateActionButtons = function (stateName, args) { };
     WanderingTowers.prototype.setupNotifications = function () {
-        this.bgaSetupPromiseNotifications();
+        this.bgaSetupPromiseNotifications({
+            handlers: [this, this.wtw.managers.notification],
+        });
     };
     WanderingTowers.prototype.notif_rollDie = function (args) {
         var face = args.face;
@@ -2474,8 +2478,7 @@ var MoveHandStock = /** @class */ (function (_super) {
         }) || this;
         _this.game = game;
         _this.setSelectionMode("none");
-        _this.onSelectionChange = function (selection, lastChange) {
-            var card = lastChange;
+        _this.onSelectionChange = function (selection, card) {
             if (selection.length > 0) {
                 _this.game.wtw.globals.moveCard = card;
                 if (card.type === "both") {
@@ -2586,7 +2589,7 @@ var WizardSpaceStock = /** @class */ (function (_super) {
         _this.game = game;
         _this.space_id = space_id;
         _this.setSelectionMode("none");
-        _this.onSelectionChange = function (selection, lastChange) {
+        _this.onSelectionChange = function (selection, card) {
             var _a;
             (_a = document.getElementById("wtw_confirmationButton")) === null || _a === void 0 ? void 0 : _a.remove();
             if (selection.length > 0) {
@@ -2594,7 +2597,7 @@ var WizardSpaceStock = /** @class */ (function (_super) {
                 _this.game.addConfirmationButton(_("wizard"), function () {
                     _this.game.performAction("actMoveWizard", {
                         moveCard_id: _this.game.wtw.globals.moveCard.id,
-                        wizardCard_id: lastChange.id,
+                        wizardCard_id: card.id,
                     });
                 });
             }
@@ -2640,6 +2643,17 @@ var WizardCard = /** @class */ (function (_super) {
     };
     return WizardCard;
 }(Card));
+var NotificationManager = /** @class */ (function () {
+    function NotificationManager(game) {
+        this.game = game;
+    }
+    NotificationManager.prototype.notif_moveWizard = function (args) {
+        var card = args.card, space_id = args.space_id;
+        var wizardCard = new WizardCard(this.game, card);
+        wizardCard.place(space_id);
+    };
+    return NotificationManager;
+}());
 var StateManager = /** @class */ (function () {
     function StateManager(game, stateName) {
         this.game = game;

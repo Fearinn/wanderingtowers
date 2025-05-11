@@ -31,8 +31,7 @@ class MoveHandStock extends HandStock<MoveCardBase> {
     this.game = game;
     this.setSelectionMode("none");
 
-    this.onSelectionChange = (selection, lastChange) => {
-      const card = lastChange;
+    this.onSelectionChange = (selection, card) => {
       if (selection.length > 0) {
         this.game.wtw.globals.moveCard = card;
 

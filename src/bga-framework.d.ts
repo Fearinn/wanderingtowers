@@ -215,6 +215,7 @@ declare class Game {
     ignoreNotifications?: string[];
     onStart?: CallableFunction;
     onEnd?: CallableFunction;
+    handlers?: any[];
   }): void;
 
   bgaPerformAction(

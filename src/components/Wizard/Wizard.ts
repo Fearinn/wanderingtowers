@@ -35,7 +35,7 @@ class WizardSpaceStock extends CardStock<WizardCardBase> {
     this.space_id = space_id;
     this.setSelectionMode("none");
 
-    this.onSelectionChange = (selection, lastChange) => {
+    this.onSelectionChange = (selection, card) => {
       document.getElementById("wtw_confirmationButton")?.remove();
 
       if (selection.length > 0) {
@@ -43,7 +43,7 @@ class WizardSpaceStock extends CardStock<WizardCardBase> {
         this.game.addConfirmationButton(_("wizard"), () => {
           this.game.performAction("actMoveWizard", {
             moveCard_id: this.game.wtw.globals.moveCard.id,
-            wizardCard_id: lastChange.id,
+            wizardCard_id: card.id,
           });
         });
       }
