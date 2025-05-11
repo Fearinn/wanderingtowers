@@ -16,8 +16,6 @@ class WanderingTowers extends WanderingTowersGui {
       localStorageZoomKey: "wanderingtowers-zoom",
     });
 
-    const notificationManager = new NotificationManager(this);
-
     const diceManager = new DiceManager(this, {
       dieTypes: {
         die: new Die(),
@@ -113,7 +111,6 @@ class WanderingTowers extends WanderingTowersGui {
 
     this.wtw = {
       managers: {
-        notification: notificationManager,
         zoom: zoomManager,
         dice: diceManager,
         moves: moveCardManager,
@@ -206,13 +203,7 @@ class WanderingTowers extends WanderingTowersGui {
 
   public setupNotifications(): void {
     this.bgaSetupPromiseNotifications({
-      handlers: [this, this.wtw.managers.notification],
+      handlers: [new NotificationManager(this)],
     });
-  }
-
-  public notif_rollDie(args: { face: number }): void {
-    const { face } = args;
-
-    this.wtw.stocks.dice.rollDie({ id: 1, type: "die", face });
   }
 }

@@ -31,6 +31,7 @@ use Bga\Games\WanderingTowers\components\Potion\PotionManager;
 use Bga\Games\WanderingTowers\components\Move\MoveManager;
 use Bga\Games\WanderingTowers\components\Dice\Dice;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
+use Bga\Games\WanderingTowers\States\StBetweenPlayers;
 use Bga\Games\WanderingTowers\States\StRerollDice;
 
 const G_REROLLS = "rerolls";
@@ -65,6 +66,10 @@ class Game extends \Table
 
         $NotifManager = new NotifManager($this);
         $NotifManager->addDecorator();
+    }
+
+    public function wtw_activeNextPlayer(): int {
+       return (int) $this->activeNextPlayer();
     }
 
     /**
@@ -116,7 +121,12 @@ class Game extends \Table
     public function st_rerollDice(): void
     {
         $StRerollDice = new StRerollDice($this);
-        $StRerollDice->call();
+        $StRerollDice->enter();
+    }
+
+    public function st_betweenPlayers(): void {
+        $StBetweenPlayers = new StBetweenPlayers($this);
+        $StBetweenPlayers->enter();
     }
 
     /**

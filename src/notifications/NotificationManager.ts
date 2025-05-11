@@ -1,15 +1,23 @@
 interface NotificationManager {
   game: WanderingTowersGui;
+  stocks: Stocks;
 }
 
 class NotificationManager implements NotificationManager {
   constructor(game: WanderingTowersGui) {
     this.game = game;
+    this.stocks = this.game.wtw.stocks;
   }
 
-  notif_moveWizard(args: { card: WizardCardBase; space_id: number }) {
+  public notif_moveWizard(args: { card: WizardCardBase; space_id: number }) {
     const { card, space_id } = args;
     const wizardCard = new WizardCard(this.game, card);
     wizardCard.place(space_id);
+  }
+
+  public notif_rollDie(args: { face: number }): void {
+    const { face } = args;
+
+    this.stocks.dice.rollDie({ id: 1, type: "die", face });
   }
 }

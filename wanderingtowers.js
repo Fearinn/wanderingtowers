@@ -33,7 +33,6 @@ var WanderingTowers = /** @class */ (function (_super) {
             element: document.getElementById("wtw_gameArea"),
             localStorageZoomKey: "wanderingtowers-zoom",
         });
-        var notificationManager = new NotificationManager(this);
         var diceManager = new DiceManager(this, {
             dieTypes: {
                 die: new Die(),
@@ -107,7 +106,6 @@ var WanderingTowers = /** @class */ (function (_super) {
         };
         this.wtw = {
             managers: {
-                notification: notificationManager,
                 zoom: zoomManager,
                 dice: diceManager,
                 moves: moveCardManager,
@@ -182,12 +180,8 @@ var WanderingTowers = /** @class */ (function (_super) {
     WanderingTowers.prototype.onUpdateActionButtons = function (stateName, args) { };
     WanderingTowers.prototype.setupNotifications = function () {
         this.bgaSetupPromiseNotifications({
-            handlers: [this, this.wtw.managers.notification],
+            handlers: [new NotificationManager(this)],
         });
-    };
-    WanderingTowers.prototype.notif_rollDie = function (args) {
-        var face = args.face;
-        this.wtw.stocks.dice.rollDie({ id: 1, type: "die", face: face });
     };
     return WanderingTowers;
 }(WanderingTowersGui));
@@ -2646,11 +2640,16 @@ var WizardCard = /** @class */ (function (_super) {
 var NotificationManager = /** @class */ (function () {
     function NotificationManager(game) {
         this.game = game;
+        this.stocks = this.game.wtw.stocks;
     }
     NotificationManager.prototype.notif_moveWizard = function (args) {
         var card = args.card, space_id = args.space_id;
         var wizardCard = new WizardCard(this.game, card);
         wizardCard.place(space_id);
+    };
+    NotificationManager.prototype.notif_rollDie = function (args) {
+        var face = args.face;
+        this.stocks.dice.rollDie({ id: 1, type: "die", face: face });
     };
     return NotificationManager;
 }());

@@ -22,7 +22,8 @@ if (false) {
 if (!defined("ST_GAME_END")) {
 	define("ST_SETUP", 1);
 	define("ST_PLAYER_TURN", 2);
-	define("ST_REROLL_DICE", 3);
+	define("ST_BETWEEN_PLAYERS", 3);
+	define("ST_REROLL_DICE", 4);
 	define("ST_GAME_END", 99);
 }
 
@@ -43,22 +44,33 @@ $machinestates = [
 		"type" => "activeplayer",
 		"possibleactions" => ["actMoveWizard", "actPassTurn"],
 		"transitions" => [
-			TR_NEXT_PLAYER => ST_PLAYER_TURN,
+			TR_NEXT_PLAYER => ST_BETWEEN_PLAYERS,
 			TR_REROLL_DICE => ST_REROLL_DICE,
 			"pass" => 2,
 		],
 	],
 
+	ST_BETWEEN_PLAYERS => [
+		"name" => "betweenPlayers",
+		"description" => clienttranslate('...'),
+		"descriptionmyturn" => clienttranslate('...'),
+		"type" => "game",
+		"action" => "st_betweenPlayers",
+		"transitions" => [
+			TR_NEXT_PLAYER => ST_PLAYER_TURN,
+		],
+	],
+
 	ST_REROLL_DICE => [
 		"name" => "rerollDice",
-		"description" => clienttranslate('${actplayer} may may reroll the die'),
-		"descriptionmyturn" => clienttranslate('${you} may may reroll the die'),
+		"description" => clienttranslate('${actplayer} may reroll the die'),
+		"descriptionmyturn" => clienttranslate('${you} may reroll the die'),
 		"type" => "activeplayer",
 		"action" => "st_rerollDice",
 		"possibleactions" => ["actRerollDice", "actAcceptRoll"],
 		"transitions" => [
 			TR_REROLL_DICE => ST_REROLL_DICE,
-			TR_NEXT_PLAYER => ST_PLAYER_TURN,
+			TR_NEXT_PLAYER => ST_BETWEEN_PLAYERS,
 			"pass" => 2,
 		],
 	],

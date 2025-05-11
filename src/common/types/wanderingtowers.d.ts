@@ -2,22 +2,23 @@
  * Your game interfaces
  */
 
+interface Stocks {
+  dice: DiceStock;
+  towers: TowerStocks;
+  wizards: WizardStocks;
+  moves: MoveStocks;
+}
+
 declare class WanderingTowersGui extends Game {
   wtw: {
     managers: {
-      notification: NotificationManager;
       zoom: ZoomManager;
       dice: DiceManager;
       moves: CardManager<BgaCard>;
       towers: CardManager<BgaCard>;
       wizards: CardManager<WizardCardBase>;
     };
-    stocks: {
-      dice: DiceStock;
-      towers: TowerStocks;
-      wizards: WizardStocks;
-      moves: MoveStocks;
-    };
+    stocks: Stocks;
     globals: {
       moveCard?: MoveCardBase;
     };
