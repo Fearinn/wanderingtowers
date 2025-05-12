@@ -1,13 +1,16 @@
 :root {
-  --wizardWidth: calc(var(--towerWidth) * 0.25);
+  --wizardWidth: calc(var(--towerWidth) / 4);
 }
 
 .wtw_spaceWizards {
   position: absolute;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  column-gap: 4px;
-  row-gap: 0;
+  grid-template-columns: repeat(auto-fit, var(--wizardWidth));
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: var(--towerWidth);
 }
 
 .wtw_wizard {
