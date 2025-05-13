@@ -559,6 +559,13 @@ body > .card {
   display: none;
 }
 
+.wtw_positiveButton {
+  background-color: green;
+}
+.wtw_positiveButton:hover {
+  background-color: green !important;
+}
+
 :root {
   --spaceWidth: 200px;
 }

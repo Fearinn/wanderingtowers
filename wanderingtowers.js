@@ -2707,7 +2707,7 @@ var StRerollDice = /** @class */ (function (_super) {
         }, {});
         this.statusBar.addActionButton(_("Accept"), function () {
             _this.game.performAction("actAcceptRoll");
-        }, {});
+        }, { classes: ["wtw_positiveButton"] });
     };
     return StRerollDice;
 }(StateManager));

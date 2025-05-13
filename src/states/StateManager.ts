@@ -56,7 +56,7 @@ class StRerollDice extends StateManager {
       () => {
         this.game.performAction("actAcceptRoll");
       },
-      {}
+      { classes: ["wtw_positiveButton"] }
     );
   }
 }
