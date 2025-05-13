@@ -86,6 +86,21 @@ class WizardCard extends Card {
   setupDiv(element: HTMLDivElement) {
     element.classList.add("wtw_card", "wtw_wizard");
     element.style.backgroundPosition = `${Number(this.card.type) * -100}%`;
+
+    const player_id = this.card.type_arg;
+    const tooltip =
+      player_id === this.game.player_id
+        ? _("${player_name}'s wizard")
+        : _("Your wizard");
+
+    this.game.addTooltip(
+      element.id,
+      this.game.format_string_recursive(_(tooltip), {
+        player_id,
+        player_name: this.game.gamedatas.players[player_id].name,
+      }), 
+      ""
+    );
   }
 
   place(space_id: number) {

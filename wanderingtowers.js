@@ -2646,6 +2646,14 @@ var WizardCard = /** @class */ (function (_super) {
     WizardCard.prototype.setupDiv = function (element) {
         element.classList.add("wtw_card", "wtw_wizard");
         element.style.backgroundPosition = "".concat(Number(this.card.type) * -100, "%");
+        var player_id = this.card.type_arg;
+        var tooltip = player_id === this.game.player_id
+            ? _("${player_name}'s wizard")
+            : _("Your wizard");
+        this.game.addTooltip(element.id, this.game.format_string_recursive(_(tooltip), {
+            player_id: player_id,
+            player_name: this.game.gamedatas.players[player_id].name,
+        }), "");
     };
     WizardCard.prototype.place = function (space_id) {
         this.stocks.spaces[space_id].addCard(this.card, {}, { visible: true });
