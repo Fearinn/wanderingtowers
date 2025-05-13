@@ -11,6 +11,7 @@ interface WizardCard extends Card {
   stocks: WizardStocks;
   place(space_id: number): void;
   setup(): void;
+  space_id?: number;
 }
 
 interface WizardSpaceStock extends CardStock<WizardCardBase> {
@@ -98,12 +99,13 @@ class WizardCard extends Card {
       this.game.format_string_recursive(_(tooltip), {
         player_id,
         player_name: this.game.gamedatas.players[player_id].name,
-      }), 
+      }),
       ""
     );
   }
 
-  place(space_id: number) {
+  place(space_id: number): void {
+    this.space_id = space_id;
     this.stocks.spaces[space_id].addCard(this.card, {}, { visible: true });
   }
 }

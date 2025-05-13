@@ -38,88 +38,88 @@
   );
   aspect-ratio: 1;
   width: var(--spaceWidth);
+}
 
-  &[data-space="1"] {
-    top: calc(var(--spaceWidth) * 0.7);
-    left: calc(var(--spaceWidth) * 0.7);
-    background-position: 0;
-  }
-  &[data-space="2"] {
-    top: 0;
-    left: calc(var(--spaceWidth) * 1.4);
-    background-position: -100% 0;
-  }
-  &[data-space="3"] {
-    top: 0;
-    left: calc(var(--spaceWidth) * 2.4);
-    background-position: -200% 0;
-  }
-  &[data-space="4"] {
-    top: 0;
-    left: calc(var(--spaceWidth) * 3.4);
-    background-position: -300% 0;
-  }
+[data-space="1"] {
+  top: calc(var(--spaceWidth) * 0.7);
+  left: calc(var(--spaceWidth) * 0.7);
+  background-position: 0;
+}
+[data-space="2"] {
+  top: 0;
+  left: calc(var(--spaceWidth) * 1.4);
+  background-position: -100% 0;
+}
+[data-space="3"] {
+  top: 0;
+  left: calc(var(--spaceWidth) * 2.4);
+  background-position: -200% 0;
+}
+[data-space="4"] {
+  top: 0;
+  left: calc(var(--spaceWidth) * 3.4);
+  background-position: -300% 0;
+}
 
-  &[data-space="5"] {
-    top: calc(var(--spaceWidth) * 0.7);
-    left: calc(var(--spaceWidth) * 4.1);
-    background-position: -400% 0;
-  }
-  &[data-space="6"] {
-    top: calc(var(--spaceWidth) * 1.4);
-    left: calc(var(--spaceWidth) * 4.8);
-    background-position: -500% 0;
-  }
-  &[data-space="7"] {
-    top: calc(var(--spaceWidth) * 2.4);
-    left: calc(var(--spaceWidth) * 4.8);
-    background-position: -600% 0;
-  }
-  &[data-space="8"] {
-    top: calc(var(--spaceWidth) * 3.4);
-    left: calc(var(--spaceWidth) * 4.8);
-    background-position: -700% 0;
-  }
+[data-space="5"] {
+  top: calc(var(--spaceWidth) * 0.7);
+  left: calc(var(--spaceWidth) * 4.1);
+  background-position: -400% 0;
+}
+[data-space="6"] {
+  top: calc(var(--spaceWidth) * 1.4);
+  left: calc(var(--spaceWidth) * 4.8);
+  background-position: -500% 0;
+}
+[data-space="7"] {
+  top: calc(var(--spaceWidth) * 2.4);
+  left: calc(var(--spaceWidth) * 4.8);
+  background-position: -600% 0;
+}
+[data-space="8"] {
+  top: calc(var(--spaceWidth) * 3.4);
+  left: calc(var(--spaceWidth) * 4.8);
+  background-position: -700% 0;
+}
 
-  &[data-space="9"] {
-    top: calc(var(--spaceWidth) * 4.1);
-    left: calc(var(--spaceWidth) * 4.1);
-    background-position: -800% 0;
-  }
-  &[data-space="10"] {
-    top: calc(var(--spaceWidth) * 4.8);
-    left: calc(var(--spaceWidth) * 3.4);
-    background-position: -900% 0;
-  }
-  &[data-space="11"] {
-    top: calc(var(--spaceWidth) * 4.8);
-    left: calc(var(--spaceWidth) * 2.4);
-    background-position: -1000% 0;
-  }
-  &[data-space="12"] {
-    top: calc(var(--spaceWidth) * 4.8);
-    left: calc(var(--spaceWidth) * 1.4);
-    background-position: -1100% 0;
-  }
+[data-space="9"] {
+  top: calc(var(--spaceWidth) * 4.1);
+  left: calc(var(--spaceWidth) * 4.1);
+  background-position: -800% 0;
+}
+[data-space="10"] {
+  top: calc(var(--spaceWidth) * 4.8);
+  left: calc(var(--spaceWidth) * 3.4);
+  background-position: -900% 0;
+}
+[data-space="11"] {
+  top: calc(var(--spaceWidth) * 4.8);
+  left: calc(var(--spaceWidth) * 2.4);
+  background-position: -1000% 0;
+}
+[data-space="12"] {
+  top: calc(var(--spaceWidth) * 4.8);
+  left: calc(var(--spaceWidth) * 1.4);
+  background-position: -1100% 0;
+}
 
-  &[data-space="13"] {
-    top: calc(var(--spaceWidth) * 4.1);
-    left: calc(var(--spaceWidth) * 0.7);
-    background-position: -1200% 0;
-  }
-  &[data-space="14"] {
-    top: calc(var(--spaceWidth) * 3.4);
-    left: 0;
-    background-position: -1300% 0;
-  }
-  &[data-space="15"] {
-    top: calc(var(--spaceWidth) * 2.4);
-    left: 0;
-    background-position: -1400% 0;
-  }
-  &[data-space="16"] {
-    top: calc(var(--spaceWidth) * 1.4);
-    left: 0;
-    background-position: -1500% 0;
-  }
+[data-space="13"] {
+  top: calc(var(--spaceWidth) * 4.1);
+  left: calc(var(--spaceWidth) * 0.7);
+  background-position: -1200% 0;
+}
+[data-space="14"] {
+  top: calc(var(--spaceWidth) * 3.4);
+  left: 0;
+  background-position: -1300% 0;
+}
+[data-space="15"] {
+  top: calc(var(--spaceWidth) * 2.4);
+  left: 0;
+  background-position: -1400% 0;
+}
+[data-space="16"] {
+  top: calc(var(--spaceWidth) * 1.4);
+  left: 0;
+  background-position: -1500% 0;
 }

@@ -10,7 +10,8 @@
   justify-items: center;
   justify-content: center;
   gap: 8px;
-  width: var(--towerWidth);
+  aspect-ratio: 1;
+  width: var(--spaceWidth);
 }
 
 .wtw_wizard {

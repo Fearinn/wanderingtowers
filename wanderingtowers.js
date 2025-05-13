@@ -2656,6 +2656,7 @@ var WizardCard = /** @class */ (function (_super) {
         }), "");
     };
     WizardCard.prototype.place = function (space_id) {
+        this.space_id = space_id;
         this.stocks.spaces[space_id].addCard(this.card, {}, { visible: true });
     };
     return WizardCard;
