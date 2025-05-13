@@ -2648,8 +2648,8 @@ var WizardCard = /** @class */ (function (_super) {
         element.style.backgroundPosition = "".concat(Number(this.card.type) * -100, "%");
         var player_id = this.card.type_arg;
         var tooltip = player_id === this.game.player_id
-            ? _("${player_name}'s wizard")
-            : _("Your wizard");
+            ? _("Your wizard")
+            : _("${player_name}'s wizard");
         this.game.addTooltip(element.id, this.game.format_string_recursive(_(tooltip), {
             player_id: player_id,
             player_name: this.game.gamedatas.players[player_id].name,

@@ -91,8 +91,8 @@ class WizardCard extends Card {
     const player_id = this.card.type_arg;
     const tooltip =
       player_id === this.game.player_id
-        ? _("${player_name}'s wizard")
-        : _("Your wizard");
+        ? _("Your wizard")
+        : _("${player_name}'s wizard");
 
     this.game.addTooltip(
       element.id,
