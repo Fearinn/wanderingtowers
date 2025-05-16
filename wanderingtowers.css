@@ -646,20 +646,6 @@ body > .card {
   left: calc(var(--tileWidth) * -0.276);
 }
 
-.wtw_spaces {
-  position: relative;
-  width: 100%;
-}
-
-.wtw_space {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 1;
-  width: var(--spaceWidth);
-}
-
 [data-space="1"] {
   top: calc(var(--spaceWidth) * 0.7);
   left: calc(var(--spaceWidth) * 0.7);
@@ -772,6 +758,20 @@ body > .card {
 
 :root {
   --towerWidth: calc(var(--spaceWidth) * 0.75);
+}
+
+.wtw_spaceTowersContainer {
+  position: relative;
+  width: 100%;
+}
+
+.wtw_spaceTowers {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  width: var(--spaceWidth);
 }
 
 .wtw_tower {
