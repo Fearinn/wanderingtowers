@@ -2,6 +2,11 @@
   --wizardWidth: calc(var(--towerWidth) / 4);
 }
 
+.wtw_spaceWizardsContainer {
+  position: relative;
+  width: 100%;
+}
+
 .wtw_spaceWizards {
   position: absolute;
   display: grid;
