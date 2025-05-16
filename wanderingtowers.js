@@ -100,7 +100,7 @@ var WanderingTowers = /** @class */ (function (_super) {
                 counter: {
                     position: "top",
                     hideWhenEmpty: true,
-                    extraClasses: "text-shadow",
+                    extraClasses: "text-shadow wtw_deckCounter",
                 },
             }),
             discard: new CardStock(moveCardManager, document.getElementById("wtw_discard")),

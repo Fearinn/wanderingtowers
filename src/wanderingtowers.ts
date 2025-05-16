@@ -101,7 +101,7 @@ class WanderingTowers extends WanderingTowersGui {
         counter: {
           position: "top",
           hideWhenEmpty: true,
-          extraClasses: "text-shadow",
+          extraClasses: "text-shadow wtw_deckCounter",
         },
       }),
       discard: new CardStock(

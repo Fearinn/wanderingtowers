@@ -32,7 +32,7 @@ class Tower extends TowerManager
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(
             "moveTower",
-            clienttranslate('${player_name} moves a tower by ${steps_label} spaces'),
+            clienttranslate('${player_name} moves a tower by ${steps_label} space(s)'),
             [
                 "steps" => $steps,
                 "steps_label" => $steps

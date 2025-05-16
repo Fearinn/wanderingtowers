@@ -36,7 +36,7 @@ class Wizard extends WizardManager
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(
             "moveWizard",
-            clienttranslate('${player_name} moves a wizard by ${steps_label} spaces'),
+            clienttranslate('${player_name} moves a wizard by ${steps_label} space(s)'),
             [
                 "space_id" => $space_id,
                 "card" => $this->getCard($this->card_id),
