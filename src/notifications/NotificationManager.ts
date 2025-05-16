@@ -22,6 +22,15 @@ class NotificationManager implements NotificationManager {
     moveCard.discard();
   }
 
+  public notif_drawMove(args: {cards: MoveCardBase[]}): void {
+    const {cards} = args;
+
+    cards.forEach((card) => {
+    const moveCard = new MoveCard(this.game, card);
+    moveCard.draw();
+    });
+  }
+
   public notif_rollDie(args: { face: number }): void {
     const { face } = args;
 

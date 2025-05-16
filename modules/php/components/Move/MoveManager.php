@@ -4,6 +4,7 @@ namespace Bga\Games\WanderingTowers\components\Move;
 
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\components\CardManager;
+use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
 class MoveManager extends CardManager
 {
@@ -26,7 +27,23 @@ class MoveManager extends CardManager
         }
     }
 
-    public function getDiscard(): array {
+    public function getDiscard(): array
+    {
         return $this->getCards("discard");
+    }
+
+    public function draw(int $nbr, int $player_id): void
+    {
+        $cards = $this->pickCards($nbr, $player_id);
+
+        $NotifManager = new NotifManager($this->game);
+        $NotifManager->player(
+            $player_id,
+            "drawMove",
+            "",
+            [
+                "cards" => $cards,
+            ]
+        );
     }
 }

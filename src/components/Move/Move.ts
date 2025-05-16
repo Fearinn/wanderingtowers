@@ -137,4 +137,12 @@ class MoveCard extends Card {
   discard(): void {
     this.stocks.discard.addCard(this.card, {}, { visible: true });
   }
+
+  draw(): void {
+    this.stocks.hand.addCard(
+      this.card,
+      { fromStock: this.stocks.deck },
+      { visible: true }
+    );
+  }
 }

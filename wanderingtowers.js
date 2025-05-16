@@ -2572,6 +2572,9 @@ var MoveCard = /** @class */ (function (_super) {
     MoveCard.prototype.discard = function () {
         this.stocks.discard.addCard(this.card, {}, { visible: true });
     };
+    MoveCard.prototype.draw = function () {
+        this.stocks.hand.addCard(this.card, { fromStock: this.stocks.deck }, { visible: true });
+    };
     return MoveCard;
 }(Card));
 var TowerCard = /** @class */ (function (_super) {
@@ -2684,6 +2687,14 @@ var NotificationManager = /** @class */ (function () {
         var card = args.card;
         var moveCard = new MoveCard(this.game, card);
         moveCard.discard();
+    };
+    NotificationManager.prototype.notif_drawMove = function (args) {
+        var _this = this;
+        var cards = args.cards;
+        cards.forEach(function (card) {
+            var moveCard = new MoveCard(_this.game, card);
+            moveCard.draw();
+        });
     };
     NotificationManager.prototype.notif_rollDie = function (args) {
         var face = args.face;
