@@ -25,4 +25,8 @@ class MoveManager extends CardManager
             $this->pickCards(3, $player_id);
         }
     }
+
+    public function getDiscard(): array {
+        return $this->getCards("discard");
+    }
 }

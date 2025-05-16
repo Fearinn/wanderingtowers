@@ -57,6 +57,7 @@ interface WanderingTowersGamedatas {
   wizardCards: WizardCardBase[];
   potionCards: BgaCard[];
   moveDeck: MoveCardBase[];
+  moveDiscard: MoveCardBase[];
   hand: MoveCardBase[];
 }
 

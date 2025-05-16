@@ -49,6 +49,7 @@ class ActMoveWizard extends ActionManager
 
         $Wizard = new Wizard($this->game, $wizardCard_id);
         $Wizard->moveBySteps($steps);
+        $Move->discard();
 
         $this->gamestate->nextState(TR_NEXT_PLAYER);
     }

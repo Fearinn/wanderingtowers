@@ -68,8 +68,9 @@ class Game extends \Table
         $NotifManager->addDecorator();
     }
 
-    public function wtw_activeNextPlayer(): int {
-       return (int) $this->activeNextPlayer();
+    public function wtw_activeNextPlayer(): int
+    {
+        return (int) $this->activeNextPlayer();
     }
 
     /**
@@ -124,7 +125,8 @@ class Game extends \Table
         $StRerollDice->enter();
     }
 
-    public function st_betweenPlayers(): void {
+    public function st_betweenPlayers(): void
+    {
         $StBetweenPlayers = new StBetweenPlayers($this);
         $StBetweenPlayers->enter();
     }
@@ -177,6 +179,7 @@ class Game extends \Table
             "wizardCards" => $WizardManager->getCards("space"),
             "potionCards" => $PotionManager->getCards("hand"),
             "moveDeck" => $MoveManager->getDeck(),
+            "moveDiscard" => $MoveManager->getDiscard(),
             "hand" => $MoveManager->getPlayerHand($current_player_id),
         ];
 
@@ -287,7 +290,8 @@ class Game extends \Table
         $this->actMoveWizard($moveCard_id, $wizardCard_id);
     }
 
-    public function debug_actMoveTower(): void {
+    public function debug_actMoveTower(): void
+    {
         $moveCard_id = 12;
         $towerCard_id = 2;
 

@@ -1,7 +1,9 @@
 .wtw_card {
+  position: relative;
+
   .card-side {
-    width: 100%;
     box-shadow: none !important;
+    width: 100%;
   }
 }
 

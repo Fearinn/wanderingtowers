@@ -66,22 +66,6 @@ class CardManager
         return reset($cards);
     }
 
-    public function hideCard($card): array
-    {
-        $card["type_arg"] = null;
-
-        return $card;
-    }
-
-    public function hideCards($cards): array
-    {
-        $cards = array_map(function ($card) {
-            return $this->hideCard($card);
-        }, $cards);
-
-        return $cards;
-    }
-
     public function getDeck(): array
     {
         $deck = $this->getCards("deck");
@@ -93,14 +77,14 @@ class CardManager
         return $this->game->getCollectionFromDB("SELECT {$this->cardProps} FROM {$this->dbTable} WHERE card_location_arg={$location_arg}");
     }
 
-    public function transferCard(string $from, string $to, int $from_arg = null, int $to_arg = null): void
+    public function transferCard(string $from, string $to, int $from_arg = null, int $to_arg = 0): void
     {
         $card = $this->getCardInLocation($from, $from_arg);
         $card_id = (int) $card["id"];
         $this->deck->moveCard($card_id, $to, $to_arg);
     }
 
-    public function moveCard(int $card_id, string $location, string $location_arg = null)
+    public function moveCard(int $card_id, string $location, int $location_arg = 0)
     {
         $this->deck->moveCard($card_id, $location, $location_arg);
     }
@@ -123,5 +107,21 @@ class CardManager
     public function countCardsInHand(?int $player_id): int
     {
         return $this->countCardsInLocation("hand", $player_id);
+    }
+
+    public function hideCard($card): array
+    {
+        $card["type_arg"] = null;
+
+        return $card;
+    }
+
+    public function hideCards($cards): array
+    {
+        $cards = array_map(function ($card) {
+            return $this->hideCard($card);
+        }, $cards);
+
+        return $cards;
     }
 }

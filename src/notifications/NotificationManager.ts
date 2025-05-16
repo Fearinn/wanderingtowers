@@ -15,6 +15,13 @@ class NotificationManager implements NotificationManager {
     wizardCard.place(space_id);
   }
 
+  public notif_discardMove(args: { card: MoveCardBase }): void {
+    const { card } = args;
+
+    const moveCard = new MoveCard(this.game, card);
+    moveCard.discard();
+  }
+
   public notif_rollDie(args: { face: number }): void {
     const { face } = args;
 

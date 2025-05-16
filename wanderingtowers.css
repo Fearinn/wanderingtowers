@@ -583,11 +583,15 @@ body > .card {
   align-items: center;
   justify-content: center;
   gap: 16px;
+  z-index: 1;
 }
 
+.wtw_card {
+  position: relative;
+}
 .wtw_card .card-side {
-  width: 100%;
   box-shadow: none !important;
+  width: 100%;
 }
 
 .wtw_deck .wtw_card {
@@ -742,6 +746,9 @@ body > .card {
   background-position: -1500% 0;
 }
 
+.wtw_die {
+  border-radius: var(--bga-dice_border-radius);
+}
 .wtw_die:not(.bga-animations_animated) {
   box-shadow: 0 2px 24px 0 black;
 }
@@ -775,7 +782,6 @@ body > .card {
 }
 
 .wtw_tower {
-  position: relative;
   background-image: url("img/towers.png");
   background-position: -200%;
   background-size: cover;
@@ -815,7 +821,6 @@ body > .card {
 }
 
 .wtw_wizard {
-  position: relative;
   background-image: url("img/wizards.png");
   background-size: cover;
   aspect-ratio: 1/1.53;
@@ -831,11 +836,7 @@ body > .card {
   --moveHeight: 100px;
 }
 
-.wtw_moveDeck {
-  position: relative;
-}
-
-.wtw_hand {
+.wtw_moveHand {
   position: fixed;
   left: 50%;
   bottom: -10%;
@@ -843,7 +844,7 @@ body > .card {
   transition: 1s;
   z-index: 1;
 }
-.wtw_hand:hover, .wtw_hand:has(.wtw_move-selected) {
+.wtw_moveHand:hover, .wtw_moveHand:has(.wtw_move-selected) {
   bottom: -5%;
 }
 

@@ -24,7 +24,7 @@ interface MoveCard extends Card {
 
 class MoveHandStock extends HandStock<MoveCardBase> {
   constructor(game: WanderingTowersGui, manager: CardManager<MoveCardBase>) {
-    super(manager, document.getElementById("wtw_hand"), {
+    super(manager, document.getElementById("wtw_moveHand"), {
       cardOverlap: "0",
     });
 
@@ -132,5 +132,9 @@ class MoveCard extends Card {
 
   select(silent = false): void {
     this.stocks.hand.selectCard(this.card, silent);
+  }
+
+  discard(): void {
+    this.stocks.discard.addCard(this.card, {}, { visible: true });
   }
 }

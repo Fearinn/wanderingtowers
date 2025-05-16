@@ -6,6 +6,7 @@ use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\Actions\Types\StringParam;
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\components\Dice\Dice;
+use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
 use const Bga\Games\WanderingTowers\G_REROLLS;
 
@@ -65,9 +66,23 @@ class Move extends MoveManager
     }
 
     public function validateHand(int $player_id): void
-    {   
+    {
         if ($this->getMoveCard()["location"] !== "hand" || $this->getOwner() !== $player_id) {
             throw new \BgaVisibleSystemException("This movement card is not in your hand");
         }
+    }
+
+    public function discard(): void
+    {
+        $this->moveCard($this->card_id, "discard");
+
+        $NotifManager = new NotifManager($this->game);
+        $NotifManager->all(
+            "discardMove",
+            "",
+            [
+                "card" => $this->getCard($this->card_id)
+            ]
+        );
     }
 }

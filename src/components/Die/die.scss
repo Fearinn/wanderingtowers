@@ -1,4 +1,6 @@
 .wtw_die {
+  border-radius: var(--bga-dice_border-radius);
+
   &:not(.bga-animations_animated) {
     box-shadow: 0 2px 24px 0 black;
   }

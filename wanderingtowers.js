@@ -32,7 +32,9 @@ var WanderingTowers = /** @class */ (function (_super) {
         var zoomManager = new ZoomManager({
             element: document.getElementById("wtw_gameArea"),
             localStorageZoomKey: "wanderingtowers-zoom",
-            zoomLevels: [0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5],
+            zoomLevels: [
+                0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5,
+            ],
         });
         var diceManager = new DiceManager(this, {
             dieTypes: {
@@ -96,14 +98,14 @@ var WanderingTowers = /** @class */ (function (_super) {
         }
         var moveStocks = {
             hand: new MoveHandStock(this, moveCardManager),
-            deck: new Deck(moveCardManager, document.getElementById("wtw_deck"), {
+            deck: new Deck(moveCardManager, document.getElementById("wtw_moveDeck"), {
                 counter: {
                     position: "top",
                     hideWhenEmpty: true,
                     extraClasses: "text-shadow wtw_deckCounter",
                 },
             }),
-            discard: new CardStock(moveCardManager, document.getElementById("wtw_discard")),
+            discard: new CardStock(moveCardManager, document.getElementById("wtw_moveDiscard")),
         };
         this.wtw = {
             managers: {
@@ -128,6 +130,10 @@ var WanderingTowers = /** @class */ (function (_super) {
         gamedatas.moveDeck.forEach(function (card) {
             var moveCard = new MoveCard(_this, card);
             moveCard.setup();
+        });
+        gamedatas.moveDiscard.forEach(function (card) {
+            var moveCard = new MoveCard(_this, card);
+            moveCard.discard();
         });
         gamedatas.wizardCards.forEach(function (card) {
             var wizardCard = new WizardCard(_this, card);
@@ -2471,7 +2477,7 @@ var Die = /** @class */ (function (_super) {
 var MoveHandStock = /** @class */ (function (_super) {
     __extends(MoveHandStock, _super);
     function MoveHandStock(game, manager) {
-        var _this = _super.call(this, manager, document.getElementById("wtw_hand"), {
+        var _this = _super.call(this, manager, document.getElementById("wtw_moveHand"), {
             cardOverlap: "0",
         }) || this;
         _this.game = game;
@@ -2562,6 +2568,9 @@ var MoveCard = /** @class */ (function (_super) {
     MoveCard.prototype.select = function (silent) {
         if (silent === void 0) { silent = false; }
         this.stocks.hand.selectCard(this.card, silent);
+    };
+    MoveCard.prototype.discard = function () {
+        this.stocks.discard.addCard(this.card, {}, { visible: true });
     };
     return MoveCard;
 }(Card));
@@ -2670,6 +2679,11 @@ var NotificationManager = /** @class */ (function () {
         var card = args.card, space_id = args.space_id;
         var wizardCard = new WizardCard(this.game, card);
         wizardCard.place(space_id);
+    };
+    NotificationManager.prototype.notif_discardMove = function (args) {
+        var card = args.card;
+        var moveCard = new MoveCard(this.game, card);
+        moveCard.discard();
     };
     NotificationManager.prototype.notif_rollDie = function (args) {
         var face = args.face;
