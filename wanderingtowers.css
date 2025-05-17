@@ -856,6 +856,14 @@ body > .card {
   bottom: -5%;
 }
 
+.wtw_moveDiscard {
+  aspect-ratio: 447/300;
+  height: var(--moveHeight);
+}
+.wtw_moveDiscard .wtw_move {
+  position: absolute;
+}
+
 .wtw_move {
   aspect-ratio: 447/300;
   height: var(--moveHeight);

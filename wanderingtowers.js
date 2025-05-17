@@ -2894,7 +2894,6 @@ var StPickMoveTower = /** @class */ (function (_super) {
         for (var space_id in towerStocks) {
             var stock = towerStocks[space_id];
             stock.toggleSelection(true);
-            console.log(stock, "TOWER");
             stock.setSelectableCards(stock.getCards());
         }
     };

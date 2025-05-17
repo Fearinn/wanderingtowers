@@ -191,9 +191,6 @@ class StPickMoveTower extends StateManager {
     for (const space_id in towerStocks) {
       const stock = towerStocks[space_id];
       stock.toggleSelection(true);
-
-      console.log(stock, "TOWER");
-
       stock.setSelectableCards(stock.getCards());
     }
   }
