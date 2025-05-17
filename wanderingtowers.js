@@ -51,6 +51,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             getId: function (card) {
                 return "wtw_towerCard-".concat(card.id);
             },
+            selectedCardClass: "wtw_tower-selected",
             setupDiv: function (card, element) {
                 var towerCard = new TowerCard(_this, card);
                 towerCard.setupDiv(element);
@@ -88,12 +89,14 @@ var WanderingTowers = /** @class */ (function (_super) {
                 moveCard.setupBackDiv(element);
             },
         });
-        var towerStocks = {};
+        var towerStocks = {
+            spaces: {},
+        };
         var wizardStocks = {
             spaces: {},
         };
         for (var space_id = 1; space_id <= 16; space_id++) {
-            towerStocks[space_id] = new CardStock(towerCardManager, document.getElementById("wtw_spaceTowers-".concat(space_id)));
+            towerStocks.spaces[space_id] = new TowerSpaceStock(this, towerCardManager, space_id);
             wizardStocks.spaces[space_id] = new WizardSpaceStock(this, wizardCardManager, space_id);
         }
         var moveStocks = {
@@ -169,6 +172,9 @@ var WanderingTowers = /** @class */ (function (_super) {
             case "client_pickMoveWizard":
                 new StPickMoveWizard(this).enter();
                 break;
+            case "client_pickMoveTower":
+                new StPickMoveTower(this).enter();
+                break;
             case "rerollDice":
                 new StRerollDice(this).enter();
                 break;
@@ -184,6 +190,9 @@ var WanderingTowers = /** @class */ (function (_super) {
                 break;
             case "client_pickMoveWizard":
                 new StPickMoveWizard(this).leave();
+                break;
+            case "client_pickMoveTower":
+                new StPickMoveTower(this).leave();
                 break;
         }
     };
@@ -2493,7 +2502,7 @@ var MoveHandStock = /** @class */ (function (_super) {
                     return;
                 }
                 if (card.type === "tower") {
-                    _this.game.setClientState("client_pickMoveWizard", {
+                    _this.game.setClientState("client_pickMoveTower", {
                         descriptionmyturn: _("${you} must pick a tower to move"),
                         client_args: { card: card },
                     });
@@ -2577,6 +2586,45 @@ var MoveCard = /** @class */ (function (_super) {
     };
     return MoveCard;
 }(Card));
+var TowerSpaceStock = /** @class */ (function (_super) {
+    __extends(TowerSpaceStock, _super);
+    function TowerSpaceStock(game, manager, space_id) {
+        var _this = _super.call(this, manager, document.getElementById("wtw_spaceTowers-".concat(space_id)), {
+            sort: sortFunction("level"),
+        }) || this;
+        _this.game = game;
+        _this.space_id = space_id;
+        _this.setSelectionMode("none");
+        _this.onSelectionChange = function (selection, card) {
+            var _a;
+            (_a = document.getElementById("wtw_confirmationButton")) === null || _a === void 0 ? void 0 : _a.remove();
+            if (selection.length > 0) {
+                _this.unselectOthers();
+                _this.game.addConfirmationButton(_("tower"), function () {
+                    _this.game.performAction("actMoveTower", {
+                        moveCard_id: _this.game.wtw.globals.moveCard.id,
+                        towerCard_id: card.id,
+                    });
+                });
+            }
+        };
+        return _this;
+    }
+    TowerSpaceStock.prototype.unselectOthers = function () {
+        var otherStocks = this.game.wtw.stocks.towers.spaces;
+        for (var space_id in otherStocks) {
+            if (Number(space_id) === this.space_id) {
+                continue;
+            }
+            otherStocks[space_id].unselectAll(true);
+        }
+    };
+    TowerSpaceStock.prototype.toggleSelection = function (enable) {
+        var selectionMode = enable ? "single" : "none";
+        this.setSelectionMode(selectionMode);
+    };
+    return TowerSpaceStock;
+}(CardStock));
 var TowerCard = /** @class */ (function (_super) {
     __extends(TowerCard, _super);
     function TowerCard(game, card) {
@@ -2585,7 +2633,7 @@ var TowerCard = /** @class */ (function (_super) {
         return _this;
     }
     TowerCard.prototype.setup = function () {
-        this.place(this.type_arg);
+        this.place(this.location_arg);
     };
     TowerCard.prototype.setupDiv = function (element) {
         element.classList.add("wtw_card", "wtw_tower");
@@ -2597,7 +2645,7 @@ var TowerCard = /** @class */ (function (_super) {
         }
     };
     TowerCard.prototype.place = function (space_id) {
-        this.stocks[space_id].addCard(this.card, {}, { visible: true });
+        this.stocks.spaces[space_id].addCard(this.card, {}, { visible: true });
     };
     return TowerCard;
 }(Card));
@@ -2682,6 +2730,11 @@ var NotificationManager = /** @class */ (function () {
         var card = args.card, space_id = args.space_id;
         var wizardCard = new WizardCard(this.game, card);
         wizardCard.place(space_id);
+    };
+    NotificationManager.prototype.notif_moveTower = function (args) {
+        var card = args.card, space_id = args.space_id;
+        var towerCard = new TowerCard(this.game, card);
+        towerCard.place(space_id);
     };
     NotificationManager.prototype.notif_discardMove = function (args) {
         var card = args.card;
@@ -2776,14 +2829,14 @@ var StPickMoveSide = /** @class */ (function (_super) {
     StPickMoveSide.prototype.enter = function () {
         var _this = this;
         _super.prototype.enter.call(this);
-        this.statusBar.addActionButton(_("wizard"), function () {
-            _this.game.setClientState("client_pickMoveWizard", {
-                descriptionmyturn: _("${you} must pick a wizard to move"),
-            });
-        }, {});
         this.statusBar.addActionButton(_("tower"), function () {
             _this.game.setClientState("client_pickMoveTower", {
                 descriptionmyturn: _("${you} must pick a tower to move"),
+            });
+        }, {});
+        this.statusBar.addActionButton(_("wizard"), function () {
+            _this.game.setClientState("client_pickMoveWizard", {
+                descriptionmyturn: _("${you} must pick a wizard to move"),
             });
         }, {});
         var card = this.game.wtw.globals.moveCard;
@@ -2826,4 +2879,34 @@ var StPickMoveWizard = /** @class */ (function (_super) {
         }
     };
     return StPickMoveWizard;
+}(StateManager));
+var StPickMoveTower = /** @class */ (function (_super) {
+    __extends(StPickMoveTower, _super);
+    function StPickMoveTower(game) {
+        return _super.call(this, game, "client_pickMoveTower") || this;
+    }
+    StPickMoveTower.prototype.enter = function () {
+        _super.prototype.enter.call(this);
+        var card = this.game.wtw.globals.moveCard;
+        var moveCard = new MoveCard(this.game, card);
+        moveCard.toggleSelection(true);
+        var towerStocks = this.game.wtw.stocks.towers.spaces;
+        for (var space_id in towerStocks) {
+            var stock = towerStocks[space_id];
+            stock.toggleSelection(true);
+            console.log(stock, "TOWER");
+            stock.setSelectableCards(stock.getCards());
+        }
+    };
+    StPickMoveTower.prototype.leave = function () {
+        var card = this.game.wtw.globals.moveCard;
+        var moveCard = new MoveCard(this.game, card);
+        moveCard.toggleSelection(false);
+        var towerStocks = this.game.wtw.stocks.towers.spaces;
+        for (var space_id in towerStocks) {
+            var stock = towerStocks[space_id];
+            stock.toggleSelection(false);
+        }
+    };
+    return StPickMoveTower;
 }(StateManager));

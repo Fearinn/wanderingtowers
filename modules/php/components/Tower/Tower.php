@@ -25,7 +25,7 @@ class Tower extends TowerManager
     public function moveBySteps(int $steps): void
     {
         $space_id = $this->getSpaceId($this->card_id);
-        $space_id = $space_id = $steps;
+        $space_id += $steps;
 
         $this->moveByLocationArg($this->card_id, $space_id);
 
@@ -34,7 +34,8 @@ class Tower extends TowerManager
             "moveTower",
             clienttranslate('${player_name} moves a tower by ${steps_label} space(s)'),
             [
-                "steps" => $steps,
+                "card" => $this->getCard($this->card_id),
+                "space_id" => $space_id,
                 "steps_label" => $steps
             ]
         );

@@ -15,6 +15,12 @@ class NotificationManager implements NotificationManager {
     wizardCard.place(space_id);
   }
 
+  public notif_moveTower(args: { card: TowerCardBase; space_id: number }) {
+    const { card, space_id } = args;
+    const towerCard = new TowerCard(this.game, card);
+    towerCard.place(space_id);
+  }
+
   public notif_discardMove(args: { card: MoveCardBase }): void {
     const { card } = args;
 
@@ -22,12 +28,12 @@ class NotificationManager implements NotificationManager {
     moveCard.discard();
   }
 
-  public notif_drawMove(args: {cards: MoveCardBase[]}): void {
-    const {cards} = args;
+  public notif_drawMove(args: { cards: MoveCardBase[] }): void {
+    const { cards } = args;
 
     cards.forEach((card) => {
-    const moveCard = new MoveCard(this.game, card);
-    moveCard.draw();
+      const moveCard = new MoveCard(this.game, card);
+      moveCard.draw();
     });
   }
 

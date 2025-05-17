@@ -46,7 +46,7 @@ class MoveHandStock extends HandStock<MoveCardBase> {
         }
 
         if (card.type === "tower") {
-          this.game.setClientState("client_pickMoveWizard", {
+          this.game.setClientState("client_pickMoveTower", {
             descriptionmyturn: _("${you} must pick a tower to move"),
             client_args: { card },
           });

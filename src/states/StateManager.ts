@@ -108,20 +108,20 @@ class StPickMoveSide extends StateManager {
     super.enter();
 
     this.statusBar.addActionButton(
-      _("wizard"),
+      _("tower"),
       () => {
-        this.game.setClientState("client_pickMoveWizard", {
-          descriptionmyturn: _("${you} must pick a wizard to move"),
+        this.game.setClientState("client_pickMoveTower", {
+          descriptionmyturn: _("${you} must pick a tower to move"),
         });
       },
       {}
     );
 
     this.statusBar.addActionButton(
-      _("tower"),
+      _("wizard"),
       () => {
-        this.game.setClientState("client_pickMoveTower", {
-          descriptionmyturn: _("${you} must pick a tower to move"),
+        this.game.setClientState("client_pickMoveWizard", {
+          descriptionmyturn: _("${you} must pick a wizard to move"),
         });
       },
       {}
@@ -170,6 +170,43 @@ class StPickMoveWizard extends StateManager {
 
     for (const space_id in wizardStocks) {
       const stock = wizardStocks[space_id];
+      stock.toggleSelection(false);
+    }
+  }
+}
+
+class StPickMoveTower extends StateManager {
+  constructor(game: WanderingTowers) {
+    super(game, "client_pickMoveTower");
+  }
+
+  enter() {
+    super.enter();
+
+    const card = this.game.wtw.globals.moveCard;
+    const moveCard = new MoveCard(this.game, card);
+    moveCard.toggleSelection(true);
+
+    const towerStocks = this.game.wtw.stocks.towers.spaces;
+    for (const space_id in towerStocks) {
+      const stock = towerStocks[space_id];
+      stock.toggleSelection(true);
+
+      console.log(stock, "TOWER");
+
+      stock.setSelectableCards(stock.getCards());
+    }
+  }
+
+  leave() {
+    const card = this.game.wtw.globals.moveCard;
+    const moveCard = new MoveCard(this.game, card);
+    moveCard.toggleSelection(false);
+
+    const towerStocks = this.game.wtw.stocks.towers.spaces;
+
+    for (const space_id in towerStocks) {
+      const stock = towerStocks[space_id];
       stock.toggleSelection(false);
     }
   }

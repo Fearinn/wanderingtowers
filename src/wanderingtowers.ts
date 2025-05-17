@@ -36,10 +36,11 @@ class WanderingTowers extends WanderingTowersGui {
       face: gamedatas.diceFace,
     });
 
-    const towerCardManager = new CardManager<BgaCard>(this, {
+    const towerCardManager = new CardManager<TowerCardBase>(this, {
       getId: (card) => {
         return `wtw_towerCard-${card.id}`;
       },
+      selectedCardClass: "wtw_tower-selected",
       setupDiv: (card, element) => {
         const towerCard = new TowerCard(this, card);
         towerCard.setupDiv(element);
@@ -80,14 +81,17 @@ class WanderingTowers extends WanderingTowersGui {
       },
     });
 
-    const towerStocks = {};
+    const towerStocks = {
+      spaces: {},
+    };
     const wizardStocks = {
       spaces: {},
     };
     for (let space_id = 1; space_id <= 16; space_id++) {
-      towerStocks[space_id] = new CardStock<BgaCard>(
+      towerStocks.spaces[space_id] = new TowerSpaceStock(
+        this,
         towerCardManager,
-        document.getElementById(`wtw_spaceTowers-${space_id}`)
+        space_id
       );
 
       wizardStocks.spaces[space_id] = new WizardSpaceStock(
@@ -190,6 +194,10 @@ class WanderingTowers extends WanderingTowersGui {
         new StPickMoveWizard(this).enter();
         break;
 
+      case "client_pickMoveTower":
+        new StPickMoveTower(this).enter();
+        break;
+
       case "rerollDice":
         new StRerollDice(this).enter();
         break;
@@ -208,6 +216,10 @@ class WanderingTowers extends WanderingTowersGui {
 
       case "client_pickMoveWizard":
         new StPickMoveWizard(this).leave();
+        break;
+
+      case "client_pickMoveTower":
+        new StPickMoveTower(this).leave();
         break;
     }
   }

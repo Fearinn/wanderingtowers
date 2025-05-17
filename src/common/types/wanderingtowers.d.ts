@@ -14,8 +14,8 @@ declare class WanderingTowersGui extends Game {
     managers: {
       zoom: ZoomManager;
       dice: DiceManager;
-      moves: CardManager<BgaCard>;
-      towers: CardManager<BgaCard>;
+      moves: CardManager<MoveCardBase>;
+      towers: CardManager<TowerCardBase>;
       wizards: CardManager<WizardCardBase>;
     };
     stocks: Stocks;
@@ -53,7 +53,7 @@ interface WanderingTowersGamedatas {
   tablespeed: string;
 
   diceFace: number;
-  towerCards: BgaCard[];
+  towerCards: TowerCardBase[];
   wizardCards: WizardCardBase[];
   potionCards: BgaCard[];
   moveDeck: MoveCardBase[];
