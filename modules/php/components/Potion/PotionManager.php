@@ -1,9 +1,9 @@
 <?php
 
-namespace Bga\Games\WanderingTowers\components\Potion;
+namespace Bga\Games\WanderingTowers\Components\Potion;
 
 use Bga\GameFramework\Table;
-use Bga\Games\WanderingTowers\components\CardManager;
+use Bga\Games\WanderingTowers\Components\CardManager;
 
 class PotionManager extends CardManager
 {

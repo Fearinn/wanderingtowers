@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\WanderingTowers\components\Tower;
+namespace Bga\Games\WanderingTowers\Components\Tower;
 
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\Table;

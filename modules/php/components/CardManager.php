@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\WanderingTowers\components;
+namespace Bga\Games\WanderingTowers\Components;
 
 use Bga\GameFramework\Db\Globals;
 use Bga\GameFramework\Table;
@@ -23,12 +23,12 @@ class CardManager
         $this->fields = "card_id id, card_type type, card_type_arg type_arg, card_location location, card_location_arg location_arg";
     }
 
-    public function createCards(array $cards, string $location = "deck")
+    public function createCards(array $cards, string $location = "deck"): void
     {
         $this->deck->createCards($cards, $location);
     }
 
-    public function createShuffledCards(array $cards, string $location = "deck")
+    public function createShuffledCards(array $cards, string $location = "deck"): void
     {
         $this->createCards($cards, $location);
         $this->deck->shuffle($location);
@@ -94,7 +94,7 @@ class CardManager
         $this->deck->moveCard($card_id, $to, $to_arg);
     }
 
-    public function moveCard(int $card_id, string $location, int $location_arg = 0)
+    public function moveCard(int $card_id, string $location, int $location_arg = 0): void
     {
         $this->deck->moveCard($card_id, $location, $location_arg);
     }

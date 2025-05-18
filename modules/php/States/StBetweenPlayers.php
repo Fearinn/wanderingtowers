@@ -3,7 +3,7 @@
 namespace Bga\Games\WanderingTowers\States;
 
 use Bga\GameFramework\Table;
-use Bga\Games\WanderingTowers\components\Move\MoveManager;
+use Bga\Games\WanderingTowers\Components\Move\MoveManager;
 
 use const Bga\Games\WanderingTowers\G_REROLLS;
 use const Bga\Games\WanderingTowers\G_WIZARD;

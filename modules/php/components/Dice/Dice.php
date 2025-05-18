@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\WanderingTowers\components\Dice;
+namespace Bga\Games\WanderingTowers\Components\Dice;
 
 use Bga\GameFramework\Db\Globals;
 use Bga\GameFramework\Table;
