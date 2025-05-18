@@ -73,6 +73,11 @@ class Game extends \Table
         return (int) $this->activeNextPlayer();
     }
 
+    public function wtw_getObjectFromDb(string $sql): array | null
+    {
+        return $this->getObjectFromDB($sql);
+    }
+
     /**
      * Player action, example content.
      *

@@ -10,6 +10,7 @@ class WizardManager extends CardManager
     public function __construct(Table $game)
     {
         parent::__construct($game, $game->wizard_cards, "wizard");
+        $this->fields .= ", tier";
     }
 
     public function setupCards(): void

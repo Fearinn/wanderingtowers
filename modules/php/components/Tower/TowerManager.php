@@ -3,12 +3,14 @@
 namespace Bga\Games\WanderingTowers\components\Tower;
 
 use Bga\Games\WanderingTowers\components\CardManager;
+use Table;
 
 class TowerManager extends CardManager
 {
-    public function __construct($game)
+    public function __construct(Table $game)
     {
         parent::__construct($game, $game->tower_cards, "tower");
+        $this->fields .= ", tier";
     }
 
     public function setupCards(): void

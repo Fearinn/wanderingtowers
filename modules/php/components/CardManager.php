@@ -12,7 +12,7 @@ class CardManager
     public Deck $deck;
     public Globals $globals;
     public string $dbTable;
-    public string $cardProps;
+    public string $fields;
 
     public function __construct(Table $game, Deck $deck, string $dbTable)
     {
@@ -20,7 +20,7 @@ class CardManager
         $this->globals = $this->game->globals;
         $this->deck = $deck;
         $this->dbTable = $dbTable;
-        $this->cardProps = "card_id id, card_type type, card_type_arg type_arg, card_location location, card_location_arg location_arg";
+        $this->fields = "card_id id, card_type type, card_type_arg type_arg, card_location location, card_location_arg location_arg";
     }
 
     public function createCards(array $cards, string $location = "deck")
@@ -36,10 +36,13 @@ class CardManager
 
     public function getCard(int $card_id): array
     {
-        $card = $this->deck->getCard($card_id);
+        $sql = "SELECT {$this->fields} FROM {$this->dbTable} WHERE card_id={$card_id}'";
 
-        if (!$card) {
-            throw new \BgaVisibleSystemException("Card not found");
+        /** @disregard P1013 Undefined Method */
+        $card = $this->game->wtw_getObjectFromDB($sql);
+
+        if ($card === null) {
+            throw new \BgaVisibleSystemException("card not found");
         }
 
         return $card;
@@ -47,7 +50,14 @@ class CardManager
 
     public function getCards(string $location, int $location_arg = null): array
     {
-        return array_values($this->deck->getCardsInLocation($location, $location_arg));
+        $sql = "SELECT {$this->fields} FROM {$this->dbTable} WHERE card_location='{$location}'";
+
+        if ($location_arg) {
+            $sql . " AND card_location_arg={$location_arg}";
+        }
+
+        $cards = $this->game->getCollectionFromDB($sql);
+        return array_values($cards);
     }
 
     public function getPlayerHand(int $player_id): array
@@ -74,7 +84,7 @@ class CardManager
 
     public function getCardsByLocationArg(string $location_arg): array
     {
-        return $this->game->getCollectionFromDB("SELECT {$this->cardProps} FROM {$this->dbTable} WHERE card_location_arg={$location_arg}");
+        return $this->game->getCollectionFromDB("SELECT {$this->fields} FROM {$this->dbTable} WHERE card_location_arg={$location_arg}");
     }
 
     public function transferCard(string $from, string $to, int $from_arg = null, int $to_arg = 0): void
