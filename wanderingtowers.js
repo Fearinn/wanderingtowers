@@ -2629,6 +2629,7 @@ var TowerCard = /** @class */ (function (_super) {
     __extends(TowerCard, _super);
     function TowerCard(game, card) {
         var _this = _super.call(this, game, card) || this;
+        _this.card.tier = Number(card.tier);
         _this.stocks = _this.game.wtw.stocks.towers;
         return _this;
     }
@@ -2697,6 +2698,7 @@ var WizardCard = /** @class */ (function (_super) {
     __extends(WizardCard, _super);
     function WizardCard(game, card) {
         var _this = _super.call(this, game, card) || this;
+        _this.card.tier = Number(card.tier);
         _this.stocks = _this.game.wtw.stocks.wizards;
         return _this;
     }

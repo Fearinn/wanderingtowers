@@ -1,6 +1,6 @@
 interface TowerCardBase extends BgaCard {
   type_arg: number;
-  tier?: number;
+  tier: number;
 }
 
 interface TowerStocks {
@@ -72,6 +72,7 @@ interface TowerCard extends Card {
 class TowerCard extends Card {
   constructor(game: WanderingTowersGui, card: TowerCardBase) {
     super(game, card);
+    this.card.tier = Number(card.tier);
     this.stocks = this.game.wtw.stocks.towers;
   }
 

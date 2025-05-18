@@ -1,5 +1,6 @@
 interface WizardCardBase extends BgaCard {
   type_arg: number;
+  tier: number;
 }
 
 interface WizardStocks {
@@ -77,6 +78,7 @@ class WizardSpaceStock extends CardStock<WizardCardBase> {
 class WizardCard extends Card {
   constructor(game: WanderingTowersGui, card: WizardCardBase) {
     super(game, card);
+    this.card.tier = Number(card.tier);
     this.stocks = this.game.wtw.stocks.wizards;
   }
 
