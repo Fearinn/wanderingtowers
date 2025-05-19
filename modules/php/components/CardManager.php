@@ -36,7 +36,7 @@ class CardManager
 
     public function getCard(int $card_id): array
     {
-        $sql = "SELECT {$this->fields} FROM {$this->dbTable} WHERE card_id={$card_id}'";
+        $sql = "SELECT {$this->fields} FROM {$this->dbTable} WHERE card_id={$card_id}";
 
         /** @disregard P1013 Undefined Method */
         $card = $this->game->wtw_getObjectFromDB($sql);
