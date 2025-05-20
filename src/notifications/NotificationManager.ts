@@ -9,16 +9,20 @@ class NotificationManager implements NotificationManager {
     this.stocks = this.game.wtw.stocks;
   }
 
-  public notif_moveWizard(args: { card: WizardCardBase; space_id: number }) {
+  public notif_moveWizard(args: {
+    card: WizardCardBase;
+    space_id: number;
+    tier: number;
+  }) {
     const { card, space_id } = args;
     const wizardCard = new WizardCard(this.game, card);
-    wizardCard.place(space_id);
+    wizardCard.move(space_id, 1);
   }
 
   public notif_moveTower(args: { card: TowerCardBase; space_id: number }) {
     const { card, space_id } = args;
     const towerCard = new TowerCard(this.game, card);
-    towerCard.place(space_id);
+    towerCard.move(space_id);
   }
 
   public notif_discardMove(args: { card: MoveCardBase }): void {

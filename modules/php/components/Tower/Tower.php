@@ -29,15 +29,27 @@ class Tower extends TowerManager
 
         $this->moveByLocationArg($this->card_id, $space_id);
 
+        $TowerManager = new TowerManager($this->game);
+        $tier = $TowerManager->countOnSpace($space_id);
+        
+        $this->updateTier($tier);
+
+        $card = $this->getCard($this->card_id);
+
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(
             "moveTower",
             clienttranslate('${player_name} moves a tower by ${steps_label} space(s)'),
             [
-                "card" => $this->getCard($this->card_id),
+                "card" => $card,
                 "space_id" => $space_id,
                 "steps_label" => $steps
             ]
         );
+    }
+
+    public function updateTier(int $tier): void
+    {
+        $this->game->DbQuery("UPDATE {$this->dbTable} SET tier={$tier} WHERE card_id={$this->card_id}");
     }
 }

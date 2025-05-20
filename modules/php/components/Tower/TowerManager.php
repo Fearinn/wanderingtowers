@@ -23,12 +23,17 @@ class TowerManager extends CardManager
                 "nbr" => 1,
             ];
         }
-        $this->createCards($towerCards, "board");
+        $this->createCards($towerCards, "space");
 
         $towerCards = $this->getCardsInLocation("deck");
         foreach ($towerCards as $towerCard_id => $towerCard) {
             $tower_id = (int) $towerCard["type_arg"];
             $this->moveByLocationArg($towerCard_id, $tower_id);
         }
+    }
+
+    public function countOnSpace(int $space_id): int
+    {
+        return (int) $this->countCardsInLocation("space", $space_id);
     }
 }

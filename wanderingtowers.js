@@ -130,6 +130,9 @@ var WanderingTowers = /** @class */ (function (_super) {
             var towerCard = new TowerCard(_this, card);
             towerCard.setup();
         });
+        console.log(gamedatas.towerCards.filter(function (card) {
+            return card.location_arg == 6;
+        }));
         gamedatas.moveDeck.forEach(function (card) {
             var moveCard = new MoveCard(_this, card);
             moveCard.setup();
@@ -2590,7 +2593,7 @@ var TowerSpaceStock = /** @class */ (function (_super) {
     __extends(TowerSpaceStock, _super);
     function TowerSpaceStock(game, manager, space_id) {
         var _this = _super.call(this, manager, document.getElementById("wtw_spaceTowers-".concat(space_id)), {
-            sort: sortFunction("level"),
+            sort: sortFunction("-tier"),
         }) || this;
         _this.game = game;
         _this.space_id = space_id;
@@ -2646,7 +2649,11 @@ var TowerCard = /** @class */ (function (_super) {
         }
     };
     TowerCard.prototype.place = function (space_id) {
-        this.stocks.spaces[space_id].addCard(this.card, {}, { visible: true });
+        var stock = this.stocks.spaces[space_id];
+        stock.addCard(this.card, {}, { visible: true });
+    };
+    TowerCard.prototype.move = function (space_id) {
+        this.place(space_id);
     };
     return TowerCard;
 }(Card));
@@ -2721,6 +2728,9 @@ var WizardCard = /** @class */ (function (_super) {
         this.space_id = space_id;
         this.stocks.spaces[space_id].addCard(this.card, {}, { visible: true });
     };
+    WizardCard.prototype.move = function (space_id, tier) {
+        this.place(space_id);
+    };
     return WizardCard;
 }(Card));
 var NotificationManager = /** @class */ (function () {
@@ -2731,12 +2741,12 @@ var NotificationManager = /** @class */ (function () {
     NotificationManager.prototype.notif_moveWizard = function (args) {
         var card = args.card, space_id = args.space_id;
         var wizardCard = new WizardCard(this.game, card);
-        wizardCard.place(space_id);
+        wizardCard.move(space_id, 1);
     };
     NotificationManager.prototype.notif_moveTower = function (args) {
         var card = args.card, space_id = args.space_id;
         var towerCard = new TowerCard(this.game, card);
-        towerCard.place(space_id);
+        towerCard.move(space_id);
     };
     NotificationManager.prototype.notif_discardMove = function (args) {
         var card = args.card;

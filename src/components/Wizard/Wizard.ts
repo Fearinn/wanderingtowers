@@ -10,9 +10,10 @@ interface WizardStocks {
 interface WizardCard extends Card {
   card: WizardCardBase;
   stocks: WizardStocks;
-  place(space_id: number): void;
-  setup(): void;
   space_id?: number;
+  setup(): void;
+  place(space_id: number): void;
+  move(space_id: number, tier: number): void;
 }
 
 interface WizardSpaceStock extends CardStock<WizardCardBase> {
@@ -109,5 +110,9 @@ class WizardCard extends Card {
   place(space_id: number): void {
     this.space_id = space_id;
     this.stocks.spaces[space_id].addCard(this.card, {}, { visible: true });
+  }
+
+  move(space_id: number, tier: number): void {
+    this.place(space_id);
   }
 }

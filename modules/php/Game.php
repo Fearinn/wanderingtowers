@@ -180,7 +180,7 @@ class Game extends \Table
         $gamedatas = [
             "players" => $this->getCollectionFromDb("SELECT `player_id` `id`, `player_score` `score` FROM `player`"),
             "diceFace" => $this->globals->get(G_DICE_FACE, 3),
-            "towerCards" => $TowerManager->getCardsInLocation("board"),
+            "towerCards" => $TowerManager->getCardsInLocation("space"),
             "wizardCards" => $WizardManager->getCardsInLocation("space"),
             "potionCards" => $PotionManager->getCardsInLocation("hand"),
             "moveDeck" => $MoveManager->getDeck(),

@@ -23,7 +23,7 @@ class TowerSpaceStock extends CardStock<TowerCardBase> {
     space_id: number
   ) {
     super(manager, document.getElementById(`wtw_spaceTowers-${space_id}`), {
-      sort: sortFunction("level"),
+      sort: sortFunction("-tier"),
     });
 
     this.game = game;
@@ -65,8 +65,9 @@ class TowerSpaceStock extends CardStock<TowerCardBase> {
 interface TowerCard extends Card {
   stocks: TowerStocks;
   card: TowerCardBase;
-  place(space_id: number): void;
   setup(): void;
+  place(space_id: number): void;
+  move(space_id: number): void;
 }
 
 class TowerCard extends Card {
@@ -93,6 +94,11 @@ class TowerCard extends Card {
   }
 
   place(space_id: number) {
-    this.stocks.spaces[space_id].addCard(this.card, {}, { visible: true });
+    const stock = this.stocks.spaces[space_id];
+    stock.addCard(this.card, {}, { visible: true });
+  }
+
+  move(space_id: number) {
+    this.place(space_id);
   }
 }

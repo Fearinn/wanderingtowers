@@ -4,6 +4,8 @@ namespace Bga\Games\WanderingTowers\Components\Wizard;
 
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\Table;
+use Bga\Games\WanderingTowers\Components\Tower\Tower;
+use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
 class Wizard extends WizardManager
@@ -26,17 +28,30 @@ class Wizard extends WizardManager
         return $wizardCard["location_arg"];
     }
 
-    public function moveBySteps(int $steps): void
+    public function validateOwner(int $player_id): void
+    {
+        if ($this->owner !== $player_id) {
+            throw new \BgaVisibleSystemException("Invalid wizard owner");
+        }
+    }
+
+    public function moveBySteps(int $steps, bool $silent = false): void
     {
         $space_id = $this->getSpaceId($this->card_id);
         $space_id += $steps;
 
         $this->moveByLocationArg($this->card_id, $space_id);
 
+        $TowerManager = new TowerManager($this->game);
+        $tier = $TowerManager->countOnSpace($space_id);
+        $this->updateTier($tier);
+
         $NotifManager = new NotifManager($this->game);
+
+        $message = $silent ? "" : clienttranslate('${player_name} moves a wizard by ${steps_label} space(s)');
         $NotifManager->all(
             "moveWizard",
-            clienttranslate('${player_name} moves a wizard by ${steps_label} space(s)'),
+            $message,
             [
                 "space_id" => $space_id,
                 "card" => $this->getCard($this->card_id),
@@ -46,10 +61,16 @@ class Wizard extends WizardManager
         );
     }
 
-    public function validateOwner(int $player_id): void
+    public function moveWithTower($towerCard_id): void
     {
-        if ($this->owner !== $player_id) {
-            throw new \BgaVisibleSystemException("Invalid wizard owner");
-        }
+        $Tower = new Tower($this->game, $towerCard_id);
+        $steps = $Tower->getSpaceId() - $this->getSpaceId();
+
+        $this->moveBySteps($steps, true);
+    }
+
+    public function updateTier(int $tier): void
+    {
+        $this->game->DbQuery("UPDATE {$this->dbTable} SET tier={$tier} WHERE card_id={$this->card_id}");
     }
 }
