@@ -36,11 +36,12 @@ class WizardManager extends CardManager
             $this->game->DbQuery("UPDATE wizard SET card_location='hand', card_location_arg={$player_id} WHERE card_type_arg={$player_id}");
         }
 
-        $firstPlayer_id = (int) $this->game->getNextPlayerTable()[0];
+        $nextPlayerTable = (array) $this->game->getNextPlayerTable();
+        $firstPlayer_id = (int) $nextPlayerTable[0];
         $this->setupOnTowers($firstPlayer_id);
     }
 
-    private function setupOnTowers(int $player_id, int $space_id = 2): void
+    public function setupOnTowers(int $player_id, int $space_id = 2): void
     {
         $space = (array) $this->game->SPACES[$space_id];
         $setupWizardCount = (int) $space["setupWizardCount"];
@@ -49,14 +50,17 @@ class WizardManager extends CardManager
             return;
         }
 
-        if ($this->countOnSpace($space_id) < $setupWizardCount) {
-            if ($this->countCardsInHand($player_id) > 0) {
+        if ($this->countCardsInHand($player_id) > 0) {
+            if (
+                $this->countOnSpace($space_id) < $setupWizardCount
+            ) {
                 $this->transferCard("hand", "space", $player_id, $space_id);
+                $player_id = $this->game->getPlayerAfter($player_id);
+            } else {
+                $space_id++;
             }
-
-            $player_id = $this->game->getPlayerAfter($player_id);
         } else {
-            $space_id++;
+            $player_id = $this->game->getPlayerAfter($player_id);
         }
 
         $this->setupOnTowers($player_id, $space_id);
@@ -64,6 +68,6 @@ class WizardManager extends CardManager
 
     public function countOnSpace(int $space_id): int
     {
-        return $this->countCardsInLocation("space", $space_id);
+        return (int) $this->countCardsInLocation("space", $space_id);
     }
 }

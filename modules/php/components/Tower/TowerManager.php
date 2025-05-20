@@ -25,7 +25,7 @@ class TowerManager extends CardManager
         }
         $this->createCards($towerCards, "board");
 
-        $towerCards = $this->getCards("deck");
+        $towerCards = $this->getCardsInLocation("deck");
         foreach ($towerCards as $towerCard_id => $towerCard) {
             $tower_id = (int) $towerCard["type_arg"];
             $this->moveByLocationArg($towerCard_id, $tower_id);

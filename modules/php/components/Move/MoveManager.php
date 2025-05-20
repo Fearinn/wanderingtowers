@@ -29,7 +29,7 @@ class MoveManager extends CardManager
 
     public function getDiscard(): array
     {
-        return $this->getCards("discard");
+        return $this->getCardsInLocation("discard");
     }
 
     public function draw(int $nbr, int $player_id): void

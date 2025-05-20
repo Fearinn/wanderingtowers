@@ -48,12 +48,24 @@ class CardManager
         return $card;
     }
 
-    public function getCards(string $location, int $location_arg = null): array
+    public function getCardInLocation(string $location, int $location_arg = null): array
+    {
+        $cards = $this->getCardsInLocation($location, $location_arg);
+
+        if (!$cards) {
+            throw new \BgaVisibleSystemException("No card found");
+        }
+
+        return reset($cards);
+    }
+
+
+    public function getCardsInLocation(string $location, int $location_arg = null): array
     {
         $sql = "SELECT {$this->fields} FROM {$this->dbTable} WHERE card_location='{$location}'";
 
         if ($location_arg) {
-            $sql . " AND card_location_arg={$location_arg}";
+            $sql .= " AND card_location_arg={$location_arg}";
         }
 
         $cards = $this->game->getCollectionFromDB($sql);
@@ -65,20 +77,9 @@ class CardManager
         return array_values($this->deck->getPlayerHand($player_id));
     }
 
-    public function getCardInLocation(string $location, int $location_arg = null): array
-    {
-        $cards = $this->getCards($location, $location_arg);
-
-        if (!$cards) {
-            throw new \BgaVisibleSystemException("No card found");
-        }
-
-        return reset($cards);
-    }
-
     public function getDeck(): array
     {
-        $deck = $this->getCards("deck");
+        $deck = $this->getCardsInLocation("deck");
         return $this->hideCards($deck);
     }
 
@@ -87,9 +88,9 @@ class CardManager
         return $this->game->getCollectionFromDB("SELECT {$this->fields} FROM {$this->dbTable} WHERE card_location_arg={$location_arg}");
     }
 
-    public function transferCard(string $from, string $to, int $from_arg = null, int $to_arg = 0): void
+    public function transferCard(string $from, string $to, int $from_arg = 0, int $to_arg = 0): void
     {
-        $card = $this->getCardInLocation($from, $from_arg);
+        $card = $this->getCardInLocation($from, $from_arg, true);
         $card_id = (int) $card["id"];
         $this->deck->moveCard($card_id, $to, $to_arg);
     }
@@ -111,7 +112,7 @@ class CardManager
 
     public function countCardsInLocation(string $location, int $location_arg = null): int
     {
-        return $this->deck->countCardsInLocation($location, $location_arg);
+        return (int) $this->deck->countCardsInLocation($location, $location_arg);
     }
 
     public function countCardsInHand(?int $player_id): int

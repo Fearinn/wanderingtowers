@@ -180,9 +180,9 @@ class Game extends \Table
         $gamedatas = [
             "players" => $this->getCollectionFromDb("SELECT `player_id` `id`, `player_score` `score` FROM `player`"),
             "diceFace" => $this->globals->get(G_DICE_FACE, 3),
-            "towerCards" => $TowerManager->getCards("board"),
-            "wizardCards" => $WizardManager->getCards("space"),
-            "potionCards" => $PotionManager->getCards("hand"),
+            "towerCards" => $TowerManager->getCardsInLocation("board"),
+            "wizardCards" => $WizardManager->getCardsInLocation("space"),
+            "potionCards" => $PotionManager->getCardsInLocation("hand"),
             "moveDeck" => $MoveManager->getDeck(),
             "moveDiscard" => $MoveManager->getDiscard(),
             "hand" => $MoveManager->getPlayerHand($current_player_id),
@@ -307,5 +307,12 @@ class Game extends \Table
     {
         $Dice = new Dice($this);
         $Dice->roll();
+    }
+
+    public function debug_setupOnTowers(): void {
+        $WizardManager = new WizardManager($this);
+
+        $player_id = (int) $this->getNextPlayerTable()[0];
+        $WizardManager->setupOnTowers($player_id);
     }
 }
