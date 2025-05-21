@@ -4,6 +4,8 @@ namespace Bga\Games\WanderingTowers\Components\Tower;
 
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\Table;
+use Bga\Games\WanderingTowers\Components\Wizard\Wizard;
+use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
 class Tower extends TowerManager
@@ -22,16 +24,22 @@ class Tower extends TowerManager
         return $TowerCard["location_arg"];
     }
 
+    public function updateTier(int $tier): void
+    {
+        $this->game->DbQuery("UPDATE {$this->dbTable} SET tier={$tier} WHERE card_id={$this->card_id}");
+    }
+
     public function moveBySteps(int $steps): void
     {
         $space_id = $this->getSpaceId($this->card_id);
         $space_id += $steps;
 
         $this->moveByLocationArg($this->card_id, $space_id);
+        $this->moveWizardsAlong($space_id - $steps);
 
         $TowerManager = new TowerManager($this->game);
         $tier = $TowerManager->countOnSpace($space_id);
-        
+
         $this->updateTier($tier);
 
         $card = $this->getCard($this->card_id);
@@ -48,8 +56,15 @@ class Tower extends TowerManager
         );
     }
 
-    public function updateTier(int $tier): void
+    public function moveWizardsAlong(int $space_id): void
     {
-        $this->game->DbQuery("UPDATE {$this->dbTable} SET tier={$tier} WHERE card_id={$this->card_id}");
+        $WizardManager = new WizardManager($this->game);
+        $wizardCards = $WizardManager->getCardsInLocation("space", $space_id);
+
+        foreach ($wizardCards as $wizardCard) {
+            $wizardCard_id = (int) $wizardCard["id"];
+            $Wizard = new Wizard($this->game, $wizardCard_id);
+            $Wizard->moveWithTower($this->card_id);
+        }
     }
 }
