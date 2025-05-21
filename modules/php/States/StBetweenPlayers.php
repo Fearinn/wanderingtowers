@@ -5,7 +5,9 @@ namespace Bga\Games\WanderingTowers\States;
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\Move\MoveManager;
 
+use const Bga\Games\WanderingTowers\G_MOVE;
 use const Bga\Games\WanderingTowers\G_REROLLS;
+use const Bga\Games\WanderingTowers\G_TOWER;
 use const Bga\Games\WanderingTowers\G_WIZARD;
 
 class StBetweenPlayers extends StateManager
@@ -26,6 +28,8 @@ class StBetweenPlayers extends StateManager
 
     public function enter()
     {
+        $this->globals->set(G_MOVE, null);
+        $this->globals->set(G_TOWER, null);
         $this->globals->set(G_WIZARD, null);
         $this->globals->set(G_REROLLS, 0);
 

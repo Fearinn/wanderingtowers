@@ -130,9 +130,6 @@ var WanderingTowers = /** @class */ (function (_super) {
             var towerCard = new TowerCard(_this, card);
             towerCard.setup();
         });
-        console.log(gamedatas.towerCards.filter(function (card) {
-            return card.location_arg == 6;
-        }));
         gamedatas.moveDeck.forEach(function (card) {
             var moveCard = new MoveCard(_this, card);
             moveCard.setup();

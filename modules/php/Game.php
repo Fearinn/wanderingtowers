@@ -36,7 +36,9 @@ use Bga\Games\WanderingTowers\States\StRerollDice;
 
 const G_REROLLS = "rerolls";
 const G_DICE_FACE = "diceFace";
+const G_MOVE = "move";
 const G_WIZARD = "wizard";
+const G_TOWER = "tower";
 const TR_REROLL_DICE = "rerollDice";
 const TR_NEXT_PLAYER = "nextPlayer";
 
