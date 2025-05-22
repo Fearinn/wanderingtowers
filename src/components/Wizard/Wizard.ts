@@ -10,10 +10,62 @@ interface WizardStocks {
 interface WizardCard extends Card {
   card: WizardCardBase;
   stocks: WizardStocks;
-  space_id?: number;
+  space_id: number;
+  towerTier: number;
   setup(): void;
   place(space_id: number): void;
-  move(space_id: number, tier: number): void;
+  move(space_id: number): void;
+}
+
+class WizardCard extends Card {
+  constructor(game: WanderingTowersGui, card: WizardCardBase) {
+    super(game, card);
+    this.space_id = this.card.location_arg;
+    this.card.tier = Number(card.tier);
+    this.stocks = this.game.wtw.stocks.wizards;
+    this.towerTier =
+      this.game.wtw.stocks.towers.spaces[this.space_id].getCards().length;
+  }
+
+  setup() {
+    this.place(this.space_id);
+    if (this.card.tier < this.towerTier) {
+      this.toggleVisibility(false);
+    }
+  }
+
+  setupDiv(element: HTMLDivElement) {
+    element.classList.add("wtw_card", "wtw_wizard");
+    element.style.backgroundPosition = `${Number(this.card.type) * -100}%`;
+
+    const player_id = this.card.type_arg;
+    const tooltip =
+      player_id === this.game.player_id
+        ? _("Your wizard")
+        : _("${player_name}'s wizard");
+
+    this.game.addTooltip(
+      element.id,
+      this.game.format_string_recursive(_(tooltip), {
+        player_id,
+        player_name: this.game.gamedatas.players[player_id].name,
+      }),
+      ""
+    );
+  }
+
+  place(space_id: number): void {
+    this.stocks.spaces[space_id].addCard(this.card, {}, { visible: true });
+  }
+
+  move(space_id: number): void {
+    this.place(space_id);
+  }
+
+  toggleVisibility(isVisible: boolean) {
+    const element = this.stocks.spaces[this.space_id].getCardElement(this.card);
+    element.classList.toggle("wtw_wizard-imprisioned", !isVisible);
+  }
 }
 
 interface WizardSpaceStock extends CardStock<WizardCardBase> {
@@ -73,46 +125,5 @@ class WizardSpaceStock extends CardStock<WizardCardBase> {
     return this.getCards().filter((card) => {
       return card.type_arg === player_id;
     });
-  }
-}
-
-class WizardCard extends Card {
-  constructor(game: WanderingTowersGui, card: WizardCardBase) {
-    super(game, card);
-    this.card.tier = Number(card.tier);
-    this.stocks = this.game.wtw.stocks.wizards;
-  }
-
-  setup() {
-    this.place(this.card.location_arg);
-  }
-
-  setupDiv(element: HTMLDivElement) {
-    element.classList.add("wtw_card", "wtw_wizard");
-    element.style.backgroundPosition = `${Number(this.card.type) * -100}%`;
-
-    const player_id = this.card.type_arg;
-    const tooltip =
-      player_id === this.game.player_id
-        ? _("Your wizard")
-        : _("${player_name}'s wizard");
-
-    this.game.addTooltip(
-      element.id,
-      this.game.format_string_recursive(_(tooltip), {
-        player_id,
-        player_name: this.game.gamedatas.players[player_id].name,
-      }),
-      ""
-    );
-  }
-
-  place(space_id: number): void {
-    this.space_id = space_id;
-    this.stocks.spaces[space_id].addCard(this.card, {}, { visible: true });
-  }
-
-  move(space_id: number, tier: number): void {
-    this.place(space_id);
   }
 }

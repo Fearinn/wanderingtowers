@@ -2654,6 +2654,47 @@ var TowerCard = /** @class */ (function (_super) {
     };
     return TowerCard;
 }(Card));
+var WizardCard = /** @class */ (function (_super) {
+    __extends(WizardCard, _super);
+    function WizardCard(game, card) {
+        var _this = _super.call(this, game, card) || this;
+        _this.space_id = _this.card.location_arg;
+        _this.card.tier = Number(card.tier);
+        _this.stocks = _this.game.wtw.stocks.wizards;
+        _this.towerTier =
+            _this.game.wtw.stocks.towers.spaces[_this.space_id].getCards().length;
+        return _this;
+    }
+    WizardCard.prototype.setup = function () {
+        this.place(this.space_id);
+        if (this.card.tier < this.towerTier) {
+            this.toggleVisibility(false);
+        }
+    };
+    WizardCard.prototype.setupDiv = function (element) {
+        element.classList.add("wtw_card", "wtw_wizard");
+        element.style.backgroundPosition = "".concat(Number(this.card.type) * -100, "%");
+        var player_id = this.card.type_arg;
+        var tooltip = player_id === this.game.player_id
+            ? _("Your wizard")
+            : _("${player_name}'s wizard");
+        this.game.addTooltip(element.id, this.game.format_string_recursive(_(tooltip), {
+            player_id: player_id,
+            player_name: this.game.gamedatas.players[player_id].name,
+        }), "");
+    };
+    WizardCard.prototype.place = function (space_id) {
+        this.stocks.spaces[space_id].addCard(this.card, {}, { visible: true });
+    };
+    WizardCard.prototype.move = function (space_id) {
+        this.place(space_id);
+    };
+    WizardCard.prototype.toggleVisibility = function (isVisible) {
+        var element = this.stocks.spaces[this.space_id].getCardElement(this.card);
+        element.classList.toggle("wtw_wizard-imprisioned", !isVisible);
+    };
+    return WizardCard;
+}(Card));
 var WizardSpaceStock = /** @class */ (function (_super) {
     __extends(WizardSpaceStock, _super);
     function WizardSpaceStock(game, manager, space_id) {
@@ -2698,38 +2739,6 @@ var WizardSpaceStock = /** @class */ (function (_super) {
     };
     return WizardSpaceStock;
 }(CardStock));
-var WizardCard = /** @class */ (function (_super) {
-    __extends(WizardCard, _super);
-    function WizardCard(game, card) {
-        var _this = _super.call(this, game, card) || this;
-        _this.card.tier = Number(card.tier);
-        _this.stocks = _this.game.wtw.stocks.wizards;
-        return _this;
-    }
-    WizardCard.prototype.setup = function () {
-        this.place(this.card.location_arg);
-    };
-    WizardCard.prototype.setupDiv = function (element) {
-        element.classList.add("wtw_card", "wtw_wizard");
-        element.style.backgroundPosition = "".concat(Number(this.card.type) * -100, "%");
-        var player_id = this.card.type_arg;
-        var tooltip = player_id === this.game.player_id
-            ? _("Your wizard")
-            : _("${player_name}'s wizard");
-        this.game.addTooltip(element.id, this.game.format_string_recursive(_(tooltip), {
-            player_id: player_id,
-            player_name: this.game.gamedatas.players[player_id].name,
-        }), "");
-    };
-    WizardCard.prototype.place = function (space_id) {
-        this.space_id = space_id;
-        this.stocks.spaces[space_id].addCard(this.card, {}, { visible: true });
-    };
-    WizardCard.prototype.move = function (space_id, tier) {
-        this.place(space_id);
-    };
-    return WizardCard;
-}(Card));
 var NotificationManager = /** @class */ (function () {
     function NotificationManager(game) {
         this.game = game;
@@ -2738,7 +2747,12 @@ var NotificationManager = /** @class */ (function () {
     NotificationManager.prototype.notif_moveWizard = function (args) {
         var card = args.card, space_id = args.space_id;
         var wizardCard = new WizardCard(this.game, card);
-        wizardCard.move(space_id, 1);
+        wizardCard.move(space_id);
+    };
+    NotificationManager.prototype.notif_toggleWizardVisibility = function (args) {
+        var card = args.card, isVisible = args.isVisible;
+        var wizardCard = new WizardCard(this.game, card);
+        wizardCard.toggleVisibility(isVisible);
     };
     NotificationManager.prototype.notif_moveTower = function (args) {
         var card = args.card, space_id = args.space_id;

@@ -11,11 +11,15 @@ use Bga\Games\WanderingTowers\Notifications\NotifManager;
 class Tower extends TowerManager
 {
     public int $card_id;
+    public int $tier;
 
     public function __construct(Table $game, #[IntParam(min: 1, max: 10)] int $towerCard_id)
     {
         parent::__construct($game);
         $this->card_id = $towerCard_id;
+
+        $card = $this->getCard($this->card_id);
+        $this->tier = $card["tier"];
     }
 
     public function getSpaceId(): int
@@ -26,20 +30,24 @@ class Tower extends TowerManager
 
     public function updateTier(int $tier): void
     {
+        $this->tier = $tier;
         $this->game->DbQuery("UPDATE {$this->dbTable} SET tier={$tier} WHERE card_id={$this->card_id}");
     }
 
     public function moveBySteps(int $steps): void
     {
-        $space_id = $this->getSpaceId($this->card_id);
-        $space_id += $steps;
+        $current_space_id = $this->getSpaceId($this->card_id);
+        $current_tier = $this->tier;
+
+        $WizardManager = new WizardManager($this->game);
+        $WizardManager->freeUpWizards($current_space_id, $current_tier - 1);
+
+        $space_id = $current_space_id + $steps;
 
         $this->moveByLocationArg($this->card_id, $space_id);
-        $this->moveWizardsAlong($space_id - $steps);
+        $WizardManager->moveWizardsWithTower($current_space_id, $current_tier, $this->card_id);
 
-        $TowerManager = new TowerManager($this->game);
-        $tier = $TowerManager->countOnSpace($space_id);
-
+        $tier = $this->countOnSpace($space_id);
         $this->updateTier($tier);
 
         $card = $this->getCard($this->card_id);
@@ -54,17 +62,7 @@ class Tower extends TowerManager
                 "steps_label" => $steps
             ]
         );
-    }
 
-    public function moveWizardsAlong(int $space_id): void
-    {
-        $WizardManager = new WizardManager($this->game);
-        $wizardCards = $WizardManager->getCardsInLocation("space", $space_id);
-
-        foreach ($wizardCards as $wizardCard) {
-            $wizardCard_id = (int) $wizardCard["id"];
-            $Wizard = new Wizard($this->game, $wizardCard_id);
-            $Wizard->moveWithTower($this->card_id);
-        }
+        $WizardManager->imprisonWizards($space_id, $tier - 1);
     }
 }

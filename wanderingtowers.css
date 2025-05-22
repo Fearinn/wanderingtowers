@@ -839,6 +839,9 @@ body > .card {
   transform: scale(1.5);
   z-index: 3;
 }
+.wtw_wizard-imprisioned {
+  display: none;
+}
 
 :root {
   --moveHeight: 100px;

@@ -4,6 +4,7 @@ namespace Bga\Games\WanderingTowers\Components\Wizard;
 
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\CardManager;
+use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
 class WizardManager extends CardManager
 {
@@ -69,5 +70,65 @@ class WizardManager extends CardManager
     public function countOnSpace(int $space_id): int
     {
         return (int) $this->countCardsInLocation("space", $space_id);
+    }
+
+
+    public function getByTier(int $space_id, int $tier): array
+    {
+        $cards = $this->getCardsInLocation("space", $space_id);
+
+        $cards = array_filter(
+            $cards,
+            function ($card) use ($tier) {
+                $card_id = (int) $card["id"];
+                $Wizard = new Wizard($this->game, $card_id);
+                return $tier === $Wizard->tier;
+            }
+        );
+
+        return $cards;
+    }
+
+    public function moveWizardsWithTower(int $space_id, int $tier, int $towerCard_id): void
+    {
+        $wizardCards = $this->getByTier($space_id, $tier);
+        
+        foreach ($wizardCards as $wizardCard) {
+            $wizardCard_id = (int) $wizardCard["id"];
+            $Wizard = new Wizard($this->game, $wizardCard_id);
+            $Wizard->moveWithTower($towerCard_id);
+        }
+    }
+
+    public function imprisonWizards(int $space_id, int $tier): void
+    {
+        $wizardCards = $this->getByTier($space_id, $tier);
+
+        $imprisioned = false;
+        foreach ($wizardCards as $wizardCard) {
+            $wizardCard_id = (int) $wizardCard["id"];
+            $Wizard = new Wizard($this->game, $wizardCard_id);
+            $Wizard->imprison();
+            $imprisioned = true;
+        }
+
+        if ($imprisioned) {
+            $NotifManager = new NotifManager($this->game);
+            $NotifManager->all(
+                "imprisionWizard",
+                clienttranslate('${player_name} imprisons wizard(s)'),
+            );
+        }
+    }
+
+    public function freeUpWizards(int $space_id, int $tier): void
+    {
+        $wizardCards = $this->getByTier($space_id, $tier);
+
+        foreach ($wizardCards as $wizardCard) {
+            $wizardCard_id = (int) $wizardCard["id"];
+            $Wizard = new Wizard($this->game, $wizardCard_id);
+            $Wizard->freeUp();
+        }
     }
 }

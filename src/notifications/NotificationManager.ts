@@ -16,7 +16,16 @@ class NotificationManager implements NotificationManager {
   }) {
     const { card, space_id } = args;
     const wizardCard = new WizardCard(this.game, card);
-    wizardCard.move(space_id, 1);
+    wizardCard.move(space_id);
+  }
+
+  public notif_toggleWizardVisibility(args: {
+    card: WizardCardBase;
+    isVisible: boolean;
+  }) {
+    const { card, isVisible } = args;
+    const wizardCard = new WizardCard(this.game, card);
+    wizardCard.toggleVisibility(isVisible);
   }
 
   public notif_moveTower(args: { card: TowerCardBase; space_id: number }) {
