@@ -833,11 +833,14 @@ body > .card {
   background-size: cover;
   aspect-ratio: 1/1.53;
   width: var(--wizardWidth);
-  z-index: 2;
+  z-index: 1;
+}
+.wtw_wizard.bga-animations_animated {
+  z-index: 11 !important;
 }
 .wtw_wizard-selected {
   transform: scale(1.5);
-  z-index: 3;
+  z-index: 2;
 }
 .wtw_wizard-imprisioned {
   display: none;
@@ -853,7 +856,7 @@ body > .card {
   bottom: -10%;
   transform: translateX(-50%) translateY(-50%);
   transition: 1s;
-  z-index: 1;
+  z-index: 2;
 }
 .wtw_moveHand:hover, .wtw_moveHand:has(.wtw_move-selected) {
   bottom: -5%;

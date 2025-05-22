@@ -24,11 +24,15 @@
   background-size: cover;
   aspect-ratio: 1 / 1.53;
   width: var(--wizardWidth);
-  z-index: 2;
+  z-index: 1;
+
+  &.bga-animations_animated {
+    z-index: 11 !important;
+  }
 
   &-selected {
     transform: scale(1.5);
-    z-index: 3;
+    z-index: 2;
   }
 
   &-imprisioned {
