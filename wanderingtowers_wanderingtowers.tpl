@@ -107,86 +107,54 @@
         ></div>
       </div>
       <div id="wtw_spaceTowersContainer" class="wtw_spaceTowersContainer">
-        <div
-          id="wtw_spaceTowers-1"
-          class="wtw_spaceTowers"
-          data-space="1"
-        ></div>
-        <div
-          id="wtw_spaceTowers-2"
-          class="wtw_spaceTowers"
-          data-space="2"
-        ></div>
-        <div
-          id="wtw_spaceTowers-3"
-          class="wtw_spaceTowers"
-          data-space="3"
-        ></div>
-        <div
-          id="wtw_spaceTowers-4"
-          class="wtw_spaceTowers"
-          data-space="4"
-        ></div>
-        <div
-          id="wtw_spaceTowers-5"
-          class="wtw_spaceTowers"
-          data-space="5"
-        ></div>
-        <div
-          id="wtw_spaceTowers-6"
-          class="wtw_spaceTowers"
-          data-space="6"
-        ></div>
-        <div
-          id="wtw_spaceTowers-7"
-          class="wtw_spaceTowers"
-          data-space="7"
-        ></div>
-        <div
-          id="wtw_spaceTowers-8"
-          class="wtw_spaceTowers"
-          data-space="8"
-        ></div>
-        <div
-          id="wtw_spaceTowers-9"
-          class="wtw_spaceTowers"
-          data-space="9"
-        ></div>
-        <div
-          id="wtw_spaceTowers-10"
-          class="wtw_spaceTowers"
-          data-space="10"
-        ></div>
-        <div
-          id="wtw_spaceTowers-11"
-          class="wtw_spaceTowers"
-          data-space="11"
-        ></div>
-        <div
-          id="wtw_spaceTowers-12"
-          class="wtw_spaceTowers"
-          data-space="12"
-        ></div>
-        <div
-          id="wtw_spaceTowers-13"
-          class="wtw_spaceTowers"
-          data-space="13"
-        ></div>
-        <div
-          id="wtw_spaceTowers-14"
-          class="wtw_spaceTowers"
-          data-space="14"
-        ></div>
-        <div
-          id="wtw_spaceTowers-15"
-          class="wtw_spaceTowers"
-          data-space="15"
-        ></div>
-        <div
-          id="wtw_spaceTowers-16"
-          class="wtw_spaceTowers"
-          data-space="16"
-        ></div>
+        <div id="wtw_spaceTowers-1" class="wtw_spaceTowers" data-space="1">
+          <div id="wtw_tierCounter-1" class="wtw_tierCounter"></div>
+        </div>
+        <div id="wtw_spaceTowers-2" class="wtw_spaceTowers" data-space="2">
+          <div id="wtw_tierCounter-2" class="wtw_tierCounter"></div>
+        </div>
+        <div id="wtw_spaceTowers-3" class="wtw_spaceTowers" data-space="3">
+          <div id="wtw_tierCounter-3" class="wtw_tierCounter"></div>
+        </div>
+        <div id="wtw_spaceTowers-4" class="wtw_spaceTowers" data-space="4">
+          <div id="wtw_tierCounter-4" class="wtw_tierCounter"></div>
+        </div>
+        <div id="wtw_spaceTowers-5" class="wtw_spaceTowers" data-space="5">
+          <div id="wtw_tierCounter-5" class="wtw_tierCounter"></div>
+        </div>
+        <div id="wtw_spaceTowers-6" class="wtw_spaceTowers" data-space="6">
+          <div id="wtw_tierCounter-6" class="wtw_tierCounter"></div>
+        </div>
+        <div id="wtw_spaceTowers-7" class="wtw_spaceTowers" data-space="7">
+          <div id="wtw_tierCounter-7" class="wtw_tierCounter"></div>
+        </div>
+        <div id="wtw_spaceTowers-8" class="wtw_spaceTowers" data-space="8">
+          <div id="wtw_tierCounter-8" class="wtw_tierCounter"></div>
+        </div>
+        <div id="wtw_spaceTowers-9" class="wtw_spaceTowers" data-space="9">
+          <div id="wtw_tierCounter-9" class="wtw_tierCounter"></div>
+        </div>
+        <div id="wtw_spaceTowers-10" class="wtw_spaceTowers" data-space="10">
+          <div id="wtw_tierCounter-10" class="wtw_tierCounter"></div>
+        </div>
+        <div id="wtw_spaceTowers-11" class="wtw_spaceTowers" data-space="11">
+          <div id="wtw_tierCounter-11" class="wtw_tierCounter"></div>
+        </div>
+        <div id="wtw_spaceTowers-12" class="wtw_spaceTowers" data-space="12">
+          <div id="wtw_tierCounter-12" class="wtw_tierCounter"></div>
+        </div>
+        <div id="wtw_spaceTowers-13" class="wtw_spaceTowers" data-space="13">
+          <div id="wtw_tierCounter-13" class="wtw_tierCounter"></div>
+        </div>
+        <div id="wtw_spaceTowers-14" class="wtw_spaceTowers" data-space="14">
+          <div id="wtw_tierCounter-14" class="wtw_tierCounter"></div>
+        </div>
+        <div id="wtw_spaceTowers-15" class="wtw_spaceTowers" data-space="15">
+          <div id="wtw_tierCounter-15" class="wtw_tierCounter"></div>
+        </div>
+        <div id="wtw_spaceTowers-16" class="wtw_spaceTowers" data-space="16">
+          <div id="wtw_tierCounter-16" class="wtw_tierCounter"></div>
+        </div>
       </div>
     </div>
   </div>

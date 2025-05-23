@@ -9,6 +9,12 @@ interface Stocks {
   moves: MoveStocks;
 }
 
+interface Counters {
+  spaces: {
+    [space_id: number]: Counter;
+  };
+}
+
 declare class WanderingTowersGui extends Game {
   wtw: {
     managers: {
@@ -19,6 +25,7 @@ declare class WanderingTowersGui extends Game {
       wizards: CardManager<WizardCardBase>;
     };
     stocks: Stocks;
+    counters: Counters;
     globals: {
       moveCard?: MoveCardBase;
     };

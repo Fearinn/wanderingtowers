@@ -9,6 +9,16 @@
   width: var(--boardWidth);
 }
 
+.wtw_tierCounter {
+  position: absolute;
+  bottom: -5%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 100%;
+  padding: 2px;
+}
+
 .wtw_tiles {
   position: absolute;
   top: 0;

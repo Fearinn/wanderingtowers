@@ -81,10 +81,13 @@ class WanderingTowers extends WanderingTowersGui {
       },
     });
 
-    const towerStocks = {
+    const towerStocks: TowerStocks = {
       spaces: {},
     };
-    const wizardStocks = {
+    const wizardStocks: WizardStocks = {
+      spaces: {},
+    };
+    const counters: Counters = {
       spaces: {},
     };
     for (let space_id = 1; space_id <= 16; space_id++) {
@@ -99,6 +102,10 @@ class WanderingTowers extends WanderingTowersGui {
         wizardCardManager,
         space_id
       );
+
+      counters.spaces[space_id] = new ebg.counter();
+      counters.spaces[space_id].create(`wtw_tierCounter-${space_id}`);
+      counters.spaces[space_id].setValue(0);
     }
 
     const moveStocks = {
@@ -129,6 +136,9 @@ class WanderingTowers extends WanderingTowersGui {
         towers: towerStocks,
         wizards: wizardStocks,
         moves: moveStocks,
+      },
+      counters: {
+        spaces: {},
       },
       globals: {},
     };
