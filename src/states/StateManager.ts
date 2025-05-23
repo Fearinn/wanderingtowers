@@ -1,9 +1,9 @@
 interface StateManager {
   game: WanderingTowersGui;
   stateName: StateName;
-  statusBar: WanderingTowersGui["statusBar"];
+  statusBar: StatusBar;
   wtw: WanderingTowersGui["wtw"];
-  enter(): void;
+  enter(args?: object): void;
 }
 
 type StateName =
@@ -12,19 +12,20 @@ type StateName =
   | "client_playMove"
   | "client_pickMoveSide"
   | "client_pickMoveWizard"
-  | "client_pickMoveTower";
+  | "client_pickMoveTower"
+  | "client_pickMoveTier";
 
 class StateManager implements StateManager {
   constructor(game: WanderingTowersGui, stateName: StateName) {
     this.game = game;
     this.stateName = stateName;
-    this.wtw = this.game.wtw;
     this.statusBar = this.game.statusBar;
+    this.wtw = this.game.wtw;
   }
 
-  enter() {
+  enter(args?: object): void {
     if (this.stateName.includes("client_")) {
-      this.statusBar.addActionButton(
+      this.game.statusBar.addActionButton(
         _("cancel"),
         () => {
           this.game.restoreServerGameState();

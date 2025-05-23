@@ -185,6 +185,9 @@ var WanderingTowers = /** @class */ (function (_super) {
             case "rerollDice":
                 new StRerollDice(this).enter();
                 break;
+            case "client_pickMoveTier":
+                new StPickMoveTier(this).enter(args);
+                break;
         }
     };
     WanderingTowers.prototype.onLeavingState = function (stateName) {
@@ -200,6 +203,9 @@ var WanderingTowers = /** @class */ (function (_super) {
                 break;
             case "client_pickMoveTower":
                 new StPickMoveTower(this).leave();
+                break;
+            case "client_pickMoveTier":
+                new StPickMoveTier(this).leave();
                 break;
         }
     };
@@ -2574,9 +2580,8 @@ var MoveCard = /** @class */ (function (_super) {
     MoveCard.prototype.setupBackDiv = function (element) {
         element.classList.add("wtw_move-back");
     };
-    MoveCard.prototype.toggleSelection = function (enabled, stock) {
-        if (stock === void 0) { stock = this.stocks.hand; }
-        stock.toggleSelection(enabled);
+    MoveCard.prototype.toggleSelection = function (enabled) {
+        this.stocks.hand.toggleSelection(enabled);
         if (enabled) {
             this.select(true);
         }
@@ -2606,6 +2611,9 @@ var Space = /** @class */ (function () {
         var tier = this.towerStock.getCards().length;
         this.tierCounter.toValue(tier);
     };
+    Space.prototype.getMaxTier = function () {
+        return this.towerStock.getCards().length;
+    };
     return Space;
 }());
 var TowerCard = /** @class */ (function (_super) {
@@ -2622,12 +2630,22 @@ var TowerCard = /** @class */ (function (_super) {
     };
     TowerCard.prototype.setupDiv = function (element) {
         element.classList.add("wtw_card", "wtw_tower");
-        if (this.type_arg === 1) {
+        if (this.card.type_arg === 1) {
             element.classList.add("wtw_tower-ravenskeep");
         }
-        if (this.type_arg % 2 === 0) {
+        if (this.card.type_arg % 2 === 0) {
             element.classList.add("wtw_tower-raven");
         }
+    };
+    TowerCard.prototype.toggleSelection = function (enabled) {
+        this.stocks.spaces[this.space_id].toggleSelection(enabled);
+        if (enabled) {
+            this.select(true);
+        }
+    };
+    TowerCard.prototype.select = function (silent) {
+        if (silent === void 0) { silent = false; }
+        this.stocks.spaces[this.space_id].selectCard(this.card, silent);
     };
     TowerCard.prototype.place = function (space_id) {
         this.space_id = space_id;
@@ -2656,14 +2674,21 @@ var TowerSpaceStock = /** @class */ (function (_super) {
             var _a;
             (_a = document.getElementById("wtw_confirmationButton")) === null || _a === void 0 ? void 0 : _a.remove();
             if (selection.length > 0) {
-                _this.unselectOthers();
                 _this.game.addConfirmationButton(_("tower"), function () {
-                    _this.game.performAction("actMoveTower", {
-                        moveCard_id: _this.game.wtw.globals.moveCard.id,
-                        towerCard_id: card.id,
+                    var towerCard = new TowerCard(_this.game, card);
+                    var space = new Space(_this.game, towerCard.space_id);
+                    var maxTier = space.getMaxTier();
+                    _this.game.wtw.globals.towerCard = towerCard.card;
+                    _this.game.setClientState("client_pickMoveTier", {
+                        descriptionmyturn: _("${you} must pick the number of tiers to move"),
+                        client_args: {
+                            maxTier: maxTier,
+                        },
                     });
                 });
+                return;
             }
+            _this.game.restoreServerGameState();
         };
         return _this;
     }
@@ -2810,13 +2835,13 @@ var StateManager = /** @class */ (function () {
     function StateManager(game, stateName) {
         this.game = game;
         this.stateName = stateName;
-        this.wtw = this.game.wtw;
         this.statusBar = this.game.statusBar;
+        this.wtw = this.game.wtw;
     }
-    StateManager.prototype.enter = function () {
+    StateManager.prototype.enter = function (args) {
         var _this = this;
         if (this.stateName.includes("client_")) {
-            this.statusBar.addActionButton(_("cancel"), function () {
+            this.game.statusBar.addActionButton(_("cancel"), function () {
                 _this.game.restoreServerGameState();
             }, { color: "alert" });
         }
@@ -2851,6 +2876,51 @@ var StPickMoveSide = /** @class */ (function (_super) {
         moveCard.toggleSelection(false);
     };
     return StPickMoveSide;
+}(StateManager));
+var StPickMoveTier = /** @class */ (function (_super) {
+    __extends(StPickMoveTier, _super);
+    function StPickMoveTier(game) {
+        return _super.call(this, game, "client_pickMoveTier") || this;
+    }
+    StPickMoveTier.prototype.enter = function (args) {
+        var _this = this;
+        _super.prototype.enter.call(this);
+        var _a = this.game.wtw.globals, moveCard = _a.moveCard, towerCard = _a.towerCard;
+        var maxTier = args.client_args.maxTier;
+        if (maxTier === 1) {
+            this.game.performAction("actMoveTower", {
+                moveCard_id: moveCard.id,
+                towerCard_id: towerCard.id,
+                tier: maxTier,
+            });
+            return;
+        }
+        var move = new MoveCard(this.game, moveCard);
+        move.toggleSelection(true);
+        var tower = new TowerCard(this.game, towerCard);
+        tower.toggleSelection(true);
+        var _loop_3 = function (i) {
+            this_1.game.statusBar.addActionButton("".concat(i), function () {
+                _this.game.performAction("actMoveTower", {
+                    moveCard_id: moveCard.id,
+                    towerCard_id: tower.card.id,
+                    tier: maxTier - i,
+                });
+            }, {});
+        };
+        var this_1 = this;
+        for (var i = 1; i <= maxTier; i++) {
+            _loop_3(i);
+        }
+    };
+    StPickMoveTier.prototype.leave = function () {
+        var _a = this.game.wtw.globals, moveCard = _a.moveCard, towerCard = _a.towerCard;
+        var move = new MoveCard(this.game, moveCard);
+        move.toggleSelection(false);
+        var tower = new TowerCard(this.game, towerCard);
+        tower.toggleSelection(false);
+    };
+    return StPickMoveTier;
 }(StateManager));
 var StPickMoveTower = /** @class */ (function (_super) {
     __extends(StPickMoveTower, _super);

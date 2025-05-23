@@ -27,13 +27,25 @@ class TowerCard extends Card {
   setupDiv(element: HTMLDivElement) {
     element.classList.add("wtw_card", "wtw_tower");
 
-    if (this.type_arg === 1) {
+    if (this.card.type_arg === 1) {
       element.classList.add("wtw_tower-ravenskeep");
     }
 
-    if (this.type_arg % 2 === 0) {
+    if (this.card.type_arg % 2 === 0) {
       element.classList.add("wtw_tower-raven");
     }
+  }
+
+  toggleSelection(enabled: boolean): void {
+    this.stocks.spaces[this.space_id].toggleSelection(enabled);
+
+    if (enabled) {
+      this.select(true);
+    }
+  }
+
+  select(silent = false): void {
+    this.stocks.spaces[this.space_id].selectCard(this.card, silent);
   }
 
   place(space_id: number) {
@@ -48,7 +60,7 @@ class TowerCard extends Card {
     const prevSpace = new Space(this.game, current_space_id);
     prevSpace.updateTier();
 
-    const nextSpace = new Space(this.game,space_id);
+    const nextSpace = new Space(this.game, space_id);
     nextSpace.updateTier();
   }
 }
@@ -84,14 +96,26 @@ class TowerSpaceStock extends CardStock<TowerCardBase> {
       document.getElementById("wtw_confirmationButton")?.remove();
 
       if (selection.length > 0) {
-        this.unselectOthers();
         this.game.addConfirmationButton(_("tower"), () => {
-          this.game.performAction("actMoveTower", {
-            moveCard_id: this.game.wtw.globals.moveCard.id,
-            towerCard_id: card.id,
+          const towerCard = new TowerCard(this.game, card);
+          const space = new Space(this.game, towerCard.space_id);
+          const maxTier = space.getMaxTier();
+
+          this.game.wtw.globals.towerCard = towerCard.card;
+
+          this.game.setClientState("client_pickMoveTier", {
+            descriptionmyturn: _(
+              "${you} must pick the number of tiers to move"
+            ),
+            client_args: {
+              maxTier,
+            },
           });
         });
+        return;
       }
+
+      this.game.restoreServerGameState();
     };
   }
 

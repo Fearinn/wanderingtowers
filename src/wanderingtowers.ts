@@ -209,6 +209,10 @@ class WanderingTowers extends WanderingTowersGui {
       case "rerollDice":
         new StRerollDice(this).enter();
         break;
+
+      case "client_pickMoveTier":
+        new StPickMoveTier(this).enter(args as args_StPickMoveTier);
+        break;
     }
   }
 
@@ -228,6 +232,10 @@ class WanderingTowers extends WanderingTowersGui {
 
       case "client_pickMoveTower":
         new StPickMoveTower(this).leave();
+        break;
+
+      case "client_pickMoveTier":
+        new StPickMoveTier(this).leave();
         break;
     }
   }

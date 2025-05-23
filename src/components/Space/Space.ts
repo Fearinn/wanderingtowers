@@ -17,8 +17,12 @@ class Space {
     this.tierCounter = wtw.counters.spaces[this.space_id];
   }
 
-  updateTier() {
+  updateTier(): void {
     const tier = this.towerStock.getCards().length;
     this.tierCounter.toValue(tier);
+  }
+
+  getMaxTier(): number {
+    return this.towerStock.getCards().length;
   }
 }

@@ -122,8 +122,8 @@ class MoveCard extends Card {
     element.classList.add("wtw_move-back");
   }
 
-  toggleSelection(enabled: boolean, stock = this.stocks.hand): void {
-    stock.toggleSelection(enabled);
+  toggleSelection(enabled: boolean): void {
+    this.stocks.hand.toggleSelection(enabled);
 
     if (enabled) {
       this.select(true);
