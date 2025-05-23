@@ -2823,55 +2823,6 @@ var StateManager = /** @class */ (function () {
     };
     return StateManager;
 }());
-var StRerollDice = /** @class */ (function (_super) {
-    __extends(StRerollDice, _super);
-    function StRerollDice(game) {
-        return _super.call(this, game, "rerollDice") || this;
-    }
-    StRerollDice.prototype.enter = function () {
-        var _this = this;
-        _super.prototype.enter.call(this);
-        this.statusBar.addActionButton(_("Reroll"), function () {
-            _this.game.performAction("actRerollDice");
-        }, {});
-        this.statusBar.addActionButton(_("Accept"), function () {
-            _this.game.performAction("actAcceptRoll");
-        }, { classes: ["wtw_positiveButton"] });
-    };
-    return StRerollDice;
-}(StateManager));
-var StPlayerTurn = /** @class */ (function (_super) {
-    __extends(StPlayerTurn, _super);
-    function StPlayerTurn(game) {
-        return _super.call(this, game, "playerTurn") || this;
-    }
-    StPlayerTurn.prototype.enter = function () {
-        var _this = this;
-        _super.prototype.enter.call(this);
-        this.statusBar.addActionButton("play movement", function () {
-            _this.game.setClientState("client_playMove", {
-                descriptionmyturn: _("${you} must pick a movement card"),
-            });
-        }, {});
-    };
-    return StPlayerTurn;
-}(StateManager));
-var StPlayMove = /** @class */ (function (_super) {
-    __extends(StPlayMove, _super);
-    function StPlayMove(game) {
-        return _super.call(this, game, "client_playMove") || this;
-    }
-    StPlayMove.prototype.enter = function () {
-        _super.prototype.enter.call(this);
-        var moveHand = this.wtw.stocks.moves.hand;
-        moveHand.toggleSelection(true);
-    };
-    StPlayMove.prototype.leave = function () {
-        var moveHand = this.wtw.stocks.moves.hand;
-        moveHand.toggleSelection(false);
-    };
-    return StPlayMove;
-}(StateManager));
 var StPickMoveSide = /** @class */ (function (_super) {
     __extends(StPickMoveSide, _super);
     function StPickMoveSide(game) {
@@ -2900,6 +2851,35 @@ var StPickMoveSide = /** @class */ (function (_super) {
         moveCard.toggleSelection(false);
     };
     return StPickMoveSide;
+}(StateManager));
+var StPickMoveTower = /** @class */ (function (_super) {
+    __extends(StPickMoveTower, _super);
+    function StPickMoveTower(game) {
+        return _super.call(this, game, "client_pickMoveTower") || this;
+    }
+    StPickMoveTower.prototype.enter = function () {
+        _super.prototype.enter.call(this);
+        var card = this.game.wtw.globals.moveCard;
+        var moveCard = new MoveCard(this.game, card);
+        moveCard.toggleSelection(true);
+        var towerStocks = this.game.wtw.stocks.towers.spaces;
+        for (var space_id in towerStocks) {
+            var stock = towerStocks[space_id];
+            stock.toggleSelection(true);
+            stock.setSelectableCards(stock.getCards());
+        }
+    };
+    StPickMoveTower.prototype.leave = function () {
+        var card = this.game.wtw.globals.moveCard;
+        var moveCard = new MoveCard(this.game, card);
+        moveCard.toggleSelection(false);
+        var towerStocks = this.game.wtw.stocks.towers.spaces;
+        for (var space_id in towerStocks) {
+            var stock = towerStocks[space_id];
+            stock.toggleSelection(false);
+        }
+    };
+    return StPickMoveTower;
 }(StateManager));
 var StPickMoveWizard = /** @class */ (function (_super) {
     __extends(StPickMoveWizard, _super);
@@ -2931,32 +2911,52 @@ var StPickMoveWizard = /** @class */ (function (_super) {
     };
     return StPickMoveWizard;
 }(StateManager));
-var StPickMoveTower = /** @class */ (function (_super) {
-    __extends(StPickMoveTower, _super);
-    function StPickMoveTower(game) {
-        return _super.call(this, game, "client_pickMoveTower") || this;
+var StPlayMove = /** @class */ (function (_super) {
+    __extends(StPlayMove, _super);
+    function StPlayMove(game) {
+        return _super.call(this, game, "client_playMove") || this;
     }
-    StPickMoveTower.prototype.enter = function () {
+    StPlayMove.prototype.enter = function () {
         _super.prototype.enter.call(this);
-        var card = this.game.wtw.globals.moveCard;
-        var moveCard = new MoveCard(this.game, card);
-        moveCard.toggleSelection(true);
-        var towerStocks = this.game.wtw.stocks.towers.spaces;
-        for (var space_id in towerStocks) {
-            var stock = towerStocks[space_id];
-            stock.toggleSelection(true);
-            stock.setSelectableCards(stock.getCards());
-        }
+        var moveHand = this.wtw.stocks.moves.hand;
+        moveHand.toggleSelection(true);
     };
-    StPickMoveTower.prototype.leave = function () {
-        var card = this.game.wtw.globals.moveCard;
-        var moveCard = new MoveCard(this.game, card);
-        moveCard.toggleSelection(false);
-        var towerStocks = this.game.wtw.stocks.towers.spaces;
-        for (var space_id in towerStocks) {
-            var stock = towerStocks[space_id];
-            stock.toggleSelection(false);
-        }
+    StPlayMove.prototype.leave = function () {
+        var moveHand = this.wtw.stocks.moves.hand;
+        moveHand.toggleSelection(false);
     };
-    return StPickMoveTower;
+    return StPlayMove;
+}(StateManager));
+var StPlayerTurn = /** @class */ (function (_super) {
+    __extends(StPlayerTurn, _super);
+    function StPlayerTurn(game) {
+        return _super.call(this, game, "playerTurn") || this;
+    }
+    StPlayerTurn.prototype.enter = function () {
+        var _this = this;
+        _super.prototype.enter.call(this);
+        this.statusBar.addActionButton("play movement", function () {
+            _this.game.setClientState("client_playMove", {
+                descriptionmyturn: _("${you} must pick a movement card"),
+            });
+        }, {});
+    };
+    return StPlayerTurn;
+}(StateManager));
+var StRerollDice = /** @class */ (function (_super) {
+    __extends(StRerollDice, _super);
+    function StRerollDice(game) {
+        return _super.call(this, game, "rerollDice") || this;
+    }
+    StRerollDice.prototype.enter = function () {
+        var _this = this;
+        _super.prototype.enter.call(this);
+        this.statusBar.addActionButton(_("Reroll"), function () {
+            _this.game.performAction("actRerollDice");
+        }, {});
+        this.statusBar.addActionButton(_("Accept"), function () {
+            _this.game.performAction("actAcceptRoll");
+        }, { classes: ["wtw_positiveButton"] });
+    };
+    return StRerollDice;
 }(StateManager));
