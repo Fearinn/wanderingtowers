@@ -3,6 +3,56 @@ interface TowerCardBase extends BgaCard {
   tier: number;
 }
 
+interface TowerCard extends Card {
+  stocks: TowerStocks;
+  card: TowerCardBase;
+  space_id: number;
+  setup(): void;
+  place(space_id: number): void;
+  move(space_id: number, current_space_id: number): void;
+}
+
+class TowerCard extends Card {
+  constructor(game: WanderingTowersGui, card: TowerCardBase) {
+    super(game, card);
+    this.card.tier = Number(card.tier);
+    this.stocks = this.game.wtw.stocks.towers;
+    this.space_id = this.card.location_arg;
+  }
+
+  setup() {
+    this.place(this.location_arg);
+  }
+
+  setupDiv(element: HTMLDivElement) {
+    element.classList.add("wtw_card", "wtw_tower");
+
+    if (this.type_arg === 1) {
+      element.classList.add("wtw_tower-ravenskeep");
+    }
+
+    if (this.type_arg % 2 === 0) {
+      element.classList.add("wtw_tower-raven");
+    }
+  }
+
+  place(space_id: number) {
+    this.space_id = space_id;
+    const stock = this.stocks.spaces[space_id];
+    stock.addCard(this.card, {}, { visible: true });
+  }
+
+  move(space_id: number, current_space_id: number) {
+    this.place(space_id);
+
+    const prevSpace = new Space(this.game, current_space_id);
+    prevSpace.updateTier();
+
+    const nextSpace = new Space(this.game,space_id);
+    nextSpace.updateTier();
+  }
+}
+
 interface TowerStocks {
   spaces: {
     [space_id: number]: TowerSpaceStock;
@@ -59,46 +109,5 @@ class TowerSpaceStock extends CardStock<TowerCardBase> {
   toggleSelection(enable: boolean) {
     const selectionMode = enable ? "single" : "none";
     this.setSelectionMode(selectionMode);
-  }
-}
-
-interface TowerCard extends Card {
-  stocks: TowerStocks;
-  card: TowerCardBase;
-  setup(): void;
-  place(space_id: number): void;
-  move(space_id: number): void;
-}
-
-class TowerCard extends Card {
-  constructor(game: WanderingTowersGui, card: TowerCardBase) {
-    super(game, card);
-    this.card.tier = Number(card.tier);
-    this.stocks = this.game.wtw.stocks.towers;
-  }
-
-  setup() {
-    this.place(this.location_arg);
-  }
-
-  setupDiv(element: HTMLDivElement) {
-    element.classList.add("wtw_card", "wtw_tower");
-
-    if (this.type_arg === 1) {
-      element.classList.add("wtw_tower-ravenskeep");
-    }
-
-    if (this.type_arg % 2 === 0) {
-      element.classList.add("wtw_tower-raven");
-    }
-  }
-
-  place(space_id: number) {
-    const stock = this.stocks.spaces[space_id];
-    stock.addCard(this.card, {}, { visible: true });
-  }
-
-  move(space_id: number) {
-    this.place(space_id);
   }
 }

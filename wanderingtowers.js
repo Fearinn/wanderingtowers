@@ -103,7 +103,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             wizardStocks.spaces[space_id] = new WizardSpaceStock(this, wizardCardManager, space_id);
             counters.spaces[space_id] = new ebg.counter();
             counters.spaces[space_id].create("wtw_tierCounter-".concat(space_id));
-            counters.spaces[space_id].setValue(0);
+            counters.spaces[space_id].setValue(gamedatas.tierCounts[space_id]);
         }
         var moveStocks = {
             hand: new MoveHandStock(this, moveCardManager),
@@ -130,9 +130,7 @@ var WanderingTowers = /** @class */ (function (_super) {
                 wizards: wizardStocks,
                 moves: moveStocks,
             },
-            counters: {
-                spaces: {},
-            },
+            counters: counters,
             globals: {},
         };
         gamedatas.towerCards.forEach(function (card) {
@@ -2595,6 +2593,56 @@ var MoveCard = /** @class */ (function (_super) {
     };
     return MoveCard;
 }(Card));
+var Space = /** @class */ (function () {
+    function Space(game, space_id) {
+        this.game = game;
+        this.space_id = space_id;
+        var wtw = this.game.wtw;
+        this.towerStock = wtw.stocks.towers.spaces[this.space_id];
+        this.wizardStock = wtw.stocks.wizards.spaces[this.space_id];
+        this.tierCounter = wtw.counters.spaces[this.space_id];
+    }
+    Space.prototype.updateTier = function () {
+        var tier = this.towerStock.getCards().length;
+        this.tierCounter.toValue(tier);
+    };
+    return Space;
+}());
+var TowerCard = /** @class */ (function (_super) {
+    __extends(TowerCard, _super);
+    function TowerCard(game, card) {
+        var _this = _super.call(this, game, card) || this;
+        _this.card.tier = Number(card.tier);
+        _this.stocks = _this.game.wtw.stocks.towers;
+        _this.space_id = _this.card.location_arg;
+        return _this;
+    }
+    TowerCard.prototype.setup = function () {
+        this.place(this.location_arg);
+    };
+    TowerCard.prototype.setupDiv = function (element) {
+        element.classList.add("wtw_card", "wtw_tower");
+        if (this.type_arg === 1) {
+            element.classList.add("wtw_tower-ravenskeep");
+        }
+        if (this.type_arg % 2 === 0) {
+            element.classList.add("wtw_tower-raven");
+        }
+    };
+    TowerCard.prototype.place = function (space_id) {
+        this.space_id = space_id;
+        var stock = this.stocks.spaces[space_id];
+        stock.addCard(this.card, {}, { visible: true });
+    };
+    TowerCard.prototype.move = function (space_id, current_space_id) {
+        this.place(space_id);
+        var prevSpace = new Space(this.game, current_space_id);
+        prevSpace.updateTier();
+        var nextSpace = new Space(this.game, space_id);
+        nextSpace.updateTier();
+    };
+    return TowerCard;
+}(Card));
 var TowerSpaceStock = /** @class */ (function (_super) {
     __extends(TowerSpaceStock, _super);
     function TowerSpaceStock(game, manager, space_id) {
@@ -2634,35 +2682,6 @@ var TowerSpaceStock = /** @class */ (function (_super) {
     };
     return TowerSpaceStock;
 }(CardStock));
-var TowerCard = /** @class */ (function (_super) {
-    __extends(TowerCard, _super);
-    function TowerCard(game, card) {
-        var _this = _super.call(this, game, card) || this;
-        _this.card.tier = Number(card.tier);
-        _this.stocks = _this.game.wtw.stocks.towers;
-        return _this;
-    }
-    TowerCard.prototype.setup = function () {
-        this.place(this.location_arg);
-    };
-    TowerCard.prototype.setupDiv = function (element) {
-        element.classList.add("wtw_card", "wtw_tower");
-        if (this.type_arg === 1) {
-            element.classList.add("wtw_tower-ravenskeep");
-        }
-        if (this.type_arg % 2 === 0) {
-            element.classList.add("wtw_tower-raven");
-        }
-    };
-    TowerCard.prototype.place = function (space_id) {
-        var stock = this.stocks.spaces[space_id];
-        stock.addCard(this.card, {}, { visible: true });
-    };
-    TowerCard.prototype.move = function (space_id) {
-        this.place(space_id);
-    };
-    return TowerCard;
-}(Card));
 var WizardCard = /** @class */ (function (_super) {
     __extends(WizardCard, _super);
     function WizardCard(game, card) {
@@ -2764,9 +2783,9 @@ var NotificationManager = /** @class */ (function () {
         wizardCard.toggleVisibility(isVisible);
     };
     NotificationManager.prototype.notif_moveTower = function (args) {
-        var card = args.card, space_id = args.space_id;
+        var card = args.card, space_id = args.space_id, current_space_id = args.current_space_id;
         var towerCard = new TowerCard(this.game, card);
-        towerCard.move(space_id);
+        towerCard.move(space_id, current_space_id);
     };
     NotificationManager.prototype.notif_discardMove = function (args) {
         var card = args.card;

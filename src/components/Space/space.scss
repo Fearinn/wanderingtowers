@@ -10,13 +10,18 @@
 }
 
 .wtw_tierCounter {
+  font-size: 20px;
   position: absolute;
   bottom: -5%;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: white;
   border-radius: 100%;
-  padding: 2px;
+  height: calc(var(--spaceWidth) / 8);
+  width: calc(var(--spaceWidth) / 8);
 }
 
 .wtw_tiles {

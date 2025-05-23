@@ -59,6 +59,7 @@ class Tower extends TowerManager
             [
                 "card" => $card,
                 "space_id" => $space_id,
+                "current_space_id" => $current_space_id,
                 "steps_label" => $steps
             ]
         );

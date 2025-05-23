@@ -105,7 +105,7 @@ class WanderingTowers extends WanderingTowersGui {
 
       counters.spaces[space_id] = new ebg.counter();
       counters.spaces[space_id].create(`wtw_tierCounter-${space_id}`);
-      counters.spaces[space_id].setValue(0);
+      counters.spaces[space_id].setValue(gamedatas.tierCounts[space_id]);
     }
 
     const moveStocks = {
@@ -137,9 +137,7 @@ class WanderingTowers extends WanderingTowersGui {
         wizards: wizardStocks,
         moves: moveStocks,
       },
-      counters: {
-        spaces: {},
-      },
+      counters: counters,
       globals: {},
     };
 

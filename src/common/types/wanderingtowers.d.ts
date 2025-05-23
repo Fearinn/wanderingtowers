@@ -66,6 +66,9 @@ interface WanderingTowersGamedatas {
   moveDeck: MoveCardBase[];
   moveDiscard: MoveCardBase[];
   hand: MoveCardBase[];
+  tierCounts: {
+    [space_id: number]: number;
+  };
 }
 
 type ActionName =

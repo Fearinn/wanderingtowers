@@ -188,6 +188,7 @@ class Game extends \Table
             "moveDeck" => $MoveManager->getDeck(),
             "moveDiscard" => $MoveManager->getDiscard(),
             "hand" => $MoveManager->getPlayerHand($current_player_id),
+            "tierCounts" => $TowerManager->getTierCounts(),
         ];
 
         return $gamedatas;

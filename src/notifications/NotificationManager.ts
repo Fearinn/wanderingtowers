@@ -28,10 +28,10 @@ class NotificationManager implements NotificationManager {
     wizardCard.toggleVisibility(isVisible);
   }
 
-  public notif_moveTower(args: { card: TowerCardBase; space_id: number }) {
-    const { card, space_id } = args;
+  public notif_moveTower(args: { card: TowerCardBase; space_id: number, current_space_id: number }) {
+    const { card, space_id, current_space_id } = args;
     const towerCard = new TowerCard(this.game, card);
-    towerCard.move(space_id);
+    towerCard.move(space_id, current_space_id);
   }
 
   public notif_discardMove(args: { card: MoveCardBase }): void {
