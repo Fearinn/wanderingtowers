@@ -1,5 +1,6 @@
 :root {
-  --wizardWidth: calc(var(--towerWidth) / 4);
+  --innerTowerWidth: calc(var(--towerWidth) * 0.7);
+  --wizardWidth: calc(var(--innerTowerWidth) / 3);
 }
 
 .wtw_spaceWizardsContainer {
@@ -12,11 +13,13 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, var(--wizardWidth));
   align-items: center;
+  align-content: center;
   justify-items: center;
   justify-content: center;
-  gap: 8px;
   aspect-ratio: 1;
-  width: var(--spaceWidth);
+  width: var(--innerTowerWidth);
+  transform: translate(45%, 30%);
+  z-index: 1;
 }
 
 .wtw_wizard {
