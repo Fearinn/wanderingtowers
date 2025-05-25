@@ -242,8 +242,9 @@ class WanderingTowers extends WanderingTowersGui {
   public onUpdateActionButtons(stateName: string, args: object): void {}
 
   public setupNotifications(): void {
+    const notificationManager = new NotificationManager(this);
     this.bgaSetupPromiseNotifications({
-      handlers: [new NotificationManager(this)],
+      handlers: [notificationManager],
     });
   }
 }

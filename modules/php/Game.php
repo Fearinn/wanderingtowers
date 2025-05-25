@@ -99,10 +99,11 @@ class Game extends \Table
 
     public function ActMoveTower(
         #[IntParam(min: 1, max: 90)] int $moveCard_id,
-        #[IntParam(min: 1, max: 10)] int $towerCard_id,
+        #[IntParam(min: 1, max: 16)] int $space_id,
+        int $tier,
     ): void {
         $ActMoveTower = new ActMoveTower($this);
-        $ActMoveTower->act($moveCard_id, $towerCard_id);
+        $ActMoveTower->act($moveCard_id, $space_id, $tier);
     }
 
     public function actRerollDice(): void
@@ -301,9 +302,9 @@ class Game extends \Table
     public function debug_actMoveTower(): void
     {
         $moveCard_id = 12;
-        $towerCard_id = 2;
+        $space_id = 2;
 
-        $this->actMoveTower($moveCard_id, $towerCard_id);
+        $this->actMoveTower($moveCard_id, $space_id, 1);
     }
 
     public function debug_rollDice(): void
@@ -312,7 +313,8 @@ class Game extends \Table
         $Dice->roll();
     }
 
-    public function debug_setupOnTowers(): void {
+    public function debug_setupOnTowers(): void
+    {
         $WizardManager = new WizardManager($this);
 
         $player_id = (int) $this->getNextPlayerTable()[0];

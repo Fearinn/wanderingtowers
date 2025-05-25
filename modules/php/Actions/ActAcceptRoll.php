@@ -35,10 +35,10 @@ class ActAcceptRoll extends ActionManager
 
         if ($wizardCard_id) {
             $Wizard = new Wizard($this->game, $wizardCard_id);
-            $Wizard->moveBySteps($steps);
+            $Wizard->move($steps);
         } else if ($towerCard_id) {
             $Tower = new Tower($this->game, $towerCard_id);
-            $Tower->moveBySteps($steps);
+            $Tower->move($steps);
         }
 
         $Move = new Move($this->game, $moveCard_id);

@@ -211,8 +211,9 @@ var WanderingTowers = /** @class */ (function (_super) {
     };
     WanderingTowers.prototype.onUpdateActionButtons = function (stateName, args) { };
     WanderingTowers.prototype.setupNotifications = function () {
+        var notificationManager = new NotificationManager(this);
         this.bgaSetupPromiseNotifications({
-            handlers: [new NotificationManager(this)],
+            handlers: [notificationManager],
         });
     };
     return WanderingTowers;
@@ -2808,9 +2809,12 @@ var NotificationManager = /** @class */ (function () {
         wizardCard.toggleVisibility(isVisible);
     };
     NotificationManager.prototype.notif_moveTower = function (args) {
-        var card = args.card, space_id = args.space_id, current_space_id = args.current_space_id;
-        var towerCard = new TowerCard(this.game, card);
-        towerCard.move(space_id, current_space_id);
+        var _this = this;
+        var cards = args.cards, final_space_id = args.final_space_id, current_space_id = args.current_space_id;
+        cards.forEach(function (card) {
+            var towerCard = new TowerCard(_this.game, card);
+            towerCard.move(final_space_id, current_space_id);
+        });
     };
     NotificationManager.prototype.notif_discardMove = function (args) {
         var card = args.card;
@@ -2887,24 +2891,24 @@ var StPickMoveTier = /** @class */ (function (_super) {
         _super.prototype.enter.call(this);
         var _a = this.game.wtw.globals, moveCard = _a.moveCard, towerCard = _a.towerCard;
         var maxTier = args.client_args.maxTier;
+        var tower = new TowerCard(this.game, towerCard);
         if (maxTier === 1) {
             this.game.performAction("actMoveTower", {
                 moveCard_id: moveCard.id,
-                towerCard_id: towerCard.id,
+                space_id: tower.space_id,
                 tier: maxTier,
             });
             return;
         }
+        tower.toggleSelection(true);
         var move = new MoveCard(this.game, moveCard);
         move.toggleSelection(true);
-        var tower = new TowerCard(this.game, towerCard);
-        tower.toggleSelection(true);
         var _loop_3 = function (i) {
             this_1.game.statusBar.addActionButton("".concat(i), function () {
                 _this.game.performAction("actMoveTower", {
                     moveCard_id: moveCard.id,
-                    towerCard_id: tower.card.id,
-                    tier: maxTier - i,
+                    space_id: tower.space_id,
+                    tier: maxTier - i + 1,
                 });
             }, {});
         };

@@ -34,7 +34,7 @@ class Tower extends TowerManager
         $this->game->DbQuery("UPDATE {$this->dbTable} SET tier={$tier} WHERE card_id={$this->card_id}");
     }
 
-    public function moveBySteps(int $steps): void
+    public function move(int $steps, &$cards = []): void
     {
         $current_space_id = $this->getSpaceId($this->card_id);
         $current_tier = $this->tier;
@@ -42,28 +42,41 @@ class Tower extends TowerManager
         $WizardManager = new WizardManager($this->game);
         $WizardManager->freeUpWizards($current_space_id, $current_tier - 1);
 
-        $space_id = $current_space_id + $steps;
+        $final_space_id = $current_space_id + $steps;
 
-        $this->moveByLocationArg($this->card_id, $space_id);
+        $this->moveByLocationArg($this->card_id, $final_space_id);
         $WizardManager->moveWizardsWithTower($current_space_id, $current_tier, $this->card_id);
 
-        $tier = $this->countOnSpace($space_id);
+        $tier = $this->countOnSpace($final_space_id);
         $this->updateTier($tier);
 
-        $card = $this->getCard($this->card_id);
+        $WizardManager->imprisonWizards($final_space_id, $tier - 1);
 
-        $NotifManager = new NotifManager($this->game);
-        $NotifManager->all(
-            "moveTower",
-            clienttranslate('${player_name} moves a tower by ${steps_label} space(s)'),
-            [
-                "card" => $card,
-                "space_id" => $space_id,
-                "current_space_id" => $current_space_id,
-                "steps_label" => $steps
-            ]
-        );
+        $cards[] = $this->getCard($this->card_id);
+        $this->moveStackedTower($final_space_id, $current_space_id, $steps, $current_tier, $cards);
+    }
 
-        $WizardManager->imprisonWizards($space_id, $tier - 1);
+    public function moveStackedTower(int $final_space_id, int $current_space_id, int $steps, int $tier, array &$cards): void
+    {
+        $towerCard = $this->getByTier($current_space_id, $tier + 1);
+
+        if (!$towerCard) {
+            $NotifManager = new NotifManager($this->game);
+            $NotifManager->all(
+                "moveTower",
+                clienttranslate('${player_name} moves a tower by ${steps_label} space(s)'),
+                [
+                    "cards" => $cards,
+                    "final_space_id" => $final_space_id,
+                    "current_space_id" => $current_space_id,
+                    "steps_label" => $steps
+                ]
+            );
+            return;
+        }
+
+        $towerCard_id = (int) $towerCard["id"];
+        $Tower = new Tower($this->game, $towerCard_id);
+        $Tower->move($steps, $cards);
     }
 }

@@ -7,6 +7,7 @@ use Bga\GameFramework\Table;
 
 use Bga\Games\WanderingTowers\Components\Move\Move;
 use Bga\Games\WanderingTowers\Components\Tower\Tower;
+use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 
 use const Bga\Games\WanderingTowers\G_MOVE;
 use const Bga\Games\WanderingTowers\G_REROLLS;
@@ -32,12 +33,21 @@ class ActMoveTower extends ActionManager
         $Move->validateHand($this->player_id);
     }
 
-    public function act(int $moveCard_id, int $towerCard_id): void
+    public function act(int $moveCard_id, int $space_id, int $tier): void
     {
-        $this->validate($moveCard_id, $towerCard_id);
+        $this->validate($moveCard_id);
 
         $Move = new Move($this->game, $moveCard_id);
         $steps = $Move->getSteps("tower");
+
+        $TowerManager = new TowerManager($this->game);
+        $towerCard = $TowerManager->getByTier($space_id, $tier);
+
+        if (!$towerCard) {
+            throw new \BgaVisibleSystemException("No tower in this space and tier");
+        }
+
+        $towerCard_id = (int) $towerCard["id"];
 
         if ($this->globals->get(G_REROLLS, 0) > 0) {
             $this->globals->set(G_TOWER, $towerCard_id);
@@ -47,7 +57,7 @@ class ActMoveTower extends ActionManager
         }
 
         $Tower = new Tower($this->game, $towerCard_id);
-        $Tower->moveBySteps($steps);
+        $Tower->move($steps);
         $Move->discard();
 
         $this->gamestate->nextState(TR_NEXT_PLAYER);

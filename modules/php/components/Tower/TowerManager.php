@@ -37,12 +37,21 @@ class TowerManager extends CardManager
         return (int) $this->countCardsInLocation("space", $space_id);
     }
 
-    public function getTierCounts(): array {
+    public function getTierCounts(): array
+    {
         $tierCounts = [];
         foreach ($this->game->SPACES as $space_id => $space) {
             $tierCounts[$space_id] = $this->countOnSpace($space_id);
         }
 
         return $tierCounts;
+    }
+
+    public function getByTier(int $space_id, int $tier): ?array
+    {
+        $sql = "SELECT {$this->fields} from {$this->dbTable} WHERE card_location_arg={$space_id} AND tier={$tier}";
+        /** @disregard P1013 Undefined Method */
+        $card = $this->game->wtw_getObjectFromDB($sql);
+        return $card;
     }
 }

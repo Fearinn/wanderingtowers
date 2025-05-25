@@ -37,7 +37,7 @@ class Wizard extends WizardManager
         }
     }
 
-    public function moveBySteps(int $steps, bool $silent = false): void
+    public function move(int $steps, bool $silent = false): void
     {
         $space_id = $this->getSpaceId($this->card_id);
         $space_id += $steps;

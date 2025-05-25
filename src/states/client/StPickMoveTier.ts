@@ -15,20 +15,20 @@ class StPickMoveTier extends StateManager {
     const { moveCard, towerCard } = this.game.wtw.globals;
     const { maxTier } = args.client_args;
 
+    const tower = new TowerCard(this.game, towerCard);
+
     if (maxTier === 1) {
       this.game.performAction("actMoveTower", {
         moveCard_id: moveCard.id,
-        towerCard_id: towerCard.id,
+        space_id: tower.space_id,
         tier: maxTier,
       });
       return;
     }
 
+    tower.toggleSelection(true);
     const move = new MoveCard(this.game, moveCard);
     move.toggleSelection(true);
-
-    const tower = new TowerCard(this.game, towerCard);
-    tower.toggleSelection(true);
 
     for (let i = 1; i <= maxTier; i++) {
       this.game.statusBar.addActionButton(
@@ -36,8 +36,8 @@ class StPickMoveTier extends StateManager {
         () => {
           this.game.performAction("actMoveTower", {
             moveCard_id: moveCard.id,
-            towerCard_id: tower.card.id,
-            tier: maxTier - i,
+            space_id: tower.space_id,
+            tier: maxTier - i + 1,
           });
         },
         {}
