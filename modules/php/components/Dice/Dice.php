@@ -6,7 +6,7 @@ use Bga\GameFramework\Db\Globals;
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
-use const Bga\Games\WanderingTowers\G_DICE_FACE;
+use const Bga\Games\WanderingTowers\G_ROLL;
 use const Bga\Games\WanderingTowers\G_REROLLS;
 
 class Dice
@@ -34,7 +34,7 @@ class Dice
             ],
         );
 
-        $this->globals->set(G_DICE_FACE, $face);
+        $this->globals->set(G_ROLL, $face);
         return $face;
     }
 

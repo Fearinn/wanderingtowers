@@ -32,6 +32,8 @@ class MoveHandStock extends HandStock<MoveCardBase> {
     this.setSelectionMode("none");
 
     this.onSelectionChange = (selection, card) => {
+      document.getElementById("wtw_confirmationButton")?.remove();
+
       if (selection.length > 0) {
         this.game.wtw.globals.moveCard = card;
 
@@ -43,6 +45,12 @@ class MoveHandStock extends HandStock<MoveCardBase> {
             client_args: { card },
           });
           return;
+        }
+
+        if (card.id >= 19) {
+          this.game.addConfirmationButton(_("move"), () => {
+            this.game.performAction("actRollDice");
+          })
         }
 
         if (card.type === "tower") {

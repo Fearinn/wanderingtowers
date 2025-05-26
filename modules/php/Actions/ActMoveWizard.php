@@ -35,12 +35,15 @@ class ActMoveWizard extends ActionManager
         $Wizard->validateOwner($this->player_id);
     }
 
-    public function act(int $moveCard_id, int $wizardCard_id): void
+    public function act(int $moveCard_id, int $wizardCard_id, int $steps = null): void
     {
         $this->validate($moveCard_id, $wizardCard_id);
 
         $Move = new Move($this->game, $moveCard_id);
-        $steps = $Move->getSteps("wizard");
+
+        if (!$steps) {
+            $steps = $Move->getSteps("tower");
+        }
 
         if ($this->globals->get(G_REROLLS, 0) > 0) {
             $this->globals->set(G_WIZARD, $wizardCard_id);

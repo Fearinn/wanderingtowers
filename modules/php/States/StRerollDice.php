@@ -22,9 +22,9 @@ class StRerollDice extends StateManager
     public function enter() {
         $rerolls = (int) $this->globals->get(G_REROLLS);
 
-        if ($rerolls <= 0) {
+        if ($rerolls === 0) {
             $ActAcceptRoll = new ActAcceptRoll($this->game);
-            $ActAcceptRoll->call();
+            $ActAcceptRoll->act();
         }
     }
 }

@@ -22,8 +22,10 @@ namespace Bga\Games\WanderingTowers;
 
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\Games\WanderingTowers\Actions\ActAcceptRoll;
+use Bga\Games\WanderingTowers\Actions\ActMoveTowerDice;
 use Bga\Games\WanderingTowers\Actions\ActMoveTower;
 use Bga\Games\WanderingTowers\Actions\ActMoveWizard;
+use Bga\Games\WanderingTowers\Actions\ActMoveWizardDice;
 use Bga\Games\WanderingTowers\Actions\ActRerollDice;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
@@ -35,12 +37,13 @@ use Bga\Games\WanderingTowers\States\StBetweenPlayers;
 use Bga\Games\WanderingTowers\States\StRerollDice;
 
 const G_REROLLS = "rerolls";
-const G_DICE_FACE = "diceFace";
+const G_ROLL = "roll";
 const G_MOVE = "move";
 const G_WIZARD = "wizard";
 const G_TOWER = "tower";
 const TR_REROLL_DICE = "rerollDice";
 const TR_NEXT_PLAYER = "nextPlayer";
+const TR_AFTER_ROLL = "afterRoll";
 
 require_once(APP_GAMEMODULE_PATH . "module/table/table.game.php");
 
@@ -115,7 +118,23 @@ class Game extends \Table
     public function actAcceptRoll(): void
     {
         $ActAcceptRoll = new ActAcceptRoll($this);
-        $ActAcceptRoll->call();
+        $ActAcceptRoll->act();
+    }
+
+    public function actMoveTowerDice(
+        #[IntParam(min: 1, max: 16)] int $space_id,
+        int $tier,
+    ): void {
+        $ActMoveTowerDice = new ActMoveTowerDice($this);
+        $ActMoveTowerDice->act($space_id, $tier);
+    }
+
+    public function actMoveWizardDice(
+        #[IntParam(min: 1, max: 16)] int $wizardCard_id,
+        int $tier,
+    ): void {
+        $ActMoveWizardDice = new ActMoveWizardDice($this);
+        $ActMoveWizardDice->act($wizardCard_id, $tier);
     }
 
     /**
@@ -182,7 +201,7 @@ class Game extends \Table
 
         $gamedatas = [
             "players" => $this->getCollectionFromDb("SELECT `player_id` `id`, `player_score` `score` FROM `player`"),
-            "diceFace" => $this->globals->get(G_DICE_FACE, 3),
+            "diceFace" => $this->globals->get(G_ROLL, 3),
             "towerCards" => $TowerManager->getCardsInLocation("space"),
             "wizardCards" => $WizardManager->getCardsInLocation("space"),
             "potionCards" => $PotionManager->getCardsInLocation("hand"),
@@ -249,7 +268,7 @@ class Game extends \Table
         $MoveManager->setupCards();
 
         $this->globals->set(G_REROLLS, 0);
-        $this->globals->set(G_DICE_FACE, 3);
+        $this->globals->set(G_ROLL, 3);
     }
 
     /**
