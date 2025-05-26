@@ -39,7 +39,7 @@ class MoveHandStock extends HandStock<MoveCardBase> {
         this.game.wtw.globals.moveCard = card;
         const moveCard = new MoveCard(this.game, card);
 
-        if (moveCard.card.id >= 19 && stateName !== "afterRoll") {
+        if (moveCard.card.type_arg >= 19 && stateName !== "afterRoll") {
           this.game.addConfirmationButton(_("move"), () => {
             this.game.performAction("actRollDice", {
               moveCard_id: moveCard.card.id,

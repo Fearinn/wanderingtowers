@@ -5,10 +5,7 @@ namespace Bga\Games\WanderingTowers\Components\Move;
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\Actions\Types\StringParam;
 use Bga\GameFramework\Table;
-use Bga\Games\WanderingTowers\Components\Dice\Dice;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
-
-use const Bga\Games\WanderingTowers\G_REROLLS;
 
 class Move extends MoveManager
 {
@@ -17,11 +14,11 @@ class Move extends MoveManager
     public string $type;
     public array $move;
 
-    public function __construct(Table $game, #[IntParam(min: 1, max: 18)] int $wizardCard_id)
+    public function __construct(Table $game, #[IntParam(min: 1, max: 90)] int $moveCard_id)
     {
         parent::__construct($game);
 
-        $this->card_id = $wizardCard_id;
+        $this->card_id = $moveCard_id;
         $card = $this->getCard($this->card_id);
 
         $this->id = (int) $card["type_arg"];
@@ -40,7 +37,8 @@ class Move extends MoveManager
         return (int) $steps;
     }
 
-    public function isDice(): bool {
+    public function isDice(): bool
+    {
         return $this->card_id >= 19;
     }
 
@@ -59,7 +57,10 @@ class Move extends MoveManager
 
     public function validateHand(int $player_id): void
     {
-        if ($this->getMoveCard()["location"] !== "hand" || $this->getOwner() !== $player_id) {
+        $location = $this->getMoveCard()["location"];
+        $owner_id = $this->getOwner();
+
+        if ($location !== "hand" || $owner_id !== $player_id) {
             throw new \BgaVisibleSystemException("This movement card is not in your hand");
         }
     }

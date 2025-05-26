@@ -82,6 +82,8 @@ interface WanderingTowersGamestate extends Gamestate {
 type ActionName =
   | "actMoveWizard"
   | "actMoveTower"
+  | "actMoveWizardDice"
+  | "actMoveTowerDice"
   | "actRollDice"
   | "actRerollDice"
   | "actAcceptRoll";

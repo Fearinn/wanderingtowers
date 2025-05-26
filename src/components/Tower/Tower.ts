@@ -93,13 +93,14 @@ class TowerSpaceStock extends CardStock<TowerCardBase> {
     this.setSelectionMode("none");
 
     this.onSelectionChange = (selection, card) => {
-this.game.removeConfirmationButton()
-      if (selection.length > 0) {
-        this.game.addConfirmationButton(_("tower"), () => {
-          const towerCard = new TowerCard(this.game, card);
-          const space = new Space(this.game, towerCard.space_id);
-          const maxTier = space.getMaxTier();
+      this.game.removeConfirmationButton();
 
+      if (selection.length > 0) {
+        const towerCard = new TowerCard(this.game, card);
+        const space = new Space(this.game, towerCard.space_id);
+        const maxTier = space.getMaxTier();
+
+        this.game.addConfirmationButton(_("tower"), () => {
           this.game.wtw.globals.towerCard = towerCard.card;
 
           this.game.setClientState("client_pickMoveTier", {

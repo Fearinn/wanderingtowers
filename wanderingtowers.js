@@ -178,6 +178,9 @@ var WanderingTowers = /** @class */ (function (_super) {
             case "client_pickMoveTier":
                 new StPickMoveTier(this).enter(args);
                 break;
+            case "afterRoll":
+                new StAfterRoll(this).enter(args);
+                break;
         }
     };
     WanderingTowers.prototype.onLeavingState = function (stateName) {
@@ -221,6 +224,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         this.bgaPerformAction(action, args, options);
     };
     WanderingTowers.prototype.getStateName = function () {
+        console.log(this.gamedatas.gamestate);
         return this.gamedatas.gamestate.name;
     };
     return WanderingTowers;
@@ -2518,7 +2522,7 @@ var MoveHandStock = /** @class */ (function (_super) {
             if (selection.length > 0) {
                 _this.game.wtw.globals.moveCard = card;
                 var moveCard_1 = new MoveCard(_this.game, card);
-                if (moveCard_1.card.id >= 19 && stateName !== "afterRoll") {
+                if (moveCard_1.card.type_arg >= 19 && stateName !== "afterRoll") {
                     _this.game.addConfirmationButton(_("move"), function () {
                         _this.game.performAction("actRollDice", {
                             moveCard_id: moveCard_1.card.id,
@@ -2692,15 +2696,15 @@ var TowerSpaceStock = /** @class */ (function (_super) {
         _this.onSelectionChange = function (selection, card) {
             _this.game.removeConfirmationButton();
             if (selection.length > 0) {
+                var towerCard_1 = new TowerCard(_this.game, card);
+                var space = new Space(_this.game, towerCard_1.space_id);
+                var maxTier_1 = space.getMaxTier();
                 _this.game.addConfirmationButton(_("tower"), function () {
-                    var towerCard = new TowerCard(_this.game, card);
-                    var space = new Space(_this.game, towerCard.space_id);
-                    var maxTier = space.getMaxTier();
-                    _this.game.wtw.globals.towerCard = towerCard.card;
+                    _this.game.wtw.globals.towerCard = towerCard_1.card;
                     _this.game.setClientState("client_pickMoveTier", {
                         descriptionmyturn: _("${you} must pick the number of tiers to move"),
                         client_args: {
-                            maxTier: maxTier,
+                            maxTier: maxTier_1,
                         },
                     });
                 });
@@ -3016,6 +3020,26 @@ var StPlayMove = /** @class */ (function (_super) {
         moveHand.toggleSelection(false);
     };
     return StPlayMove;
+}(StateManager));
+var StAfterRoll = /** @class */ (function (_super) {
+    __extends(StAfterRoll, _super);
+    function StAfterRoll(game) {
+        return _super.call(this, game, "afterRoll") || this;
+    }
+    StAfterRoll.prototype.enter = function (args) {
+        _super.prototype.enter.call(this);
+        var moveCard = args.args.moveCard;
+        this.game.wtw.globals.moveCard = moveCard;
+        var move = new MoveCard(this.game, moveCard);
+        move.toggleSelection(true);
+        if (move.card.type === "tower") {
+            new StPickMoveTower(this.game).enter();
+        }
+        if (move.card.type === "wizard") {
+            new StPickMoveWizard(this.game).enter();
+        }
+    };
+    return StAfterRoll;
 }(StateManager));
 var StPlayerTurn = /** @class */ (function (_super) {
     __extends(StPlayerTurn, _super);

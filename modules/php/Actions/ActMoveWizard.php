@@ -8,11 +8,7 @@ use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\Move\Move;
 use Bga\Games\WanderingTowers\Components\Wizard\Wizard;
 
-use const Bga\Games\WanderingTowers\G_MOVE;
-use const Bga\Games\WanderingTowers\G_REROLLS;
-use const Bga\Games\WanderingTowers\G_WIZARD;
 use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
-use const Bga\Games\WanderingTowers\TR_REROLL_DICE;
 
 class ActMoveWizard extends ActionManager
 {
@@ -43,13 +39,6 @@ class ActMoveWizard extends ActionManager
 
         if (!$steps) {
             $steps = $Move->getSteps("tower");
-        }
-
-        if ($this->globals->get(G_REROLLS, 0) > 0) {
-            $this->globals->set(G_WIZARD, $wizardCard_id);
-            $this->globals->set(G_MOVE, $moveCard_id);
-            $this->gamestate->nextState(TR_REROLL_DICE);
-            return;
         }
 
         $Wizard = new Wizard($this->game, $wizardCard_id);

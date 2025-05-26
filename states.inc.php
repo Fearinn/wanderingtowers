@@ -73,9 +73,13 @@ $machinestates = [
 		"description" => clienttranslate('${actplayer} must finish a wizard or tower'),
 		"descriptionmyturn" => clienttranslate('${you} must move a wizard or tower'),
 		"type" => "activeplayer",
-		"possibleactions" => ["actMoveTowerDice"],
+		"args" => "arg_afterRoll",
+		"possibleactions" => [
+			"actMoveTower",
+			"actMoveWizard"
+		],
 		"transitions" => [
-			TR_AFTER_ROLL => ST_AFTER_ROLL,
+			TR_NEXT_PLAYER => ST_BETWEEN_PLAYERS,
 		],
 	],
 

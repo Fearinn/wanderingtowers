@@ -34,6 +34,7 @@ use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
 use Bga\Games\WanderingTowers\Components\Move\MoveManager;
 use Bga\Games\WanderingTowers\Components\Dice\Dice;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
+use Bga\Games\WanderingTowers\States\StAfterRoll;
 use Bga\Games\WanderingTowers\States\StBetweenPlayers;
 use Bga\Games\WanderingTowers\States\StRerollDice;
 
@@ -81,7 +82,13 @@ class Game extends \Table
 
     public function wtw_getObjectFromDb(string $sql): array | null
     {
-        return $this->getObjectFromDB($sql);
+        $object = $this->getObjectFromDB($sql);
+        return $object;
+    }
+
+    public function getStateId(): int
+    {
+        return (int) $this->gamestate->state_id();
     }
 
     /**
@@ -97,6 +104,12 @@ class Game extends \Table
         #[IntParam(min: 1, max: 90)] int $moveCard_id,
         #[IntParam(min: 1, max: 18)] int $wizardCard_id
     ): void {
+        if ($this->getStateId() === ST_AFTER_ROLL) {
+            $ActMoveWizardDice = new ActMoveWizardDice($this);
+            $ActMoveWizardDice->act($wizardCard_id);
+            return;
+        }
+
         $ActMoveWizard = new ActMoveWizard($this);
         $ActMoveWizard->act($moveCard_id, $wizardCard_id);
     }
@@ -106,6 +119,12 @@ class Game extends \Table
         #[IntParam(min: 1, max: 16)] int $space_id,
         int $tier,
     ): void {
+        if ($this->getStateId() === ST_AFTER_ROLL) {
+            $ActMoveTowerDice = new ActMoveTowerDice($this);
+            $ActMoveTowerDice->act($space_id, $tier);
+            return;
+        }
+
         $ActMoveTower = new ActMoveTower($this);
         $ActMoveTower->act($moveCard_id, $space_id, $tier);
     }
@@ -153,11 +172,16 @@ class Game extends \Table
      * @return array
      * @see ./states.inc.php
      */
-
     public function st_rerollDice(): void
     {
         $StRerollDice = new StRerollDice($this);
         $StRerollDice->enter();
+    }
+
+    public function arg_afterRoll(): array
+    {
+        $StAfterRoll = new StAfterRoll($this);
+        return $StAfterRoll->getArgs();
     }
 
     public function st_betweenPlayers(): void

@@ -7,6 +7,7 @@ use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\Dice\Dice;
 use Bga\Games\WanderingTowers\Components\Move\Move;
 
+use const Bga\Games\WanderingTowers\G_MOVE;
 use const Bga\Games\WanderingTowers\G_REROLLS;
 use const Bga\Games\WanderingTowers\TR_REROLL_DICE;
 
@@ -40,7 +41,9 @@ class ActRollDice extends ActionManager
 
         $Move = new Move($this->game, $moveCard_id);
         $rerolls = $Move->move["diceCount"] - 1;
+
         $this->globals->set(G_REROLLS, $rerolls);
+        $this->globals->set(G_MOVE, $moveCard_id);
         
         $this->gamestate->nextState(TR_REROLL_DICE);
     }

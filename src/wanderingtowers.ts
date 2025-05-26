@@ -199,6 +199,10 @@ class WanderingTowers extends WanderingTowersGui {
       case "client_pickMoveTier":
         new StPickMoveTier(this).enter(args as args_StPickMoveTier);
         break;
+
+      case "afterRoll":
+        new StAfterRoll(this).enter(args as args_StAfterRoll);
+        break;
     }
   }
 
@@ -256,6 +260,7 @@ class WanderingTowers extends WanderingTowersGui {
   }
 
   public getStateName(): StateName {
+    console.log(this.gamedatas.gamestate);
     return this.gamedatas.gamestate.name;
   }
 }

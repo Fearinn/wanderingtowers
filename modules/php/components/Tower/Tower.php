@@ -4,7 +4,6 @@ namespace Bga\Games\WanderingTowers\Components\Tower;
 
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\Table;
-use Bga\Games\WanderingTowers\Components\Wizard\Wizard;
 use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
@@ -34,7 +33,7 @@ class Tower extends TowerManager
         $this->game->DbQuery("UPDATE {$this->dbTable} SET tier={$tier} WHERE card_id={$this->card_id}");
     }
 
-    public function move(int $steps, &$cards = []): void
+    public function move(int $steps, &$cards = [], $stacked = false): void
     {
         $current_space_id = $this->getSpaceId($this->card_id);
         $current_tier = $this->tier;
@@ -45,19 +44,40 @@ class Tower extends TowerManager
         $final_space_id = $current_space_id + $steps;
 
         $this->moveByLocationArg($this->card_id, $final_space_id);
-        $WizardManager->moveWizardsWithTower($current_space_id, $current_tier, $this->card_id);
+
+        $WizardManager->moveWizardsWithTower(
+            $current_space_id,
+            $current_tier,
+            $this->card_id
+        );
 
         $tier = $this->countOnSpace($final_space_id);
+
         $this->updateTier($tier);
 
-        $WizardManager->imprisonWizards($final_space_id, $tier - 1);
+        $WizardManager->imprisonWizards(
+            $final_space_id,
+            $tier - 1,
+            $stacked
+        );
 
         $cards[] = $this->getCard($this->card_id);
-        $this->moveStackedTower($final_space_id, $current_space_id, $steps, $current_tier, $cards);
+        $this->moveStackedTower(
+            $final_space_id,
+            $current_space_id,
+            $steps,
+            $current_tier,
+            $cards
+        );
     }
 
-    public function moveStackedTower(int $final_space_id, int $current_space_id, int $steps, int $tier, array &$cards): void
-    {
+    public function moveStackedTower(
+        int $final_space_id,
+        int $current_space_id,
+        int $steps,
+        int $tier,
+        array &$cards
+    ): void {
         $towerCard = $this->getByTier($current_space_id, $tier + 1);
 
         if (!$towerCard) {
@@ -77,6 +97,6 @@ class Tower extends TowerManager
 
         $towerCard_id = (int) $towerCard["id"];
         $Tower = new Tower($this->game, $towerCard_id);
-        $Tower->move($steps, $cards);
+        $Tower->move($steps, $cards, true);
     }
 }

@@ -40,21 +40,8 @@ class ActMoveTower extends ActionManager
             $steps = $Move->getSteps("tower");
         }
 
-        if ($steps === "dice") {
-            $Dice = new Dice($this->game);
-            $Dice->roll();
-
-            $this->gamestate->nextState(TR_REROLL_DICE);
-            return;
-        }
-
         $TowerManager = new TowerManager($this->game);
         $towerCard = $TowerManager->getByTier($space_id, $tier);
-
-        if (!$towerCard) {
-            throw new \BgaVisibleSystemException("No tower in this space and tier");
-        }
-
         $towerCard_id = (int) $towerCard["id"];
 
         $Tower = new Tower($this->game, $towerCard_id);

@@ -9,7 +9,7 @@ use const Bga\Games\WanderingTowers\G_ROLL;
 use const Bga\Games\WanderingTowers\G_MOVE;
 use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
 
-class ActMoveTowerDice extends ActionManager
+class ActMoveWizardDice extends ActionManager
 {
     public Table $game;
     public $gamestate;
@@ -27,6 +27,5 @@ class ActMoveTowerDice extends ActionManager
 
         $ActMoveWizard = new ActMoveWizard($this->game);
         $ActMoveWizard->act($moveCard_id, $wizardCard_id, $steps);
-        $this->gamestate->nextState(TR_NEXT_PLAYER);
     }
 }
