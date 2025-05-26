@@ -248,7 +248,9 @@ interface Dojo {
   trim: Function;
 }
 
-type Gamestate = any; // TODO
+interface Gamestate {
+  name: string;
+}
 
 interface Player {
   beginner: boolean;

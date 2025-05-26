@@ -37,14 +37,11 @@ class Move extends MoveManager
     public function getSteps(#[StringParam(enum: ["wizard", "tower"])] string $side): int | string
     {
         $steps = $this->move[$side];
-
-        if ($steps === "dice") {
-            $rerolls = $this->move["diceCount"];
-            $this->globals->set(G_REROLLS, $rerolls);
-            return "dice";
-        }
-
         return (int) $steps;
+    }
+
+    public function isDice(): bool {
+        return $this->card_id >= 19;
     }
 
     public function getOwner()

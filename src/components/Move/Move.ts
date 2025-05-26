@@ -32,38 +32,43 @@ class MoveHandStock extends HandStock<MoveCardBase> {
     this.setSelectionMode("none");
 
     this.onSelectionChange = (selection, card) => {
-      document.getElementById("wtw_confirmationButton")?.remove();
+      this.game.removeConfirmationButton();
+      const stateName = this.game.getStateName();
 
       if (selection.length > 0) {
         this.game.wtw.globals.moveCard = card;
+        const moveCard = new MoveCard(this.game, card);
 
-        if (card.type === "both") {
-          this.game.setClientState("client_pickMoveSide", {
-            descriptionmyturn: _(
-              "${you} must pick whether to move a wizard or a tower"
-            ),
-            client_args: { card },
+        if (moveCard.card.id >= 19 && stateName !== "afterRoll") {
+          this.game.addConfirmationButton(_("move"), () => {
+            this.game.performAction("actRollDice", {
+              moveCard_id: moveCard.card.id,
+            });
           });
           return;
         }
 
-        if (card.id >= 19) {
-          this.game.addConfirmationButton(_("move"), () => {
-            this.game.performAction("actRollDice");
-          })
+        if (moveCard.card.type === "both") {
+          this.game.setClientState("client_pickMoveSide", {
+            descriptionmyturn: _(
+              "${you} must pick whether to move a wizard or a tower"
+            ),
+            client_args: { card: moveCard.card },
+          });
+          return;
         }
 
-        if (card.type === "tower") {
+        if (moveCard.card.type === "tower") {
           this.game.setClientState("client_pickMoveTower", {
             descriptionmyturn: _("${you} must pick a tower to move"),
-            client_args: { card },
+            client_args: { card: moveCard.card },
           });
         }
 
-        if (card.type === "wizard") {
+        if (moveCard.card.type === "wizard") {
           this.game.setClientState("client_pickMoveWizard", {
             descriptionmyturn: _("${you} must pick a wizard to move"),
-            client_args: { card },
+            client_args: { card: moveCard.card },
           });
         }
 

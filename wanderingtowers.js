@@ -152,16 +152,6 @@ var WanderingTowers = /** @class */ (function (_super) {
         moveStocks.hand.setup(gamedatas.hand);
         this.setupNotifications();
     };
-    WanderingTowers.prototype.addConfirmationButton = function (selection, callback) {
-        return this.statusBar.addActionButton(this.format_string_recursive(_("confirm ${selection}"), {
-            selection: _(selection),
-        }), callback, { id: "wtw_confirmationButton" });
-    };
-    WanderingTowers.prototype.performAction = function (action, args, options) {
-        if (args === void 0) { args = {}; }
-        if (options === void 0) { options = {}; }
-        this.bgaPerformAction(action, args, options);
-    };
     WanderingTowers.prototype.onEnteringState = function (stateName, args) {
         if (!this.isCurrentPlayerActive()) {
             return;
@@ -215,6 +205,23 @@ var WanderingTowers = /** @class */ (function (_super) {
         this.bgaSetupPromiseNotifications({
             handlers: [notificationManager],
         });
+    };
+    WanderingTowers.prototype.addConfirmationButton = function (selection, callback) {
+        return this.statusBar.addActionButton(this.format_string_recursive(_("confirm ${selection}"), {
+            selection: _(selection),
+        }), callback, { id: "wtw_confirmationButton" });
+    };
+    WanderingTowers.prototype.removeConfirmationButton = function () {
+        var _a;
+        (_a = document.getElementById("wtw_confirmationButton")) === null || _a === void 0 ? void 0 : _a.remove();
+    };
+    WanderingTowers.prototype.performAction = function (action, args, options) {
+        if (args === void 0) { args = {}; }
+        if (options === void 0) { options = {}; }
+        this.bgaPerformAction(action, args, options);
+    };
+    WanderingTowers.prototype.getStateName = function () {
+        return this.gamedatas.gamestate.name;
     };
     return WanderingTowers;
 }(WanderingTowersGui));
@@ -2506,25 +2513,36 @@ var MoveHandStock = /** @class */ (function (_super) {
         _this.game = game;
         _this.setSelectionMode("none");
         _this.onSelectionChange = function (selection, card) {
+            _this.game.removeConfirmationButton();
+            var stateName = _this.game.getStateName();
             if (selection.length > 0) {
                 _this.game.wtw.globals.moveCard = card;
-                if (card.type === "both") {
-                    _this.game.setClientState("client_pickMoveSide", {
-                        descriptionmyturn: _("${you} must pick whether to move a wizard or a tower"),
-                        client_args: { card: card },
+                var moveCard_1 = new MoveCard(_this.game, card);
+                if (moveCard_1.card.id >= 19 && stateName !== "afterRoll") {
+                    _this.game.addConfirmationButton(_("move"), function () {
+                        _this.game.performAction("actRollDice", {
+                            moveCard_id: moveCard_1.card.id,
+                        });
                     });
                     return;
                 }
-                if (card.type === "tower") {
+                if (moveCard_1.card.type === "both") {
+                    _this.game.setClientState("client_pickMoveSide", {
+                        descriptionmyturn: _("${you} must pick whether to move a wizard or a tower"),
+                        client_args: { card: moveCard_1.card },
+                    });
+                    return;
+                }
+                if (moveCard_1.card.type === "tower") {
                     _this.game.setClientState("client_pickMoveTower", {
                         descriptionmyturn: _("${you} must pick a tower to move"),
-                        client_args: { card: card },
+                        client_args: { card: moveCard_1.card },
                     });
                 }
-                if (card.type === "wizard") {
+                if (moveCard_1.card.type === "wizard") {
                     _this.game.setClientState("client_pickMoveWizard", {
                         descriptionmyturn: _("${you} must pick a wizard to move"),
-                        client_args: { card: card },
+                        client_args: { card: moveCard_1.card },
                     });
                 }
                 return;
@@ -2672,8 +2690,7 @@ var TowerSpaceStock = /** @class */ (function (_super) {
         _this.space_id = space_id;
         _this.setSelectionMode("none");
         _this.onSelectionChange = function (selection, card) {
-            var _a;
-            (_a = document.getElementById("wtw_confirmationButton")) === null || _a === void 0 ? void 0 : _a.remove();
+            _this.game.removeConfirmationButton();
             if (selection.length > 0) {
                 _this.game.addConfirmationButton(_("tower"), function () {
                     var towerCard = new TowerCard(_this.game, card);
@@ -2759,8 +2776,7 @@ var WizardSpaceStock = /** @class */ (function (_super) {
         _this.space_id = space_id;
         _this.setSelectionMode("none");
         _this.onSelectionChange = function (selection, card) {
-            var _a;
-            (_a = document.getElementById("wtw_confirmationButton")) === null || _a === void 0 ? void 0 : _a.remove();
+            _this.game.removeConfirmationButton();
             if (selection.length > 0) {
                 _this.unselectOthers();
                 _this.game.addConfirmationButton(_("wizard"), function () {

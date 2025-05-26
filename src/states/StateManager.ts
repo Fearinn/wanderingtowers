@@ -9,6 +9,7 @@ interface StateManager {
 type StateName =
   | "playerTurn"
   | "rerollDice"
+  | "afterRoll"
   | "client_playMove"
   | "client_pickMoveSide"
   | "client_pickMoveWizard"

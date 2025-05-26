@@ -93,8 +93,7 @@ class TowerSpaceStock extends CardStock<TowerCardBase> {
     this.setSelectionMode("none");
 
     this.onSelectionChange = (selection, card) => {
-      document.getElementById("wtw_confirmationButton")?.remove();
-
+this.game.removeConfirmationButton()
       if (selection.length > 0) {
         this.game.addConfirmationButton(_("tower"), () => {
           const towerCard = new TowerCard(this.game, card);

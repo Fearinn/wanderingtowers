@@ -47,6 +47,7 @@ $machinestates = [
 		"possibleactions" => [
 			"actMoveWizard",
 			"actMoveTower",
+			"actRollDice",
 			"actPassTurn"
 		],
 		"transitions" => [
@@ -67,6 +68,17 @@ $machinestates = [
 		],
 	],
 
+	ST_AFTER_ROLL => [
+		"name" => "afterRoll",
+		"description" => clienttranslate('${actplayer} must finish a wizard or tower'),
+		"descriptionmyturn" => clienttranslate('${you} must move a wizard or tower'),
+		"type" => "activeplayer",
+		"possibleactions" => ["actMoveTowerDice"],
+		"transitions" => [
+			TR_AFTER_ROLL => ST_AFTER_ROLL,
+		],
+	],
+
 	ST_REROLL_DICE => [
 		"name" => "rerollDice",
 		"description" => clienttranslate('${actplayer} may reroll the die'),
@@ -79,18 +91,8 @@ $machinestates = [
 		],
 		"transitions" => [
 			TR_REROLL_DICE => ST_REROLL_DICE,
-			TR_NEXT_PLAYER => ST_BETWEEN_PLAYERS,
-		],
-	],
-
-	ST_AFTER_ROLL => [
-		"name" => "afterRoll",
-		"description" => clienttranslate('${actplayer} must finish a wizard or tower'),
-		"descriptionmyturn" => clienttranslate('${you} must move a wizard or tower'),
-		"type" => "activeplayer",
-		"possibleactions" => ["actMoveTowerDice"],
-		"transitions" => [
 			TR_AFTER_ROLL => ST_AFTER_ROLL,
+			TR_NEXT_PLAYER => ST_BETWEEN_PLAYERS,
 		],
 	],
 

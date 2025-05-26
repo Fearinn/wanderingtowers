@@ -166,20 +166,6 @@ class WanderingTowers extends WanderingTowersGui {
     this.setupNotifications();
   }
 
-  public addConfirmationButton(selection: string, callback: () => void) {
-    return this.statusBar.addActionButton(
-      this.format_string_recursive(_("confirm ${selection}"), {
-        selection: _(selection),
-      }),
-      callback,
-      { id: "wtw_confirmationButton" }
-    );
-  }
-
-  public performAction(action: ActionName, args = {}, options = {}) {
-    this.bgaPerformAction(action, args, options);
-  }
-
   public onEnteringState(stateName: StateName, args?: object): void {
     if (!this.isCurrentPlayerActive()) {
       return;
@@ -246,5 +232,30 @@ class WanderingTowers extends WanderingTowersGui {
     this.bgaSetupPromiseNotifications({
       handlers: [notificationManager],
     });
+  }
+
+  public addConfirmationButton(
+    selection: string,
+    callback: () => void
+  ): HTMLButtonElement {
+    return this.statusBar.addActionButton(
+      this.format_string_recursive(_("confirm ${selection}"), {
+        selection: _(selection),
+      }),
+      callback,
+      { id: "wtw_confirmationButton" }
+    );
+  }
+
+  public removeConfirmationButton(): void {
+    document.getElementById("wtw_confirmationButton")?.remove();
+  }
+
+  public performAction(action: ActionName, args = {}, options = {}): void {
+    this.bgaPerformAction(action, args, options);
+  }
+
+  public getStateName(): StateName {
+    return this.gamedatas.gamestate.name;
   }
 }

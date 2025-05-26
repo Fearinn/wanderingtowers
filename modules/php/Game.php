@@ -27,6 +27,7 @@ use Bga\Games\WanderingTowers\Actions\ActMoveTower;
 use Bga\Games\WanderingTowers\Actions\ActMoveWizard;
 use Bga\Games\WanderingTowers\Actions\ActMoveWizardDice;
 use Bga\Games\WanderingTowers\Actions\ActRerollDice;
+use Bga\Games\WanderingTowers\Actions\ActRollDice;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
@@ -107,6 +108,13 @@ class Game extends \Table
     ): void {
         $ActMoveTower = new ActMoveTower($this);
         $ActMoveTower->act($moveCard_id, $space_id, $tier);
+    }
+
+    public function actRollDice(
+        #[IntParam(min: 1, max: 90)] int $moveCard_id,
+    ): void {
+        $ActRollDice = new ActRollDice($this);
+        $ActRollDice->act($moveCard_id);
     }
 
     public function actRerollDice(): void

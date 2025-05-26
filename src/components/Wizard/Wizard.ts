@@ -91,8 +91,7 @@ class WizardSpaceStock extends CardStock<WizardCardBase> {
     this.setSelectionMode("none");
 
     this.onSelectionChange = (selection, card) => {
-      document.getElementById("wtw_confirmationButton")?.remove();
-
+this.game.removeConfirmationButton()
       if (selection.length > 0) {
         this.unselectOthers();
         this.game.addConfirmationButton(_("wizard"), () => {

@@ -45,7 +45,10 @@ declare class WanderingTowersGui extends Game {
     args: { descriptionmyturn: string; client_args?: object }
   ): void;
 
+  getStateName(): StateName;
+
   addConfirmationButton(title: string, callback: () => void): HTMLButtonElement;
+  removeConfirmationButton(): void;
 }
 
 interface WanderingTowersGamedatas {
@@ -72,9 +75,13 @@ interface WanderingTowersGamedatas {
   };
 }
 
+interface WanderingTowersGamestate extends Gamestate {
+  name: StateName;
+}
+
 type ActionName =
   | "actMoveWizard"
   | "actMoveTower"
+  | "actRollDice"
   | "actRerollDice"
-  | "actAcceptRoll"
-  | "actRollDice";
+  | "actAcceptRoll";
