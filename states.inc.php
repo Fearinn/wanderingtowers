@@ -70,8 +70,8 @@ $machinestates = [
 
 	ST_AFTER_ROLL => [
 		"name" => "afterRoll",
-		"description" => clienttranslate('${actplayer} must finish a wizard or tower'),
-		"descriptionmyturn" => clienttranslate('${you} must move a wizard or tower'),
+		"description" => clienttranslate('${actplayer} must move a ${wizard_or_tower}'),
+		"descriptionmyturn" => clienttranslate('${you} must move a ${wizard_or_tower}'),
 		"type" => "activeplayer",
 		"args" => "arg_afterRoll",
 		"possibleactions" => [
