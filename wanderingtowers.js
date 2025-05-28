@@ -200,6 +200,9 @@ var WanderingTowers = /** @class */ (function (_super) {
             case "client_pickMoveTier":
                 new StPickMoveTier(this).leave();
                 break;
+            case "afterRoll":
+                new StAfterRoll(this).leave();
+                break;
         }
     };
     WanderingTowers.prototype.onUpdateActionButtons = function (stateName, args) { };
@@ -224,7 +227,6 @@ var WanderingTowers = /** @class */ (function (_super) {
         this.bgaPerformAction(action, args, options);
     };
     WanderingTowers.prototype.getStateName = function () {
-        console.log(this.gamedatas.gamestate);
         return this.gamedatas.gamestate.name;
     };
     return WanderingTowers;
@@ -2518,11 +2520,14 @@ var MoveHandStock = /** @class */ (function (_super) {
         _this.setSelectionMode("none");
         _this.onSelectionChange = function (selection, card) {
             _this.game.removeConfirmationButton();
-            var stateName = _this.game.getStateName();
             if (selection.length > 0) {
                 _this.game.wtw.globals.moveCard = card;
                 var moveCard_1 = new MoveCard(_this.game, card);
                 if (moveCard_1.card.type_arg >= 19) {
+                    _this.game.statusBar.removeActionButtons();
+                    _this.game.statusBar.addActionButton(_("cancel"), function () {
+                        _this.game.restoreServerGameState();
+                    }, { color: "alert" });
                     _this.game.addConfirmationButton(_("move"), function () {
                         _this.game.performAction("actRollDice", {
                             moveCard_id: moveCard_1.card.id,

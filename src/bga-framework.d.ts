@@ -277,4 +277,5 @@ interface StatusBar {
     }
   ) => HTMLButtonElement;
   setTitle: (title: string, args?: object) => void;
+  removeActionButtons(): void;
 }

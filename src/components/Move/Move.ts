@@ -31,13 +31,22 @@ class MoveHandStock extends HandStock<MoveCardBase> {
 
     this.onSelectionChange = (selection, card) => {
       this.game.removeConfirmationButton();
-      const stateName = this.game.getStateName();
 
       if (selection.length > 0) {
         this.game.wtw.globals.moveCard = card;
         const moveCard = new MoveCard(this.game, card);
 
         if (moveCard.card.type_arg >= 19) {
+          this.game.statusBar.removeActionButtons();
+
+          this.game.statusBar.addActionButton(
+            _("cancel"),
+            () => {
+              this.game.restoreServerGameState();
+            },
+            { color: "alert" }
+          );
+
           this.game.addConfirmationButton(_("move"), () => {
             this.game.performAction("actRollDice", {
               moveCard_id: moveCard.card.id,
