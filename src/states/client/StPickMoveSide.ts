@@ -3,15 +3,22 @@ class StPickMoveSide extends StateManager {
     super(game, "client_pickMoveSide");
   }
 
+  set() {
+    this.game.setClientState(this.stateName, {
+      descriptionmyturn: _(
+        "${you} must pick whether to move a wizard or a tower"
+      ),
+    });
+  }
+
   enter() {
     super.enter();
 
     this.statusBar.addActionButton(
       _("tower"),
       () => {
-        this.game.setClientState("client_pickMoveTower", {
-          descriptionmyturn: _("${you} must pick a tower to move"),
-        });
+        const stPickMoveTower = new StPickMoveTower(this.game);
+        stPickMoveTower.set();
       },
       {}
     );
@@ -19,9 +26,8 @@ class StPickMoveSide extends StateManager {
     this.statusBar.addActionButton(
       _("wizard"),
       () => {
-        this.game.setClientState("client_pickMoveWizard", {
-          descriptionmyturn: _("${you} must pick a wizard to move"),
-        });
+        const stPickMoveWizard = new StPickMoveWizard(this.game);
+        stPickMoveWizard.set();
       },
       {}
     );

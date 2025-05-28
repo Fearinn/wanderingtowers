@@ -20,9 +20,8 @@ class StAfterRoll extends StateManager {
       this.statusBar.addActionButton(
         _("tower"),
         () => {
-          this.game.setClientState("client_pickMoveTower", {
-            descriptionmyturn: _("${you} must pick a tower to move"),
-          });
+          const stPickMoveTower = new StPickMoveTower(this.game);
+          stPickMoveTower.set();
         },
         {}
       );
@@ -30,9 +29,8 @@ class StAfterRoll extends StateManager {
       this.statusBar.addActionButton(
         _("wizard"),
         () => {
-          this.game.setClientState("client_pickMoveWizard", {
-            descriptionmyturn: _("${you} must pick a wizard to move"),
-          });
+          const stPickMoveWizard = new StPickMoveWizard(this.game);
+          stPickMoveWizard.set();
         },
         {}
       );

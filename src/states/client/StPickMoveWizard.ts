@@ -3,6 +3,12 @@ class StPickMoveWizard extends StateManager {
     super(game, "client_pickMoveWizard");
   }
 
+  set() {
+    this.game.setClientState(this.stateName, {
+      descriptionmyturn: _("${you} must pick a wizard to move"),
+    });
+  }
+
   enter() {
     super.enter();
 

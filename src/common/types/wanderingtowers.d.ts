@@ -29,6 +29,7 @@ declare class WanderingTowersGui extends Game {
     globals: {
       moveCard?: MoveCardBase;
       towerCard?: TowerCardBase;
+      maxTier?: number;
     };
   };
 

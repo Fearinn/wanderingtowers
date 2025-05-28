@@ -176,7 +176,7 @@ var WanderingTowers = /** @class */ (function (_super) {
                 new StRerollDice(this).enter();
                 break;
             case "client_pickMoveTier":
-                new StPickMoveTier(this).enter(args);
+                new StPickMoveTier(this).enter();
                 break;
             case "afterRoll":
                 new StAfterRoll(this).enter(args);
@@ -2531,23 +2531,19 @@ var MoveHandStock = /** @class */ (function (_super) {
                     return;
                 }
                 if (moveCard_1.card.type === "both") {
-                    _this.game.setClientState("client_pickMoveSide", {
-                        descriptionmyturn: _("${you} must pick whether to move a wizard or a tower"),
-                        client_args: { card: moveCard_1.card },
-                    });
+                    var stPickMoveSide = new StPickMoveSide(_this.game);
+                    stPickMoveSide.set();
                     return;
                 }
                 if (moveCard_1.card.type === "tower") {
-                    _this.game.setClientState("client_pickMoveTower", {
-                        descriptionmyturn: _("${you} must pick a tower to move"),
-                        client_args: { card: moveCard_1.card },
-                    });
+                    var stPickMoveTower = new StPickMoveTower(_this.game);
+                    stPickMoveTower.set();
+                    return;
                 }
                 if (moveCard_1.card.type === "wizard") {
-                    _this.game.setClientState("client_pickMoveWizard", {
-                        descriptionmyturn: _("${you} must pick a wizard to move"),
-                        client_args: { card: moveCard_1.card },
-                    });
+                    var stPickMoveWizard = new StPickMoveWizard(_this.game);
+                    stPickMoveWizard.set();
+                    return;
                 }
                 return;
             }
@@ -2706,12 +2702,9 @@ var TowerSpaceStock = /** @class */ (function (_super) {
                 var maxTier_1 = space.getMaxTier();
                 _this.game.addConfirmationButton(_("tower"), function () {
                     _this.game.wtw.globals.towerCard = towerCard_1.card;
-                    _this.game.setClientState("client_pickMoveTier", {
-                        descriptionmyturn: _("${you} must pick the number of tiers to move"),
-                        client_args: {
-                            maxTier: maxTier_1,
-                        },
-                    });
+                    _this.game.wtw.globals.maxTier = maxTier_1;
+                    var stPickMoveTier = new StPickMoveTier(_this.game);
+                    stPickMoveTier.set();
                 });
                 return;
             }
@@ -2875,6 +2868,9 @@ var StateManager = /** @class */ (function () {
             }, { color: "alert" });
         }
     };
+    StateManager.prototype.leave = function () {
+        this.game.wtw.globals = {};
+    };
     return StateManager;
 }());
 var StPickMoveSide = /** @class */ (function (_super) {
@@ -2882,18 +2878,21 @@ var StPickMoveSide = /** @class */ (function (_super) {
     function StPickMoveSide(game) {
         return _super.call(this, game, "client_pickMoveSide") || this;
     }
+    StPickMoveSide.prototype.set = function () {
+        this.game.setClientState(this.stateName, {
+            descriptionmyturn: _("${you} must pick whether to move a wizard or a tower"),
+        });
+    };
     StPickMoveSide.prototype.enter = function () {
         var _this = this;
         _super.prototype.enter.call(this);
         this.statusBar.addActionButton(_("tower"), function () {
-            _this.game.setClientState("client_pickMoveTower", {
-                descriptionmyturn: _("${you} must pick a tower to move"),
-            });
+            var stPickMoveTower = new StPickMoveTower(_this.game);
+            stPickMoveTower.set();
         }, {});
         this.statusBar.addActionButton(_("wizard"), function () {
-            _this.game.setClientState("client_pickMoveWizard", {
-                descriptionmyturn: _("${you} must pick a wizard to move"),
-            });
+            var stPickMoveWizard = new StPickMoveWizard(_this.game);
+            stPickMoveWizard.set();
         }, {});
         var card = this.game.wtw.globals.moveCard;
         var moveCard = new MoveCard(this.game, card);
@@ -2911,11 +2910,15 @@ var StPickMoveTier = /** @class */ (function (_super) {
     function StPickMoveTier(game) {
         return _super.call(this, game, "client_pickMoveTier") || this;
     }
-    StPickMoveTier.prototype.enter = function (args) {
+    StPickMoveTier.prototype.set = function () {
+        this.game.setClientState("client_pickMoveTier", {
+            descriptionmyturn: _("${you} must pick the number of tiers to move"),
+        });
+    };
+    StPickMoveTier.prototype.enter = function () {
         var _this = this;
         _super.prototype.enter.call(this);
-        var _a = this.game.wtw.globals, moveCard = _a.moveCard, towerCard = _a.towerCard;
-        var maxTier = args.client_args.maxTier;
+        var _a = this.game.wtw.globals, moveCard = _a.moveCard, towerCard = _a.towerCard, maxTier = _a.maxTier;
         var tower = new TowerCard(this.game, towerCard);
         if (maxTier === 1) {
             this.game.performAction("actMoveTower", {
@@ -2956,6 +2959,11 @@ var StPickMoveTower = /** @class */ (function (_super) {
     function StPickMoveTower(game) {
         return _super.call(this, game, "client_pickMoveTower") || this;
     }
+    StPickMoveTower.prototype.set = function () {
+        this.game.setClientState(this.stateName, {
+            descriptionmyturn: _("${you} must pick a tower to move"),
+        });
+    };
     StPickMoveTower.prototype.enter = function () {
         _super.prototype.enter.call(this);
         var card = this.game.wtw.globals.moveCard;
@@ -2985,6 +2993,11 @@ var StPickMoveWizard = /** @class */ (function (_super) {
     function StPickMoveWizard(game) {
         return _super.call(this, game, "client_pickMoveWizard") || this;
     }
+    StPickMoveWizard.prototype.set = function () {
+        this.game.setClientState(this.stateName, {
+            descriptionmyturn: _("${you} must pick a wizard to move"),
+        });
+    };
     StPickMoveWizard.prototype.enter = function () {
         _super.prototype.enter.call(this);
         var card = this.game.wtw.globals.moveCard;
@@ -3015,6 +3028,11 @@ var StPlayMove = /** @class */ (function (_super) {
     function StPlayMove(game) {
         return _super.call(this, game, "client_playMove") || this;
     }
+    StPlayMove.prototype.set = function () {
+        this.game.setClientState(this.stateName, {
+            descriptionmyturn: _("${you} must pick a movement card"),
+        });
+    };
     StPlayMove.prototype.enter = function () {
         _super.prototype.enter.call(this);
         var moveHand = this.wtw.stocks.moves.hand;
@@ -3040,14 +3058,12 @@ var StAfterRoll = /** @class */ (function (_super) {
         move.toggleSelectedClass(true);
         if (move.card.type === "both") {
             this.statusBar.addActionButton(_("tower"), function () {
-                _this.game.setClientState("client_pickMoveTower", {
-                    descriptionmyturn: _("${you} must pick a tower to move"),
-                });
+                var stPickMoveTower = new StPickMoveTower(_this.game);
+                stPickMoveTower.set();
             }, {});
             this.statusBar.addActionButton(_("wizard"), function () {
-                _this.game.setClientState("client_pickMoveWizard", {
-                    descriptionmyturn: _("${you} must pick a wizard to move"),
-                });
+                var stPickMoveWizard = new StPickMoveWizard(_this.game);
+                stPickMoveWizard.set();
             }, {});
             return;
         }
@@ -3097,9 +3113,8 @@ var StPlayerTurn = /** @class */ (function (_super) {
         var _this = this;
         _super.prototype.enter.call(this);
         this.statusBar.addActionButton("play movement", function () {
-            _this.game.setClientState("client_playMove", {
-                descriptionmyturn: _("${you} must pick a movement card"),
-            });
+            var stPlayMove = new StPlayMove(_this.game);
+            stPlayMove.set();
         }, {});
     };
     return StPlayerTurn;

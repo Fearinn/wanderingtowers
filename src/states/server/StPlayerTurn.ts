@@ -9,9 +9,8 @@ class StPlayerTurn extends StateManager {
     this.statusBar.addActionButton(
       "play movement",
       () => {
-        this.game.setClientState("client_playMove", {
-          descriptionmyturn: _("${you} must pick a movement card"),
-        });
+        const stPlayMove = new StPlayMove(this.game);
+        stPlayMove.set();
       },
       {}
     );

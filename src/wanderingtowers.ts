@@ -197,7 +197,7 @@ class WanderingTowers extends WanderingTowersGui {
         break;
 
       case "client_pickMoveTier":
-        new StPickMoveTier(this).enter(args as args_StPickMoveTier);
+        new StPickMoveTier(this).enter();
         break;
 
       case "afterRoll":

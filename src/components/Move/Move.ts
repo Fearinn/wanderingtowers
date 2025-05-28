@@ -47,27 +47,21 @@ class MoveHandStock extends HandStock<MoveCardBase> {
         }
 
         if (moveCard.card.type === "both") {
-          this.game.setClientState("client_pickMoveSide", {
-            descriptionmyturn: _(
-              "${you} must pick whether to move a wizard or a tower"
-            ),
-            client_args: { card: moveCard.card },
-          });
+          const stPickMoveSide = new StPickMoveSide(this.game);
+          stPickMoveSide.set();
           return;
         }
 
         if (moveCard.card.type === "tower") {
-          this.game.setClientState("client_pickMoveTower", {
-            descriptionmyturn: _("${you} must pick a tower to move"),
-            client_args: { card: moveCard.card },
-          });
+          const stPickMoveTower = new StPickMoveTower(this.game);
+          stPickMoveTower.set();
+          return;
         }
 
         if (moveCard.card.type === "wizard") {
-          this.game.setClientState("client_pickMoveWizard", {
-            descriptionmyturn: _("${you} must pick a wizard to move"),
-            client_args: { card: moveCard.card },
-          });
+          const stPickMoveWizard = new StPickMoveWizard(this.game);
+          stPickMoveWizard.set();
+          return;
         }
 
         return;

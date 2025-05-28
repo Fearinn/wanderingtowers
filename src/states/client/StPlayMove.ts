@@ -3,6 +3,12 @@ class StPlayMove extends StateManager {
     super(game, "client_playMove");
   }
 
+  set() {
+    this.game.setClientState(this.stateName, {
+      descriptionmyturn: _("${you} must pick a movement card"),
+    });
+  }
+
   enter() {
     super.enter();
 

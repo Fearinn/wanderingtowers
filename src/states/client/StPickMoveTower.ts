@@ -3,6 +3,12 @@ class StPickMoveTower extends StateManager {
     super(game, "client_pickMoveTower");
   }
 
+  set() {
+    this.game.setClientState(this.stateName, {
+      descriptionmyturn: _("${you} must pick a tower to move"),
+    });
+  }
+
   enter() {
     super.enter();
 

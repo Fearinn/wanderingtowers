@@ -1,19 +1,18 @@
-interface args_StPickMoveTier {
-  client_args: {
-    maxTier: number;
-  };
-}
-
 class StPickMoveTier extends StateManager {
   constructor(game: WanderingTowersGui) {
     super(game, "client_pickMoveTier");
   }
 
-  enter(args: args_StPickMoveTier) {
+  set() {
+    this.game.setClientState("client_pickMoveTier", {
+      descriptionmyturn: _("${you} must pick the number of tiers to move"),
+    });
+  }
+
+  enter() {
     super.enter();
 
-    const { moveCard, towerCard } = this.game.wtw.globals;
-    const { maxTier } = args.client_args;
+    const { moveCard, towerCard, maxTier } = this.game.wtw.globals;
 
     const tower = new TowerCard(this.game, towerCard);
 

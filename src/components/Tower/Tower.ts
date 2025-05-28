@@ -102,15 +102,10 @@ class TowerSpaceStock extends CardStock<TowerCardBase> {
 
         this.game.addConfirmationButton(_("tower"), () => {
           this.game.wtw.globals.towerCard = towerCard.card;
+          this.game.wtw.globals.maxTier = maxTier;
 
-          this.game.setClientState("client_pickMoveTier", {
-            descriptionmyturn: _(
-              "${you} must pick the number of tiers to move"
-            ),
-            client_args: {
-              maxTier,
-            },
-          });
+          const stPickMoveTier = new StPickMoveTier(this.game);
+          stPickMoveTier.set();
         });
         return;
       }
