@@ -26,7 +26,6 @@ class StPickMoveWizard extends StateManager {
     moveCard.toggleSelection(false);
 
     const wizardStocks = this.game.wtw.stocks.wizards.spaces;
-
     for (const space_id in wizardStocks) {
       const stock = wizardStocks[space_id];
       stock.toggleSelection(false);

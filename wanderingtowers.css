@@ -840,9 +840,8 @@ body > .card {
   align-content: center;
   justify-items: center;
   justify-content: center;
-  aspect-ratio: 1;
+  transform: translate(45%, 100%);
   width: var(--innerTowerWidth);
-  transform: translate(45%, 30%);
   z-index: 1;
 }
 

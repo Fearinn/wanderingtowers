@@ -31,7 +31,7 @@ class Move extends MoveManager
         return $this->getCard($this->card_id);
     }
 
-    public function getSteps(#[StringParam(enum: ["wizard", "tower"])] string $side): int | string
+    public function getSteps(#[StringParam(enum: ["wizard", "tower"])] string $side): int
     {
         $steps = $this->move[$side];
         return (int) $steps;

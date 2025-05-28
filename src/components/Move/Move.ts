@@ -12,14 +12,12 @@ interface MoveStocks {
 
 interface MoveHandStock extends HandStock<MoveCardBase> {
   game: WanderingTowersGui;
-  setup(cards: MoveCardBase[]): void;
 }
 
 interface MoveCard extends Card {
   stocks: MoveStocks;
   player_id: number | null;
   card: MoveCardBase;
-  setup(): void;
 }
 
 class MoveHandStock extends HandStock<MoveCardBase> {
@@ -39,7 +37,7 @@ class MoveHandStock extends HandStock<MoveCardBase> {
         this.game.wtw.globals.moveCard = card;
         const moveCard = new MoveCard(this.game, card);
 
-        if (moveCard.card.type_arg >= 19 && stateName !== "afterRoll") {
+        if (moveCard.card.type_arg >= 19) {
           this.game.addConfirmationButton(_("move"), () => {
             this.game.performAction("actRollDice", {
               moveCard_id: moveCard.card.id,
@@ -145,6 +143,12 @@ class MoveCard extends Card {
 
   select(silent = false): void {
     this.stocks.hand.selectCard(this.card, silent);
+  }
+
+  toggleSelectedClass(force?: boolean): void {
+    this.stocks.hand
+      .getCardElement(this.card)
+      .classList.toggle("wtw_move-selected", force);
   }
 
   discard(): void {

@@ -24,7 +24,7 @@ class StateManager implements StateManager {
     this.wtw = this.game.wtw;
   }
 
-  enter(args?: object): void {
+  enter(args?: object): void {    
     if (this.stateName.includes("client_")) {
       this.game.statusBar.addActionButton(
         _("cancel"),

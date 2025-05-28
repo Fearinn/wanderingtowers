@@ -2522,7 +2522,7 @@ var MoveHandStock = /** @class */ (function (_super) {
             if (selection.length > 0) {
                 _this.game.wtw.globals.moveCard = card;
                 var moveCard_1 = new MoveCard(_this.game, card);
-                if (moveCard_1.card.type_arg >= 19 && stateName !== "afterRoll") {
+                if (moveCard_1.card.type_arg >= 19) {
                     _this.game.addConfirmationButton(_("move"), function () {
                         _this.game.performAction("actRollDice", {
                             moveCard_id: moveCard_1.card.id,
@@ -2612,6 +2612,11 @@ var MoveCard = /** @class */ (function (_super) {
     MoveCard.prototype.select = function (silent) {
         if (silent === void 0) { silent = false; }
         this.stocks.hand.selectCard(this.card, silent);
+    };
+    MoveCard.prototype.toggleSelectedClass = function (force) {
+        this.stocks.hand
+            .getCardElement(this.card)
+            .classList.toggle("wtw_move-selected", force);
     };
     MoveCard.prototype.discard = function () {
         this.stocks.discard.addCard(this.card, {}, { visible: true });
@@ -3027,16 +3032,58 @@ var StAfterRoll = /** @class */ (function (_super) {
         return _super.call(this, game, "afterRoll") || this;
     }
     StAfterRoll.prototype.enter = function (args) {
+        var _this = this;
         _super.prototype.enter.call(this);
         var moveCard = args.args.moveCard;
         this.game.wtw.globals.moveCard = moveCard;
         var move = new MoveCard(this.game, moveCard);
-        move.toggleSelection(true);
+        move.toggleSelectedClass(true);
+        if (move.card.type === "both") {
+            this.statusBar.addActionButton(_("tower"), function () {
+                _this.game.setClientState("client_pickMoveTower", {
+                    descriptionmyturn: _("${you} must pick a tower to move"),
+                });
+            }, {});
+            this.statusBar.addActionButton(_("wizard"), function () {
+                _this.game.setClientState("client_pickMoveWizard", {
+                    descriptionmyturn: _("${you} must pick a wizard to move"),
+                });
+            }, {});
+            return;
+        }
         if (move.card.type === "tower") {
-            new StPickMoveTower(this.game).enter();
+            var towerStocks = this.game.wtw.stocks.towers.spaces;
+            for (var space_id in towerStocks) {
+                var stock = towerStocks[space_id];
+                stock.toggleSelection(true);
+                stock.setSelectableCards(stock.getCards());
+            }
+            return;
         }
         if (move.card.type === "wizard") {
-            new StPickMoveWizard(this.game).enter();
+            var wizardStocks = this.game.wtw.stocks.wizards.spaces;
+            for (var space_id in wizardStocks) {
+                var stock = wizardStocks[space_id];
+                stock.toggleSelection(true);
+                var selectableCards = stock.getPlayerWizards(this.game.player_id);
+                stock.setSelectableCards(selectableCards);
+            }
+            return;
+        }
+    };
+    StAfterRoll.prototype.leave = function () {
+        var moveCard = this.game.wtw.globals.moveCard;
+        var move = new MoveCard(this.game, moveCard);
+        move.toggleSelectedClass(false);
+        var towerStocks = this.game.wtw.stocks.towers.spaces;
+        for (var space_id in towerStocks) {
+            var stock = towerStocks[space_id];
+            stock.toggleSelection(false);
+        }
+        var wizardStocks = this.game.wtw.stocks.wizards.spaces;
+        for (var space_id in wizardStocks) {
+            var stock = wizardStocks[space_id];
+            stock.toggleSelection(false);
         }
     };
     return StAfterRoll;
