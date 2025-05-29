@@ -1,5 +1,5 @@
 :root {
-  --potionWidth: 30px;
+  --potionWidth: 45px;
 }
 
 .wtw_potionCargo {
@@ -7,8 +7,36 @@
 }
 
 .wtw_potion {
-  background-color: red;
-  background-image: url("img/potions.png");
-  aspect-ratio: 1;
+  background-image: url("img/potions_empty.png");
+  background-size: cover;
+  aspect-ratio: 373 / 484;
   width: var(--potionWidth);
+
+  &-empty {
+    background-image: url("img/potions_empty.png");
+    background-size: cover;
+  }
+
+  &-filled {
+    background-image: url("img/potions_filled.png");
+    background-size: cover;
+  }
+}
+
+@keyframes fill {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(80deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-80deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }

@@ -2673,13 +2673,18 @@ var Potion = /** @class */ (function (_super) {
         element.classList.add("wtw_card", "wtw_potion");
     };
     Potion.prototype.setupFrontDiv = function (element) {
-        if (!this.type_arg) {
+        if (!this.card.type_arg) {
             return;
         }
         element.classList.add("wtw_potion-empty");
+        element.style.backgroundPosition = "".concat(Number(this.card.type) * -100, "%");
     };
     Potion.prototype.setupBackDiv = function (element) {
         element.classList.add("wtw_potion-filled");
+        element.style.backgroundPosition = "".concat(Number(this.card.type) * -100, "%");
+    };
+    Potion.prototype.fill = function () {
+        this.cargo.setCardVisible(this.card, false);
     };
     return Potion;
 }(Card));

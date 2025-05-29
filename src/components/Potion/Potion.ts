@@ -28,15 +28,21 @@ class Potion extends Card {
   }
 
   setupFrontDiv(element: HTMLDivElement): void {
-    if (!this.type_arg) {
+    if (!this.card.type_arg) {
       return;
     }
 
     element.classList.add("wtw_potion-empty");
+    element.style.backgroundPosition = `${Number(this.card.type) * -100}%`;
   }
 
   setupBackDiv(element: HTMLDivElement): void {
     element.classList.add("wtw_potion-filled");
+    element.style.backgroundPosition = `${Number(this.card.type) * -100}%`;
+  }
+
+  fill() {
+    this.cargo.setCardVisible(this.card, false);
   }
 }
 

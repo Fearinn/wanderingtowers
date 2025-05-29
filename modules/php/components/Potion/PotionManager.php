@@ -20,15 +20,26 @@ class PotionManager extends CardManager
         $setupCounts = (array) $this->game->SETUP_COUNTS[$playerNbr];
         $potionCount = (int) $setupCounts["potions"];
 
+        $gameinfos = $this->game->getGameinfos();
+        $colors = $gameinfos["player_colors"];
+
         $potionCards = [];
         foreach ($players as $player_id => $player) {
-         
-            $potionCards[] = ["type" => $player["player_color"], "type_arg" => $player_id, "nbr" => $potionCount];
+            $color = $player["player_color"];
+            $k_color = array_search($color, $colors);
+
+            $potionCards[] = ["type" => $k_color, "type_arg" => $player_id, "nbr" => $potionCount];
         }
         $this->createCards($potionCards);
 
         foreach ($players as $player_id => $player) {
             $this->game->DbQuery("UPDATE potion SET card_location='empty', card_location_arg={$player_id} WHERE card_type_arg={$player_id}");
         }
+    }
+
+    public function getCargos(): array
+    {
+        $potionCards = $this->game->getCollectionFromDB("SELECT {$this->fields} FROM {$this->dbTable} WHERE card_location='empty' OR card_location='filled'");
+        return array_values($potionCards);
     }
 }
