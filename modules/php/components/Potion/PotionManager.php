@@ -28,7 +28,7 @@ class PotionManager extends CardManager
         $this->createCards($potionCards);
 
         foreach ($players as $player_id => $player) {
-            $this->game->DbQuery("UPDATE potion SET card_location='hand', card_location_arg={$player_id} WHERE card_type_arg={$player_id}");
+            $this->game->DbQuery("UPDATE potion SET card_location='empty', card_location_arg={$player_id} WHERE card_type_arg={$player_id}");
         }
     }
 }

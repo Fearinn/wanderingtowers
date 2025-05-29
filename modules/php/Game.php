@@ -236,7 +236,7 @@ class Game extends \Table
             "diceFace" => $this->globals->get(G_ROLL, 3),
             "towerCards" => $TowerManager->getCardsInLocation("space"),
             "wizardCards" => $WizardManager->getCardsInLocation("space"),
-            "potionCards" => $PotionManager->getCardsInLocation("hand"),
+            "potionCards" => $PotionManager->getCardsInLocation("empty"),
             "moveDeck" => $MoveManager->getDeck(),
             "moveDiscard" => $MoveManager->getDiscard(),
             "hand" => $MoveManager->getPlayerHand($current_player_id),

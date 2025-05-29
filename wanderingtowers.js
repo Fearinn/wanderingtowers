@@ -89,6 +89,23 @@ var WanderingTowers = /** @class */ (function (_super) {
                 moveCard.setupBackDiv(element);
             },
         });
+        var potionCardManager = new CardManager(this, {
+            getId: function (card) {
+                return "wtw_potionCard-".concat(card.id);
+            },
+            setupDiv: function (card, element) {
+                var potionCard = new Potion(_this, card);
+                potionCard.setupDiv(element);
+            },
+            setupFrontDiv: function (card, element) {
+                var potionCard = new Potion(_this, card);
+                potionCard.setupFrontDiv(element);
+            },
+            setupBackDiv: function (card, element) {
+                var potionCard = new Potion(_this, card);
+                potionCard.setupBackDiv(element);
+            },
+        });
         var towerStocks = {
             spaces: {},
         };
@@ -116,6 +133,15 @@ var WanderingTowers = /** @class */ (function (_super) {
             }),
             discard: new CardStock(moveCardManager, document.getElementById("wtw_moveDiscard")),
         };
+        var potionStocks = {};
+        for (var p_id in gamedatas.players) {
+            var player_id = Number(p_id);
+            var playerPanelElement = this.getPlayerPanelElement(player_id);
+            playerPanelElement.insertAdjacentHTML("beforeend", "<div id=\"wtw_potionCargo-".concat(player_id, "\" class=\"wtw_potionCargo\"></div>"));
+            potionStocks[player_id] = {
+                cargo: new PotionCargoStock(this, potionCardManager, Number(player_id)),
+            };
+        }
         this.wtw = {
             managers: {
                 zoom: zoomManager,
@@ -129,6 +155,7 @@ var WanderingTowers = /** @class */ (function (_super) {
                 towers: towerStocks,
                 wizards: wizardStocks,
                 moves: moveStocks,
+                potions: potionStocks,
             },
             counters: counters,
             globals: {},
@@ -148,6 +175,10 @@ var WanderingTowers = /** @class */ (function (_super) {
         gamedatas.wizardCards.forEach(function (card) {
             var wizardCard = new WizardCard(_this, card);
             wizardCard.setup();
+        });
+        gamedatas.potionCards.forEach(function (card) {
+            var potion = new Potion(_this, card);
+            potion.setup();
         });
         moveStocks.hand.setup(gamedatas.hand);
         this.setupNotifications();
@@ -2627,6 +2658,48 @@ var MoveCard = /** @class */ (function (_super) {
     };
     return MoveCard;
 }(Card));
+var Potion = /** @class */ (function (_super) {
+    __extends(Potion, _super);
+    function Potion(game, card) {
+        var _this = _super.call(this, game, card) || this;
+        _this.player_id = _this.card.location_arg;
+        _this.cargo = _this.game.wtw.stocks.potions[_this.player_id].cargo;
+        return _this;
+    }
+    Potion.prototype.setup = function () {
+        this.cargo.addCard(this.card, {}, { visible: this.card.location === "empty" });
+    };
+    Potion.prototype.setupDiv = function (element) {
+        element.classList.add("wtw_card", "wtw_potion");
+    };
+    Potion.prototype.setupFrontDiv = function (element) {
+        if (!this.type_arg) {
+            return;
+        }
+        element.classList.add("wtw_potion-empty");
+    };
+    Potion.prototype.setupBackDiv = function (element) {
+        element.classList.add("wtw_potion-filled");
+    };
+    return Potion;
+}(Card));
+var PotionCargoStock = /** @class */ (function (_super) {
+    __extends(PotionCargoStock, _super);
+    function PotionCargoStock(game, manager, player_id) {
+        var _this = _super.call(this, manager, document.getElementById("wtw_potionCargo-".concat(player_id))) || this;
+        _this.game = game;
+        _this.setSelectionMode("none");
+        return _this;
+    }
+    PotionCargoStock.prototype.setup = function (cards) {
+        var _this = this;
+        cards.forEach(function (card) {
+            var potion = new Potion(_this.game, card);
+            potion.setup();
+        });
+    };
+    return PotionCargoStock;
+}(LineStock));
 var Space = /** @class */ (function () {
     function Space(game, space_id) {
         this.game = game;

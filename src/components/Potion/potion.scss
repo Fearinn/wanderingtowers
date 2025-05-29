@@ -1,0 +1,14 @@
+:root {
+  --potionWidth: 30px;
+}
+
+.wtw_potionCargo {
+  margin: 4px auto;
+}
+
+.wtw_potion {
+  background-color: red;
+  background-image: url("img/potions.png");
+  aspect-ratio: 1;
+  width: var(--potionWidth);
+}

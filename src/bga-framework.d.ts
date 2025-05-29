@@ -228,6 +228,13 @@ declare class Game {
   ): void;
 
   statusBar: StatusBar;
+
+  setClientState(
+    newState: StateName,
+    args: { descriptionmyturn: string; client_args?: object }
+  ): void;
+
+  getPlayerPanelElement(player_id: number): HTMLElement;
 }
 
 /* TODO repace Function by (..params) => void */

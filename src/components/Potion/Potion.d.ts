@@ -1,3 +1,0 @@
-interface PotionCard extends Card {
-
-}

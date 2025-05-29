@@ -7,6 +7,7 @@ interface Stocks {
   towers: TowerStocks;
   wizards: WizardStocks;
   moves: MoveStocks;
+  potions: PotionStocks;
 }
 
 interface Counters {
@@ -41,11 +42,6 @@ declare class WanderingTowersGui extends Game {
     }
   ): void;
 
-  setClientState(
-    newState: StateName,
-    args: { descriptionmyturn: string; client_args?: object }
-  ): void;
-
   getStateName(): StateName;
 
   addConfirmationButton(title: string, callback: () => void): HTMLButtonElement;
@@ -67,7 +63,7 @@ interface WanderingTowersGamedatas {
   diceFace: number;
   towerCards: TowerCardBase[];
   wizardCards: WizardCardBase[];
-  potionCards: BgaCard[];
+  potionCards: PotionCard[];
   moveDeck: MoveCardBase[];
   moveDiscard: MoveCardBase[];
   hand: MoveCardBase[];
