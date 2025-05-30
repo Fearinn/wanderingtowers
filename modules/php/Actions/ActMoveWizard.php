@@ -38,7 +38,7 @@ class ActMoveWizard extends ActionManager
         $Move = new Move($this->game, $moveCard_id);
 
         if (!$steps) {
-            $steps = $Move->getSteps("tower");
+            $steps = $Move->getSteps("wizard");
         }
 
         $Wizard = new Wizard($this->game, $wizardCard_id);
