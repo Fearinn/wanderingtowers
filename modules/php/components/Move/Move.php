@@ -39,7 +39,7 @@ class Move extends MoveManager
 
     public function isDice(): bool
     {
-        return $this->card_id >= 19;
+        return $this->id >= 19;
     }
 
     public function getOwner()
