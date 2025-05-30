@@ -4,6 +4,7 @@ namespace Bga\Games\WanderingTowers\Components\Wizard;
 
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\CardManager;
+use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
 class WizardManager extends CardManager
@@ -92,7 +93,7 @@ class WizardManager extends CardManager
     public function moveWizardsWithTower(int $space_id, int $tier, int $towerCard_id): void
     {
         $wizardCards = $this->getByTier($space_id, $tier);
-        
+
         foreach ($wizardCards as $wizardCard) {
             $wizardCard_id = (int) $wizardCard["id"];
             $Wizard = new Wizard($this->game, $wizardCard_id);
@@ -100,7 +101,7 @@ class WizardManager extends CardManager
         }
     }
 
-    public function imprisonWizards(int $space_id, int $tier): void
+    public function imprisonWizards(int $space_id, int $tier, int $player_id): void
     {
         $wizardCards = $this->getByTier($space_id, $tier);
 
@@ -113,11 +114,15 @@ class WizardManager extends CardManager
         }
 
         if ($imprisioned) {
+
             $NotifManager = new NotifManager($this->game);
             $NotifManager->all(
-                "imprisionWizard",
+                "imprisonWizards",
                 clienttranslate('${player_name} imprisons wizard(s)'),
             );
+
+            $PotionManager = new PotionManager($this->game);
+            $PotionManager->fillPotion($player_id);
         }
     }
 

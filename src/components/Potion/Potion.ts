@@ -16,11 +16,8 @@ class Potion extends Card {
   }
 
   setup() {
-    this.cargo.addCard(
-      this.card,
-      {},
-      { visible: this.card.location === "empty" }
-    );
+    this.cargo.addCard(this.card, {});
+    this.cargo.setCardVisible(this.card, this.card.location === "empty");
   }
 
   setupDiv(element: HTMLDivElement): void {

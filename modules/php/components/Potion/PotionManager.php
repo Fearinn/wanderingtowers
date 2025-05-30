@@ -4,6 +4,7 @@ namespace Bga\Games\WanderingTowers\Components\Potion;
 
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\CardManager;
+use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
 class PotionManager extends CardManager
 {
@@ -41,5 +42,28 @@ class PotionManager extends CardManager
     {
         $potionCards = $this->game->getCollectionFromDB("SELECT {$this->fields} FROM {$this->dbTable} WHERE card_location='empty' OR card_location='filled'");
         return array_values($potionCards);
+    }
+
+    public function fillPotion(int $player_id): void
+    {
+        $potionCard = $this->getCardInLocation("empty", $player_id);
+
+        if (!$potionCard) {
+            throw new \BgaVisibleSystemException("Potion not found");
+        }
+
+        $potionCard_id = (int) $potionCard["id"];
+
+        $this->moveCard($potionCard_id, "filled", $player_id);
+
+        $NotifManager = new NotifManager($this->game);
+        $NotifManager->all(
+            "fillPotion",
+            "",
+            [
+                "potionCard" => $this->getCard($potionCard_id),
+            ],
+            $player_id,
+        );
     }
 }

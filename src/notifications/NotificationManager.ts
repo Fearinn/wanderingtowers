@@ -62,4 +62,10 @@ class NotificationManager implements NotificationManager {
 
     this.stocks.dice.rollDie({ id: 1, type: "die", face });
   }
+
+  public notif_fillPotion(args: { potionCard: PotionCard }): void {
+    const { potionCard } = args;
+    const potion = new Potion(this.game, potionCard);
+    potion.fill();
+  }
 }

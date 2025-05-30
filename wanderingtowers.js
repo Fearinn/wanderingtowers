@@ -2667,7 +2667,8 @@ var Potion = /** @class */ (function (_super) {
         return _this;
     }
     Potion.prototype.setup = function () {
-        this.cargo.addCard(this.card, {}, { visible: this.card.location === "empty" });
+        this.cargo.addCard(this.card, {});
+        this.cargo.setCardVisible(this.card, this.card.location === "empty");
     };
     Potion.prototype.setupDiv = function (element) {
         element.classList.add("wtw_card", "wtw_potion");
@@ -2933,6 +2934,11 @@ var NotificationManager = /** @class */ (function () {
     NotificationManager.prototype.notif_rollDie = function (args) {
         var face = args.face;
         this.stocks.dice.rollDie({ id: 1, type: "die", face: face });
+    };
+    NotificationManager.prototype.notif_fillPotion = function (args) {
+        var potionCard = args.potionCard;
+        var potion = new Potion(this.game, potionCard);
+        potion.fill();
     };
     return NotificationManager;
 }());

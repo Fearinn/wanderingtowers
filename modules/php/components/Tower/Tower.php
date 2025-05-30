@@ -33,7 +33,7 @@ class Tower extends TowerManager
         $this->game->DbQuery("UPDATE {$this->dbTable} SET tier={$tier} WHERE card_id={$this->card_id}");
     }
 
-    public function move(int $steps, &$cards = [], $stacked = false): void
+    public function move(int $steps, int $player_id, &$cards = [], $stacked = false): void
     {
         $current_space_id = $this->getSpaceId($this->card_id);
         $current_tier = $this->tier;
@@ -55,11 +55,13 @@ class Tower extends TowerManager
 
         $this->updateTier($tier);
 
-        $WizardManager->imprisonWizards(
-            $final_space_id,
-            $tier - 1,
-            $stacked
-        );
+        if (!$stacked) {
+            $WizardManager->imprisonWizards(
+                $final_space_id,
+                $tier - 1,
+                $player_id,
+            );
+        }
 
         $cards[] = $this->getCard($this->card_id);
         $this->moveStackedTower(
@@ -67,7 +69,8 @@ class Tower extends TowerManager
             $current_space_id,
             $steps,
             $current_tier,
-            $cards
+            $cards,
+            $player_id,
         );
     }
 
@@ -76,7 +79,8 @@ class Tower extends TowerManager
         int $current_space_id,
         int $steps,
         int $tier,
-        array &$cards
+        array &$cards,
+        int $player_id,
     ): void {
         $towerCard = $this->getByTier($current_space_id, $tier + 1);
 
@@ -97,6 +101,6 @@ class Tower extends TowerManager
 
         $towerCard_id = (int) $towerCard["id"];
         $Tower = new Tower($this->game, $towerCard_id);
-        $Tower->move($steps, $cards, true);
+        $Tower->move($steps, $player_id, $cards, true);
     }
 }

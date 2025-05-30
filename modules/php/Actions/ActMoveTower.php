@@ -45,7 +45,7 @@ class ActMoveTower extends ActionManager
         $towerCard_id = (int) $towerCard["id"];
 
         $Tower = new Tower($this->game, $towerCard_id);
-        $Tower->move($steps);
+        $Tower->move($steps, $this->player_id);
         $Move->discard();
 
         $this->gamestate->nextState(TR_NEXT_PLAYER);
