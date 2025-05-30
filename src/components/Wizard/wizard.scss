@@ -19,7 +19,8 @@
   transform: translate(45%, 25%);
   aspect-ratio: 1;
   width: var(--innerTowerWidth);
-  z-index: 1;
+  z-index: 11;
+  pointer-events: none;
 }
 
 .wtw_wizard {
@@ -28,6 +29,7 @@
   aspect-ratio: 1 / 1.53;
   width: var(--wizardWidth);
   z-index: 1;
+  pointer-events: auto;
 
   &.bga-animations_animated {
     z-index: 11 !important;
