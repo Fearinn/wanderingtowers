@@ -2781,6 +2781,7 @@ var TowerSpaceStock = /** @class */ (function (_super) {
         _this.onSelectionChange = function (selection, card) {
             _this.game.removeConfirmationButton();
             if (selection.length > 0) {
+                _this.unselectOthers();
                 var towerCard_1 = new TowerCard(_this.game, card);
                 var space = new Space(_this.game, towerCard_1.space_id);
                 var maxTier_1 = space.getMaxTier();

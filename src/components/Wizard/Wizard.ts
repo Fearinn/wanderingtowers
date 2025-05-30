@@ -12,9 +12,6 @@ interface WizardCard extends Card {
   stocks: WizardStocks;
   space_id: number;
   towerTier: number;
-  setup(): void;
-  place(space_id: number): void;
-  move(space_id: number): void;
 }
 
 class WizardCard extends Card {
@@ -71,9 +68,6 @@ class WizardCard extends Card {
 interface WizardSpaceStock extends CardStock<WizardCardBase> {
   game: WanderingTowersGui;
   space_id: number;
-  setup(cards: WizardCardBase[]): void;
-  getPlayerWizards(player_id: number): WizardCardBase[];
-  unselectOthers(): void;
 }
 
 class WizardSpaceStock extends CardStock<WizardCardBase> {
@@ -107,7 +101,7 @@ class WizardSpaceStock extends CardStock<WizardCardBase> {
 
   unselectOthers() {
     const otherStocks = this.game.wtw.stocks.wizards.spaces;
-
+    
     for (const space_id in otherStocks) {
       if (Number(space_id) === this.space_id) {
         continue;

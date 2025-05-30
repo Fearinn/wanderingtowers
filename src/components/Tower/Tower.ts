@@ -75,7 +75,6 @@ interface TowerSpaceStock extends CardStock<TowerCardBase> {
   game: WanderingTowersGui;
   space_id: number;
   setup(cards: TowerCardBase[]): void;
-  unselectOthers(): void;
 }
 
 class TowerSpaceStock extends CardStock<TowerCardBase> {
@@ -96,6 +95,8 @@ class TowerSpaceStock extends CardStock<TowerCardBase> {
       this.game.removeConfirmationButton();
 
       if (selection.length > 0) {
+        this.unselectOthers();
+
         const towerCard = new TowerCard(this.game, card);
         const space = new Space(this.game, towerCard.space_id);
         const maxTier = space.getMaxTier();
