@@ -16,7 +16,8 @@
   align-content: center;
   justify-items: center;
   justify-content: center;
-  transform: translate(45%, 100%);
+  transform: translate(45%, 25%);
+  aspect-ratio: 1;
   width: var(--innerTowerWidth);
   z-index: 1;
 }
