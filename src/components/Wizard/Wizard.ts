@@ -1,4 +1,4 @@
-interface WizardCardBase extends BgaCard {
+interface WizardCard extends BgaCard {
   type_arg: number;
   tier: number;
 }
@@ -7,15 +7,15 @@ interface WizardStocks {
   spaces: { [space_id: number]: WizardSpaceStock };
 }
 
-interface WizardCard extends Card {
-  card: WizardCardBase;
+interface Wizard extends Card {
+  card: WizardCard;
   stocks: WizardStocks;
   space_id: number;
   towerTier: number;
 }
 
-class WizardCard extends Card {
-  constructor(game: WanderingTowersGui, card: WizardCardBase) {
+class Wizard extends Card {
+  constructor(game: WanderingTowersGui, card: WizardCard) {
     super(game, card);
     this.space_id = this.card.location_arg;
     this.card.tier = Number(card.tier);
@@ -65,15 +65,15 @@ class WizardCard extends Card {
   }
 }
 
-interface WizardSpaceStock extends CardStock<WizardCardBase> {
+interface WizardSpaceStock extends CardStock<WizardCard> {
   game: WanderingTowersGui;
   space_id: number;
 }
 
-class WizardSpaceStock extends CardStock<WizardCardBase> {
+class WizardSpaceStock extends CardStock<WizardCard> {
   constructor(
     game: WanderingTowersGui,
-    manager: CardManager<WizardCardBase>,
+    manager: CardManager<WizardCard>,
     space_id: number
   ) {
     super(manager, document.getElementById(`wtw_spaceWizards-${space_id}`), {

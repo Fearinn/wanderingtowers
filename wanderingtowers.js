@@ -58,14 +58,14 @@ var WanderingTowers = /** @class */ (function (_super) {
             },
             setupFrontDiv: function (card, element) { },
         });
-        var wizardCardManager = new CardManager(this, {
+        var wizardManager = new CardManager(this, {
             getId: function (card) {
-                return "wtw_wizardCard-".concat(card.id);
+                return "wtw_wizard-".concat(card.id);
             },
             selectedCardClass: "wtw_wizard-selected",
             setupDiv: function (card, element) {
-                var wizardCard = new WizardCard(_this, card);
-                wizardCard.setupDiv(element);
+                var wizard = new Wizard(_this, card);
+                wizard.setupDiv(element);
             },
             setupFrontDiv: function (card, element) { },
         });
@@ -117,7 +117,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         };
         for (var space_id = 1; space_id <= 16; space_id++) {
             towerStocks.spaces[space_id] = new TowerSpaceStock(this, towerManager, space_id);
-            wizardStocks.spaces[space_id] = new WizardSpaceStock(this, wizardCardManager, space_id);
+            wizardStocks.spaces[space_id] = new WizardSpaceStock(this, wizardManager, space_id);
             counters.spaces[space_id] = new ebg.counter();
             counters.spaces[space_id].create("wtw_tierCounter-".concat(space_id));
             counters.spaces[space_id].setValue(gamedatas.tierCounts[space_id]);
@@ -148,7 +148,7 @@ var WanderingTowers = /** @class */ (function (_super) {
                 dice: diceManager,
                 moves: moveManager,
                 towers: towerManager,
-                wizards: wizardCardManager,
+                wizards: wizardManager,
             },
             stocks: {
                 dice: diceStock,
@@ -173,8 +173,8 @@ var WanderingTowers = /** @class */ (function (_super) {
             move.discard();
         });
         gamedatas.wizardCards.forEach(function (card) {
-            var wizardCard = new WizardCard(_this, card);
-            wizardCard.setup();
+            var wizard = new Wizard(_this, card);
+            wizard.setup();
         });
         gamedatas.potionCards.forEach(function (card) {
             var potion = new Potion(_this, card);
@@ -2817,9 +2817,9 @@ var TowerSpaceStock = /** @class */ (function (_super) {
     };
     return TowerSpaceStock;
 }(CardStock));
-var WizardCard = /** @class */ (function (_super) {
-    __extends(WizardCard, _super);
-    function WizardCard(game, card) {
+var Wizard = /** @class */ (function (_super) {
+    __extends(Wizard, _super);
+    function Wizard(game, card) {
         var _this = _super.call(this, game, card) || this;
         _this.space_id = _this.card.location_arg;
         _this.card.tier = Number(card.tier);
@@ -2828,13 +2828,13 @@ var WizardCard = /** @class */ (function (_super) {
             _this.game.wtw.stocks.towers.spaces[_this.space_id].getCards().length;
         return _this;
     }
-    WizardCard.prototype.setup = function () {
+    Wizard.prototype.setup = function () {
         this.place(this.space_id);
         if (this.card.tier < this.towerTier) {
             this.toggleVisibility(false);
         }
     };
-    WizardCard.prototype.setupDiv = function (element) {
+    Wizard.prototype.setupDiv = function (element) {
         element.classList.add("wtw_card", "wtw_wizard");
         element.style.backgroundPosition = "".concat(Number(this.card.type) * -100, "%");
         var player_id = this.card.type_arg;
@@ -2846,17 +2846,17 @@ var WizardCard = /** @class */ (function (_super) {
             player_name: this.game.gamedatas.players[player_id].name,
         }), "");
     };
-    WizardCard.prototype.place = function (space_id) {
+    Wizard.prototype.place = function (space_id) {
         this.stocks.spaces[space_id].addCard(this.card, {}, { visible: true });
     };
-    WizardCard.prototype.move = function (space_id) {
+    Wizard.prototype.move = function (space_id) {
         this.place(space_id);
     };
-    WizardCard.prototype.toggleVisibility = function (isVisible) {
+    Wizard.prototype.toggleVisibility = function (isVisible) {
         var element = this.stocks.spaces[this.space_id].getCardElement(this.card);
         element.classList.toggle("wtw_wizard-imprisioned", !isVisible);
     };
-    return WizardCard;
+    return Wizard;
 }(Card));
 var WizardSpaceStock = /** @class */ (function (_super) {
     __extends(WizardSpaceStock, _super);
@@ -2908,13 +2908,13 @@ var NotificationManager = /** @class */ (function () {
     }
     NotificationManager.prototype.notif_moveWizard = function (args) {
         var card = args.card, space_id = args.space_id;
-        var wizardCard = new WizardCard(this.game, card);
-        wizardCard.move(space_id);
+        var wizard = new Wizard(this.game, card);
+        wizard.move(space_id);
     };
     NotificationManager.prototype.notif_toggleWizardVisibility = function (args) {
         var card = args.card, isVisible = args.isVisible;
-        var wizardCard = new WizardCard(this.game, card);
-        wizardCard.toggleVisibility(isVisible);
+        var wizard = new Wizard(this.game, card);
+        wizard.toggleVisibility(isVisible);
     };
     NotificationManager.prototype.notif_moveTower = function (args) {
         var _this = this;

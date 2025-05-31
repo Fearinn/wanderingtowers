@@ -23,7 +23,7 @@ declare class WanderingTowersGui extends Game {
       dice: DiceManager;
       moves: CardManager<MoveCard>;
       towers: CardManager<TowerCard>;
-      wizards: CardManager<WizardCardBase>;
+      wizards: CardManager<WizardCard>;
     };
     stocks: Stocks;
     counters: Counters;
@@ -62,7 +62,7 @@ interface WanderingTowersGamedatas {
 
   diceFace: number;
   towerCards: TowerCard[];
-  wizardCards: WizardCardBase[];
+  wizardCards: WizardCard[];
   potionCards: PotionCard[];
   moveDeck: MoveCard[];
   moveDiscard: MoveCard[];

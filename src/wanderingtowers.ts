@@ -48,14 +48,14 @@ class WanderingTowers extends WanderingTowersGui {
       setupFrontDiv: (card, element) => {},
     });
 
-    const wizardCardManager = new CardManager<WizardCardBase>(this, {
+    const wizardManager = new CardManager<WizardCard>(this, {
       getId: (card) => {
-        return `wtw_wizardCard-${card.id}`;
+        return `wtw_wizard-${card.id}`;
       },
       selectedCardClass: "wtw_wizard-selected",
       setupDiv: (card, element) => {
-        const wizardCard = new WizardCard(this, card);
-        wizardCard.setupDiv(element);
+        const wizard = new Wizard(this, card);
+        wizard.setupDiv(element);
       },
       setupFrontDiv: (card, element) => {},
     });
@@ -117,7 +117,7 @@ class WanderingTowers extends WanderingTowersGui {
 
       wizardStocks.spaces[space_id] = new WizardSpaceStock(
         this,
-        wizardCardManager,
+        wizardManager,
         space_id
       );
 
@@ -162,7 +162,7 @@ class WanderingTowers extends WanderingTowersGui {
         dice: diceManager,
         moves: moveManager,
         towers: towerManager,
-        wizards: wizardCardManager,
+        wizards: wizardManager,
       },
       stocks: {
         dice: diceStock,
@@ -191,8 +191,8 @@ class WanderingTowers extends WanderingTowersGui {
     });
 
     gamedatas.wizardCards.forEach((card) => {
-      const wizardCard = new WizardCard(this, card);
-      wizardCard.setup();
+      const wizard = new Wizard(this, card);
+      wizard.setup();
     });
 
     gamedatas.potionCards.forEach((card) => {
