@@ -1,27 +1,27 @@
-interface MoveCardBase extends BgaCard {
+interface MoveCard extends BgaCard {
   location: "deck" | "discard" | "hand";
   type: "both" | "wizard" | "tower";
   type_arg?: number;
 }
 
 interface MoveStocks {
-  deck: CardStock<MoveCardBase>;
-  discard: CardStock<MoveCardBase>;
+  deck: CardStock<MoveCard>;
+  discard: CardStock<MoveCard>;
   hand: MoveHandStock;
 }
 
-interface MoveHandStock extends HandStock<MoveCardBase> {
+interface MoveHandStock extends HandStock<MoveCard> {
   game: WanderingTowersGui;
 }
 
-interface MoveCard extends Card {
+interface Move extends Card {
   stocks: MoveStocks;
   player_id: number | null;
-  card: MoveCardBase;
+  card: MoveCard;
 }
 
-class MoveHandStock extends HandStock<MoveCardBase> {
-  constructor(game: WanderingTowersGui, manager: CardManager<MoveCardBase>) {
+class MoveHandStock extends HandStock<MoveCard> {
+  constructor(game: WanderingTowersGui, manager: CardManager<MoveCard>) {
     super(manager, document.getElementById("wtw_moveHand"), {
       cardOverlap: "0",
     });
@@ -34,9 +34,9 @@ class MoveHandStock extends HandStock<MoveCardBase> {
 
       if (selection.length > 0) {
         this.game.wtw.globals.moveCard = card;
-        const moveCard = new MoveCard(this.game, card);
+        const move = new Move(this.game, card);
 
-        if (moveCard.card.type_arg >= 19) {
+        if (move.card.type_arg >= 19) {
           this.game.statusBar.removeActionButtons();
 
           this.game.statusBar.addActionButton(
@@ -49,25 +49,25 @@ class MoveHandStock extends HandStock<MoveCardBase> {
 
           this.game.addConfirmationButton(_("move"), () => {
             this.game.performAction("actRollDice", {
-              moveCard_id: moveCard.card.id,
+              moveCard_id: move.card.id,
             });
           });
           return;
         }
 
-        if (moveCard.card.type === "both") {
+        if (move.card.type === "both") {
           const stPickMoveSide = new StPickMoveSide(this.game);
           stPickMoveSide.set();
           return;
         }
 
-        if (moveCard.card.type === "tower") {
+        if (move.card.type === "tower") {
           const stPickMoveTower = new StPickMoveTower(this.game);
           stPickMoveTower.set();
           return;
         }
 
-        if (moveCard.card.type === "wizard") {
+        if (move.card.type === "wizard") {
           const stPickMoveWizard = new StPickMoveWizard(this.game);
           stPickMoveWizard.set();
           return;
@@ -80,10 +80,10 @@ class MoveHandStock extends HandStock<MoveCardBase> {
     };
   }
 
-  setup(cards: MoveCardBase[]) {
+  setup(cards: MoveCard[]) {
     cards.forEach((card) => {
-      const moveCard = new MoveCard(this.game, card);
-      moveCard.setup();
+      const move = new Move(this.game, card);
+      move.setup();
     });
   }
 
@@ -93,8 +93,8 @@ class MoveHandStock extends HandStock<MoveCardBase> {
   }
 }
 
-class MoveCard extends Card {
-  constructor(game: WanderingTowersGui, card: MoveCardBase) {
+class Move extends Card {
+  constructor(game: WanderingTowersGui, card: MoveCard) {
     super(game, card);
     this.stocks = this.game.wtw.stocks.moves;
     this.player_id = this.location === "hand" ? this.location_arg : null;

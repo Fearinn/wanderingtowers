@@ -33,13 +33,13 @@ class StPickMoveSide extends StateManager {
     );
 
     const card = this.game.wtw.globals.moveCard;
-    const moveCard = new MoveCard(this.game, card);
-    moveCard.toggleSelection(true);
+    const move = new Move(this.game, card);
+    move.toggleSelection(true);
   }
 
   leave() {
     const card = this.game.wtw.globals.moveCard;
-    const moveCard = new MoveCard(this.game, card);
-    moveCard.toggleSelection(false);
+    const move = new Move(this.game, card);
+    move.toggleSelection(false);
   }
 }

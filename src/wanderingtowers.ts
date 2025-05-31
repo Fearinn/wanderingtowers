@@ -60,24 +60,24 @@ class WanderingTowers extends WanderingTowersGui {
       setupFrontDiv: (card, element) => {},
     });
 
-    const moveCardManager = new CardManager<MoveCardBase>(this, {
+    const moveManager = new CardManager<MoveCard>(this, {
       cardHeight: 100,
       cardWidth: 146,
       selectedCardClass: "wtw_move-selected",
       getId: (card) => {
-        return `wtw_moveCard-${card.id}`;
+        return `wtw_move-${card.id}`;
       },
       setupDiv: (card, element) => {
-        const moveCard = new MoveCard(this, card);
-        moveCard.setupDiv(element);
+        const move = new Move(this, card);
+        move.setupDiv(element);
       },
       setupFrontDiv: (card, element) => {
-        const moveCard = new MoveCard(this, card);
-        moveCard.setupFrontDiv(element);
+        const move = new Move(this, card);
+        move.setupFrontDiv(element);
       },
       setupBackDiv: (card, element) => {
-        const moveCard = new MoveCard(this, card);
-        moveCard.setupBackDiv(element);
+        const move = new Move(this, card);
+        move.setupBackDiv(element);
       },
     });
 
@@ -127,8 +127,8 @@ class WanderingTowers extends WanderingTowersGui {
     }
 
     const moveStocks = {
-      hand: new MoveHandStock(this, moveCardManager),
-      deck: new Deck(moveCardManager, document.getElementById("wtw_moveDeck"), {
+      hand: new MoveHandStock(this, moveManager),
+      deck: new Deck(moveManager, document.getElementById("wtw_moveDeck"), {
         counter: {
           position: "top",
           hideWhenEmpty: true,
@@ -136,7 +136,7 @@ class WanderingTowers extends WanderingTowersGui {
         },
       }),
       discard: new CardStock(
-        moveCardManager,
+        moveManager,
         document.getElementById("wtw_moveDiscard")
       ),
     };
@@ -160,7 +160,7 @@ class WanderingTowers extends WanderingTowersGui {
       managers: {
         zoom: zoomManager,
         dice: diceManager,
-        moves: moveCardManager,
+        moves: moveManager,
         towers: towerCardManager,
         wizards: wizardCardManager,
       },
@@ -181,13 +181,13 @@ class WanderingTowers extends WanderingTowersGui {
     });
 
     gamedatas.moveDeck.forEach((card) => {
-      const moveCard = new MoveCard(this, card);
-      moveCard.setup();
+      const move = new Move(this, card);
+      move.setup();
     });
 
     gamedatas.moveDiscard.forEach((card) => {
-      const moveCard = new MoveCard(this, card);
-      moveCard.discard();
+      const move = new Move(this, card);
+      move.discard();
     });
 
     gamedatas.wizardCards.forEach((card) => {

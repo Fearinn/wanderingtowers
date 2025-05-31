@@ -1,5 +1,5 @@
 interface args_StAfterRoll {
-  args: { moveCard: MoveCardBase };
+  args: { moveCard: MoveCard };
 }
 
 class StAfterRoll extends StateManager {
@@ -13,7 +13,7 @@ class StAfterRoll extends StateManager {
     const moveCard = args.args.moveCard;
     this.game.wtw.globals.moveCard = moveCard;
 
-    const move = new MoveCard(this.game, moveCard);
+    const move = new Move(this.game, moveCard);
     move.toggleSelectedClass(true);
 
     if (move.card.type === "both") {
@@ -64,7 +64,7 @@ class StAfterRoll extends StateManager {
   leave() {
     const moveCard = this.game.wtw.globals.moveCard;
 
-    const move = new MoveCard(this.game, moveCard);
+    const move = new Move(this.game, moveCard);
     move.toggleSelectedClass(false);
 
     const towerStocks = this.game.wtw.stocks.towers.spaces;

@@ -13,8 +13,8 @@ class StPickMoveTower extends StateManager {
     super.enter();
 
     const card = this.game.wtw.globals.moveCard;
-    const moveCard = new MoveCard(this.game, card);
-    moveCard.toggleSelection(true);
+    const move = new Move(this.game, card);
+    move.toggleSelection(true);
 
     const towerStocks = this.game.wtw.stocks.towers.spaces;
     for (const space_id in towerStocks) {
@@ -26,8 +26,8 @@ class StPickMoveTower extends StateManager {
 
   leave() {
     const card = this.game.wtw.globals.moveCard;
-    const moveCard = new MoveCard(this.game, card);
-    moveCard.toggleSelection(false);
+    const move = new Move(this.game, card);
+    move.toggleSelection(false);
 
     const towerStocks = this.game.wtw.stocks.towers.spaces;
 

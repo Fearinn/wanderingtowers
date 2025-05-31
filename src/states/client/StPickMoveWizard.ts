@@ -13,8 +13,8 @@ class StPickMoveWizard extends StateManager {
     super.enter();
 
     const card = this.game.wtw.globals.moveCard;
-    const moveCard = new MoveCard(this.game, card);
-    moveCard.toggleSelection(true);
+    const move = new Move(this.game, card);
+    move.toggleSelection(true);
 
     const wizardStocks = this.game.wtw.stocks.wizards.spaces;
     for (const space_id in wizardStocks) {
@@ -28,8 +28,8 @@ class StPickMoveWizard extends StateManager {
 
   leave() {
     const card = this.game.wtw.globals.moveCard;
-    const moveCard = new MoveCard(this.game, card);
-    moveCard.toggleSelection(false);
+    const move = new Move(this.game, card);
+    move.toggleSelection(false);
 
     const wizardStocks = this.game.wtw.stocks.wizards.spaces;
     for (const space_id in wizardStocks) {

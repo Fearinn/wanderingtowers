@@ -69,24 +69,24 @@ var WanderingTowers = /** @class */ (function (_super) {
             },
             setupFrontDiv: function (card, element) { },
         });
-        var moveCardManager = new CardManager(this, {
+        var moveManager = new CardManager(this, {
             cardHeight: 100,
             cardWidth: 146,
             selectedCardClass: "wtw_move-selected",
             getId: function (card) {
-                return "wtw_moveCard-".concat(card.id);
+                return "wtw_move-".concat(card.id);
             },
             setupDiv: function (card, element) {
-                var moveCard = new MoveCard(_this, card);
-                moveCard.setupDiv(element);
+                var move = new Move(_this, card);
+                move.setupDiv(element);
             },
             setupFrontDiv: function (card, element) {
-                var moveCard = new MoveCard(_this, card);
-                moveCard.setupFrontDiv(element);
+                var move = new Move(_this, card);
+                move.setupFrontDiv(element);
             },
             setupBackDiv: function (card, element) {
-                var moveCard = new MoveCard(_this, card);
-                moveCard.setupBackDiv(element);
+                var move = new Move(_this, card);
+                move.setupBackDiv(element);
             },
         });
         var potionCardManager = new CardManager(this, {
@@ -123,15 +123,15 @@ var WanderingTowers = /** @class */ (function (_super) {
             counters.spaces[space_id].setValue(gamedatas.tierCounts[space_id]);
         }
         var moveStocks = {
-            hand: new MoveHandStock(this, moveCardManager),
-            deck: new Deck(moveCardManager, document.getElementById("wtw_moveDeck"), {
+            hand: new MoveHandStock(this, moveManager),
+            deck: new Deck(moveManager, document.getElementById("wtw_moveDeck"), {
                 counter: {
                     position: "top",
                     hideWhenEmpty: true,
                     extraClasses: "text-shadow wtw_deckCounter",
                 },
             }),
-            discard: new CardStock(moveCardManager, document.getElementById("wtw_moveDiscard")),
+            discard: new CardStock(moveManager, document.getElementById("wtw_moveDiscard")),
         };
         var potionStocks = {};
         for (var p_id in gamedatas.players) {
@@ -146,7 +146,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             managers: {
                 zoom: zoomManager,
                 dice: diceManager,
-                moves: moveCardManager,
+                moves: moveManager,
                 towers: towerCardManager,
                 wizards: wizardCardManager,
             },
@@ -165,12 +165,12 @@ var WanderingTowers = /** @class */ (function (_super) {
             towerCard.setup();
         });
         gamedatas.moveDeck.forEach(function (card) {
-            var moveCard = new MoveCard(_this, card);
-            moveCard.setup();
+            var move = new Move(_this, card);
+            move.setup();
         });
         gamedatas.moveDiscard.forEach(function (card) {
-            var moveCard = new MoveCard(_this, card);
-            moveCard.discard();
+            var move = new Move(_this, card);
+            move.discard();
         });
         gamedatas.wizardCards.forEach(function (card) {
             var wizardCard = new WizardCard(_this, card);
@@ -2553,30 +2553,30 @@ var MoveHandStock = /** @class */ (function (_super) {
             _this.game.removeConfirmationButton();
             if (selection.length > 0) {
                 _this.game.wtw.globals.moveCard = card;
-                var moveCard_1 = new MoveCard(_this.game, card);
-                if (moveCard_1.card.type_arg >= 19) {
+                var move_1 = new Move(_this.game, card);
+                if (move_1.card.type_arg >= 19) {
                     _this.game.statusBar.removeActionButtons();
                     _this.game.statusBar.addActionButton(_("cancel"), function () {
                         _this.game.restoreServerGameState();
                     }, { color: "alert" });
                     _this.game.addConfirmationButton(_("move"), function () {
                         _this.game.performAction("actRollDice", {
-                            moveCard_id: moveCard_1.card.id,
+                            moveCard_id: move_1.card.id,
                         });
                     });
                     return;
                 }
-                if (moveCard_1.card.type === "both") {
+                if (move_1.card.type === "both") {
                     var stPickMoveSide = new StPickMoveSide(_this.game);
                     stPickMoveSide.set();
                     return;
                 }
-                if (moveCard_1.card.type === "tower") {
+                if (move_1.card.type === "tower") {
                     var stPickMoveTower = new StPickMoveTower(_this.game);
                     stPickMoveTower.set();
                     return;
                 }
-                if (moveCard_1.card.type === "wizard") {
+                if (move_1.card.type === "wizard") {
                     var stPickMoveWizard = new StPickMoveWizard(_this.game);
                     stPickMoveWizard.set();
                     return;
@@ -2590,8 +2590,8 @@ var MoveHandStock = /** @class */ (function (_super) {
     MoveHandStock.prototype.setup = function (cards) {
         var _this = this;
         cards.forEach(function (card) {
-            var moveCard = new MoveCard(_this.game, card);
-            moveCard.setup();
+            var move = new Move(_this.game, card);
+            move.setup();
         });
     };
     MoveHandStock.prototype.toggleSelection = function (enable) {
@@ -2600,15 +2600,15 @@ var MoveHandStock = /** @class */ (function (_super) {
     };
     return MoveHandStock;
 }(HandStock));
-var MoveCard = /** @class */ (function (_super) {
-    __extends(MoveCard, _super);
-    function MoveCard(game, card) {
+var Move = /** @class */ (function (_super) {
+    __extends(Move, _super);
+    function Move(game, card) {
         var _this = _super.call(this, game, card) || this;
         _this.stocks = _this.game.wtw.stocks.moves;
         _this.player_id = _this.location === "hand" ? _this.location_arg : null;
         return _this;
     }
-    MoveCard.prototype.setup = function () {
+    Move.prototype.setup = function () {
         if (this.location === "hand") {
             this.stocks.hand.addCard(this.card, {}, { visible: true });
             this.stocks.hand.setCardVisible(this.card, true);
@@ -2617,10 +2617,10 @@ var MoveCard = /** @class */ (function (_super) {
         this.stocks.deck.addCard(this.card, {}, { visible: false });
         this.stocks.deck.setCardVisible(this.card, false);
     };
-    MoveCard.prototype.setupDiv = function (element) {
+    Move.prototype.setupDiv = function (element) {
         element.classList.add("wtw_card", "wtw_move");
     };
-    MoveCard.prototype.setupFrontDiv = function (element) {
+    Move.prototype.setupFrontDiv = function (element) {
         if (!this.type_arg) {
             return;
         }
@@ -2632,31 +2632,31 @@ var MoveCard = /** @class */ (function (_super) {
         }
         element.style.backgroundPosition = "".concat(spritePos * -100, "%");
     };
-    MoveCard.prototype.setupBackDiv = function (element) {
+    Move.prototype.setupBackDiv = function (element) {
         element.classList.add("wtw_move-back");
     };
-    MoveCard.prototype.toggleSelection = function (enabled) {
+    Move.prototype.toggleSelection = function (enabled) {
         this.stocks.hand.toggleSelection(enabled);
         if (enabled) {
             this.select(true);
         }
     };
-    MoveCard.prototype.select = function (silent) {
+    Move.prototype.select = function (silent) {
         if (silent === void 0) { silent = false; }
         this.stocks.hand.selectCard(this.card, silent);
     };
-    MoveCard.prototype.toggleSelectedClass = function (force) {
+    Move.prototype.toggleSelectedClass = function (force) {
         this.stocks.hand
             .getCardElement(this.card)
             .classList.toggle("wtw_move-selected", force);
     };
-    MoveCard.prototype.discard = function () {
+    Move.prototype.discard = function () {
         this.stocks.discard.addCard(this.card, {}, { visible: true });
     };
-    MoveCard.prototype.draw = function () {
+    Move.prototype.draw = function () {
         this.stocks.hand.addCard(this.card, { fromStock: this.stocks.deck }, { visible: true });
     };
-    return MoveCard;
+    return Move;
 }(Card));
 var Potion = /** @class */ (function (_super) {
     __extends(Potion, _super);
@@ -2926,15 +2926,15 @@ var NotificationManager = /** @class */ (function () {
     };
     NotificationManager.prototype.notif_discardMove = function (args) {
         var card = args.card;
-        var moveCard = new MoveCard(this.game, card);
-        moveCard.discard();
+        var move = new Move(this.game, card);
+        move.discard();
     };
     NotificationManager.prototype.notif_drawMove = function (args) {
         var _this = this;
         var cards = args.cards;
         cards.forEach(function (card) {
-            var moveCard = new MoveCard(_this.game, card);
-            moveCard.draw();
+            var move = new Move(_this.game, card);
+            move.draw();
         });
     };
     NotificationManager.prototype.notif_rollDie = function (args) {
@@ -2990,13 +2990,13 @@ var StPickMoveSide = /** @class */ (function (_super) {
             stPickMoveWizard.set();
         }, {});
         var card = this.game.wtw.globals.moveCard;
-        var moveCard = new MoveCard(this.game, card);
-        moveCard.toggleSelection(true);
+        var move = new Move(this.game, card);
+        move.toggleSelection(true);
     };
     StPickMoveSide.prototype.leave = function () {
         var card = this.game.wtw.globals.moveCard;
-        var moveCard = new MoveCard(this.game, card);
-        moveCard.toggleSelection(false);
+        var move = new Move(this.game, card);
+        move.toggleSelection(false);
     };
     return StPickMoveSide;
 }(StateManager));
@@ -3024,12 +3024,12 @@ var StPickMoveTier = /** @class */ (function (_super) {
             return;
         }
         tower.toggleSelection(true);
-        var move = new MoveCard(this.game, moveCard);
+        var move = new Move(this.game, moveCard);
         move.toggleSelection(true);
         var _loop_3 = function (i) {
             this_1.game.statusBar.addActionButton("".concat(i), function () {
                 _this.game.performAction("actMoveTower", {
-                    moveCard_id: moveCard.id,
+                    moveCard_id: move.card.id,
                     space_id: tower.space_id,
                     tier: maxTier - i + 1,
                 });
@@ -3042,7 +3042,7 @@ var StPickMoveTier = /** @class */ (function (_super) {
     };
     StPickMoveTier.prototype.leave = function () {
         var _a = this.game.wtw.globals, moveCard = _a.moveCard, towerCard = _a.towerCard;
-        var move = new MoveCard(this.game, moveCard);
+        var move = new Move(this.game, moveCard);
         move.toggleSelection(false);
         var tower = new TowerCard(this.game, towerCard);
         tower.toggleSelection(false);
@@ -3062,8 +3062,8 @@ var StPickMoveTower = /** @class */ (function (_super) {
     StPickMoveTower.prototype.enter = function () {
         _super.prototype.enter.call(this);
         var card = this.game.wtw.globals.moveCard;
-        var moveCard = new MoveCard(this.game, card);
-        moveCard.toggleSelection(true);
+        var move = new Move(this.game, card);
+        move.toggleSelection(true);
         var towerStocks = this.game.wtw.stocks.towers.spaces;
         for (var space_id in towerStocks) {
             var stock = towerStocks[space_id];
@@ -3073,8 +3073,8 @@ var StPickMoveTower = /** @class */ (function (_super) {
     };
     StPickMoveTower.prototype.leave = function () {
         var card = this.game.wtw.globals.moveCard;
-        var moveCard = new MoveCard(this.game, card);
-        moveCard.toggleSelection(false);
+        var move = new Move(this.game, card);
+        move.toggleSelection(false);
         var towerStocks = this.game.wtw.stocks.towers.spaces;
         for (var space_id in towerStocks) {
             var stock = towerStocks[space_id];
@@ -3096,8 +3096,8 @@ var StPickMoveWizard = /** @class */ (function (_super) {
     StPickMoveWizard.prototype.enter = function () {
         _super.prototype.enter.call(this);
         var card = this.game.wtw.globals.moveCard;
-        var moveCard = new MoveCard(this.game, card);
-        moveCard.toggleSelection(true);
+        var move = new Move(this.game, card);
+        move.toggleSelection(true);
         var wizardStocks = this.game.wtw.stocks.wizards.spaces;
         for (var space_id in wizardStocks) {
             var stock = wizardStocks[space_id];
@@ -3108,8 +3108,8 @@ var StPickMoveWizard = /** @class */ (function (_super) {
     };
     StPickMoveWizard.prototype.leave = function () {
         var card = this.game.wtw.globals.moveCard;
-        var moveCard = new MoveCard(this.game, card);
-        moveCard.toggleSelection(false);
+        var move = new Move(this.game, card);
+        move.toggleSelection(false);
         var wizardStocks = this.game.wtw.stocks.wizards.spaces;
         for (var space_id in wizardStocks) {
             var stock = wizardStocks[space_id];
@@ -3149,7 +3149,7 @@ var StAfterRoll = /** @class */ (function (_super) {
         _super.prototype.enter.call(this);
         var moveCard = args.args.moveCard;
         this.game.wtw.globals.moveCard = moveCard;
-        var move = new MoveCard(this.game, moveCard);
+        var move = new Move(this.game, moveCard);
         move.toggleSelectedClass(true);
         if (move.card.type === "both") {
             this.statusBar.addActionButton(_("tower"), function () {
@@ -3184,7 +3184,7 @@ var StAfterRoll = /** @class */ (function (_super) {
     };
     StAfterRoll.prototype.leave = function () {
         var moveCard = this.game.wtw.globals.moveCard;
-        var move = new MoveCard(this.game, moveCard);
+        var move = new Move(this.game, moveCard);
         move.toggleSelectedClass(false);
         var towerStocks = this.game.wtw.stocks.towers.spaces;
         for (var space_id in towerStocks) {
