@@ -168,7 +168,7 @@ class WanderingTowers extends WanderingTowersGui {
       );
 
       potionStocks[player_id] = {
-        cargo: new PotionCargoStock(this, potionCardManager, Number(player_id)),
+        cargo: new PotionCargoStock(this, potionCardManager, player_id),
       };
     }
 

@@ -146,7 +146,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             var playerPanelElement = this.getPlayerPanelElement(player_id);
             playerPanelElement.insertAdjacentHTML("beforeend", "<div id=\"wtw_potionCargo-".concat(player_id, "\" class=\"wtw_potionCargo\"></div>"));
             potionStocks[player_id] = {
-                cargo: new PotionCargoStock(this, potionCardManager, Number(player_id)),
+                cargo: new PotionCargoStock(this, potionCardManager, player_id),
             };
         }
         this.wtw = {
@@ -2605,8 +2605,13 @@ var Move = /** @class */ (function (_super) {
             .getCardElement(this.card)
             .classList.toggle("wtw_move-selected", force);
     };
-    Move.prototype.discard = function () {
-        this.stocks.discard.addCard(this.card, {}, { visible: true });
+    Move.prototype.discard = function (player_id) {
+        var fromElement = player_id != this.game.player_id
+            ? this.game.getPlayerPanelElement(player_id)
+            : undefined;
+        this.stocks.discard.addCard(this.card, {
+            fromElement: fromElement,
+        }, {});
     };
     Move.prototype.draw = function (priv) {
         if (priv) {
@@ -2944,9 +2949,9 @@ var NotificationManager = /** @class */ (function () {
         });
     };
     NotificationManager.prototype.notif_discardMove = function (args) {
-        var card = args.card;
+        var card = args.card, player_id = args.player_id;
         var move = new Move(this.game, card);
-        move.discard();
+        move.discard(player_id);
     };
     NotificationManager.prototype.notif_drawMove = function (args) {
         var _this = this;

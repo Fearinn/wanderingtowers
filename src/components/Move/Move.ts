@@ -81,11 +81,22 @@ class Move extends Card {
       .classList.toggle("wtw_move-selected", force);
   }
 
-  discard(): void {
-    this.stocks.discard.addCard(this.card, {}, { visible: true });
+  discard(player_id?: number): void {
+    const fromElement =
+      player_id != this.game.player_id
+        ? this.game.getPlayerPanelElement(player_id)
+        : undefined;
+
+    this.stocks.discard.addCard(
+      this.card,
+      {
+        fromElement,
+      },
+      {}
+    );
   }
 
-  draw(priv): void {
+  draw(priv: boolean): void {
     if (priv) {
       this.hand.addCard(
         this.card,
@@ -95,10 +106,7 @@ class Move extends Card {
       return;
     }
 
-    this.void.addCard(
-      this.card,
-      { fromStock: this.stocks.deck },
-    );
+    this.void.addCard(this.card, { fromStock: this.stocks.deck });
     this.void.setCardVisible(this.card, false);
   }
 }
