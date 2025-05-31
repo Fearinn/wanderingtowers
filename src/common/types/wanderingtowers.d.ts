@@ -22,14 +22,14 @@ declare class WanderingTowersGui extends Game {
       zoom: ZoomManager;
       dice: DiceManager;
       moves: CardManager<MoveCard>;
-      towers: CardManager<TowerCardBase>;
+      towers: CardManager<TowerCard>;
       wizards: CardManager<WizardCardBase>;
     };
     stocks: Stocks;
     counters: Counters;
     globals: {
       moveCard?: MoveCard;
-      towerCard?: TowerCardBase;
+      towerCard?: TowerCard;
       maxTier?: number;
     };
   };
@@ -61,7 +61,7 @@ interface WanderingTowersGamedatas {
   tablespeed: string;
 
   diceFace: number;
-  towerCards: TowerCardBase[];
+  towerCards: TowerCard[];
   wizardCards: WizardCardBase[];
   potionCards: PotionCard[];
   moveDeck: MoveCard[];

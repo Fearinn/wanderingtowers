@@ -1,19 +1,19 @@
-interface TowerCardBase extends BgaCard {
+interface TowerCard extends BgaCard {
   type_arg: number;
   tier: number;
 }
 
-interface TowerCard extends Card {
+interface Tower extends Card {
   stocks: TowerStocks;
-  card: TowerCardBase;
+  card: TowerCard;
   space_id: number;
   setup(): void;
   place(space_id: number): void;
   move(space_id: number, current_space_id: number): void;
 }
 
-class TowerCard extends Card {
-  constructor(game: WanderingTowersGui, card: TowerCardBase) {
+class Tower extends Card {
+  constructor(game: WanderingTowersGui, card: TowerCard) {
     super(game, card);
     this.card.tier = Number(card.tier);
     this.stocks = this.game.wtw.stocks.towers;
@@ -71,16 +71,16 @@ interface TowerStocks {
   };
 }
 
-interface TowerSpaceStock extends CardStock<TowerCardBase> {
+interface TowerSpaceStock extends CardStock<TowerCard> {
   game: WanderingTowersGui;
   space_id: number;
-  setup(cards: TowerCardBase[]): void;
+  setup(cards: TowerCard[]): void;
 }
 
-class TowerSpaceStock extends CardStock<TowerCardBase> {
+class TowerSpaceStock extends CardStock<TowerCard> {
   constructor(
     game: WanderingTowersGui,
-    manager: CardManager<TowerCardBase>,
+    manager: CardManager<TowerCard>,
     space_id: number
   ) {
     super(manager, document.getElementById(`wtw_spaceTowers-${space_id}`), {
@@ -97,11 +97,11 @@ class TowerSpaceStock extends CardStock<TowerCardBase> {
       if (selection.length > 0) {
         this.unselectOthers();
 
-        const towerCard = new TowerCard(this.game, card);
-        const space = new Space(this.game, towerCard.space_id);
+        const tower = new Tower(this.game, card);
+        const space = new Space(this.game, tower.space_id);
         const maxTier = space.getMaxTier();
 
-        this.game.wtw.globals.towerCard = towerCard.card;
+        this.game.wtw.globals.towerCard = tower.card;
           this.game.wtw.globals.maxTier = maxTier;
 
         if (maxTier > 1) {

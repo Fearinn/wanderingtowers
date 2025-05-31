@@ -36,14 +36,14 @@ class WanderingTowers extends WanderingTowersGui {
       face: gamedatas.diceFace,
     });
 
-    const towerCardManager = new CardManager<TowerCardBase>(this, {
+    const towerManager = new CardManager<TowerCard>(this, {
       getId: (card) => {
-        return `wtw_towerCard-${card.id}`;
+        return `wtw_tower-${card.id}`;
       },
       selectedCardClass: "wtw_tower-selected",
       setupDiv: (card, element) => {
-        const towerCard = new TowerCard(this, card);
-        towerCard.setupDiv(element);
+        const tower = new Tower(this, card);
+        tower.setupDiv(element);
       },
       setupFrontDiv: (card, element) => {},
     });
@@ -111,7 +111,7 @@ class WanderingTowers extends WanderingTowersGui {
     for (let space_id = 1; space_id <= 16; space_id++) {
       towerStocks.spaces[space_id] = new TowerSpaceStock(
         this,
-        towerCardManager,
+        towerManager,
         space_id
       );
 
@@ -161,7 +161,7 @@ class WanderingTowers extends WanderingTowersGui {
         zoom: zoomManager,
         dice: diceManager,
         moves: moveManager,
-        towers: towerCardManager,
+        towers: towerManager,
         wizards: wizardCardManager,
       },
       stocks: {
@@ -176,8 +176,8 @@ class WanderingTowers extends WanderingTowersGui {
     };
 
     gamedatas.towerCards.forEach((card) => {
-      const towerCard = new TowerCard(this, card);
-      towerCard.setup();
+      const tower = new Tower(this, card);
+      tower.setup();
     });
 
     gamedatas.moveDeck.forEach((card) => {

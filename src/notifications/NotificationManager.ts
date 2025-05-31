@@ -29,15 +29,15 @@ class NotificationManager implements NotificationManager {
   }
 
   public notif_moveTower(args: {
-    cards: TowerCardBase[];
+    cards: TowerCard[];
     final_space_id: number;
     current_space_id: number;
   }) {
     const { cards, final_space_id, current_space_id } = args;
 
     cards.forEach((card) => {
-      const towerCard = new TowerCard(this.game, card);
-      towerCard.move(final_space_id, current_space_id);
+      const tower = new Tower(this.game, card);
+      tower.move(final_space_id, current_space_id);
     });
   }
 
