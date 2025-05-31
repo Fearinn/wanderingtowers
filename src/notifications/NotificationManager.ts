@@ -48,12 +48,25 @@ class NotificationManager implements NotificationManager {
     move.discard();
   }
 
-  public notif_drawMove(args: { cards: MoveCard[] }): void {
+  public notif_drawMove(args: { cards: MoveCard[]; player_id: number }): void {
+    const { cards, player_id } = args;
+
+    if (this.game.player_id == player_id) {
+      return;
+    }
+
+    cards.forEach((card) => {
+      const move = new Move(this.game, card);
+      move.draw(false);
+    });
+  }
+
+  public notif_drawMovePriv(args: { cards: MoveCard[] }): void {
     const { cards } = args;
 
     cards.forEach((card) => {
       const move = new Move(this.game, card);
-      move.draw();
+      move.draw(true);
     });
   }
 

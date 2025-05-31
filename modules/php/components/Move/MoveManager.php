@@ -39,10 +39,18 @@ class MoveManager extends CardManager
         $NotifManager = new NotifManager($this->game);
         $NotifManager->player(
             $player_id,
-            "drawMove",
+            "drawMovePriv",
             "",
             [
                 "cards" => $cards,
+            ]
+        );
+
+        $NotifManager->all(
+            "drawMove",
+            "",
+            [
+                "cards" => $this->hideCards($cards),
             ]
         );
     }

@@ -4,20 +4,116 @@ interface MoveCard extends BgaCard {
   type_arg?: number;
 }
 
-interface MoveStocks {
-  deck: CardStock<MoveCard>;
-  discard: CardStock<MoveCard>;
-  hand: MoveHandStock;
-}
-
-interface MoveHandStock extends HandStock<MoveCard> {
-  game: WanderingTowersGui;
-}
-
 interface Move extends Card {
   stocks: MoveStocks;
   player_id: number | null;
   card: MoveCard;
+  hand: MoveHandStock;
+  void: VoidStock<MoveCard>;
+}
+
+class Move extends Card {
+  constructor(game: WanderingTowersGui, card: MoveCard) {
+    super(game, card);
+    this.stocks = this.game.wtw.stocks.moves;
+    this.player_id =
+      this.card.location === "hand" ? this.card.location_arg : null;
+
+    const isCurrentPlayer = this.player_id == this.game.player_id;
+    this.hand = isCurrentPlayer ? this.stocks.hand : null;
+    this.void =
+      this.card.location === "hand" && !isCurrentPlayer
+        ? this.stocks[this.player_id].hand
+        : null;
+  }
+
+  setup() {
+    if (this.location === "hand") {
+      this.hand.addCard(this.card, {}, { visible: true });
+      this.hand.setCardVisible(this.card, true);
+      return;
+    }
+
+    this.stocks.deck.addCard(this.card, {}, { visible: false });
+    this.stocks.deck.setCardVisible(this.card, false);
+  }
+
+  setupDiv(element: HTMLDivElement): void {
+    element.classList.add("wtw_card", "wtw_move");
+  }
+
+  setupFrontDiv(element: HTMLDivElement): void {
+    if (!this.type_arg) {
+      return;
+    }
+
+    element.classList.add("wtw_move-front");
+
+    let spritePos = this.type_arg - 1;
+
+    if (spritePos >= 10) {
+      element.style.backgroundImage = `url("${g_gamethemeurl}img/moves_2.png")`;
+      spritePos -= 10;
+    }
+
+    element.style.backgroundPosition = `${spritePos * -100}%`;
+  }
+
+  setupBackDiv(element: HTMLDivElement): void {
+    element.classList.add("wtw_move-back");
+  }
+
+  toggleSelection(enabled: boolean): void {
+    this.hand.toggleSelection(enabled);
+
+    if (enabled) {
+      this.select(true);
+    }
+  }
+
+  select(silent = false): void {
+    this.hand.selectCard(this.card, silent);
+  }
+
+  toggleSelectedClass(force?: boolean): void {
+    this.hand
+      .getCardElement(this.card)
+      .classList.toggle("wtw_move-selected", force);
+  }
+
+  discard(): void {
+    this.stocks.discard.addCard(this.card, {}, { visible: true });
+  }
+
+  draw(priv): void {
+    if (priv) {
+      this.hand.addCard(
+        this.card,
+        { fromStock: this.stocks.deck },
+        { visible: true }
+      );
+      return;
+    }
+
+    this.void.addCard(
+      this.card,
+      { fromStock: this.stocks.deck },
+    );
+    this.void.setCardVisible(this.card, false);
+  }
+}
+
+interface MoveStocks {
+  deck: CardStock<MoveCard>;
+  discard: CardStock<MoveCard>;
+  hand: MoveHandStock;
+  [player_id: number]: {
+    hand: VoidStock<MoveCard>;
+  };
+}
+
+interface MoveHandStock extends HandStock<MoveCard> {
+  game: WanderingTowersGui;
 }
 
 class MoveHandStock extends HandStock<MoveCard> {
@@ -90,79 +186,5 @@ class MoveHandStock extends HandStock<MoveCard> {
   toggleSelection(enable: boolean) {
     const selectionMode = enable ? "single" : "none";
     this.setSelectionMode(selectionMode);
-  }
-}
-
-class Move extends Card {
-  constructor(game: WanderingTowersGui, card: MoveCard) {
-    super(game, card);
-    this.stocks = this.game.wtw.stocks.moves;
-    this.player_id = this.location === "hand" ? this.location_arg : null;
-  }
-
-  setup() {
-    if (this.location === "hand") {
-      this.stocks.hand.addCard(this.card, {}, { visible: true });
-      this.stocks.hand.setCardVisible(this.card, true);
-      return;
-    }
-
-    this.stocks.deck.addCard(this.card, {}, { visible: false });
-    this.stocks.deck.setCardVisible(this.card, false);
-  }
-
-  setupDiv(element: HTMLDivElement): void {
-    element.classList.add("wtw_card", "wtw_move");
-  }
-
-  setupFrontDiv(element: HTMLDivElement): void {
-    if (!this.type_arg) {
-      return;
-    }
-
-    element.classList.add("wtw_move-front");
-
-    let spritePos = this.type_arg - 1;
-
-    if (spritePos >= 10) {
-      element.style.backgroundImage = `url("${g_gamethemeurl}img/moves_2.png")`;
-      spritePos -= 10;
-    }
-
-    element.style.backgroundPosition = `${spritePos * -100}%`;
-  }
-
-  setupBackDiv(element: HTMLDivElement): void {
-    element.classList.add("wtw_move-back");
-  }
-
-  toggleSelection(enabled: boolean): void {
-    this.stocks.hand.toggleSelection(enabled);
-
-    if (enabled) {
-      this.select(true);
-    }
-  }
-
-  select(silent = false): void {
-    this.stocks.hand.selectCard(this.card, silent);
-  }
-
-  toggleSelectedClass(force?: boolean): void {
-    this.stocks.hand
-      .getCardElement(this.card)
-      .classList.toggle("wtw_move-selected", force);
-  }
-
-  discard(): void {
-    this.stocks.discard.addCard(this.card, {}, { visible: true });
-  }
-
-  draw(): void {
-    this.stocks.hand.addCard(
-      this.card,
-      { fromStock: this.stocks.deck },
-      { visible: true }
-    );
   }
 }

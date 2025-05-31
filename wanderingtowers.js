@@ -133,6 +133,13 @@ var WanderingTowers = /** @class */ (function (_super) {
             }),
             discard: new CardStock(moveManager, document.getElementById("wtw_moveDiscard")),
         };
+        for (var p_id in gamedatas.players) {
+            var player_id = Number(p_id);
+            this.getPlayerPanelElement(player_id).insertAdjacentHTML("beforeend", "<div id=\"wtw_moveVoid-".concat(player_id, "\" class=\"wtw_moveVoid\"></div>"));
+            moveStocks[player_id] = {
+                hand: new VoidStock(moveManager, document.getElementById("wtw_moveVoid-".concat(player_id))),
+            };
+        }
         var potionStocks = {};
         for (var p_id in gamedatas.players) {
             var player_id = Number(p_id);
@@ -164,14 +171,6 @@ var WanderingTowers = /** @class */ (function (_super) {
             var tower = new Tower(_this, card);
             tower.setup();
         });
-        gamedatas.moveDeck.forEach(function (card) {
-            var move = new Move(_this, card);
-            move.setup();
-        });
-        gamedatas.moveDiscard.forEach(function (card) {
-            var move = new Move(_this, card);
-            move.discard();
-        });
         gamedatas.wizardCards.forEach(function (card) {
             var wizard = new Wizard(_this, card);
             wizard.setup();
@@ -179,6 +178,14 @@ var WanderingTowers = /** @class */ (function (_super) {
         gamedatas.potionCards.forEach(function (card) {
             var potion = new Potion(_this, card);
             potion.setup();
+        });
+        gamedatas.moveDeck.forEach(function (card) {
+            var move = new Move(_this, card);
+            move.setup();
+        });
+        gamedatas.moveDiscard.forEach(function (card) {
+            var move = new Move(_this, card);
+            move.discard();
         });
         moveStocks.hand.setup(gamedatas.hand);
         this.setupNotifications();
@@ -2541,6 +2548,76 @@ var Die = /** @class */ (function (_super) {
     };
     return Die;
 }(BgaDie6));
+var Move = /** @class */ (function (_super) {
+    __extends(Move, _super);
+    function Move(game, card) {
+        var _this = _super.call(this, game, card) || this;
+        _this.stocks = _this.game.wtw.stocks.moves;
+        _this.player_id =
+            _this.card.location === "hand" ? _this.card.location_arg : null;
+        var isCurrentPlayer = _this.player_id == _this.game.player_id;
+        _this.hand = isCurrentPlayer ? _this.stocks.hand : null;
+        _this.void =
+            _this.card.location === "hand" && !isCurrentPlayer
+                ? _this.stocks[_this.player_id].hand
+                : null;
+        return _this;
+    }
+    Move.prototype.setup = function () {
+        if (this.location === "hand") {
+            this.hand.addCard(this.card, {}, { visible: true });
+            this.hand.setCardVisible(this.card, true);
+            return;
+        }
+        this.stocks.deck.addCard(this.card, {}, { visible: false });
+        this.stocks.deck.setCardVisible(this.card, false);
+    };
+    Move.prototype.setupDiv = function (element) {
+        element.classList.add("wtw_card", "wtw_move");
+    };
+    Move.prototype.setupFrontDiv = function (element) {
+        if (!this.type_arg) {
+            return;
+        }
+        element.classList.add("wtw_move-front");
+        var spritePos = this.type_arg - 1;
+        if (spritePos >= 10) {
+            element.style.backgroundImage = "url(\"".concat(g_gamethemeurl, "img/moves_2.png\")");
+            spritePos -= 10;
+        }
+        element.style.backgroundPosition = "".concat(spritePos * -100, "%");
+    };
+    Move.prototype.setupBackDiv = function (element) {
+        element.classList.add("wtw_move-back");
+    };
+    Move.prototype.toggleSelection = function (enabled) {
+        this.hand.toggleSelection(enabled);
+        if (enabled) {
+            this.select(true);
+        }
+    };
+    Move.prototype.select = function (silent) {
+        if (silent === void 0) { silent = false; }
+        this.hand.selectCard(this.card, silent);
+    };
+    Move.prototype.toggleSelectedClass = function (force) {
+        this.hand
+            .getCardElement(this.card)
+            .classList.toggle("wtw_move-selected", force);
+    };
+    Move.prototype.discard = function () {
+        this.stocks.discard.addCard(this.card, {}, { visible: true });
+    };
+    Move.prototype.draw = function (priv) {
+        if (priv) {
+            this.hand.addCard(this.card, { fromStock: this.stocks.deck }, { visible: true });
+            return;
+        }
+        this.void.addCard(this.card, { fromStock: this.stocks.deck });
+        this.void.setCardVisible(this.card, false);
+    };
+    return Move;
+}(Card));
 var MoveHandStock = /** @class */ (function (_super) {
     __extends(MoveHandStock, _super);
     function MoveHandStock(game, manager) {
@@ -2600,64 +2677,6 @@ var MoveHandStock = /** @class */ (function (_super) {
     };
     return MoveHandStock;
 }(HandStock));
-var Move = /** @class */ (function (_super) {
-    __extends(Move, _super);
-    function Move(game, card) {
-        var _this = _super.call(this, game, card) || this;
-        _this.stocks = _this.game.wtw.stocks.moves;
-        _this.player_id = _this.location === "hand" ? _this.location_arg : null;
-        return _this;
-    }
-    Move.prototype.setup = function () {
-        if (this.location === "hand") {
-            this.stocks.hand.addCard(this.card, {}, { visible: true });
-            this.stocks.hand.setCardVisible(this.card, true);
-            return;
-        }
-        this.stocks.deck.addCard(this.card, {}, { visible: false });
-        this.stocks.deck.setCardVisible(this.card, false);
-    };
-    Move.prototype.setupDiv = function (element) {
-        element.classList.add("wtw_card", "wtw_move");
-    };
-    Move.prototype.setupFrontDiv = function (element) {
-        if (!this.type_arg) {
-            return;
-        }
-        element.classList.add("wtw_move-front");
-        var spritePos = this.type_arg - 1;
-        if (spritePos >= 10) {
-            element.style.backgroundImage = "url(\"".concat(g_gamethemeurl, "img/moves_2.png\")");
-            spritePos -= 10;
-        }
-        element.style.backgroundPosition = "".concat(spritePos * -100, "%");
-    };
-    Move.prototype.setupBackDiv = function (element) {
-        element.classList.add("wtw_move-back");
-    };
-    Move.prototype.toggleSelection = function (enabled) {
-        this.stocks.hand.toggleSelection(enabled);
-        if (enabled) {
-            this.select(true);
-        }
-    };
-    Move.prototype.select = function (silent) {
-        if (silent === void 0) { silent = false; }
-        this.stocks.hand.selectCard(this.card, silent);
-    };
-    Move.prototype.toggleSelectedClass = function (force) {
-        this.stocks.hand
-            .getCardElement(this.card)
-            .classList.toggle("wtw_move-selected", force);
-    };
-    Move.prototype.discard = function () {
-        this.stocks.discard.addCard(this.card, {}, { visible: true });
-    };
-    Move.prototype.draw = function () {
-        this.stocks.hand.addCard(this.card, { fromStock: this.stocks.deck }, { visible: true });
-    };
-    return Move;
-}(Card));
 var Potion = /** @class */ (function (_super) {
     __extends(Potion, _super);
     function Potion(game, card) {
@@ -2931,10 +2950,21 @@ var NotificationManager = /** @class */ (function () {
     };
     NotificationManager.prototype.notif_drawMove = function (args) {
         var _this = this;
+        var cards = args.cards, player_id = args.player_id;
+        if (this.game.player_id == player_id) {
+            return;
+        }
+        cards.forEach(function (card) {
+            var move = new Move(_this.game, card);
+            move.draw(false);
+        });
+    };
+    NotificationManager.prototype.notif_drawMovePriv = function (args) {
+        var _this = this;
         var cards = args.cards;
         cards.forEach(function (card) {
             var move = new Move(_this.game, card);
-            move.draw();
+            move.draw(true);
         });
     };
     NotificationManager.prototype.notif_rollDie = function (args) {
