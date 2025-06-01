@@ -3,7 +3,11 @@
 namespace Bga\Games\WanderingTowers\Components\Tower;
 
 use Bga\Games\WanderingTowers\Components\CardManager;
+use Bga\Games\WanderingTowers\Components\Move\Move;
+use BgaUserException;
 use Table;
+
+use const Bga\Games\WanderingTowers\G_ROLL;
 
 class TowerManager extends CardManager
 {
@@ -53,5 +57,41 @@ class TowerManager extends CardManager
         /** @disregard P1013 Undefined Method */
         $card = $this->game->wtw_getObjectFromDB($sql);
         return $card;
+    }
+
+    public function getMovable(int $moveCard_id, int $player_id): array
+    {
+        $Move = new Move($this->game, $moveCard_id);
+
+        if ($Move->type !== "tower" && $Move->type !== "both") {
+            return [];
+        }
+
+        $movableCards = $this->getCardsInLocation("space");
+
+        if ($Move->isDice()) {
+            if ($this->game->gamestate->state_id() === ST_AFTER_ROLL) {
+                return $movableCards;
+            }
+            $steps = $this->game->globals->get(G_ROLL);
+        } else {
+            $steps = $Move->getSteps("tower");
+        }
+
+        array_filter($movableCards, function ($towerCard) use ($steps) {
+            $towerCard_id = (int) $towerCard["id"];
+            $Tower = new Tower($this->game, $towerCard_id);
+            $space_id = $Tower->getSpaceId() + $steps;
+
+            return $this->countOnSpace($space_id, $Tower->tier) !== $this->getRavenskeepSpace();
+        });
+
+        return $movableCards;
+    }
+
+    public function getRavenskeepSpace(): int
+    {
+        $space_id = (int) $this->game->getUniqueValueFromDB("SELECT card_location_arg FROM {$this->dbTable} WHERE card_type_arg=1");
+        return $space_id;
     }
 }

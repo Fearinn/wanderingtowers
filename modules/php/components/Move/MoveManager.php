@@ -54,4 +54,20 @@ class MoveManager extends CardManager
             ]
         );
     }
+
+    public function getPlayable($player_id): array
+    {
+        $playableMoves = [];
+
+        foreach ($this->getPlayerHand($player_id) as $moveCard) {
+            $moveCard_id = (int) $moveCard["id"];
+            $Move = new Move($this->game, $moveCard_id);
+
+            if ($Move->isPlayable($player_id)) {
+                $playableMoves[] = $Move->getMoveCard();
+            }
+        }
+
+        return $playableMoves;
+    }
 }

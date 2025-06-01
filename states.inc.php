@@ -44,6 +44,7 @@ $machinestates = [
 		"description" => clienttranslate('${actplayer} may play a movement card or a spell'),
 		"descriptionmyturn" => clienttranslate('${you} may play a movement card or a spell'),
 		"type" => "activeplayer",
+		"args" => "arg_playerTurn",
 		"possibleactions" => [
 			"actMoveWizard",
 			"actMoveTower",

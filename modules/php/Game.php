@@ -36,6 +36,7 @@ use Bga\Games\WanderingTowers\Components\Dice\Dice;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 use Bga\Games\WanderingTowers\States\StAfterRoll;
 use Bga\Games\WanderingTowers\States\StBetweenPlayers;
+use Bga\Games\WanderingTowers\States\StPlayerTurn;
 use Bga\Games\WanderingTowers\States\StRerollDice;
 
 const G_REROLLS = "rerolls";
@@ -182,6 +183,12 @@ class Game extends \Table
     {
         $StAfterRoll = new StAfterRoll($this);
         return $StAfterRoll->getArgs();
+    }
+
+    public function arg_playerTurn(): array
+    {
+        $StPlayerTurn = new StPlayerTurn($this);
+        return $StPlayerTurn->getArgs();
     }
 
     public function st_betweenPlayers(): void

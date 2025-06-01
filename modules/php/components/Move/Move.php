@@ -5,6 +5,8 @@ namespace Bga\Games\WanderingTowers\Components\Move;
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\Actions\Types\StringParam;
 use Bga\GameFramework\Table;
+use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
+use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
 class Move extends MoveManager
@@ -77,5 +79,19 @@ class Move extends MoveManager
                 "card" => $this->getCard($this->card_id)
             ]
         );
+    }
+
+    public function isPlayable(int $player_id): bool
+    {
+        $isPlayable = false;
+
+        $WizardManager = new WizardManager($this->game);
+        $movableWizards = $WizardManager->getMovable($this->card_id, $player_id);
+
+        $TowerManager = new TowerManager($this->game);
+        $movableTowers = $TowerManager->getMovable($this->card_id, $player_id);
+
+        $isPlayable = !!$movableWizards || !!$movableTowers;
+        return $isPlayable;
     }
 }

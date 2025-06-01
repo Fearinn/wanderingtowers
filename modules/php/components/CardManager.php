@@ -42,7 +42,7 @@ class CardManager
         $card = $this->game->wtw_getObjectFromDB($sql);
 
         if ($card === null) {
-            throw new \BgaVisibleSystemException("card not found");
+            throw new \BgaVisibleSystemException("Card not found");
         }
 
         return $card;
@@ -86,6 +86,11 @@ class CardManager
     public function getCardsByLocationArg(int $location_arg): array
     {
         return $this->game->getCollectionFromDB("SELECT {$this->fields} FROM {$this->dbTable} WHERE card_location_arg={$location_arg}");
+    }
+
+    public function getCardsByTypeArg(int $type_arg): array
+    {
+        return $this->game->getCollectionFromDB("SELECT {$this->fields} FROM {$this->dbTable} WHERE card_type_arg={$type_arg}");
     }
 
     public function transferCard(string $from, string $to, int $from_arg = 0, int $to_arg = 0): void

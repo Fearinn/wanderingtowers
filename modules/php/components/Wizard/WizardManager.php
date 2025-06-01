@@ -4,8 +4,13 @@ namespace Bga\Games\WanderingTowers\Components\Wizard;
 
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\CardManager;
+use Bga\Games\WanderingTowers\Components\Move\Move;
 use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
+use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
+use BgaUserException;
+
+use const Bga\Games\WanderingTowers\G_ROLL;
 
 class WizardManager extends CardManager
 {
@@ -136,5 +141,51 @@ class WizardManager extends CardManager
             $Wizard = new Wizard($this->game, $wizardCard_id);
             $Wizard->freeUp();
         }
+    }
+
+    public function getByOwner(int $player_id, bool $visibleOnly): array
+    {
+        $wizardCards = $this->getCardsByTypeArg($player_id);
+        $TowerManager = new TowerManager($this->game);
+
+        if ($visibleOnly) {
+            array_filter($wizardCards, function ($wizardCard_id) use ($TowerManager) {
+                $Wizard = new Wizard($this->game, $wizardCard_id);
+                $space_id = $Wizard->getSpaceId();
+
+                return $Wizard->tier === $TowerManager->countOnSpace($space_id);
+            }, ARRAY_FILTER_USE_KEY);
+        }
+
+        return $wizardCards;
+    }
+
+    public function getMovable(int $moveCard_id, int $player_id): array
+    {
+        $Move = new Move($this->game, $moveCard_id);
+
+        if ($Move->type !== "wizard" && $Move->type !== "both") {
+            return [];
+        }
+
+        $movableCards = $this->getByOwner($player_id, true);
+
+        if ($Move->isDice()) {
+            if ($this->game->gamestate->state_id() === ST_AFTER_ROLL) {
+                return $movableCards;
+            }
+            $steps = $this->game->globals->get(G_ROLL);
+        } else {
+            $steps = $Move->getSteps("wizard");
+        }
+
+        array_filter($movableCards, function ($wizardCard_id)  use ($steps) {
+            $Wizard = new Wizard($this->game, $wizardCard_id);
+            $space_id = $Wizard->getSpaceId() + $steps;
+
+            return $this->countOnSpace($space_id, $Wizard->tier) < 6;
+        }, ARRAY_FILTER_USE_KEY);
+
+        return $movableCards;
     }
 }

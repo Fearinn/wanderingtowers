@@ -9,15 +9,21 @@ class StPlayMove extends StateManager {
     });
   }
 
-  enter() {
+  enter(args: args_StPlayMove) {
     super.enter();
 
     const moveHand = this.wtw.stocks.moves.hand;
     moveHand.toggleSelection(true);
+    console.log(args.playableMoves);
+    moveHand.setSelectableCards(args.playableMoves);
   }
 
   leave() {
     const moveHand = this.wtw.stocks.moves.hand;
     moveHand.toggleSelection(false);
   }
+}
+
+interface args_StPlayMove {
+  playableMoves: MoveCard[];
 }

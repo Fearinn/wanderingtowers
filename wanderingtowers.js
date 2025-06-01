@@ -199,7 +199,7 @@ var WanderingTowers = /** @class */ (function (_super) {
                 new StPlayerTurn(this).enter();
                 break;
             case "client_playMove":
-                new StPlayMove(this).enter();
+                new StPlayMove(this).enter(args.args);
                 break;
             case "client_pickMoveSide":
                 new StPickMoveSide(this).enter();
@@ -3163,10 +3163,12 @@ var StPlayMove = /** @class */ (function (_super) {
             descriptionmyturn: _("${you} must pick a movement card"),
         });
     };
-    StPlayMove.prototype.enter = function () {
+    StPlayMove.prototype.enter = function (args) {
         _super.prototype.enter.call(this);
         var moveHand = this.wtw.stocks.moves.hand;
         moveHand.toggleSelection(true);
+        console.log(args.playableMoves);
+        moveHand.setSelectableCards(args.playableMoves);
     };
     StPlayMove.prototype.leave = function () {
         var moveHand = this.wtw.stocks.moves.hand;

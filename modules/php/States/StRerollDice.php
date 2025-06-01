@@ -10,10 +10,6 @@ use const Bga\Games\WanderingTowers\G_REROLLS;
 
 class StRerollDice extends StateManager
 {
-    public Table $game;
-    public $gamestate;
-    public Globals $globals;
-
     public function __construct(Table $game)
     {
         parent::__construct($game);

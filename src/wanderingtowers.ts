@@ -221,7 +221,7 @@ class WanderingTowers extends WanderingTowersGui {
     this.setupNotifications();
   }
 
-  public onEnteringState(stateName: StateName, args?: object): void {
+  public onEnteringState(stateName: StateName, args?: any): void {
     if (!this.isCurrentPlayerActive()) {
       return;
     }
@@ -232,7 +232,7 @@ class WanderingTowers extends WanderingTowersGui {
         break;
 
       case "client_playMove":
-        new StPlayMove(this).enter();
+        new StPlayMove(this).enter(args.args);
         break;
 
       case "client_pickMoveSide":
@@ -256,7 +256,7 @@ class WanderingTowers extends WanderingTowersGui {
         break;
 
       case "afterRoll":
-        new StAfterRoll(this).enter(args as args_StAfterRoll);
+        new StAfterRoll(this).enter(args);
         break;
     }
   }
