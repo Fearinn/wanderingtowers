@@ -54,7 +54,7 @@ class WizardManager extends CardManager
 
         if ($this->countCardsInHand($player_id) > 0) {
             if (
-                $this->countOnSpace($space_id) < $setupWizardCount
+                $this->countOnSpace($space_id, 1) < $setupWizardCount
             ) {
                 $this->transferCard("hand", "space", $player_id, $space_id);
                 $player_id = $this->game->getPlayerAfter($player_id);
@@ -68,9 +68,10 @@ class WizardManager extends CardManager
         $this->setupOnTowers($player_id, $space_id);
     }
 
-    public function countOnSpace(int $space_id): int
+    public function countOnSpace(int $space_id, int $tier): int
     {
-        return (int) $this->countCardsInLocation("space", $space_id);
+        $count = (int) $this->game->getUniqueValueFromDB("SELECT COUNT(card_id) FROM {$this->dbTable} WHERE card_location_arg={$space_id} AND tier={$tier}");
+        return $count;
     }
 
 
