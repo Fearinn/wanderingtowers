@@ -11,10 +11,6 @@ use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
 
 class ActMoveWizardDice extends ActionManager
 {
-    public Table $game;
-    public $gamestate;
-    public Globals $globals;
-
     public function __construct(Table $game)
     {
         parent::__construct($game);

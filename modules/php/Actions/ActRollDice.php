@@ -25,7 +25,7 @@ class ActRollDice extends ActionManager
     public function validate(int $moveCard_id): void
     {
         $Move = new Move($this->game, $moveCard_id);
-        $Move->validateHand($this->player_id);
+        $Move->validate(null, $this->player_id);
 
         if (!$Move->isDice()) {
             throw new \BgaVisibleSystemException("No dice in this move");

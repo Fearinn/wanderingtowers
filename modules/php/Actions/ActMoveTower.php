@@ -14,10 +14,6 @@ use const Bga\Games\WanderingTowers\TR_REROLL_DICE;
 
 class ActMoveTower extends ActionManager
 {
-    public Table $game;
-    public $gamestate;
-    public Globals $globals;
-
     public function __construct(Table $game)
     {
         parent::__construct($game);
@@ -26,8 +22,7 @@ class ActMoveTower extends ActionManager
     public function validate(int $moveCard_id): void
     {
         $Move = new Move($this->game, $moveCard_id);
-        $Move->validateType("tower");
-        $Move->validateHand($this->player_id);
+        $Move->validate("tower", $this->player_id);
     }
 
     public function act(int $moveCard_id, int $space_id, int $tier, int $steps = null): void

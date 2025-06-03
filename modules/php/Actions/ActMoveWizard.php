@@ -12,10 +12,6 @@ use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
 
 class ActMoveWizard extends ActionManager
 {
-    public Table $game;
-    public $gamestate;
-    public Globals $globals;
-
     public function __construct(Table $game)
     {
         parent::__construct($game);
@@ -24,8 +20,7 @@ class ActMoveWizard extends ActionManager
     public function validate(int $moveCard_id, int $wizardCard_id): void
     {
         $Move = new Move($this->game, $moveCard_id);
-        $Move->validateType("wizard");
-        $Move->validateHand($this->player_id);
+        $Move->validate("wizard", $this->player_id);
 
         $Wizard = new Wizard($this->game, $wizardCard_id);
         $Wizard->validateOwner($this->player_id);

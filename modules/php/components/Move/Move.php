@@ -50,14 +50,14 @@ class Move extends MoveManager
         return (int) $card["location_arg"];
     }
 
-    public function validateType(#[StringParam(enum: ["wizard", "tower"])] string $side): void
+    private function validateType(#[StringParam(enum: ["wizard", "tower"])] ?string $side): void
     {
-        if ($this->type !== "both" && $this->type !== $side) {
+        if ($side !== null && $this->type !== "both" && $this->type !== $side) {
             throw new \BgaVisibleSystemException("Wrong movement type");
         }
     }
 
-    public function validateHand(int $player_id): void
+    private function validateHand(int $player_id): void
     {
         $location = $this->getMoveCard()["location"];
         $owner_id = $this->getOwner();
@@ -65,6 +65,20 @@ class Move extends MoveManager
         if ($location !== "hand" || $owner_id !== $player_id) {
             throw new \BgaVisibleSystemException("This movement card is not in your hand");
         }
+    }
+
+    private function validateIsPlayable(int $player_id): void
+    {
+        if (!$this->isPlayable($player_id)) {
+            throw new \BgaUserException("You can't play this move");
+        }
+    }
+
+    public function validate(#[StringParam(enum: ["wizard", "tower"])] ?string $side, int $player_id): void
+    {
+        $this->validateType($side);
+        $this->validateHand($player_id);
+        $this->validateIsPlayable($player_id);
     }
 
     public function discard(): void
