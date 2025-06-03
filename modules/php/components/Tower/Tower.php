@@ -11,6 +11,7 @@ class Tower extends TowerManager
 {
     public int $card_id;
     public int $tier;
+    public int $id;
 
     public function __construct(Table $game, #[IntParam(min: 1, max: 10)] int $towerCard_id)
     {
@@ -19,6 +20,12 @@ class Tower extends TowerManager
 
         $card = $this->getCard($this->card_id);
         $this->tier = $card["tier"];
+        $this->id = $card["type_arg"];
+    }
+
+    public function isRavenskeep(): bool
+    {
+        return $this->id === 1;
     }
 
     public function getSpaceId(): int

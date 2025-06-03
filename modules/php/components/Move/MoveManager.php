@@ -4,6 +4,8 @@ namespace Bga\Games\WanderingTowers\Components\Move;
 
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\CardManager;
+use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
+use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
 class MoveManager extends CardManager
@@ -55,7 +57,7 @@ class MoveManager extends CardManager
         );
     }
 
-    public function getPlayable($player_id): array
+    public function getPlayable(int $player_id): array
     {
         $playableMoves = [];
 
@@ -69,5 +71,27 @@ class MoveManager extends CardManager
         }
 
         return $playableMoves;
+    }
+
+    public function getMovableMeeples(int $player_id): array
+    {
+        $movableMeeples = [];
+
+        $playableMoves = $this->getPlayable($player_id);
+
+        foreach ($playableMoves as $moveCard) {
+            $moveCard_id = (int) $moveCard["id"];
+            $Move = new Move($this->game, $moveCard_id);
+
+            $WizardManager = new WizardManager($this->game);
+            $movableWizards = $WizardManager->getMovable($Move->card_id, $player_id);
+
+            $TowerManager = new TowerManager($this->game);
+            $movableTowers = $TowerManager->getMovable($Move->card_id, $player_id);
+
+            $movableMeeples[$Move->card_id] = ["wizards" => $movableWizards, "towers" => $movableTowers];
+        }
+
+        return $movableMeeples;
     }
 }

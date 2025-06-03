@@ -5,6 +5,7 @@ namespace Bga\Games\WanderingTowers\States;
 use Bga\GameFramework\Db\Globals;
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\Move\Move;
+use Bga\Games\WanderingTowers\Components\Move\MoveManager;
 
 use const Bga\Games\WanderingTowers\G_MOVE;
 
@@ -19,11 +20,15 @@ class StAfterRoll extends StateManager
     {
         $moveCard_id = $this->globals->get(G_MOVE);
         $Move = new Move($this->game, $moveCard_id);
+        
+        $MoveManager = new MoveManager($this->game);
+        $movableMeeples = $MoveManager->getMovableMeeples($this->player_id);
 
         $wizard_or_tower = $Move->type === "both" ? clienttranslate("wizard or tower") : $Move->type;
 
         $args = [
             "moveCard" => $Move->getMoveCard(),
+            "movableMeeples" => $movableMeeples,
             "wizard_or_tower" => $wizard_or_tower,
             "i18n" => ["wizard_or_tower"],
         ];

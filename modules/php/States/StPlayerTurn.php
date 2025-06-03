@@ -18,9 +18,11 @@ class StPlayerTurn extends StateManager
 
         $MoveManager = new MoveManager($this->game);
         $playableMoves = $MoveManager->getPlayable($player_id);
+        $movableMeeples = $MoveManager->getMovableMeeples($player_id);
 
         $args = [
             "playableMoves" => $playableMoves,
+            "movableMeeples" => $movableMeeples,
         ];
 
         return $args;

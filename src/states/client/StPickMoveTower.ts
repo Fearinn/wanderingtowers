@@ -9,8 +9,10 @@ class StPickMoveTower extends StateManager {
     });
   }
 
-  enter() {
+  enter(args: arg_StPickMoveTower) {
     super.enter();
+
+    const { movableMeeples } = args;
 
     const card = this.game.wtw.globals.moveCard;
     const move = new Move(this.game, card);
@@ -20,7 +22,7 @@ class StPickMoveTower extends StateManager {
     for (const space_id in towerStocks) {
       const stock = towerStocks[space_id];
       stock.toggleSelection(true);
-      stock.setSelectableCards(stock.getCards());
+      stock.setSelectableCards(movableMeeples[move.card.id].towers);
     }
   }
 
@@ -36,4 +38,8 @@ class StPickMoveTower extends StateManager {
       stock.toggleSelection(false);
     }
   }
+}
+
+interface arg_StPickMoveTower {
+  movableMeeples: MovableMeeples;
 }

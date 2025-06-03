@@ -14,7 +14,6 @@ class StPlayMove extends StateManager {
 
     const moveHand = this.wtw.stocks.moves.hand;
     moveHand.toggleSelection(true);
-    console.log(args.playableMoves);
     moveHand.setSelectableCards(args.playableMoves);
   }
 

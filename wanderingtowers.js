@@ -205,10 +205,10 @@ var WanderingTowers = /** @class */ (function (_super) {
                 new StPickMoveSide(this).enter();
                 break;
             case "client_pickMoveWizard":
-                new StPickMoveWizard(this).enter();
+                new StPickMoveWizard(this).enter(args.args);
                 break;
             case "client_pickMoveTower":
-                new StPickMoveTower(this).enter();
+                new StPickMoveTower(this).enter(args.args);
                 break;
             case "rerollDice":
                 new StRerollDice(this).enter();
@@ -217,7 +217,7 @@ var WanderingTowers = /** @class */ (function (_super) {
                 new StPickMoveTier(this).enter();
                 break;
             case "afterRoll":
-                new StAfterRoll(this).enter(args);
+                new StAfterRoll(this).enter(args.args);
                 break;
         }
     };
@@ -3094,8 +3094,9 @@ var StPickMoveTower = /** @class */ (function (_super) {
             descriptionmyturn: _("${you} must pick a tower to move"),
         });
     };
-    StPickMoveTower.prototype.enter = function () {
+    StPickMoveTower.prototype.enter = function (args) {
         _super.prototype.enter.call(this);
+        var movableMeeples = args.movableMeeples;
         var card = this.game.wtw.globals.moveCard;
         var move = new Move(this.game, card);
         move.toggleSelection(true);
@@ -3103,7 +3104,7 @@ var StPickMoveTower = /** @class */ (function (_super) {
         for (var space_id in towerStocks) {
             var stock = towerStocks[space_id];
             stock.toggleSelection(true);
-            stock.setSelectableCards(stock.getCards());
+            stock.setSelectableCards(movableMeeples[move.card.id].towers);
         }
     };
     StPickMoveTower.prototype.leave = function () {
@@ -3128,8 +3129,9 @@ var StPickMoveWizard = /** @class */ (function (_super) {
             descriptionmyturn: _("${you} must pick a wizard to move"),
         });
     };
-    StPickMoveWizard.prototype.enter = function () {
+    StPickMoveWizard.prototype.enter = function (args) {
         _super.prototype.enter.call(this);
+        var movableMeeples = args.movableMeeples;
         var card = this.game.wtw.globals.moveCard;
         var move = new Move(this.game, card);
         move.toggleSelection(true);
@@ -3137,8 +3139,7 @@ var StPickMoveWizard = /** @class */ (function (_super) {
         for (var space_id in wizardStocks) {
             var stock = wizardStocks[space_id];
             stock.toggleSelection(true);
-            var selectableCards = stock.getPlayerWizards(this.game.player_id);
-            stock.setSelectableCards(selectableCards);
+            stock.setSelectableCards(movableMeeples[move.card.id].wizards);
         }
     };
     StPickMoveWizard.prototype.leave = function () {
@@ -3167,7 +3168,6 @@ var StPlayMove = /** @class */ (function (_super) {
         _super.prototype.enter.call(this);
         var moveHand = this.wtw.stocks.moves.hand;
         moveHand.toggleSelection(true);
-        console.log(args.playableMoves);
         moveHand.setSelectableCards(args.playableMoves);
     };
     StPlayMove.prototype.leave = function () {
@@ -3184,7 +3184,7 @@ var StAfterRoll = /** @class */ (function (_super) {
     StAfterRoll.prototype.enter = function (args) {
         var _this = this;
         _super.prototype.enter.call(this);
-        var moveCard = args.args.moveCard;
+        var moveCard = args.moveCard, movableMeeples = args.movableMeeples;
         this.game.wtw.globals.moveCard = moveCard;
         var move = new Move(this.game, moveCard);
         move.toggleSelectedClass(true);
@@ -3204,7 +3204,7 @@ var StAfterRoll = /** @class */ (function (_super) {
             for (var space_id in towerStocks) {
                 var stock = towerStocks[space_id];
                 stock.toggleSelection(true);
-                stock.setSelectableCards(stock.getCards());
+                stock.setSelectableCards(movableMeeples[move.card.id].towers);
             }
             return;
         }
@@ -3213,8 +3213,7 @@ var StAfterRoll = /** @class */ (function (_super) {
             for (var space_id in wizardStocks) {
                 var stock = wizardStocks[space_id];
                 stock.toggleSelection(true);
-                var selectableCards = stock.getPlayerWizards(this.game.player_id);
-                stock.setSelectableCards(selectableCards);
+                stock.setSelectableCards(movableMeeples[move.card.id].wizards);
             }
             return;
         }

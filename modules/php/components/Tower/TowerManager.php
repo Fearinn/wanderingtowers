@@ -78,15 +78,25 @@ class TowerManager extends CardManager
             $steps = $Move->getSteps("tower");
         }
 
-        array_filter($movableCards, function ($towerCard) use ($steps) {
+        $movableCards = array_filter($movableCards, function ($towerCard) use ($steps) {
             $towerCard_id = (int) $towerCard["id"];
             $Tower = new Tower($this->game, $towerCard_id);
+
+            if ($Tower->isRavenskeep()) {
+                return false;
+            }
+
             $space_id = $Tower->getSpaceId() + $steps;
 
-            return $this->countOnSpace($space_id, $Tower->tier) !== $this->getRavenskeepSpace();
+            if ($space_id > 16) {
+                $space_id -= 16;
+            }
+
+            $ravenskeepSpace = (int) $this->getRavenskeepSpace();
+            return $space_id !== $ravenskeepSpace;
         });
 
-        return $movableCards;
+        return array_values($movableCards);
     }
 
     public function getRavenskeepSpace(): int

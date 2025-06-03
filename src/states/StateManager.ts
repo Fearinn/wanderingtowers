@@ -40,3 +40,10 @@ class StateManager implements StateManager {
     this.game.wtw.globals = {};
   }
 }
+
+interface MovableMeeples {
+  [moveCard_id: number]: {
+    wizards: WizardCard[];
+    towers: TowerCard[];
+  };
+}

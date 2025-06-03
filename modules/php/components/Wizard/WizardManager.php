@@ -179,13 +179,13 @@ class WizardManager extends CardManager
             $steps = $Move->getSteps("wizard");
         }
 
-        array_filter($movableCards, function ($wizardCard_id)  use ($steps) {
+        $movableCards = array_filter($movableCards, function ($wizardCard_id)  use ($steps) {
             $Wizard = new Wizard($this->game, $wizardCard_id);
             $space_id = $Wizard->getSpaceId() + $steps;
 
             return $this->countOnSpace($space_id, $Wizard->tier) < 6;
         }, ARRAY_FILTER_USE_KEY);
 
-        return $movableCards;
+        return array_values($movableCards);
     }
 }

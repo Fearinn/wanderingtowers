@@ -1,16 +1,12 @@
-interface args_StAfterRoll {
-  args: { moveCard: MoveCard };
-}
-
 class StAfterRoll extends StateManager {
   constructor(game: WanderingTowers) {
     super(game, "afterRoll");
   }
 
-  enter(args: args_StAfterRoll) {
+  enter(args: arg_StAfterRoll) {
     super.enter();
 
-    const moveCard = args.args.moveCard;
+    const { moveCard, movableMeeples } = args;
     this.game.wtw.globals.moveCard = moveCard;
 
     const move = new Move(this.game, moveCard);
@@ -43,7 +39,7 @@ class StAfterRoll extends StateManager {
       for (const space_id in towerStocks) {
         const stock = towerStocks[space_id];
         stock.toggleSelection(true);
-        stock.setSelectableCards(stock.getCards());
+        stock.setSelectableCards(movableMeeples[move.card.id].towers);
       }
       return;
     }
@@ -54,8 +50,7 @@ class StAfterRoll extends StateManager {
         const stock = wizardStocks[space_id];
         stock.toggleSelection(true);
 
-        const selectableCards = stock.getPlayerWizards(this.game.player_id);
-        stock.setSelectableCards(selectableCards);
+        stock.setSelectableCards(movableMeeples[move.card.id].wizards);
       }
       return;
     }
@@ -79,4 +74,9 @@ class StAfterRoll extends StateManager {
       stock.toggleSelection(false);
     }
   }
+}
+
+interface arg_StAfterRoll {
+  moveCard: MoveCard;
+  movableMeeples: MovableMeeples
 }
