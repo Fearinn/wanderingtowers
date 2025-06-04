@@ -2,15 +2,12 @@
 
 namespace Bga\Games\WanderingTowers\Actions;
 
-use Bga\GameFramework\Db\Globals;
 use Bga\GameFramework\Table;
-use Bga\Games\WanderingTowers\Components\Dice\Dice;
 use Bga\Games\WanderingTowers\Components\Move\Move;
 use Bga\Games\WanderingTowers\Components\Tower\Tower;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 
 use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
-use const Bga\Games\WanderingTowers\TR_REROLL_DICE;
 
 class ActMoveTower extends ActionManager
 {
@@ -19,15 +16,19 @@ class ActMoveTower extends ActionManager
         parent::__construct($game);
     }
 
-    public function validate(int $moveCard_id): void
+    public function validate(int $moveCard_id, int $space_id, int $tier): void
     {
+        $TowerManager = new TowerManager($this->game);
+        $towerCard = $TowerManager->getByTier($space_id, $tier);
+        $towerCard_id = (int) $towerCard["id"];
+
         $Move = new Move($this->game, $moveCard_id);
-        $Move->validate("tower", $this->player_id);
+        $Move->validate("tower", $towerCard_id, $this->player_id);
     }
 
     public function act(int $moveCard_id, int $space_id, int $tier, int $steps = null): void
     {
-        $this->validate($moveCard_id);
+        $this->validate($moveCard_id, $space_id, $tier);
 
         $Move = new Move($this->game, $moveCard_id);
 

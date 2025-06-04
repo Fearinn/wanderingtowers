@@ -22,7 +22,7 @@ class StPickMoveWizard extends StateManager {
     for (const space_id in wizardStocks) {
       const stock = wizardStocks[space_id];
       stock.toggleSelection(true);
-      stock.setSelectableCards(movableMeeples[move.card.id].wizards);
+      stock.setSelectableCards(movableMeeples[move.card.id].wizard);
     }
   }
 

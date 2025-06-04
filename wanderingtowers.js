@@ -3104,7 +3104,7 @@ var StPickMoveTower = /** @class */ (function (_super) {
         for (var space_id in towerStocks) {
             var stock = towerStocks[space_id];
             stock.toggleSelection(true);
-            stock.setSelectableCards(movableMeeples[move.card.id].towers);
+            stock.setSelectableCards(movableMeeples[move.card.id].tower);
         }
     };
     StPickMoveTower.prototype.leave = function () {
@@ -3139,7 +3139,7 @@ var StPickMoveWizard = /** @class */ (function (_super) {
         for (var space_id in wizardStocks) {
             var stock = wizardStocks[space_id];
             stock.toggleSelection(true);
-            stock.setSelectableCards(movableMeeples[move.card.id].wizards);
+            stock.setSelectableCards(movableMeeples[move.card.id].wizard);
         }
     };
     StPickMoveWizard.prototype.leave = function () {
@@ -3204,7 +3204,7 @@ var StAfterRoll = /** @class */ (function (_super) {
             for (var space_id in towerStocks) {
                 var stock = towerStocks[space_id];
                 stock.toggleSelection(true);
-                stock.setSelectableCards(movableMeeples[move.card.id].towers);
+                stock.setSelectableCards(movableMeeples[move.card.id].tower);
             }
             return;
         }
@@ -3213,7 +3213,7 @@ var StAfterRoll = /** @class */ (function (_super) {
             for (var space_id in wizardStocks) {
                 var stock = wizardStocks[space_id];
                 stock.toggleSelection(true);
-                stock.setSelectableCards(movableMeeples[move.card.id].wizards);
+                stock.setSelectableCards(movableMeeples[move.card.id].wizard);
             }
             return;
         }

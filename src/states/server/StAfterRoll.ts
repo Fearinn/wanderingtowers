@@ -39,7 +39,7 @@ class StAfterRoll extends StateManager {
       for (const space_id in towerStocks) {
         const stock = towerStocks[space_id];
         stock.toggleSelection(true);
-        stock.setSelectableCards(movableMeeples[move.card.id].towers);
+        stock.setSelectableCards(movableMeeples[move.card.id].tower);
       }
       return;
     }
@@ -50,7 +50,7 @@ class StAfterRoll extends StateManager {
         const stock = wizardStocks[space_id];
         stock.toggleSelection(true);
 
-        stock.setSelectableCards(movableMeeples[move.card.id].wizards);
+        stock.setSelectableCards(movableMeeples[move.card.id].wizard);
       }
       return;
     }
@@ -78,5 +78,5 @@ class StAfterRoll extends StateManager {
 
 interface arg_StAfterRoll {
   moveCard: MoveCard;
-  movableMeeples: MovableMeeples
+  movableMeeples: MovableMeeples;
 }

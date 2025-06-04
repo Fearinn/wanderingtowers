@@ -50,7 +50,7 @@ class Move extends MoveManager
         return (int) $card["location_arg"];
     }
 
-    private function validateType(#[StringParam(enum: ["wizard", "tower"])] ?string $side): void
+    private function validateType(?string $side): void
     {
         if ($side !== null && $this->type !== "both" && $this->type !== $side) {
             throw new \BgaVisibleSystemException("Wrong movement type");
@@ -70,15 +70,38 @@ class Move extends MoveManager
     private function validateIsPlayable(int $player_id): void
     {
         if (!$this->isPlayable($player_id)) {
-            throw new \BgaUserException("You can't play this move");
+            throw new \BgaVisibleSystemException("You can't play this move");
         }
     }
 
-    public function validate(#[StringParam(enum: ["wizard", "tower"])] ?string $side, int $player_id): void
+    private function validateIsMovable(int $card_id, int $player_id): void
+    {
+        if ($card_id === null) {
+            return;
+        }
+
+        $movableMeeples = $this->getMovableMeeples($player_id);
+        $cards = $movableMeeples[$this->card_id][$this->type];
+
+        $inArray = false;
+        foreach ($cards as $card) {
+            if ($card_id === (int) $card["id"]) {
+                $inArray = true;
+                break;
+            }
+        }
+
+        if (!$inArray) {
+            throw new \BgaVisibleSystemException("You can't move this tower or wizard");
+        }
+    }
+
+    public function validate(?string $side, ?int $card_id, int $player_id): void
     {
         $this->validateType($side);
         $this->validateHand($player_id);
         $this->validateIsPlayable($player_id);
+        $this->validateIsMovable($card_id, $player_id);
     }
 
     public function discard(): void

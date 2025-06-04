@@ -89,7 +89,7 @@ class MoveManager extends CardManager
             $TowerManager = new TowerManager($this->game);
             $movableTowers = $TowerManager->getMovable($Move->card_id, $player_id);
 
-            $movableMeeples[$Move->card_id] = ["wizards" => $movableWizards, "towers" => $movableTowers];
+            $movableMeeples[$Move->card_id] = ["wizard" => $movableWizards, "tower" => $movableTowers];
         }
 
         return $movableMeeples;

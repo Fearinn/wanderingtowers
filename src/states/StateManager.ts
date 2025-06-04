@@ -43,7 +43,7 @@ class StateManager implements StateManager {
 
 interface MovableMeeples {
   [moveCard_id: number]: {
-    wizards: WizardCard[];
-    towers: TowerCard[];
+    wizard: WizardCard[];
+    tower: TowerCard[];
   };
 }

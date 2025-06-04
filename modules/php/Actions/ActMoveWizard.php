@@ -20,7 +20,7 @@ class ActMoveWizard extends ActionManager
     public function validate(int $moveCard_id, int $wizardCard_id): void
     {
         $Move = new Move($this->game, $moveCard_id);
-        $Move->validate("wizard", $this->player_id);
+        $Move->validate("wizard", $wizardCard_id,$this->player_id);
 
         $Wizard = new Wizard($this->game, $wizardCard_id);
         $Wizard->validateOwner($this->player_id);
