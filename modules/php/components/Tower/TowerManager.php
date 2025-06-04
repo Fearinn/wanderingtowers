@@ -86,7 +86,7 @@ class TowerManager extends CardManager
                 return false;
             }
 
-            $space_id = $Tower->getSpaceId() + $steps;
+            $space_id = $this->game->sumSteps($Tower->getSpaceId(), $steps);
 
             if ($space_id > 16) {
                 $space_id -= 16;

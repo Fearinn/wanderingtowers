@@ -181,7 +181,7 @@ class WizardManager extends CardManager
 
         $movableCards = array_filter($movableCards, function ($wizardCard_id)  use ($steps) {
             $Wizard = new Wizard($this->game, $wizardCard_id);
-            $space_id = $Wizard->getSpaceId() + $steps;
+            $space_id = $this->game->sumSteps($Wizard->getSpaceId(), $steps);
 
             return $this->countOnSpace($space_id, $Wizard->tier) < 6;
         }, ARRAY_FILTER_USE_KEY);

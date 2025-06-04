@@ -40,7 +40,7 @@ class Wizard extends WizardManager
     public function move(int $steps, bool $silent = false): void
     {
         $space_id = $this->getSpaceId($this->card_id);
-        $space_id += $steps;
+        $space_id = $this->game->sumSteps($space_id, $steps);
 
         $this->moveByLocationArg($this->card_id, $space_id);
 

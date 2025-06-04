@@ -48,7 +48,7 @@ class Tower extends TowerManager
         $WizardManager = new WizardManager($this->game);
         $WizardManager->freeUpWizards($current_space_id, $current_tier - 1);
 
-        $final_space_id = $current_space_id + $steps;
+        $final_space_id = $this->game->sumSteps($current_space_id, $steps);
 
         $this->moveByLocationArg($this->card_id, $final_space_id);
 

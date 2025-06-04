@@ -92,6 +92,17 @@ class Game extends \Table
         return (int) $this->gamestate->state_id();
     }
 
+    public function sumSteps(int $initial, int $steps): int
+    {
+        $space_id = $initial + $steps;
+
+        if ($space_id > 16) {
+            $space_id -= 16;
+        }
+
+        return $space_id;
+    }
+
     /**
      * Player action, example content.
      *
@@ -209,8 +220,6 @@ class Game extends \Table
      */
     public function getGameProgression()
     {
-        // TODO: compute and return the game progression
-
         return 0;
     }
 

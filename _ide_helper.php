@@ -6,7 +6,8 @@
 
 namespace Bga\GameFramework\Actions {
     #[\Attribute]
-    class CheckAction {
+    class CheckAction
+    {
         public function __construct(
             public bool $enabled = true,
         ) {}
@@ -15,79 +16,105 @@ namespace Bga\GameFramework\Actions {
 
 namespace Bga\GameFramework\Actions\Types {
     #[\Attribute]
-    class IntParam {
+    class IntParam
+    {
         public function __construct(
             ?string $name = null,
-            public ?int $min = null, 
+            public ?int $min = null,
             public ?int $max = null,
         ) {}
 
-        public function getValue(string $paramName): int { return 0; }
+        public function getValue(string $paramName): int
+        {
+            return 0;
+        }
     }
 
     #[\Attribute]
-    class BoolParam  {
+    class BoolParam
+    {
         public function __construct(
             ?string $name = null,
         ) {}
 
-        public function getValue(string $paramName): bool { return false; }
+        public function getValue(string $paramName): bool
+        {
+            return false;
+        }
     }
 
     #[\Attribute]
-    class FloatParam {
+    class FloatParam
+    {
         public function __construct(
             ?string $name = null,
-            public ?float $min = null, 
+            public ?float $min = null,
             public ?float $max = null,
         ) {}
 
-        public function getValue(string $paramName): float { return 0; }
+        public function getValue(string $paramName): float
+        {
+            return 0;
+        }
     }
 
     #[\Attribute]
-    class IntArrayParam {
+    class IntArrayParam
+    {
         public function __construct(
             ?string $name = null,
-            public ?int $min = null, 
+            public ?int $min = null,
             public ?int $max = null,
         ) {}
 
-        public function getValue(string $paramName): array { return []; }
+        public function getValue(string $paramName): array
+        {
+            return [];
+        }
     }
 
     #[\Attribute]
-    class StringParam {
+    class StringParam
+    {
         public function __construct(
             ?string $name = null,
-            public ?bool $alphanum = false, 
-            public ?bool $alphanum_dash = false, 
-            public ?bool $base64 = false, 
+            public ?bool $alphanum = false,
+            public ?bool $alphanum_dash = false,
+            public ?bool $base64 = false,
             public ?array $enum = null,
         ) {}
-    
-        public function getValue(string $paramName): string { return ''; }
+
+        public function getValue(string $paramName): string
+        {
+            return '';
+        }
     }
 
     #[\Attribute]
-    class JsonParam {
+    class JsonParam
+    {
         public function __construct(
             ?string $name = null,
             public ?bool $associative = true,
-            public ?bool $alphanum = true, 
+            public ?bool $alphanum = true,
         ) {}
-    
-        public function getValue(string $paramName): mixed { return []; }    
+
+        public function getValue(string $paramName): mixed
+        {
+            return [];
+        }
     }
 }
 
 namespace Bga\GameFramework {
-    abstract class Notify {
+    abstract class Notify
+    {
         /**
          * Add a decorator function, to be applied on args when a notif function is called.
          */
-        public function addDecorator(callable $fn) {
-           //
+        public function addDecorator(callable $fn)
+        {
+            //
         }
 
         /**
@@ -98,7 +125,8 @@ namespace Bga\GameFramework {
          * @param string $message some text that can be displayed on player's log window (should be surrounded by clienttranslate if not empty).
          * @param array $args notification arguments.
          */
-        public function player(int $playerId, string $notifName, ?string $message = '', array $args = []): void {
+        public function player(int $playerId, string $notifName, ?string $message = '', array $args = []): void
+        {
             //
         }
 
@@ -109,35 +137,41 @@ namespace Bga\GameFramework {
          * @param string $message some text that can be displayed on player's log window (should be surrounded by clienttranslate if not empty).
          * @param array $args notification arguments.
          */
-        public function all(string $notifName, ?string $message = '', array $args = []): void {
+        public function all(string $notifName, ?string $message = '', array $args = []): void
+        {
             //
         }
     }
 
-    abstract class TableOptions {
+    abstract class TableOptions
+    {
         /**
          * Get the value of a table option.
          */
-        public function get(int $optionId): int {
+        public function get(int $optionId): int
+        {
             return 0;
         }
-    
+
         /**
          * Indicates if the table is Turn-based.
          */
-        function isTurnBased(): bool {
+        function isTurnBased(): bool
+        {
             return false;
         }
-    
+
         /**
          * Indicates if the table is Real-time.
          */
-        function isRealTime(): bool {
+        function isRealTime(): bool
+        {
             return false;
         }
     }
 
-    abstract class UserPreferences {
+    abstract class UserPreferences
+    {
         /**
          * Gets the value of a user preference for a player (cached in game DB). Null if unset.
          */
@@ -158,6 +192,27 @@ namespace Bga\GameFramework {
         public \Deck $wizard_cards;
         public \Deck $potion_cards;
         public \Deck $move_cards;
+
+        public function wtw_activeNextPlayer(): int
+        {
+            return 0;
+        }
+
+        public function wtw_getObjectFromDb(string $sql): array | null
+        {
+            return [];
+        }
+
+        public function getStateId(): int
+        {
+            return 0;
+        }
+
+        public function sumSteps(int $initial, int $steps): int
+        {
+            return 0;
+        }
+
         /**
          * Access the underlying game state object.
          */
@@ -236,7 +291,7 @@ namespace Bga\GameFramework {
          */
         final static public function escapeStringForDB(string $string): string
         {
-            return ''; 
+            return '';
         }
 
         /**
@@ -320,7 +375,7 @@ namespace Bga\GameFramework {
          */
         final public function getActivePlayerId(): string|int
         {
-            return '0'; 
+            return '0';
         }
 
         /**
@@ -330,7 +385,7 @@ namespace Bga\GameFramework {
          */
         final public function getActivePlayerName(): string
         {
-            return ''; 
+            return '';
         }
 
         /**
@@ -883,7 +938,7 @@ namespace Bga\GameFramework {
          * Translation function using appropriate gettext domain.
          */
         protected function _(string $text): string
-        {            
+        {
             return '';
         }
 
@@ -1035,21 +1090,22 @@ namespace Bga\GameFramework {
         /**
          * To get a Deck instance with `$this->getNew("module.common.deck")`
          */
-        protected function getNew(string $objectName): mixed {
+        protected function getNew(string $objectName): mixed
+        {
             return null;
         }
-    
+
         /**
          * Apply an SQL upgrade of the tables.
          * Use DBPREFIX_<table_name> for all tables in the $sql parameter.
          */
-        function applyDbUpgradeToAllDB(string $sql): void {
-        }
+        function applyDbUpgradeToAllDB(string $sql): void {}
 
         /**
          * For authorized games using external API only.
          */
-        function getGenericGameInfos(string $api, array $args = []) : array {
+        function getGenericGameInfos(string $api, array $args = []): array
+        {
             return [];
         }
 
@@ -1059,7 +1115,8 @@ namespace Bga\GameFramework {
          * 
          * @return string "studio" or "prod"
          */
-        static function getBgaEnvironment(): string {
+        static function getBgaEnvironment(): string
+        {
             return '';
         }
     }
@@ -1083,7 +1140,7 @@ namespace Bga\GameFramework\Db {
         {
             return null;
         }
-        
+
         /**
          * Retrieve all variables stored in DB (or a selected subset, if the function is called with parameters).
          */
@@ -1118,7 +1175,6 @@ namespace Bga\GameFramework\Db {
             //
         }
     }
-
 }
 
 namespace {
@@ -1143,7 +1199,7 @@ namespace {
      */
     function clienttranslate(string $text): string
     {
-        return ''; 
+        return '';
     }
 
     /**
@@ -1152,10 +1208,11 @@ namespace {
      */
     function totranslate(string $text): string
     {
-        return ''; 
+        return '';
     }
 
-    function bga_rand(int $min, int $max): int {
+    function bga_rand(int $min, int $max): int
+    {
         return 0;
     }
 
@@ -1267,7 +1324,7 @@ namespace {
          */
         final protected function _(string $text): string
         {
-            return ''; 
+            return '';
         }
 
         /**
@@ -1545,7 +1602,7 @@ namespace {
          */
         final public function state_id(): string|int
         {
-            return '0'; 
+            return '0';
         }
 
         /**
@@ -1789,7 +1846,7 @@ namespace {
     class Deck
     {
         var $autoreshuffle;
-        var $autoreshuffle_trigger; 
+        var $autoreshuffle_trigger;
 
         /**
          * Set the databasetable name.
@@ -1810,22 +1867,20 @@ namespace {
          * If location_arg is not specified, cards are placed at location extreme position
          */
         function createCards(array $cards, string $location = 'deck', ?int $location_arg = null) {}
-        
+
         /**
          * Get position of extreme cards (top or back) on the specific location.
          */
-        function getExtremePosition(bool $getMax , string $location): int
+        function getExtremePosition(bool $getMax, string $location): int
         {
             return false;
         }
-        
+
         /**
          * Shuffle cards of a specified location.
          */
-        function shuffle(string $location)
-        {
-        }
-        
+        function shuffle(string $location) {}
+
         /**
          * Pick the first card on top of specified deck and give it to specified player.
          * Return card infos or null if no card in the specified location.
@@ -1834,7 +1889,7 @@ namespace {
         {
             return [];
         }
-        
+
         /**
          * Pick the "nbr" first cards on top of specified deck and give it to specified player.
          * Return card infos (array) or null if no card in the specified location.
@@ -1848,7 +1903,7 @@ namespace {
          * Pick the first card on top of specified deck and place it in target location.
          * Return card infos or null if no card in the specified location.
          */
-        function pickCardForLocation(string $from_location, string $to_location, int $location_arg=0 ): ?array
+        function pickCardForLocation(string $from_location, string $to_location, int $location_arg = 0): ?array
         {
             return [];
         }
@@ -1857,11 +1912,11 @@ namespace {
          * Pick the first "$nbr" cards on top of specified deck and place it in target location.
          * Return cards infos or void array if no card in the specified location.
          */
-        function pickCardsForLocation(int $nbr, string $from_location, string $to_location, int $location_arg=0, bool $no_deck_reform=false ): ?array
+        function pickCardsForLocation(int $nbr, string $from_location, string $to_location, int $location_arg = 0, bool $no_deck_reform = false): ?array
         {
             return [];
         }
-        
+
         /**
          * Return card on top of this location.
          */
@@ -1877,62 +1932,50 @@ namespace {
         {
             return [];
         }
-        
+
         /**
          * Move a card to specific location.
          */
-        function moveCard(int $card_id, string $location, int $location_arg=0): void
-        {
-        }
+        function moveCard(int $card_id, string $location, int $location_arg = 0): void {}
 
         /**
          * Move cards to specific location.
          */
-        function moveCards(array $cards, string $location, int $location_arg=0): void
-        {
-        }
-        
+        function moveCards(array $cards, string $location, int $location_arg = 0): void {}
+
         /**
          * Move a card to a specific location where card are ordered. If location_arg place is already taken, increment
          * all cards after location_arg in order to insert new card at this precise location.
          */
-        function insertCard(int $card_id, string $location, int $location_arg ): void
-        {
-        }
+        function insertCard(int $card_id, string $location, int $location_arg): void {}
 
         /**
          * Move a card on top or at bottom of given "pile" type location. (Lower numbers: bottom of the deck. Higher numbers: top of the deck.)
          */
-        function insertCardOnExtremePosition(int $card_id, string $location, bool $bOnTop): void
-        {
-        }
+        function insertCardOnExtremePosition(int $card_id, string $location, bool $bOnTop): void {}
 
         /**
          * Move all cards from a location to another.
          * !!! location arg is reseted to 0 or specified value !!!
          * if "from_location" and "from_location_arg" are null: move ALL cards to specific location
          */
-        function moveAllCardsInLocation(?string $from_location, ?string $to_location, ?int $from_location_arg=null, int $to_location_arg=0 ): void
-        {
-        }
+        function moveAllCardsInLocation(?string $from_location, ?string $to_location, ?int $from_location_arg = null, int $to_location_arg = 0): void {}
 
         /**
          * Move all cards from a location to another.
          * location arg stays with the same value
          */
-        function moveAllCardsInLocationKeepOrder(string $from_location, string $to_location): void
-        {
-        }
-        
+        function moveAllCardsInLocationKeepOrder(string $from_location, string $to_location): void {}
+
         /**
          * Return all cards in specific location.
          * note: if "order by" is used, result object is NOT indexed by card ids
          */
-        function getCardsInLocation(string|array $location, ?int $location_arg = null, ?string $order_by = null ): array
+        function getCardsInLocation(string|array $location, ?int $location_arg = null, ?string $order_by = null): array
         {
             return [];
         }
-        
+
         /**
          * Get all cards in given player hand.
          * Note: This is an alias for: getCardsInLocation( "hand", $player_id ) 
@@ -1941,70 +1984,68 @@ namespace {
         {
             return [];
         }
-        
+
         /**
          * Get specific card infos
-         */ 
-        function getCard(int $card_id ): ?array
+         */
+        function getCard(int $card_id): ?array
         {
             return [];
         }
-        
+
         /**
          * Get specific cards infos
-         */ 
-        function getCards(array $cards_array ): array
+         */
+        function getCards(array $cards_array): array
         {
             return [];
         }
-        
+
         /**
          * Get cards from their IDs (same as getCards), but with a location specified. Raises an exception if the cards are not in the specified location.
          */
-        function getCardsFromLocation(array $cards_array, string $location, ?int $location_arg = null ): array
+        function getCardsFromLocation(array $cards_array, string $location, ?int $location_arg = null): array
         {
             return [];
         }
-        
+
         /**
          * Get card of a specific type.
          */
-        function getCardsOfType(mixed $type, ?int $type_arg=null ): array
+        function getCardsOfType(mixed $type, ?int $type_arg = null): array
         {
             return [];
         }
-        
+
         /**
          * Get cards of a specific type in a specific location.
          */
-        function getCardsOfTypeInLocation(mixed $type, ?int $type_arg=null, string $location, ?int $location_arg = null ): array
+        function getCardsOfTypeInLocation(mixed $type, ?int $type_arg = null, string $location, ?int $location_arg = null): array
         {
             return [];
         }
-        
+
         /**
          * Move a card to discard pile.
          */
-        function playCard(int $card_id): void
-        {
-        }
-        
+        function playCard(int $card_id): void {}
+
         /**
          * Return the number of cards in specified location. 
          */
-        function countCardInLocation(string $location, ?int $location_arg=null): int|string
+        function countCardInLocation(string $location, ?int $location_arg = null): int|string
         {
             return '0';
         }
-        
+
         /**
          * Return the number of cards in specified location. 
          */
-        function countCardsInLocation(string $location, ?int $location_arg=null): int|string
+        function countCardsInLocation(string $location, ?int $location_arg = null): int|string
         {
             return '0';
         }
-        
+
         /**
          * Return an array "location" => number of cards.
          */
@@ -2012,7 +2053,7 @@ namespace {
         {
             return [];
         }
-        
+
         /**
          * Return an array "location_arg" => number of cards (for this location).
          */

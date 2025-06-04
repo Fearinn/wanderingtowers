@@ -22,7 +22,6 @@ class StBetweenPlayers extends StateManager
         $player_id = $this->game->getActivePlayerId();
         $MoveManager = new MoveManager($this->game);
         $MoveManager->draw(1, $player_id);
-        /** @disregard P1013 Undefined Method */
         return $this->game->wtw_activeNextPlayer();
     }
 
