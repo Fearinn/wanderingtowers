@@ -74,14 +74,14 @@ class Move extends MoveManager
         }
     }
 
-    private function validateIsMovable(int $card_id, int $player_id): void
+    private function validateIsMovable(?int $card_id, ?string $side, int $player_id): void
     {
         if ($card_id === null) {
             return;
         }
 
         $movableMeeples = $this->getMovableMeeples($player_id);
-        $cards = $movableMeeples[$this->card_id][$this->type];
+        $cards = $movableMeeples[$this->card_id][$side];
 
         $inArray = false;
         foreach ($cards as $card) {
@@ -101,7 +101,7 @@ class Move extends MoveManager
         $this->validateType($side);
         $this->validateHand($player_id);
         $this->validateIsPlayable($player_id);
-        $this->validateIsMovable($card_id, $player_id);
+        $this->validateIsMovable($card_id, $side, $player_id);
     }
 
     public function discard(): void
