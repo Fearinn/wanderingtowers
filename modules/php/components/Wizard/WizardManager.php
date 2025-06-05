@@ -172,7 +172,7 @@ class WizardManager extends CardManager
 
         if ($Move->isDice()) {
             if ($this->game->gamestate->state_id() === ST_AFTER_ROLL) {
-                return $movableCards;
+                return array_values($movableCards);
             }
             $steps = $this->game->globals->get(G_ROLL);
         } else {
