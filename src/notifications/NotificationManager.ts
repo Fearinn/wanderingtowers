@@ -81,4 +81,10 @@ class NotificationManager implements NotificationManager {
     const potion = new Potion(this.game, potionCard);
     potion.fill();
   }
+
+  public notif_wizardToRavenskeep(args: { wizardCard: WizardCard }): void {
+    const { wizardCard } = args;
+    const wizard = new Wizard(this.game, wizardCard);
+    wizard.moveToRavenskeep();
+  }
 }

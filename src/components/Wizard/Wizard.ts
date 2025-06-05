@@ -60,8 +60,17 @@ class Wizard extends Card {
   }
 
   toggleVisibility(isVisible: boolean) {
-    const element = this.stocks.spaces[this.space_id].getCardElement(this.card);
-    element.classList.toggle("wtw_wizard-imprisioned", !isVisible);
+    const cardElement = this.stocks.spaces[this.space_id].getCardElement(
+      this.card
+    );
+    cardElement.classList.toggle("wtw_wizard-imprisioned", !isVisible);
+  }
+
+  moveToRavenskeep() {
+    const cardElement = this.stocks.spaces[this.space_id].getCardElement(
+      this.card
+    );
+    cardElement.classList.add("wtw_wizard-ravenskeep");
   }
 }
 
@@ -86,7 +95,7 @@ class WizardSpaceStock extends CardStock<WizardCard> {
 
     this.onSelectionChange = (selection, card) => {
       this.game.removeConfirmationButton();
-      
+
       if (selection.length > 0) {
         this.unselectOthers();
         this.game.addConfirmationButton(_("wizard"), () => {
@@ -101,7 +110,7 @@ class WizardSpaceStock extends CardStock<WizardCard> {
 
   unselectOthers() {
     const otherStocks = this.game.wtw.stocks.wizards.spaces;
-    
+
     for (const space_id in otherStocks) {
       if (Number(space_id) === this.space_id) {
         continue;

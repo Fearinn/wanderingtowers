@@ -2877,8 +2877,12 @@ var Wizard = /** @class */ (function (_super) {
         this.place(space_id);
     };
     Wizard.prototype.toggleVisibility = function (isVisible) {
-        var element = this.stocks.spaces[this.space_id].getCardElement(this.card);
-        element.classList.toggle("wtw_wizard-imprisioned", !isVisible);
+        var cardElement = this.stocks.spaces[this.space_id].getCardElement(this.card);
+        cardElement.classList.toggle("wtw_wizard-imprisioned", !isVisible);
+    };
+    Wizard.prototype.moveToRavenskeep = function () {
+        var cardElement = this.stocks.spaces[this.space_id].getCardElement(this.card);
+        cardElement.classList.add("wtw_wizard-ravenskeep");
     };
     return Wizard;
 }(Card));
@@ -2980,6 +2984,11 @@ var NotificationManager = /** @class */ (function () {
         var potionCard = args.potionCard;
         var potion = new Potion(this.game, potionCard);
         potion.fill();
+    };
+    NotificationManager.prototype.notif_wizardToRavenskeep = function (args) {
+        var wizardCard = args.wizardCard;
+        var wizard = new Wizard(this.game, wizardCard);
+        wizard.moveToRavenskeep();
     };
     return NotificationManager;
 }());

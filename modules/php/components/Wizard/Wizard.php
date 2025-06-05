@@ -61,6 +61,28 @@ class Wizard extends WizardManager
                 "steps_label" => $steps
             ]
         );
+
+        $TowerManager = new TowerManager($this->game);
+        $enteredRavenskeep = $space_id === $TowerManager->getRavenskeepSpace();
+        if ($enteredRavenskeep) {
+            $this->moveToRavenskeep();
+        }
+    }
+
+    public function moveToRavenskeep(): void
+    {
+        $TowerManager = new TowerManager($this->game);
+        $space_id = $TowerManager->getRavenskeepSpace();
+        $this->moveCard($this->card_id, "ravenskeep", $space_id);
+
+        $NotifManager = new NotifManager($this->game);
+        $NotifManager->all(
+            "wizardToRavenskeep",
+            clienttranslate('A wizard of ${player_name} enters the Ravenskeep'),
+            [
+                "wizardCard" => $this->getCard($this->card_id),
+            ]
+        );
     }
 
     public function moveWithTower(int $towerCard_id): void
