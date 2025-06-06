@@ -581,8 +581,10 @@ body > .card {
   background-color: green !important;
 }
 
-.wtw_deckCounter {
-  font-size: 36px !important;
+.wtw_whiteblock {
+  background-color: rgba(255, 255, 255, 0.6666666667);
+  border-radius: 8px;
+  padding: 4px;
 }
 
 .player-board-game-specific-content {
@@ -902,6 +904,7 @@ body > .card {
   display: flex;
   align-items: center;
   gap: 4px;
+  width: fit-content;
 }
 
 .wtw_ravenskeepCounterIcon {
@@ -940,6 +943,10 @@ body > .card {
   position: absolute;
 }
 
+.wtw_deckCounter {
+  font-size: 36px !important;
+}
+
 .wtw_move {
   aspect-ratio: 447/300;
   height: var(--moveHeight);
@@ -962,10 +969,6 @@ body > .card {
 
 :root {
   --potionWidth: 40px;
-}
-
-.wtw_potionCargo {
-  justify-content: start !important;
 }
 
 .wtw_potion {
