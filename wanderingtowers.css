@@ -585,6 +585,13 @@ body > .card {
   font-size: 36px !important;
 }
 
+.player-board-game-specific-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 8px;
+}
+
 :root {
   --boardWidth: calc(var(--spaceWidth) * 5.8);
 }
@@ -890,6 +897,25 @@ body > .card {
     display: none;
   }
 }
+.wtw_ravenskeepCounter {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wtw_ravenskeepCounterIcon {
+  background-image: url("img/ravenShield.png");
+  background-size: cover;
+  aspect-ratio: 1;
+  width: 50px;
+}
+
+.wtw_ravenskeepCountContainer {
+  display: flex;
+  gap: 4px;
+}
+
 :root {
   --moveHeight: 100px;
 }
@@ -935,17 +961,17 @@ body > .card {
 }
 
 :root {
-  --potionWidth: 45px;
+  --potionWidth: 40px;
 }
 
 .wtw_potionCargo {
-  margin: 4px auto;
+  justify-content: start !important;
 }
 
 .wtw_potion {
   background-image: url("img/potions_empty.png");
   background-size: cover;
-  aspect-ratio: 373/484;
+  aspect-ratio: 373/485;
   width: var(--potionWidth);
 }
 .wtw_potion-empty {

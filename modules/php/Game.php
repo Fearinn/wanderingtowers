@@ -33,6 +33,7 @@ use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
 use Bga\Games\WanderingTowers\Components\Move\MoveManager;
 use Bga\Games\WanderingTowers\Components\Dice\Dice;
+use Bga\Games\WanderingTowers\Components\Wizard\Wizard;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 use Bga\Games\WanderingTowers\States\StAfterRoll;
 use Bga\Games\WanderingTowers\States\StBetweenPlayers;
@@ -257,6 +258,8 @@ class Game extends \Table
             "moveDiscard" => $MoveManager->getDiscard(),
             "hand" => $MoveManager->getPlayerHand($current_player_id),
             "tierCounts" => $TowerManager->getTierCounts(),
+            "ravenskeepCounts" => $WizardManager->getRavenskeepCounts(),
+            "ravenskeepGoal" => $WizardManager->getRavenskeepGoal(),
         ];
 
         return $gamedatas;
@@ -372,6 +375,11 @@ class Game extends \Table
         $space_id = 2;
 
         $this->actMoveTower($moveCard_id, $space_id, 1);
+    }
+
+    public function debug_enterRavenskeep(): void {
+        $Wizard = new Wizard($this, 1);
+        $Wizard->moveToRavenskeep();
     }
 
     public function debug_rollDice(): void

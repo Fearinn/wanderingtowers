@@ -9,3 +9,10 @@
 .wtw_deckCounter {
   font-size: 36px !important;
 }
+
+.player-board-game-specific-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 8px;
+}

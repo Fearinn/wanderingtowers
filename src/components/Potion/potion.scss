@@ -1,15 +1,15 @@
 :root {
-  --potionWidth: 45px;
+  --potionWidth: 40px;
 }
 
 .wtw_potionCargo {
-  margin: 4px auto;
+  justify-content: start !important;
 }
 
 .wtw_potion {
   background-image: url("img/potions_empty.png");
   background-size: cover;
-  aspect-ratio: 373 / 484;
+  aspect-ratio: 373 / 485;
   width: var(--potionWidth);
 
   &-empty {

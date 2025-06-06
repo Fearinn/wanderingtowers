@@ -14,6 +14,9 @@ interface Counters {
   spaces: {
     [space_id: number]: Counter;
   };
+  [player_id: number]: {
+    ravenskeep: Counter;
+  };
 }
 
 declare class WanderingTowersGui extends Game {
@@ -70,6 +73,10 @@ interface WanderingTowersGamedatas {
   tierCounts: {
     [space_id: number]: number;
   };
+  ravenskeepCounts: {
+    [player_id: number]: number;
+  };
+  ravenskeepGoal: number;
 }
 
 interface WanderingTowersGamestate extends Gamestate {

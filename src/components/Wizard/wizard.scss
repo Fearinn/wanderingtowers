@@ -55,3 +55,22 @@
     display: none;
   }
 }
+
+.wtw_ravenskeepCounter {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wtw_ravenskeepCounterIcon {
+  background-image: url("img/ravenShield.png");
+  background-size: cover;
+  aspect-ratio: 1;
+  width: 50px;
+}
+
+.wtw_ravenskeepCountContainer {
+  display: flex;
+  gap: 4px;
+}

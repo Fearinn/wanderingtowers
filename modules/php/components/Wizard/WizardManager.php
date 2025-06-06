@@ -8,7 +8,6 @@ use Bga\Games\WanderingTowers\Components\Move\Move;
 use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
-use BgaUserException;
 
 use const Bga\Games\WanderingTowers\G_ROLL;
 
@@ -187,5 +186,31 @@ class WizardManager extends CardManager
         }, ARRAY_FILTER_USE_KEY);
 
         return array_values($movableCards);
+    }
+
+    public function getRavenskeepCount(int $player_id): int
+    {
+        $ravenskeepCount = $this->game->getUniqueValueFromDB("SELECT COUNT(card_id) FROM {$this->dbTable} 
+        WHERE card_location='ravenskeep' AND card_type_arg={$player_id}");
+
+        return $ravenskeepCount;
+    }
+
+    public function getRavenskeepCounts(): array
+    {
+        $ravenskeepCounts = [];
+        $players = $this->game->loadPlayersBasicInfos();
+
+        foreach ($players as $player_id => $player) {
+            $ravenskeepCounts[$player_id] = $this->getRavenskeepCount($player_id);
+        }
+
+        return $ravenskeepCounts;
+    }
+
+    public function getRavenskeepGoal(): int
+    {
+        $playersNbr = $this->game->getPlayersNumber();
+        return $this->game->SETUP_COUNTS[$playersNbr]["wizards"];
     }
 }

@@ -13,6 +13,17 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 // @ts-ignore
 WanderingTowersGui = (function () {
     // this hack required so we fake extend Game
@@ -144,7 +155,10 @@ var WanderingTowers = /** @class */ (function (_super) {
         for (var p_id in gamedatas.players) {
             var player_id = Number(p_id);
             var playerPanelElement = this.getPlayerPanelElement(player_id);
-            playerPanelElement.insertAdjacentHTML("beforeend", "<div id=\"wtw_potionCargo-".concat(player_id, "\" class=\"wtw_potionCargo\"></div>"));
+            playerPanelElement.insertAdjacentHTML("beforeend", "<div id=\"wtw_ravenskeepCounter-".concat(player_id, "\" class=\"wtw_ravenskeepCounter\">\n          <div id=\"wtw_ravenskeepCounterIcon\" class=\"wtw_ravenskeepCounterIcon\"></div>\n          <div class=\"wtw_ravenskeepCountContainer\">\n            <span id=\"wtw_ravenskeepCount\" class=\"wtw_ravenskeepCount\">0</span>\n            <span id=\"wtw_ravenskeepGoal\" class=\"wtw_ravenskeepGoal\"> / ").concat(gamedatas.ravenskeepGoal, "</span>\n          </div>\n        </div>\n        <div id=\"wtw_potionCargo-").concat(player_id, "\" class=\"wtw_potionCargo\"></div>"));
+            counters[player_id] = __assign(__assign({}, counters[player_id]), { ravenskeep: new ebg.counter() });
+            counters[player_id].ravenskeep.create("wtw_ravenskeepCount");
+            counters[player_id].ravenskeep.setValue(gamedatas.ravenskeepCounts[player_id]);
             potionStocks[player_id] = {
                 cargo: new PotionCargoStock(this, potionCardManager, player_id),
             };
@@ -941,17 +955,6 @@ function logAnimation(animationManager, animation) {
     }
     return Promise.resolve(false);
 }
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -2986,9 +2989,10 @@ var NotificationManager = /** @class */ (function () {
         potion.fill();
     };
     NotificationManager.prototype.notif_wizardToRavenskeep = function (args) {
-        var wizardCard = args.wizardCard;
+        var wizardCard = args.wizardCard, player_id = args.player_id;
         var wizard = new Wizard(this.game, wizardCard);
         wizard.moveToRavenskeep();
+        this.game.wtw.counters[player_id].ravenskeep.incValue(1);
     };
     return NotificationManager;
 }());

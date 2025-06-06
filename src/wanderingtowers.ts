@@ -164,7 +164,23 @@ class WanderingTowers extends WanderingTowersGui {
 
       playerPanelElement.insertAdjacentHTML(
         "beforeend",
-        `<div id="wtw_potionCargo-${player_id}" class="wtw_potionCargo"></div>`
+        `<div id="wtw_ravenskeepCounter-${player_id}" class="wtw_ravenskeepCounter">
+          <div id="wtw_ravenskeepCounterIcon" class="wtw_ravenskeepCounterIcon"></div>
+          <div class="wtw_ravenskeepCountContainer">
+            <span id="wtw_ravenskeepCount" class="wtw_ravenskeepCount">0</span>
+            <span id="wtw_ravenskeepGoal" class="wtw_ravenskeepGoal"> / ${gamedatas.ravenskeepGoal}</span>
+          </div>
+        </div>
+        <div id="wtw_potionCargo-${player_id}" class="wtw_potionCargo"></div>`
+      );
+
+      counters[player_id] = {
+        ...counters[player_id],
+        ravenskeep: new ebg.counter(),
+      };
+      counters[player_id].ravenskeep.create("wtw_ravenskeepCount");
+      counters[player_id].ravenskeep.setValue(
+        gamedatas.ravenskeepCounts[player_id]
       );
 
       potionStocks[player_id] = {
