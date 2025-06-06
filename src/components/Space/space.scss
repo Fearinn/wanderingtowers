@@ -10,7 +10,9 @@
 }
 
 .wtw_tierCounter {
-  font-size: 20px;
+  --tierCounterWidth: calc(var(--spaceWidth) / 8);
+  font-size: 40px;
+
   position: absolute;
   bottom: -5%;
   left: 50%;
@@ -20,8 +22,8 @@
   justify-content: center;
   background: white;
   border-radius: 100%;
-  height: calc(var(--spaceWidth) / 8);
-  width: calc(var(--spaceWidth) / 8);
+  height: var(--tierCounterWidth);
+  width: var(--tierCounterWidth);
 }
 
 .wtw_tiles {

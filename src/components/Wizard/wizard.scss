@@ -57,7 +57,10 @@
 }
 
 .wtw_ravenskeepCounter {
-  font-size: 20px;
+  font-family: "Kuhlenbach", Roboto, Arial, sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+
   display: flex;
   align-items: center;
   gap: 4px;
@@ -73,5 +76,5 @@
 
 .wtw_ravenskeepCountContainer {
   display: flex;
-  gap: 4px;
+  gap: 2px;
 }
