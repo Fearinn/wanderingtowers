@@ -594,6 +594,12 @@ body > .card {
   padding: 0 8px;
 }
 
+.wtw_tooltipText {
+  font-family: "Kuhlenbach", Roboto, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+}
+
 :root {
   --boardWidth: calc(var(--spaceWidth) * 5.8);
 }
@@ -804,7 +810,7 @@ body > .card {
 }
 
 :root {
-  --towerWidth: calc(var(--spaceWidth) * 0.75);
+  --towerWidth: calc(var(--spaceWidth) * 0.9);
 }
 
 .wtw_spaceTowersContainer {
@@ -865,7 +871,7 @@ body > .card {
   align-content: center;
   justify-items: center;
   justify-content: center;
-  transform: translate(45%, 25%);
+  transform: translate(30%, 15%);
   aspect-ratio: 1;
   width: var(--innerTowerWidth);
   z-index: 11;
@@ -875,13 +881,16 @@ body > .card {
 .wtw_wizard {
   background-image: url("img/wizards.png");
   background-size: cover;
-  aspect-ratio: 1/1.53;
+  aspect-ratio: 1/1.41;
   width: var(--wizardWidth);
   z-index: 1;
   pointer-events: auto;
 }
 .wtw_wizard.bga-animations_animated {
   z-index: 11 !important;
+}
+.wtw_wizard-tooltip {
+  width: calc(var(--wizardWidth) * 2);
 }
 .wtw_wizard-selected {
   transform: scale(1.5);
@@ -920,6 +929,13 @@ body > .card {
 .wtw_ravenskeepCountContainer {
   display: flex;
   gap: 2px;
+}
+
+.wtw_wizardTooltip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
 :root {

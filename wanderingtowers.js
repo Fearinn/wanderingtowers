@@ -2863,15 +2863,17 @@ var Wizard = /** @class */ (function (_super) {
     };
     Wizard.prototype.setupDiv = function (element) {
         element.classList.add("wtw_card", "wtw_wizard");
-        element.style.backgroundPosition = "".concat(Number(this.card.type) * -100, "%");
+        var backgroundPosition = "".concat(Number(this.card.type) * -100, "%");
+        element.style.backgroundPosition = backgroundPosition;
         var player_id = this.card.type_arg;
         var tooltip = player_id === this.game.player_id
             ? _("Your wizard")
             : _("${player_name}'s wizard");
-        this.game.addTooltip(element.id, this.game.format_string_recursive(_(tooltip), {
+        var tooltipText = this.game.format_string_recursive(_(tooltip), {
             player_id: player_id,
             player_name: this.game.gamedatas.players[player_id].name,
-        }), "");
+        });
+        this.game.addTooltipHtml(element.id, "\n      <div class=\"wtw_wizardTooltip\">\n        <div class=\"wtw_card wtw_wizard wtw_wizard-tooltip\" style=\"background-position: ".concat(backgroundPosition, "\"></div>\n        <span class=\"wtw_tooltipText\">").concat(tooltipText, "</span>\n      </div>\n      "));
     };
     Wizard.prototype.place = function (space_id) {
         this.stocks.spaces[space_id].addCard(this.card, {}, { visible: true });

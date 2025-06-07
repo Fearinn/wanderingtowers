@@ -16,7 +16,7 @@
   align-content: center;
   justify-items: center;
   justify-content: center;
-  transform: translate(45%, 25%);
+  transform: translate(30%, 15%);
   aspect-ratio: 1;
   width: var(--innerTowerWidth);
   z-index: 11;
@@ -26,13 +26,17 @@
 .wtw_wizard {
   background-image: url("img/wizards.png");
   background-size: cover;
-  aspect-ratio: 1 / 1.53;
+  aspect-ratio: 1 / 1.41;
   width: var(--wizardWidth);
   z-index: 1;
   pointer-events: auto;
 
   &.bga-animations_animated {
     z-index: 11 !important;
+  }
+
+  &-tooltip {
+    width: calc(var(--wizardWidth) * 2)
   }
 
   &-selected {
@@ -77,4 +81,11 @@
 .wtw_ravenskeepCountContainer {
   display: flex;
   gap: 2px;
+}
+
+.wtw_wizardTooltip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }

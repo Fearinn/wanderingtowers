@@ -33,7 +33,9 @@ class Wizard extends Card {
 
   setupDiv(element: HTMLDivElement) {
     element.classList.add("wtw_card", "wtw_wizard");
-    element.style.backgroundPosition = `${Number(this.card.type) * -100}%`;
+
+    const backgroundPosition = `${Number(this.card.type) * -100}%`;
+    element.style.backgroundPosition = backgroundPosition;
 
     const player_id = this.card.type_arg;
     const tooltip =
@@ -41,13 +43,19 @@ class Wizard extends Card {
         ? _("Your wizard")
         : _("${player_name}'s wizard");
 
-    this.game.addTooltip(
+    const tooltipText = this.game.format_string_recursive(_(tooltip), {
+      player_id,
+      player_name: this.game.gamedatas.players[player_id].name,
+    });
+
+    this.game.addTooltipHtml(
       element.id,
-      this.game.format_string_recursive(_(tooltip), {
-        player_id,
-        player_name: this.game.gamedatas.players[player_id].name,
-      }),
-      ""
+      `
+      <div class="wtw_wizardTooltip">
+        <div class="wtw_card wtw_wizard wtw_wizard-tooltip" style="background-position: ${backgroundPosition}"></div>
+        <span class="wtw_tooltipText">${tooltipText}</span>
+      </div>
+      `
     );
   }
 
