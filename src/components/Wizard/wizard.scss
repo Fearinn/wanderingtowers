@@ -36,7 +36,7 @@
   }
 
   &-tooltip {
-    width: calc(var(--wizardWidth) * 2)
+    width: calc(var(--wizardWidth) * 2);
   }
 
   &-selected {
@@ -50,13 +50,6 @@
 
   &-ravenskeep {
     animation: 1s linear forwards ravenskeep;
-  }
-}
-
-@keyframes ravenskeep {
-  100% {
-    transform: translateY(40%) scale(0.1) rotate(1080deg);
-    display: none;
   }
 }
 
@@ -83,9 +76,17 @@
   gap: 2px;
 }
 
+
 .wtw_wizardTooltip {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
+}
+
+@keyframes ravenskeep {
+  100% {
+    transform: translateY(40%) scale(0.1) rotate(1080deg);
+    display: none;
+  }
 }

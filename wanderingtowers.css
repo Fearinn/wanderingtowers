@@ -903,12 +903,6 @@ body > .card {
   animation: 1s linear forwards ravenskeep;
 }
 
-@keyframes ravenskeep {
-  100% {
-    transform: translateY(40%) scale(0.1) rotate(1080deg);
-    display: none;
-  }
-}
 .wtw_ravenskeepCounter {
   font-family: "Kuhlenbach", Roboto, Arial, sans-serif;
   font-size: 40px;
@@ -938,6 +932,12 @@ body > .card {
   gap: 4px;
 }
 
+@keyframes ravenskeep {
+  100% {
+    transform: translateY(40%) scale(0.1) rotate(1080deg);
+    display: none;
+  }
+}
 :root {
   --moveHeight: 100px;
 }

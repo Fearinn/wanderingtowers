@@ -57,6 +57,11 @@ class Wizard extends Card {
       </div>
       `
     );
+
+    const panelWizard = document.getElementById(`wtw_panelWizard-${player_id}`);
+    if (!panelWizard.style.backgroundPosition) {
+      panelWizard.style.backgroundPosition = backgroundPosition;
+    }
   }
 
   place(space_id: number): void {
