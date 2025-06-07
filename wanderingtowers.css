@@ -939,11 +939,23 @@ body > .card {
 }
 
 .wtw_moveDiscard {
+  position: relative;
   aspect-ratio: 447/300;
   height: var(--moveHeight);
+  padding: 0;
 }
 .wtw_moveDiscard .wtw_move {
+  z-index: 1;
+}
+
+.wtw_moveDiscardTitle {
+  color: black;
+  font-size: 40px;
+  font-weight: bold;
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .wtw_deckCounter {

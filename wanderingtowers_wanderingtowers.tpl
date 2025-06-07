@@ -15,7 +15,9 @@
     <div id="wtw_boardCenter" class="wtw_boardCenter">
       <div id="wtw_moveDeck" class="wtw_moveDeck"></div>
       <div id="wtw_dice" class="wtw_dice"></div>
-      <div id="wtw_moveDiscard" class="wtw_moveDiscard"></div>
+      <div id="wtw_moveDiscard" class="wtw_whiteblock wtw_moveDiscard">
+        <span class="wtw_moveDiscardTitle">Discard</span>
+      </div>
     </div>
     <div id="wtw_spacesContainer" class="wtw_spacesContainer">
       <div id="wtw_tiles" class="wtw_tiles">
