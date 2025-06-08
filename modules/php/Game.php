@@ -22,6 +22,7 @@ namespace Bga\Games\WanderingTowers;
 
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\Games\WanderingTowers\Actions\ActAcceptRoll;
+use Bga\Games\WanderingTowers\Actions\ActAdvanceTower;
 use Bga\Games\WanderingTowers\Actions\ActMoveTowerDice;
 use Bga\Games\WanderingTowers\Actions\ActMoveTower;
 use Bga\Games\WanderingTowers\Actions\ActMoveWizard;
@@ -131,7 +132,7 @@ class Game extends \Table
     public function ActMoveTower(
         #[IntParam(min: 1, max: 90)] int $moveCard_id,
         #[IntParam(min: 1, max: 16)] int $space_id,
-        int $tier,
+        #[IntParam(min: 1, max: 10)] int $tier,
     ): void {
         if ($this->getStateId() === ST_AFTER_ROLL) {
             $ActMoveTowerDice = new ActMoveTowerDice($this);
@@ -164,7 +165,7 @@ class Game extends \Table
 
     public function actMoveTowerDice(
         #[IntParam(min: 1, max: 16)] int $space_id,
-        int $tier,
+        #[IntParam(min: 1, max: 10)] int $tier,
     ): void {
         $ActMoveTowerDice = new ActMoveTowerDice($this);
         $ActMoveTowerDice->act($space_id, $tier);
@@ -172,10 +173,18 @@ class Game extends \Table
 
     public function actMoveWizardDice(
         #[IntParam(min: 1, max: 16)] int $wizardCard_id,
-        int $tier,
+        #[IntParam(min: 1, max: 10)] int $tier,
     ): void {
         $ActMoveWizardDice = new ActMoveWizardDice($this);
         $ActMoveWizardDice->act($wizardCard_id, $tier);
+    }
+
+    public function actAdvanceTower(
+        #[IntParam(min: 1, max: 16)] int $space_id,
+        #[IntParam(min: 1, max: 10)] int $tier,
+    ): void {
+        $ActAdvanceTower = new ActAdvanceTower($this);
+        $ActAdvanceTower->act($space_id, $tier);
     }
 
     /**
@@ -378,7 +387,8 @@ class Game extends \Table
         $this->actMoveTower($moveCard_id, $space_id, 1);
     }
 
-    public function debug_enterRavenskeep(): void {
+    public function debug_enterRavenskeep(): void
+    {
         $Wizard = new Wizard($this, 1);
         $Wizard->moveToRavenskeep();
     }

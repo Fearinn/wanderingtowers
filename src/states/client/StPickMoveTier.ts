@@ -1,24 +1,33 @@
+interface StPickMoveTier extends StateManager {
+  action: ActionName;
+}
+
 class StPickMoveTier extends StateManager {
   constructor(game: WanderingTowersGui) {
     super(game, "client_pickMoveTier");
   }
 
-  set() {
+  set(action: ActionName = "actMoveTower") {
     this.game.setClientState("client_pickMoveTier", {
       descriptionmyturn: _("${you} must pick the number of tiers to move"),
     });
+    this.game.wtw.globals.action = action;
   }
 
   enter() {
     super.enter();
 
-    const { moveCard, towerCard, maxTier } = this.game.wtw.globals;
-
+    const {
+      moveCard,
+      towerCard,
+      maxTier,
+      action
+    } = this.game.wtw.globals;
     const tower = new Tower(this.game, towerCard);
 
     if (maxTier === 1) {
-      this.game.performAction("actMoveTower", {
-        moveCard_id: moveCard.id,
+      this.game.performAction(action, {
+        moveCard_id: action === "actMoveTower" ? moveCard.id : undefined,
         space_id: tower.space_id,
         tier: maxTier,
       });
@@ -33,8 +42,8 @@ class StPickMoveTier extends StateManager {
       this.game.statusBar.addActionButton(
         `${i}`,
         () => {
-          this.game.performAction("actMoveTower", {
-            moveCard_id: move.card.id,
+          this.game.performAction(action, {
+            moveCard_id: action === "actMoveTower" ? move.card.id : undefined,
             space_id: tower.space_id,
             tier: maxTier - i + 1,
           });
@@ -52,4 +61,8 @@ class StPickMoveTier extends StateManager {
     const tower = new Tower(this.game, towerCard);
     tower.toggleSelection(false);
   }
+}
+
+interface arg_StPickMoveTier {
+  client_args: { action: ActionName };
 }

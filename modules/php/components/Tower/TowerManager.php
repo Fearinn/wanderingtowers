@@ -101,14 +101,7 @@ class TowerManager extends CardManager
             $towerCard_id = (int) $towerCard["id"];
             $Tower = new Tower($this->game, $towerCard_id);
 
-            if ($Tower->isRavenskeep()) {
-                return false;
-            }
-
-            $space_id = $this->game->sumSteps($Tower->getSpaceId(), 1);
-
-            $ravenskeepSpace = (int) $this->getRavenskeepSpace();
-            return $space_id !== $ravenskeepSpace;
+            return $Tower->isAdvanceable();
         });
 
         return array_values($advanceableCards);

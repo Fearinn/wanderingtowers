@@ -110,4 +110,14 @@ class Tower extends TowerManager
         $Tower = new Tower($this->game, $towerCard_id);
         $Tower->move($steps, $player_id, $cards, true);
     }
+
+    public function isAdvanceable(): bool
+    {
+        if ($this->isRavenskeep()) {
+            return false;
+        }
+
+        $space_id = $this->game->sumSteps($this->getSpaceId(), 1);
+        return $space_id !== $this->getRavenskeepSpace();
+    }
 }
