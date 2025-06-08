@@ -233,6 +233,9 @@ var WanderingTowers = /** @class */ (function (_super) {
             case "afterRoll":
                 new StAfterRoll(this).enter(args.args);
                 break;
+            case "client_pickAdvanceTower":
+                new StPickAdvanceTower(this).enter(args.args);
+                break;
         }
     };
     WanderingTowers.prototype.onLeavingState = function (stateName) {
@@ -254,6 +257,9 @@ var WanderingTowers = /** @class */ (function (_super) {
                 break;
             case "afterRoll":
                 new StAfterRoll(this).leave();
+                break;
+            case "client_pickAdvanceTower":
+                new StPickAdvanceTower(this).leave();
                 break;
         }
     };
@@ -3022,6 +3028,35 @@ var StateManager = /** @class */ (function () {
     };
     return StateManager;
 }());
+var StPickAdvanceTower = /** @class */ (function (_super) {
+    __extends(StPickAdvanceTower, _super);
+    function StPickAdvanceTower(game) {
+        return _super.call(this, game, "client_pickAdvanceTower") || this;
+    }
+    StPickAdvanceTower.prototype.set = function () {
+        this.game.setClientState(this.stateName, {
+            descriptionmyturn: _("${you} must pick a tower to advance 1 space"),
+        });
+    };
+    StPickAdvanceTower.prototype.enter = function (args) {
+        _super.prototype.enter.call(this);
+        var advanceableTowers = args.advanceableTowers;
+        var towerStocks = this.game.wtw.stocks.towers.spaces;
+        for (var space_id in towerStocks) {
+            var stock = towerStocks[space_id];
+            stock.toggleSelection(true);
+            stock.setSelectableCards(advanceableTowers);
+        }
+    };
+    StPickAdvanceTower.prototype.leave = function () {
+        var towerStocks = this.game.wtw.stocks.towers.spaces;
+        for (var space_id in towerStocks) {
+            var stock = towerStocks[space_id];
+            stock.toggleSelection(false);
+        }
+    };
+    return StPickAdvanceTower;
+}(StateManager));
 var StPickMoveSide = /** @class */ (function (_super) {
     __extends(StPickMoveSide, _super);
     function StPickMoveSide(game) {
@@ -3262,9 +3297,13 @@ var StPlayerTurn = /** @class */ (function (_super) {
     StPlayerTurn.prototype.enter = function () {
         var _this = this;
         _super.prototype.enter.call(this);
-        this.statusBar.addActionButton("play movement", function () {
+        this.statusBar.addActionButton(_("play movement"), function () {
             var stPlayMove = new StPlayMove(_this.game);
             stPlayMove.set();
+        }, {});
+        this.statusBar.addActionButton(_("advance a tower (discards hand)"), function () {
+            var stPickAdvanceTower = new StPickAdvanceTower(_this.game);
+            stPickAdvanceTower.set();
         }, {});
     };
     return StPlayerTurn;

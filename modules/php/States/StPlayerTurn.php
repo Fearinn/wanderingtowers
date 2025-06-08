@@ -4,6 +4,7 @@ namespace Bga\Games\WanderingTowers\States;
 
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\Move\MoveManager;
+use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 
 class StPlayerTurn extends StateManager
 {
@@ -20,9 +21,13 @@ class StPlayerTurn extends StateManager
         $playableMoves = $MoveManager->getPlayable($player_id);
         $movableMeeples = $MoveManager->getMovableMeeples($player_id);
 
+        $TowerManager = new TowerManager($this->game);
+        $advanceableCards = $TowerManager->getAdvanceable();
+
         $args = [
             "playableMoves" => $playableMoves,
             "movableMeeples" => $movableMeeples,
+            "advanceableTowers" => $advanceableCards,
         ];
 
         return $args;

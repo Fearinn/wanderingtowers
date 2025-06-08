@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use const Bga\Games\WanderingTowers\TR_AFTER_ROLL;
 use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
+use const Bga\Games\WanderingTowers\TR_PASS;
 use const Bga\Games\WanderingTowers\TR_REROLL_DICE;
 
 /*
@@ -41,20 +42,20 @@ $machinestates = [
 	],
 	ST_PLAYER_TURN => [
 		"name" => "playerTurn",
-		"description" => clienttranslate('${actplayer} may play a movement card or a spell'),
-		"descriptionmyturn" => clienttranslate('${you} may play a movement card or a spell'),
+		"description" => clienttranslate('${actplayer} must perform an action'),
+		"descriptionmyturn" => clienttranslate('${you} must perform an action'),
 		"type" => "activeplayer",
 		"args" => "arg_playerTurn",
 		"possibleactions" => [
 			"actMoveWizard",
 			"actMoveTower",
 			"actRollDice",
-			"actPassTurn"
+			"actAdvanceTower",
 		],
 		"transitions" => [
 			TR_NEXT_PLAYER => ST_BETWEEN_PLAYERS,
 			TR_REROLL_DICE => ST_REROLL_DICE,
-			"pass" => 2,
+			TR_PASS => ST_BETWEEN_PLAYERS,
 		],
 	],
 

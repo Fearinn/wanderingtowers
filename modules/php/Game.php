@@ -48,6 +48,7 @@ const G_TOWER = "tower";
 const TR_REROLL_DICE = "rerollDice";
 const TR_NEXT_PLAYER = "nextPlayer";
 const TR_AFTER_ROLL = "afterRoll";
+const TR_PASS = "pass";
 
 require_once(APP_GAMEMODULE_PATH . "module/table/table.game.php");
 

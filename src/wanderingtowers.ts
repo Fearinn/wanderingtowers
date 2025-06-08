@@ -275,6 +275,10 @@ class WanderingTowers extends WanderingTowersGui {
       case "afterRoll":
         new StAfterRoll(this).enter(args.args);
         break;
+
+      case "client_pickAdvanceTower":
+        new StPickAdvanceTower(this).enter(args.args);
+        break;
     }
   }
 
@@ -302,6 +306,10 @@ class WanderingTowers extends WanderingTowersGui {
 
       case "afterRoll":
         new StAfterRoll(this).leave();
+        break;
+
+      case "client_pickAdvanceTower":
+        new StPickAdvanceTower(this).leave();
         break;
     }
   }

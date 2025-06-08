@@ -7,10 +7,19 @@ class StPlayerTurn extends StateManager {
     super.enter();
 
     this.statusBar.addActionButton(
-      "play movement",
+      _("play movement"),
       () => {
         const stPlayMove = new StPlayMove(this.game);
         stPlayMove.set();
+      },
+      {}
+    );
+
+    this.statusBar.addActionButton(
+      _("advance a tower (discards hand)"),
+      () => {
+        const stPickAdvanceTower = new StPickAdvanceTower(this.game);
+        stPickAdvanceTower.set();
       },
       {}
     );

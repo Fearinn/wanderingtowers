@@ -79,19 +79,22 @@ class MoveManager extends CardManager
 
         $playableMoves = $this->getPlayable($player_id);
 
+        $WizardManager = new WizardManager($this->game);
+        $TowerManager = new TowerManager($this->game);
+
         foreach ($playableMoves as $moveCard) {
             $moveCard_id = (int) $moveCard["id"];
             $Move = new Move($this->game, $moveCard_id);
 
-            $WizardManager = new WizardManager($this->game);
             $movableWizards = $WizardManager->getMovable($Move->card_id, $player_id);
+            $movableTowers = $TowerManager->getMovable($Move->card_id);
 
-            $TowerManager = new TowerManager($this->game);
-            $movableTowers = $TowerManager->getMovable($Move->card_id, $player_id);
-
-            $movableMeeples[$Move->card_id] = ["wizard" => $movableWizards, "tower" => $movableTowers];
+            $movableMeeples[$Move->card_id] = [
+                "wizard" => $movableWizards,
+                "tower" => $movableTowers
+            ];
         }
-
+        
         return $movableMeeples;
     }
 }

@@ -58,7 +58,7 @@ class TowerManager extends CardManager
         return $card;
     }
 
-    public function getMovable(int $moveCard_id, int $player_id): array
+    public function getMovable(int $moveCard_id): array
     {
         $Move = new Move($this->game, $moveCard_id);
 
@@ -66,18 +66,18 @@ class TowerManager extends CardManager
             return [];
         }
 
-        $movableCards = $this->getCardsInLocation("space");
+        $cards = $this->getCardsInLocation("space");
 
         if ($Move->isDice()) {
             if ($this->game->gamestate->state_id() === ST_AFTER_ROLL) {
-                return $movableCards;
+                return $cards;
             }
             $steps = $this->game->globals->get(G_ROLL);
         } else {
             $steps = $Move->getSteps("tower");
         }
 
-        $movableCards = array_filter($movableCards, function ($towerCard) use ($steps) {
+        $movableCards = array_filter($cards, function ($towerCard) use ($steps) {
             $towerCard_id = (int) $towerCard["id"];
             $Tower = new Tower($this->game, $towerCard_id);
 
@@ -87,15 +87,31 @@ class TowerManager extends CardManager
 
             $space_id = $this->game->sumSteps($Tower->getSpaceId(), $steps);
 
-            if ($space_id > 16) {
-                $space_id -= 16;
-            }
-
             $ravenskeepSpace = (int) $this->getRavenskeepSpace();
             return $space_id !== $ravenskeepSpace;
         });
 
         return array_values($movableCards);
+    }
+
+    public function getAdvanceable(): array
+    {
+        $cards = $this->getCardsInLocation("space");
+        $advanceableCards = array_filter($cards, function ($towerCard) {
+            $towerCard_id = (int) $towerCard["id"];
+            $Tower = new Tower($this->game, $towerCard_id);
+
+            if ($Tower->isRavenskeep()) {
+                return false;
+            }
+
+            $space_id = $this->game->sumSteps($Tower->getSpaceId(), 1);
+
+            $ravenskeepSpace = (int) $this->getRavenskeepSpace();
+            return $space_id !== $ravenskeepSpace;
+        });
+
+        return array_values($advanceableCards);
     }
 
     public function getRavenskeepSpace(): int
