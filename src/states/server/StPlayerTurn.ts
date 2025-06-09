@@ -3,8 +3,10 @@ class StPlayerTurn extends StateManager {
     super(game, "playerTurn");
   }
 
-  enter() {
+  enter(args: arg_playerTurn) {
     super.enter();
+
+    const { advanceableTowers } = args;
 
     this.statusBar.addActionButton(
       _("play movement"),
@@ -15,13 +17,21 @@ class StPlayerTurn extends StateManager {
       {}
     );
 
-    this.statusBar.addActionButton(
-      _("advance a tower (discards hand)"),
-      () => {
-        const stPickAdvanceTower = new StPickAdvanceTower(this.game);
-        stPickAdvanceTower.set();
-      },
-      {}
-    );
+    if (advanceableTowers.length > 0) {
+      this.statusBar.addActionButton(
+        _("advance a tower (discards hand)"),
+        () => {
+          const stPickAdvanceTower = new StPickAdvanceTower(this.game);
+          stPickAdvanceTower.set();
+        },
+        {}
+      );
+    }
   }
+}
+
+interface arg_playerTurn {
+  playableMoves: MoveCard[];
+  movableMeeples: MovableMeeples;
+  advanceableTowers: TowerCard[];
 }

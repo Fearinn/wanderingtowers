@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use const Bga\Games\WanderingTowers\TR_AFTER_ROLL;
+use const Bga\Games\WanderingTowers\TR_NEXT_ACTION;
 use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
 use const Bga\Games\WanderingTowers\TR_PASS;
 use const Bga\Games\WanderingTowers\TR_REROLL_DICE;
@@ -46,6 +47,7 @@ $machinestates = [
 		"descriptionmyturn" => clienttranslate('${you} must perform an action'),
 		"type" => "activeplayer",
 		"args" => "arg_playerTurn",
+		"action" => "st_playerTurn",
 		"possibleactions" => [
 			"actMoveWizard",
 			"actMoveTower",
@@ -53,6 +55,7 @@ $machinestates = [
 			"actAdvanceTower",
 		],
 		"transitions" => [
+			TR_NEXT_ACTION => ST_PLAYER_TURN,
 			TR_NEXT_PLAYER => ST_BETWEEN_PLAYERS,
 			TR_REROLL_DICE => ST_REROLL_DICE,
 			TR_PASS => ST_BETWEEN_PLAYERS,
@@ -81,6 +84,7 @@ $machinestates = [
 			"actMoveWizard"
 		],
 		"transitions" => [
+			TR_NEXT_ACTION => ST_PLAYER_TURN,
 			TR_NEXT_PLAYER => ST_BETWEEN_PLAYERS,
 		],
 	],

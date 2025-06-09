@@ -210,7 +210,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         }
         switch (stateName) {
             case "playerTurn":
-                new StPlayerTurn(this).enter();
+                new StPlayerTurn(this).enter(args.args);
                 break;
             case "client_playMove":
                 new StPlayMove(this).enter(args.args);
@@ -3329,17 +3329,20 @@ var StPlayerTurn = /** @class */ (function (_super) {
     function StPlayerTurn(game) {
         return _super.call(this, game, "playerTurn") || this;
     }
-    StPlayerTurn.prototype.enter = function () {
+    StPlayerTurn.prototype.enter = function (args) {
         var _this = this;
         _super.prototype.enter.call(this);
+        var advanceableTowers = args.advanceableTowers;
         this.statusBar.addActionButton(_("play movement"), function () {
             var stPlayMove = new StPlayMove(_this.game);
             stPlayMove.set();
         }, {});
-        this.statusBar.addActionButton(_("advance a tower (discards hand)"), function () {
-            var stPickAdvanceTower = new StPickAdvanceTower(_this.game);
-            stPickAdvanceTower.set();
-        }, {});
+        if (advanceableTowers.length > 0) {
+            this.statusBar.addActionButton(_("advance a tower (discards hand)"), function () {
+                var stPickAdvanceTower = new StPickAdvanceTower(_this.game);
+                stPickAdvanceTower.set();
+            }, {});
+        }
     };
     return StPlayerTurn;
 }(StateManager));

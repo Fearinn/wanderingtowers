@@ -7,6 +7,8 @@ use Bga\Games\WanderingTowers\Components\Move\Move;
 use Bga\Games\WanderingTowers\Components\Tower\Tower;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 
+use const Bga\Games\WanderingTowers\G_TURN_MOVE;
+use const Bga\Games\WanderingTowers\TR_NEXT_ACTION;
 use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
 
 class ActMoveTower extends ActionManager
@@ -44,6 +46,8 @@ class ActMoveTower extends ActionManager
         $Tower->move($steps, $this->player_id);
         $Move->discard();
 
-        $this->gamestate->nextState(TR_NEXT_PLAYER);
+        $this->globals->inc(G_TURN_MOVE, 1);
+
+        $this->gamestate->nextState(TR_NEXT_ACTION);
     }
 }

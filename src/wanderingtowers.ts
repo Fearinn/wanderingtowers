@@ -245,7 +245,7 @@ class WanderingTowers extends WanderingTowersGui {
 
     switch (stateName) {
       case "playerTurn":
-        new StPlayerTurn(this).enter();
+        new StPlayerTurn(this).enter(args.args);
         break;
 
       case "client_playMove":

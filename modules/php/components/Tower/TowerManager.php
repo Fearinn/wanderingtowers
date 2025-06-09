@@ -8,6 +8,7 @@ use BgaUserException;
 use Table;
 
 use const Bga\Games\WanderingTowers\G_ROLL;
+use const Bga\Games\WanderingTowers\G_TURN_MOVE;
 
 class TowerManager extends CardManager
 {
@@ -96,15 +97,19 @@ class TowerManager extends CardManager
 
     public function getAdvanceable(): array
     {
+        if ($this->globals->get(G_TURN_MOVE) === 1) {
+            return [];
+        }
+
         $cards = $this->getCardsInLocation("space");
-        $advanceableCards = array_filter($cards, function ($towerCard) {
+        $advanceableTowers = array_filter($cards, function ($towerCard) {
             $towerCard_id = (int) $towerCard["id"];
             $Tower = new Tower($this->game, $towerCard_id);
 
             return $Tower->isAdvanceable();
         });
 
-        return array_values($advanceableCards);
+        return array_values($advanceableTowers);
     }
 
     public function getRavenskeepSpace(): int

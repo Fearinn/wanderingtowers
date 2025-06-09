@@ -8,6 +8,7 @@ use Bga\Games\WanderingTowers\Components\Move\MoveManager;
 use const Bga\Games\WanderingTowers\G_MOVE;
 use const Bga\Games\WanderingTowers\G_REROLLS;
 use const Bga\Games\WanderingTowers\G_TOWER;
+use const Bga\Games\WanderingTowers\G_TURN_MOVE;
 use const Bga\Games\WanderingTowers\G_WIZARD;
 use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
 
@@ -29,6 +30,7 @@ class StBetweenPlayers extends StateManager
         $this->globals->set(G_TOWER, null);
         $this->globals->set(G_WIZARD, null);
         $this->globals->set(G_REROLLS, 0);
+        $this->globals->set(G_TURN_MOVE, 0);
 
         $player_id = $this->game->getActivePlayerId();
         $MoveManager = new MoveManager($this->game);

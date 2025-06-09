@@ -8,6 +8,8 @@ use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\Move\Move;
 use Bga\Games\WanderingTowers\Components\Wizard\Wizard;
 
+use const Bga\Games\WanderingTowers\G_TURN_MOVE;
+use const Bga\Games\WanderingTowers\TR_NEXT_ACTION;
 use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
 
 class ActMoveWizard extends ActionManager
@@ -20,7 +22,7 @@ class ActMoveWizard extends ActionManager
     public function validate(int $moveCard_id, int $wizardCard_id): void
     {
         $Move = new Move($this->game, $moveCard_id);
-        $Move->validate("wizard", $wizardCard_id,$this->player_id);
+        $Move->validate("wizard", $wizardCard_id, $this->player_id);
 
         $Wizard = new Wizard($this->game, $wizardCard_id);
         $Wizard->validateOwner($this->player_id);
@@ -40,6 +42,8 @@ class ActMoveWizard extends ActionManager
         $Wizard->move($steps);
         $Move->discard();
 
-        $this->gamestate->nextState(TR_NEXT_PLAYER);
+        $this->globals->inc(G_TURN_MOVE, 1);
+
+        $this->gamestate->nextState(TR_NEXT_ACTION);
     }
 }

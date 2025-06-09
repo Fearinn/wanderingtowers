@@ -46,10 +46,12 @@ const G_ROLL = "roll";
 const G_MOVE = "move";
 const G_WIZARD = "wizard";
 const G_TOWER = "tower";
+const G_TURN_MOVE = "turnMove";
 const TR_REROLL_DICE = "rerollDice";
 const TR_NEXT_PLAYER = "nextPlayer";
 const TR_AFTER_ROLL = "afterRoll";
 const TR_PASS = "pass";
+const TR_NEXT_ACTION = "nextAction";
 
 require_once(APP_GAMEMODULE_PATH . "module/table/table.game.php");
 
@@ -213,6 +215,11 @@ class Game extends \Table
         return $StPlayerTurn->getArgs();
     }
 
+    public function st_playerTurn(): void {
+        $StPlayerTurn = new StPlayerTurn($this);
+        $StPlayerTurn->enter();
+    }
+
     public function st_betweenPlayers(): void
     {
         $StBetweenPlayers = new StBetweenPlayers($this);
@@ -330,6 +337,7 @@ class Game extends \Table
 
         $this->globals->set(G_REROLLS, 0);
         $this->globals->set(G_ROLL, 3);
+        $this->globals->set(G_TURN_MOVE, 0);
     }
 
     /**
