@@ -4,6 +4,7 @@ namespace Bga\Games\WanderingTowers\States;
 
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\Move\MoveManager;
+use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
 use const Bga\Games\WanderingTowers\G_MOVE;
 use const Bga\Games\WanderingTowers\G_REROLLS;
@@ -35,6 +36,12 @@ class StBetweenPlayers extends StateManager
         $player_id = $this->game->getActivePlayerId();
         $MoveManager = new MoveManager($this->game);
         $MoveManager->refillHand($player_id);
+
+        $NotifManager = new NotifManager($this->game);
+        $NotifManager->all(
+            "message",
+            clienttranslate('${player_name} ends his turn'),
+        );
 
         $this->activeNextPlayer();
         $this->game->gamestate->nextState(TR_NEXT_PLAYER);

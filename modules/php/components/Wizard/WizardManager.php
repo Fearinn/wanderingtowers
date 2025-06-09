@@ -119,7 +119,6 @@ class WizardManager extends CardManager
         }
 
         if ($imprisioned) {
-
             $NotifManager = new NotifManager($this->game);
             $NotifManager->all(
                 "imprisonWizards",

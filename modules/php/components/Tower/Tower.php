@@ -59,8 +59,16 @@ class Tower extends TowerManager
         );
 
         $tier = $this->countOnSpace($final_space_id);
-
         $this->updateTier($tier);
+        
+        $NotifManager = new NotifManager($this->game);
+        $NotifManager->all(
+            "message",
+            clienttranslate('${player_name} moves a tower by ${steps_label} space(s)'),
+            [
+                "steps_label" => $steps
+            ]
+        );
 
         if (!$stacked) {
             $WizardManager->imprisonWizards(
@@ -95,12 +103,11 @@ class Tower extends TowerManager
             $NotifManager = new NotifManager($this->game);
             $NotifManager->all(
                 "moveTower",
-                clienttranslate('${player_name} moves a tower by ${steps_label} space(s)'),
+                "",
                 [
                     "cards" => $cards,
                     "final_space_id" => $final_space_id,
                     "current_space_id" => $current_space_id,
-                    "steps_label" => $steps
                 ]
             );
             return;
