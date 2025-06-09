@@ -3138,8 +3138,10 @@ var StPickMoveTier = /** @class */ (function (_super) {
     };
     StPickMoveTier.prototype.leave = function () {
         var _a = this.game.wtw.globals, moveCard = _a.moveCard, towerCard = _a.towerCard;
-        var move = new Move(this.game, moveCard);
-        move.toggleSelection(false);
+        if (moveCard) {
+            var move = new Move(this.game, moveCard);
+            move.toggleSelection(false);
+        }
         var tower = new Tower(this.game, towerCard);
         tower.toggleSelection(false);
     };

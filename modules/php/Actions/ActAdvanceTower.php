@@ -3,6 +3,7 @@
 namespace Bga\Games\WanderingTowers\Actions;
 
 use Bga\GameFramework\Table;
+use Bga\Games\WanderingTowers\Components\Move\MoveManager;
 use Bga\Games\WanderingTowers\Components\Tower\Tower;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 
@@ -38,6 +39,9 @@ class ActAdvanceTower extends ActionManager
 
         $Tower = new Tower($this->game, $towerCard_id);
         $Tower->move(1, $this->player_id);
+
+        $MoveManager = new MoveManager($this->game);
+        $MoveManager->recycleHand($this->player_id);
 
         $this->gamestate->nextState(TR_NEXT_PLAYER);
     }

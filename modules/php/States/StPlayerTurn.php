@@ -22,12 +22,12 @@ class StPlayerTurn extends StateManager
         $movableMeeples = $MoveManager->getMovableMeeples($player_id);
 
         $TowerManager = new TowerManager($this->game);
-        $advanceableCards = $TowerManager->getAdvanceable();
+        $advanceableTowers = $TowerManager->getAdvanceable();
 
         $args = [
-            "playableMoves" => $playableMoves,
+            "playableMoves" => $MoveManager->hideCards($playableMoves),
             "movableMeeples" => $movableMeeples,
-            "advanceableTowers" => $advanceableCards,
+            "advanceableTowers" => $advanceableTowers,
         ];
 
         return $args;

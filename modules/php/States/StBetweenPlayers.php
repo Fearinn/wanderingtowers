@@ -9,6 +9,7 @@ use const Bga\Games\WanderingTowers\G_MOVE;
 use const Bga\Games\WanderingTowers\G_REROLLS;
 use const Bga\Games\WanderingTowers\G_TOWER;
 use const Bga\Games\WanderingTowers\G_WIZARD;
+use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
 
 class StBetweenPlayers extends StateManager
 {
@@ -19,9 +20,6 @@ class StBetweenPlayers extends StateManager
 
     public function activeNextPlayer(): int
     {
-        $player_id = $this->game->getActivePlayerId();
-        $MoveManager = new MoveManager($this->game);
-        $MoveManager->draw(1, $player_id);
         return $this->game->wtw_activeNextPlayer();
     }
 
@@ -32,7 +30,11 @@ class StBetweenPlayers extends StateManager
         $this->globals->set(G_WIZARD, null);
         $this->globals->set(G_REROLLS, 0);
 
+        $player_id = $this->game->getActivePlayerId();
+        $MoveManager = new MoveManager($this->game);
+        $MoveManager->refillHand($player_id);
+
         $this->activeNextPlayer();
-        $this->game->gamestate->nextState("nextPlayer");
+        $this->game->gamestate->nextState(TR_NEXT_PLAYER);
     }
 }

@@ -34,8 +34,12 @@ class MoveManager extends CardManager
         return $this->getCardsInLocation("discard");
     }
 
-    public function draw(int $nbr, int $player_id): void
+    public function drawMoves(int $nbr, int $player_id): void
     {
+        if ($nbr === 0) {
+            return;
+        }
+
         $cards = $this->pickCards($nbr, $player_id);
 
         $NotifManager = new NotifManager($this->game);
@@ -94,7 +98,30 @@ class MoveManager extends CardManager
                 "tower" => $movableTowers
             ];
         }
-        
+
         return $movableMeeples;
+    }
+
+    public function discardMoves(array $cards): void
+    {
+        foreach ($cards as $moveCard) {
+            $moveCard_id =  (int) $moveCard["id"];
+            $Move = new Move($this->game, $moveCard_id);
+            $Move->discard();
+        }
+    }
+
+    public function recycleHand(int $player_id): void
+    {
+        $hand = $this->getPlayerHand($player_id);
+        $this->discardMoves($hand);
+
+        $this->drawMoves(3, $player_id);
+    }
+
+    public function refillHand(int $player_id): void
+    {
+        $handCount = $this->countCardsInHand($player_id);
+        $this->drawMoves(3 - $handCount, $player_id);
     }
 }
