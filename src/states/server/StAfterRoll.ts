@@ -6,6 +6,8 @@ class StAfterRoll extends StateManager {
   enter(args: arg_StAfterRoll) {
     super.enter();
 
+    this.game.wtw.globals = {};
+
     const { moveCard, movableMeeples } = args;
     this.game.wtw.globals.moveCard = moveCard;
 
@@ -57,6 +59,8 @@ class StAfterRoll extends StateManager {
   }
 
   leave() {
+    super.leave();
+
     const moveCard = this.game.wtw.globals.moveCard;
 
     const move = new Move(this.game, moveCard);

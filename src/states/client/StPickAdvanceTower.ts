@@ -53,6 +53,8 @@ class StPickAdvanceTower extends StateManager {
   }
 
   leave() {
+    super.leave();
+    
     const towerStocks = this.game.wtw.stocks.towers.spaces;
 
     for (const space_id in towerStocks) {

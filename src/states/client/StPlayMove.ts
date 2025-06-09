@@ -18,6 +18,8 @@ class StPlayMove extends StateManager {
   }
 
   leave() {
+    super.leave();
+    
     const moveHand = this.wtw.stocks.moves.hand;
     moveHand.toggleSelection(false);
   }

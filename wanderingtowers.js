@@ -3001,9 +3001,7 @@ var StateManager = /** @class */ (function () {
             }, { color: "alert" });
         }
     };
-    StateManager.prototype.leave = function () {
-        this.game.wtw.globals = {};
-    };
+    StateManager.prototype.leave = function () { };
     return StateManager;
 }());
 var StPickAdvanceTower = /** @class */ (function (_super) {
@@ -3054,6 +3052,7 @@ var StPickAdvanceTower = /** @class */ (function (_super) {
         }
     };
     StPickAdvanceTower.prototype.leave = function () {
+        _super.prototype.leave.call(this);
         var towerStocks = this.game.wtw.stocks.towers.spaces;
         for (var space_id in towerStocks) {
             var stock = towerStocks[space_id];
@@ -3088,6 +3087,7 @@ var StPickMoveSide = /** @class */ (function (_super) {
         move.toggleSelection(true);
     };
     StPickMoveSide.prototype.leave = function () {
+        _super.prototype.leave.call(this);
         var card = this.game.wtw.globals.moveCard;
         var move = new Move(this.game, card);
         move.toggleSelection(false);
@@ -3109,7 +3109,7 @@ var StPickMoveTier = /** @class */ (function (_super) {
     StPickMoveTier.prototype.enter = function () {
         var _this = this;
         _super.prototype.enter.call(this);
-        var _a = this.game.wtw.globals, moveCard = _a.moveCard, towerCard = _a.towerCard, maxTier = _a.maxTier, action = _a.action;
+        var _a = this.game.wtw.globals, moveCard = _a.moveCard, towerCard = _a.towerCard, maxTier = _a.maxTier, _b = _a.action, action = _b === void 0 ? "actMoveTower" : _b;
         var tower = new Tower(this.game, towerCard);
         if (maxTier === 1) {
             this.game.performAction(action, {
@@ -3137,6 +3137,7 @@ var StPickMoveTier = /** @class */ (function (_super) {
         }
     };
     StPickMoveTier.prototype.leave = function () {
+        _super.prototype.leave.call(this);
         var _a = this.game.wtw.globals, moveCard = _a.moveCard, towerCard = _a.towerCard;
         if (moveCard) {
             var move = new Move(this.game, moveCard);
@@ -3197,8 +3198,9 @@ var StPickMoveTower = /** @class */ (function (_super) {
         }
     };
     StPickMoveTower.prototype.leave = function () {
-        var card = this.game.wtw.globals.moveCard;
-        var move = new Move(this.game, card);
+        _super.prototype.leave.call(this);
+        var moveCard = this.game.wtw.globals.moveCard;
+        var move = new Move(this.game, moveCard);
         move.toggleSelection(false);
         var towerStocks = this.game.wtw.stocks.towers.spaces;
         for (var space_id in towerStocks) {
@@ -3232,6 +3234,7 @@ var StPickMoveWizard = /** @class */ (function (_super) {
         }
     };
     StPickMoveWizard.prototype.leave = function () {
+        _super.prototype.leave.call(this);
         var card = this.game.wtw.globals.moveCard;
         var move = new Move(this.game, card);
         move.toggleSelection(false);
@@ -3260,6 +3263,7 @@ var StPlayMove = /** @class */ (function (_super) {
         moveHand.setSelectableCards(args.playableMoves);
     };
     StPlayMove.prototype.leave = function () {
+        _super.prototype.leave.call(this);
         var moveHand = this.wtw.stocks.moves.hand;
         moveHand.toggleSelection(false);
     };
@@ -3273,6 +3277,7 @@ var StAfterRoll = /** @class */ (function (_super) {
     StAfterRoll.prototype.enter = function (args) {
         var _this = this;
         _super.prototype.enter.call(this);
+        this.game.wtw.globals = {};
         var moveCard = args.moveCard, movableMeeples = args.movableMeeples;
         this.game.wtw.globals.moveCard = moveCard;
         var move = new Move(this.game, moveCard);
@@ -3308,6 +3313,7 @@ var StAfterRoll = /** @class */ (function (_super) {
         }
     };
     StAfterRoll.prototype.leave = function () {
+        _super.prototype.leave.call(this);
         var moveCard = this.game.wtw.globals.moveCard;
         var move = new Move(this.game, moveCard);
         move.toggleSelectedClass(false);
@@ -3332,6 +3338,7 @@ var StPlayerTurn = /** @class */ (function (_super) {
     StPlayerTurn.prototype.enter = function (args) {
         var _this = this;
         _super.prototype.enter.call(this);
+        this.wtw.globals = {};
         var advanceableTowers = args.advanceableTowers;
         this.statusBar.addActionButton(_("play movement"), function () {
             var stPlayMove = new StPlayMove(_this.game);
@@ -3343,6 +3350,9 @@ var StPlayerTurn = /** @class */ (function (_super) {
                 stPickAdvanceTower.set();
             }, {});
         }
+    };
+    StPlayerTurn.prototype.leave = function () {
+        _super.prototype.leave.call(this);
     };
     return StPlayerTurn;
 }(StateManager));
@@ -3360,6 +3370,9 @@ var StRerollDice = /** @class */ (function (_super) {
         this.statusBar.addActionButton(_("Accept"), function () {
             _this.game.performAction("actAcceptRoll");
         }, { classes: ["wtw_positiveButton"] });
+    };
+    StRerollDice.prototype.leave = function () {
+        _super.prototype.leave.call(this);
     };
     return StRerollDice;
 }(StateManager));

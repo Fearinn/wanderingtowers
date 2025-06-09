@@ -56,8 +56,10 @@ class StPickMoveTower extends StateManager {
   }
 
   leave() {
-    const card = this.game.wtw.globals.moveCard;
-    const move = new Move(this.game, card);
+    super.leave();
+
+    const moveCard = this.game.wtw.globals.moveCard;
+    const move = new Move(this.game, moveCard);
     move.toggleSelection(false);
 
     const towerStocks = this.game.wtw.stocks.towers.spaces;

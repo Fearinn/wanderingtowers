@@ -27,6 +27,8 @@ class StPickMoveWizard extends StateManager {
   }
 
   leave() {
+    super.leave();
+    
     const card = this.game.wtw.globals.moveCard;
     const move = new Move(this.game, card);
     move.toggleSelection(false);

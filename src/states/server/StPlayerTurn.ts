@@ -6,6 +6,8 @@ class StPlayerTurn extends StateManager {
   enter(args: arg_playerTurn) {
     super.enter();
 
+    this.wtw.globals = {};
+
     const { advanceableTowers } = args;
 
     this.statusBar.addActionButton(
@@ -27,6 +29,10 @@ class StPlayerTurn extends StateManager {
         {}
       );
     }
+  }
+
+  leave() {
+    super.leave();
   }
 }
 

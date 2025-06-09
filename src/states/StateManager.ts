@@ -37,9 +37,7 @@ class StateManager implements StateManager {
     }
   }
 
-  leave() {
-    this.game.wtw.globals = {};
-  }
+  leave() {}
 }
 
 interface MovableMeeples {

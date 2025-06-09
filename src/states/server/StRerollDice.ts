@@ -22,4 +22,8 @@ class StRerollDice extends StateManager {
       { classes: ["wtw_positiveButton"] }
     );
   }
+
+  leave() {
+    super.leave();
+  }
 }

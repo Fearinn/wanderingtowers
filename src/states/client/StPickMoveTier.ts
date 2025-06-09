@@ -17,7 +17,7 @@ class StPickMoveTier extends StateManager {
   enter() {
     super.enter();
 
-    const { moveCard, towerCard, maxTier, action } = this.game.wtw.globals;
+    const { moveCard, towerCard, maxTier, action = "actMoveTower" } = this.game.wtw.globals;
     const tower = new Tower(this.game, towerCard);
 
     if (maxTier === 1) {
@@ -49,6 +49,8 @@ class StPickMoveTier extends StateManager {
   }
 
   leave() {
+    super.leave();
+    
     const { moveCard, towerCard } = this.game.wtw.globals;
 
     if (moveCard) {
