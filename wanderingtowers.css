@@ -628,6 +628,16 @@ body > .card {
   box-shadow: calc(var(--thickness) * var(--xShadowShift)) calc(var(--thickness) * var(--yShadowShift)) 0px 0px #111, calc(var(--thickness) * var(--xShadowShift)) calc(var(--thickness) * var(--yShadowShift)) 2px 1px rgba(0, 0, 0, 0.5);
 }
 
+.wtw_pref-thematicBg {
+  background-image: url("img/background2.png");
+  background-size: 100% 100%;
+}
+.wtw_pref-thematicBg .player-board {
+  background-image: url("img/background.png");
+  background-size: cover;
+  background-position: center;
+}
+
 :root {
   --spaceWidth: 200px;
   --tileWidth: calc(var(--spaceWidth) * 3.75);

@@ -16,9 +16,10 @@
 @use "libs/bga-zoom";
 @use "libs/bga-dice";
 @use "libs/bga-cards";
-@use "common/scss/interface";
-@use "common/scss/board";
-@use "common/scss/cards";
+@use "scss/interface";
+@use "scss/board";
+@use "scss/cards";
+@use "scss/preferences";
 @use "components/Space/space";
 @use "components/Die/die";
 @use "components/Tower/tower";
