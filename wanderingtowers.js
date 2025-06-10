@@ -129,9 +129,13 @@ var WanderingTowers = /** @class */ (function (_super) {
         for (var space_id = 1; space_id <= 16; space_id++) {
             towerStocks.spaces[space_id] = new TowerSpaceStock(this, towerManager, space_id);
             wizardStocks.spaces[space_id] = new WizardSpaceStock(this, wizardManager, space_id);
+            var tierCount = gamedatas.tierCounts[space_id];
             counters.spaces[space_id] = new ebg.counter();
             counters.spaces[space_id].create("wtw_tierCounter-".concat(space_id));
-            counters.spaces[space_id].setValue(gamedatas.tierCounts[space_id]);
+            counters.spaces[space_id].setValue(tierCount);
+            this.addTooltip("wtw_tierCounter-".concat(space_id), this.format_string_recursive(_("${tier_count} towers at this space"), {
+                tier_count: tierCount,
+            }), "");
         }
         var moveStocks = {
             hand: new MoveHandStock(this, moveManager),
@@ -156,6 +160,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             var player_id = Number(p_id);
             var playerPanelElement = this.getPlayerPanelElement(player_id);
             playerPanelElement.insertAdjacentHTML("beforeend", "<div id=\"wtw_ravenskeepCounter-".concat(player_id, "\" class=\"wtw_whiteblock wtw_ravenskeepCounter\">\n          <div id=\"wtw_ravenskeepCounterIcon-").concat(player_id, "\" class=\"wtw_ravenskeepCounterIcon\"></div>\n            <div class=\"wtw_ravenskeepCountContainer\">\n            <span id=\"wtw_ravenskeepCount-").concat(player_id, "\" class=\"wtw_ravenskeepCount\">0</span>\n            <span id=\"wtw_ravenskeepGoal-").concat(player_id, "\" class=\"wtw_ravenskeepGoal\">/").concat(gamedatas.ravenskeepGoal, "</span>\n          </div>\n          <div id=\"wtw_panelWizard-").concat(player_id, "\" class=\"wtw_card wtw_wizard wtw_wizard-panel\"></div>\n        </div>\n        <div id=\"wtw_potionCargo-").concat(player_id, "\" class=\"wtw_whiteblock wtw_potionCargo\"></div>"));
+            this.addTooltip("wtw_ravenskeepCounter-".concat(player_id), _("wizards in the Ravenskeep"), "");
             counters[player_id] = __assign(__assign({}, counters[player_id]), { ravenskeep: new ebg.counter() });
             counters[player_id].ravenskeep.create("wtw_ravenskeepCount-".concat(player_id));
             counters[player_id].ravenskeep.setValue(gamedatas.ravenskeepCounts[player_id]);

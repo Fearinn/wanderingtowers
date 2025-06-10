@@ -121,9 +121,17 @@ class WanderingTowers extends WanderingTowersGui {
         space_id
       );
 
+      const tierCount = gamedatas.tierCounts[space_id];
       counters.spaces[space_id] = new ebg.counter();
       counters.spaces[space_id].create(`wtw_tierCounter-${space_id}`);
-      counters.spaces[space_id].setValue(gamedatas.tierCounts[space_id]);
+      counters.spaces[space_id].setValue(tierCount);
+      this.addTooltip(
+        `wtw_tierCounter-${space_id}`,
+        this.format_string_recursive(_("${tier_count} towers at this space"), {
+          tier_count: tierCount,
+        }),
+        ""
+      );
     }
 
     const moveStocks = {
@@ -173,6 +181,12 @@ class WanderingTowers extends WanderingTowersGui {
           <div id="wtw_panelWizard-${player_id}" class="wtw_card wtw_wizard wtw_wizard-panel"></div>
         </div>
         <div id="wtw_potionCargo-${player_id}" class="wtw_whiteblock wtw_potionCargo"></div>`
+      );
+
+      this.addTooltip(
+        `wtw_ravenskeepCounter-${player_id}`,
+        _("wizards in the Ravenskeep"),
+        ""
       );
 
       counters[player_id] = {
