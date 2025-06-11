@@ -47,11 +47,13 @@ const G_MOVE = "move";
 const G_WIZARD = "wizard";
 const G_TOWER = "tower";
 const G_TURN_MOVE = "turnMove";
+const G_FINAL_TURN = "finalTurn";
 const TR_REROLL_DICE = "rerollDice";
 const TR_NEXT_PLAYER = "nextPlayer";
 const TR_AFTER_ROLL = "afterRoll";
 const TR_PASS = "pass";
 const TR_NEXT_ACTION = "nextAction";
+const TR_GAME_END = "gameEnd";
 
 require_once(APP_GAMEMODULE_PATH . "module/table/table.game.php");
 
@@ -106,6 +108,16 @@ class Game extends \Table
         }
 
         return $space_id;
+    }
+
+    public function getTurnsPlayed(int $player_id): int
+    {
+        return $this->getUniqueValueFromDB("SELECT turns_played FROM player WHERE player_id={$player_id}");
+    }
+
+    public function incTurnsPlayed(int $player_id): void
+    {
+        $this->DbQuery("UPDATE player SET turns_played='turns_played'+1 WHERE player_id={$player_id}");
     }
 
     /**
@@ -215,7 +227,8 @@ class Game extends \Table
         return $StPlayerTurn->getArgs();
     }
 
-    public function st_playerTurn(): void {
+    public function st_playerTurn(): void
+    {
         $StPlayerTurn = new StPlayerTurn($this);
         $StPlayerTurn->enter();
     }

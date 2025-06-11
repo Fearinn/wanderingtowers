@@ -213,6 +213,14 @@ namespace Bga\GameFramework {
             return 0;
         }
 
+
+        public function getTurnsPlayed(int $player_id): int
+        {
+            return 0;
+        }
+        
+        public function incTurnsPlayed(int $player_id): void {}
+
         /**
          * Access the underlying game state object.
          */

@@ -212,4 +212,9 @@ class WizardManager extends CardManager
         $playersNbr = $this->game->getPlayersNumber();
         return $this->game->SETUP_COUNTS[$playersNbr]["wizards"];
     }
+
+    public function goalMet(int $player_id): bool
+    {
+        return $this->getRavenskeepCount($player_id) === $this->getRavenskeepGoal();
+    }
 }

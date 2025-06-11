@@ -4,13 +4,17 @@ namespace Bga\Games\WanderingTowers\States;
 
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\Move\MoveManager;
+use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
+use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
+use const Bga\Games\WanderingTowers\G_FINAL_TURN;
 use const Bga\Games\WanderingTowers\G_MOVE;
 use const Bga\Games\WanderingTowers\G_REROLLS;
 use const Bga\Games\WanderingTowers\G_TOWER;
 use const Bga\Games\WanderingTowers\G_TURN_MOVE;
 use const Bga\Games\WanderingTowers\G_WIZARD;
+use const Bga\Games\WanderingTowers\TR_GAME_END;
 use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
 
 class StBetweenPlayers extends StateManager
@@ -43,7 +47,50 @@ class StBetweenPlayers extends StateManager
             clienttranslate('${player_name} ends his turn'),
         );
 
+        $this->game->incTurnsPlayed($player_id);
+        $this->checkGameEnd();
+
         $this->activeNextPlayer();
         $this->game->gamestate->nextState(TR_NEXT_PLAYER);
+    }
+
+    private function checkGameEnd(): void
+    {
+        $players = $this->game->loadPlayersBasicInfos();
+
+        foreach ($players as $player_id => $player) {
+            if ($this->globals->get(G_FINAL_TURN, false)) {
+                $PotionManager = new PotionManager($this->game);
+                $WizardManager = new WizardManager($this->game);
+
+                $goalsMet = $PotionManager->goalMet($player_id) && $WizardManager->goalMet($player_id);
+                $finalTurn = $this->game->getTurnsPlayed($player_id);
+
+                if ($goalsMet) {
+                    $this->globals->set(G_FINAL_TURN, $finalTurn);
+                    $NotifManager = new NotifManager($this->game);
+                    $NotifManager->all(
+                        "finalTurn",
+                        clienttranslate('${player_name} achieves both goals. This is the last round'),
+                    );
+                }
+            }
+        }
+
+        if (!$this->globals->get(G_FINAL_TURN, false)) {
+            return;
+        }
+
+        $gameEnd = true;
+        foreach ($players as $player_id => $player) {
+            if ($this->globals->get(G_FINAL_TURN) !== $this->game->getTurnsPlayed($player_id)) {
+                $gameEnd = false;
+                break;
+            }
+        }
+
+        if ($gameEnd) {
+            $this->gamestate->nextState(TR_GAME_END);
+        }
     }
 }
