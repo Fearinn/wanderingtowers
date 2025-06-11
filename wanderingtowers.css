@@ -743,13 +743,13 @@ body > .card {
 }
 
 [data-space="7"] {
-  top: calc(var(--spaceWidth) * 2.4);
+  top: calc(var(--spaceWidth) * 2.45);
   left: calc(var(--spaceWidth) * 4.87);
   background-position: -600% 0;
 }
 
 [data-space="8"] {
-  top: calc(var(--spaceWidth) * 3.4);
+  top: calc(var(--spaceWidth) * 3.5);
   left: calc(var(--spaceWidth) * 4.87);
   background-position: -700% 0;
 }
