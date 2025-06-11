@@ -117,7 +117,7 @@ class Game extends \Table
 
     public function incTurnsPlayed(int $player_id): void
     {
-        $this->DbQuery("UPDATE player SET turns_played='turns_played'+1 WHERE player_id={$player_id}");
+        $this->DbQuery("UPDATE player SET turns_played=turns_played+1 WHERE player_id={$player_id}");
     }
 
     /**
