@@ -146,7 +146,7 @@ var WanderingTowers = /** @class */ (function (_super) {
                     extraClasses: "text-shadow wtw_deckCounter",
                 },
             }),
-            discard: new CardStock(moveManager, document.getElementById("wtw_moveDiscard")),
+            discard: new CardStock(moveManager, document.getElementById("wtw_moveDiscard"), { sort: sortFunction("location_arg") }),
         };
         for (var p_id in gamedatas.players) {
             var player_id = Number(p_id);

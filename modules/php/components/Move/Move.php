@@ -106,7 +106,8 @@ class Move extends MoveManager
 
     public function discard(): void
     {
-        $this->moveCard($this->card_id, "discard");
+        $discardPosition = $this->countCardsInLocation("discard");
+        $this->moveCard($this->card_id, "discard", $discardPosition);
 
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(

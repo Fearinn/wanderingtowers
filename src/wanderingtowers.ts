@@ -145,7 +145,8 @@ class WanderingTowers extends WanderingTowersGui {
       }),
       discard: new CardStock(
         moveManager,
-        document.getElementById("wtw_moveDiscard")
+        document.getElementById("wtw_moveDiscard"),
+        { sort: sortFunction("location_arg") }
       ),
     };
 
