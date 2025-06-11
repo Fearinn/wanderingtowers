@@ -41,21 +41,6 @@ use Bga\Games\WanderingTowers\States\StBetweenPlayers;
 use Bga\Games\WanderingTowers\States\StPlayerTurn;
 use Bga\Games\WanderingTowers\States\StRerollDice;
 
-const G_REROLLS = "rerolls";
-const G_ROLL = "roll";
-const G_MOVE = "move";
-const G_WIZARD = "wizard";
-const G_TOWER = "tower";
-const G_TURN_MOVE = "turnMove";
-const G_FINAL_TURN = "finalTurn";
-const TR_REROLL_DICE = "rerollDice";
-const TR_NEXT_PLAYER = "nextPlayer";
-const TR_AFTER_ROLL = "afterRoll";
-const TR_PASS = "pass";
-const TR_NEXT_ACTION = "nextAction";
-const TR_GAME_END = "gameEnd";
-const TR_ZOMBIE_PASS = "zombiePass";
-
 require_once(APP_GAMEMODULE_PATH . "module/table/table.game.php");
 
 class Game extends \Table
@@ -65,6 +50,7 @@ class Game extends \Table
         parent::__construct();
 
         require "material.inc.php";
+        require "constants.inc.php";
 
         $this->initGameStateLabels([]);
 

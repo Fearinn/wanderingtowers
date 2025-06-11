@@ -7,9 +7,6 @@ use Bga\Games\WanderingTowers\Components\Move\MoveManager;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 use BgaUserException;
 
-use const Bga\Games\WanderingTowers\G_TURN_MOVE;
-use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
-
 class StPlayerTurn extends StateManager
 {
     public function __construct(Table $game)

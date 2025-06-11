@@ -6,9 +6,6 @@ use Bga\GameFramework\Db\Globals;
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
-use const Bga\Games\WanderingTowers\G_ROLL;
-use const Bga\Games\WanderingTowers\G_REROLLS;
-
 class Dice
 {
     public Table $game;

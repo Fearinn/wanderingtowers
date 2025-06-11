@@ -7,10 +7,6 @@ use Bga\Games\WanderingTowers\Components\Move\Move;
 use Bga\Games\WanderingTowers\Components\Tower\Tower;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 
-use const Bga\Games\WanderingTowers\G_TURN_MOVE;
-use const Bga\Games\WanderingTowers\TR_NEXT_ACTION;
-use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
-
 class ActMoveTower extends ActionManager
 {
     public function __construct(Table $game)

@@ -4,11 +4,7 @@ namespace Bga\Games\WanderingTowers\Components\Tower;
 
 use Bga\Games\WanderingTowers\Components\CardManager;
 use Bga\Games\WanderingTowers\Components\Move\Move;
-use BgaUserException;
 use Table;
-
-use const Bga\Games\WanderingTowers\G_ROLL;
-use const Bga\Games\WanderingTowers\G_TURN_MOVE;
 
 class TowerManager extends CardManager
 {

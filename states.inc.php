@@ -2,12 +2,6 @@
 
 declare(strict_types=1);
 
-use const Bga\Games\WanderingTowers\TR_AFTER_ROLL;
-use const Bga\Games\WanderingTowers\TR_NEXT_ACTION;
-use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
-use const Bga\Games\WanderingTowers\TR_PASS;
-use const Bga\Games\WanderingTowers\TR_REROLL_DICE;
-
 /*
  *------
  * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
@@ -17,19 +11,7 @@ use const Bga\Games\WanderingTowers\TR_REROLL_DICE;
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
  * -----
  */
-
-if (false) {
-	/** @var wanderingtowers $game */
-}
-
-if (!defined("ST_GAME_END")) {
-	define("ST_SETUP", 1);
-	define("ST_PLAYER_TURN", 2);
-	define("ST_BETWEEN_PLAYERS", 3);
-	define("ST_REROLL_DICE", 4);
-	define("ST_AFTER_ROLL", 5);
-	define("ST_GAME_END", 99);
-}
+require "modules/php/constants.inc.php";
 
 $machinestates = [
 	ST_SETUP => [

@@ -2,12 +2,7 @@
 
 namespace Bga\Games\WanderingTowers\Actions;
 
-use Bga\GameFramework\Db\Globals;
 use Bga\GameFramework\Table;
-
-use const Bga\Games\WanderingTowers\G_ROLL;
-use const Bga\Games\WanderingTowers\G_MOVE;
-use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
 
 class ActMoveWizardDice extends ActionManager
 {

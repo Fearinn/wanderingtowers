@@ -3,12 +3,8 @@
 namespace Bga\Games\WanderingTowers\Actions;
 
 use Bga\GameFramework\Table;
-
 use Bga\Games\WanderingTowers\Components\Move\Move;
 use Bga\Games\WanderingTowers\Components\Wizard\Wizard;
-
-use const Bga\Games\WanderingTowers\G_TURN_MOVE;
-use const Bga\Games\WanderingTowers\TR_NEXT_ACTION;
 
 class ActMoveWizard extends ActionManager
 {

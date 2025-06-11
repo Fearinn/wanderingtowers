@@ -8,15 +8,6 @@ use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
 use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
-use const Bga\Games\WanderingTowers\G_FINAL_TURN;
-use const Bga\Games\WanderingTowers\G_MOVE;
-use const Bga\Games\WanderingTowers\G_REROLLS;
-use const Bga\Games\WanderingTowers\G_TOWER;
-use const Bga\Games\WanderingTowers\G_TURN_MOVE;
-use const Bga\Games\WanderingTowers\G_WIZARD;
-use const Bga\Games\WanderingTowers\TR_GAME_END;
-use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
-
 class StBetweenPlayers extends StateManager
 {
     public function __construct(Table $game)

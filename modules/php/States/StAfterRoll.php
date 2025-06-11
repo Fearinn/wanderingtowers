@@ -2,12 +2,9 @@
 
 namespace Bga\Games\WanderingTowers\States;
 
-use Bga\GameFramework\Db\Globals;
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\Move\Move;
 use Bga\Games\WanderingTowers\Components\Move\MoveManager;
-
-use const Bga\Games\WanderingTowers\G_MOVE;
 
 class StAfterRoll extends StateManager
 {

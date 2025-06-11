@@ -9,8 +9,6 @@ use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
-use const Bga\Games\WanderingTowers\G_ROLL;
-
 class WizardManager extends CardManager
 {
     public function __construct(Table $game)

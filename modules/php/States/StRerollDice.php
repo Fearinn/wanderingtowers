@@ -2,11 +2,8 @@
 
 namespace Bga\Games\WanderingTowers\States;
 
-use Bga\GameFramework\Db\Globals;
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Actions\ActAcceptRoll;
-
-use const Bga\Games\WanderingTowers\G_REROLLS;
 
 class StRerollDice extends StateManager
 {
@@ -15,7 +12,8 @@ class StRerollDice extends StateManager
         parent::__construct($game);
     }
 
-    public function enter() {
+    public function enter()
+    {
         $rerolls = (int) $this->globals->get(G_REROLLS);
 
         if ($rerolls === 0) {

@@ -8,8 +8,6 @@ use Bga\Games\WanderingTowers\Components\Tower\Tower;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
-use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
-
 class ActAdvanceTower extends ActionManager
 {
     public function __construct(Table $game)
