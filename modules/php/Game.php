@@ -112,7 +112,7 @@ class Game extends \Table
 
     public function getTurnsPlayed(int $player_id): int
     {
-        return $this->getUniqueValueFromDB("SELECT turns_played FROM player WHERE player_id={$player_id}");
+        return (int) $this->getUniqueValueFromDB("SELECT turns_played FROM player WHERE player_id={$player_id}");
     }
 
     public function incTurnsPlayed(int $player_id): void
@@ -351,6 +351,7 @@ class Game extends \Table
         $this->globals->set(G_REROLLS, 0);
         $this->globals->set(G_ROLL, 3);
         $this->globals->set(G_TURN_MOVE, 0);
+        $this->globals->set(G_FINAL_TURN, 0);
     }
 
     /**
@@ -426,5 +427,10 @@ class Game extends \Table
 
         $player_id = (int) $this->getNextPlayerTable()[0];
         $WizardManager->setupOnTowers($player_id);
+    }
+
+    public function debug_checkGameEnd(): void {
+        $StBetweenPlayers = new StBetweenPlayers($this);
+        $StBetweenPlayers->checkGameEnd();
     }
 }

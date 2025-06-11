@@ -7,6 +7,7 @@ use Bga\Games\WanderingTowers\Components\Move\MoveManager;
 use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
 use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
+use BgaUserException;
 
 use const Bga\Games\WanderingTowers\G_FINAL_TURN;
 use const Bga\Games\WanderingTowers\G_MOVE;
@@ -54,30 +55,38 @@ class StBetweenPlayers extends StateManager
         $this->game->gamestate->nextState(TR_NEXT_PLAYER);
     }
 
-    private function checkGameEnd(): void
+    public function checkGameEnd(): void
     {
         $players = $this->game->loadPlayersBasicInfos();
 
         foreach ($players as $player_id => $player) {
-            if ($this->globals->get(G_FINAL_TURN, false)) {
-                $PotionManager = new PotionManager($this->game);
-                $WizardManager = new WizardManager($this->game);
+            if ($this->globals->get(G_FINAL_TURN)) {
+                break;
+            }
 
-                $goalsMet = $PotionManager->goalMet($player_id) && $WizardManager->goalMet($player_id);
+            $PotionManager = new PotionManager($this->game);
+            $WizardManager = new WizardManager($this->game);
+
+            $goalsMet = $PotionManager->goalMet($player_id) && $WizardManager->goalMet($player_id);
+
+            if ($goalsMet) {
                 $finalTurn = $this->game->getTurnsPlayed($player_id);
 
-                if ($goalsMet) {
+                if ($finalTurn > $this->globals->get(G_FINAL_TURN, 0)) {
                     $this->globals->set(G_FINAL_TURN, $finalTurn);
-                    $NotifManager = new NotifManager($this->game);
-                    $NotifManager->all(
-                        "finalTurn",
-                        clienttranslate('${player_name} achieves both goals. This is the last round'),
-                    );
                 }
+
+                $NotifManager = new NotifManager($this->game);
+                $NotifManager->all(
+                    "finalTurn",
+                    clienttranslate('${player_name} achieves both goals. This is the last round'),
+                    [],
+                    $player_id,
+                );
             }
         }
 
-        if (!$this->globals->get(G_FINAL_TURN, false)) {
+        if (!$this->globals->get(G_FINAL_TURN, 0)) {
             return;
         }
 

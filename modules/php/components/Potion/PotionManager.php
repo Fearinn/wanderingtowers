@@ -69,7 +69,7 @@ class PotionManager extends CardManager
 
     public function goalMet(int $player_id): bool
     {
-        $filledPotionsCount = $this->countCardsInLocation("filled", $player_id) + $this->countCardsInLocation("discard", $player_id);
-        return $filledPotionsCount === $this->game->SETUP_COUNTS["potions"];
+        $filledPotionsCount = $this->countCardsInLocation("empty", $player_id);
+        return $filledPotionsCount === 0;
     }
 }
