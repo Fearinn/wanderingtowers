@@ -54,6 +54,7 @@ const TR_AFTER_ROLL = "afterRoll";
 const TR_PASS = "pass";
 const TR_NEXT_ACTION = "nextAction";
 const TR_GAME_END = "gameEnd";
+const TR_ZOMBIE_PASS = "zombiePass";
 
 require_once(APP_GAMEMODULE_PATH . "module/table/table.game.php");
 
@@ -374,24 +375,12 @@ class Game extends \Table
      * @return void
      * @throws feException if the zombie mode is not supported at this game state.
      */
-    protected function zombieTurn(array $state, int $active_player): void
+    protected function zombieTurn(array $state, int $player_id): void
     {
         $state_name = $state["name"];
 
         if ($state["type"] === "activeplayer") {
-            switch ($state_name) {
-                default: {
-                        $this->gamestate->nextState("zombiePass");
-                        break;
-                    }
-            }
-
-            return;
-        }
-
-        // Make sure player is in a non-blocking status for role turn.
-        if ($state["type"] === "multipleactiveplayer") {
-            $this->gamestate->setPlayerNonMultiactive($active_player, '');
+            $this->gamestate->nextState(TR_NEXT_PLAYER);
             return;
         }
 
