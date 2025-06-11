@@ -107,6 +107,10 @@ class Game extends \Table
             $space_id -= 16;
         }
 
+        if ($space_id < 1) {
+            $space_id += 16;
+        }
+
         return $space_id;
     }
 
@@ -403,8 +407,8 @@ class Game extends \Table
 
     public function debug_actMoveTower(): void
     {
-        $moveCard_id = 12;
-        $space_id = 2;
+        $moveCard_id = 1;
+        $space_id = 1;
 
         $this->actMoveTower($moveCard_id, $space_id, 1);
     }
@@ -429,7 +433,8 @@ class Game extends \Table
         $WizardManager->setupOnTowers($player_id);
     }
 
-    public function debug_checkGameEnd(): void {
+    public function debug_checkGameEnd(): void
+    {
         $StBetweenPlayers = new StBetweenPlayers($this);
         $StBetweenPlayers->checkGameEnd();
     }

@@ -7,7 +7,6 @@ use Bga\Games\WanderingTowers\Components\Move\MoveManager;
 use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
 use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
-use BgaUserException;
 
 use const Bga\Games\WanderingTowers\G_FINAL_TURN;
 use const Bga\Games\WanderingTowers\G_MOVE;

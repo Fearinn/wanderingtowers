@@ -8,6 +8,9 @@ use Bga\Games\WanderingTowers\Components\Tower\Tower;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
+use const Bga\Games\WanderingTowers\G_TURN_MOVE;
+use const Bga\Games\WanderingTowers\TR_NEXT_PLAYER;
+
 class Wizard extends WizardManager
 {
     public int $card_id;
@@ -66,6 +69,7 @@ class Wizard extends WizardManager
         $enteredRavenskeep = $space_id === $TowerManager->getRavenskeepSpace();
         if ($enteredRavenskeep) {
             $this->moveToRavenskeep();
+            $this->globals->set(G_TURN_MOVE, 2);
         }
     }
 
