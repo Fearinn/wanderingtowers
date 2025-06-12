@@ -91,4 +91,10 @@ class NotificationManager implements NotificationManager {
     wizard.moveToRavenskeep();
     this.game.wtw.counters[player_id].ravenskeep.incValue(1);
   }
+
+  notif_autoreshuffle(args: {}): void {
+    const { discard, deck } = this.game.wtw.stocks.moves;
+    deck.addCards(discard.getCards());
+    deck.shuffle({animatedCardsMax: 5});
+  }
 }

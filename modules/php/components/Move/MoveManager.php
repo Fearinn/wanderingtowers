@@ -124,4 +124,16 @@ class MoveManager extends CardManager
         $handCount = $this->countCardsInHand($player_id);
         $this->drawMoves(3 - $handCount, $player_id);
     }
+
+    public function autoreshuffle(): void
+    {
+        $this->deck->moveAllCardsInLocation("discard", "deck");
+        $this->deck->shuffle("deck");
+
+        $NotifManager = new NotifManager($this->game);
+        $NotifManager->all(
+            "autoreshuffle",
+            clienttranslate('The deck is empty. All discarded cards are shuffled back to it'),
+        );
+    }
 }

@@ -112,7 +112,7 @@ class Move extends Card {
 }
 
 interface MoveStocks {
-  deck: CardStock<MoveCard>;
+  deck: Deck<MoveCard>;
   discard: CardStock<MoveCard>;
   hand: MoveHandStock;
   [player_id: number]: {

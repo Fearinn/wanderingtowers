@@ -2985,6 +2985,11 @@ var NotificationManager = /** @class */ (function () {
         wizard.moveToRavenskeep();
         this.game.wtw.counters[player_id].ravenskeep.incValue(1);
     };
+    NotificationManager.prototype.notif_autoreshuffle = function (args) {
+        var _a = this.game.wtw.stocks.moves, discard = _a.discard, deck = _a.deck;
+        deck.addCards(discard.getCards());
+        deck.shuffle({ animatedCardsMax: 5 });
+    };
     return NotificationManager;
 }());
 var StateManager = /** @class */ (function () {

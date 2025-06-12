@@ -65,6 +65,11 @@ class Game extends \Table
 
         $this->move_cards = $this->getNew("module.common.deck");
         $this->move_cards->init("move");
+        $this->move_cards->autoreshuffle = true;
+        $this->move_cards->autoreshuffle_trigger = [
+            "obj" => new MoveManager($this),
+            "method" => "autoreshuffle",
+        ];
 
         $NotifManager = new NotifManager($this);
         $NotifManager->addDecorator();
@@ -419,5 +424,10 @@ class Game extends \Table
     {
         $StBetweenPlayers = new StBetweenPlayers($this);
         $StBetweenPlayers->checkGameEnd();
+    }
+
+    public function debug_autoreshuffle(): void {
+        $this->move_cards->moveAllCardsInLocation("deck", "discard");
+        $this->move_cards->pickCard("deck", $this->getActivePlayerId());
     }
 }
