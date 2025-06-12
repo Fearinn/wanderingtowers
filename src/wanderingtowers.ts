@@ -125,12 +125,11 @@ class WanderingTowers extends WanderingTowersGui {
       counters.spaces[space_id] = new ebg.counter();
       counters.spaces[space_id].create(`wtw_tierCounter-${space_id}`);
       counters.spaces[space_id].setValue(tierCount);
-      this.addTooltip(
+      this.addTooltipHtml(
         `wtw_tierCounter-${space_id}`,
-        this.format_string_recursive(_("${tier_count} towers at this space"), {
-          tier_count: tierCount,
-        }),
-        ""
+        `<span class="wtw_tooltipText">${_(
+          "number of towers at this space"
+        )}</span>`
       );
     }
 
@@ -184,10 +183,16 @@ class WanderingTowers extends WanderingTowersGui {
         <div id="wtw_potionCargo-${player_id}" class="wtw_whiteblock wtw_potionCargo"></div>`
       );
 
-      this.addTooltip(
+      this.addTooltipHtml(
         `wtw_ravenskeepCounter-${player_id}`,
-        _("wizards in the Ravenskeep"),
-        ""
+        `<span class="wtw_tooltipText">${_(
+          "number of wizards in the Ravenskeep"
+        )}</span>`
+      );
+
+      this.addTooltipHtml(
+        `wtw_potionCargo-${player_id}`,
+        `<span class="wtw_tooltipText">${_("potions remaining")}</span>`
       );
 
       counters[player_id] = {
