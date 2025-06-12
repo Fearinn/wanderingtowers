@@ -242,7 +242,14 @@ class Game extends \Table
      */
     public function getGameProgression()
     {
-        return 0;
+        $WizardManager = new WizardManager($this);
+        $PotionManager = new PotionManager($this);
+
+        $wizardProgression = $WizardManager->getProgression();
+        $potionProgression = $PotionManager->getProgression();
+
+        $progression = ($wizardProgression + $potionProgression) / 2 * 100;
+        return round($progression);
     }
 
 

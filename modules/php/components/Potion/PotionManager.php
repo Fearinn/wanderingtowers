@@ -67,9 +67,37 @@ class PotionManager extends CardManager
         );
     }
 
+    public function countEmpty(int $player_id): int
+    {
+        return $this->countCardsInLocation("empty", $player_id);
+    }
+
+    public function getPotionsGoal(): int
+    {
+        $playersNbr = $this->game->getPlayersNumber();
+        return $this->game->SETUP_COUNTS[$playersNbr]["potions"];
+    }
+
     public function goalMet(int $player_id): bool
     {
-        $filledPotionsCount = $this->countCardsInLocation("empty", $player_id);
-        return $filledPotionsCount === 0;
+        $emptyPotionsCount = $this->countEmpty($player_id);
+        return $emptyPotionsCount === 0;
+    }
+
+    public function getProgression(): float
+    {
+        $players = $this->game->loadPlayersBasicInfos();
+
+        $min = 0;
+        foreach ($players as $player_id => $player) {
+            $emptyPotionsCount = $this->countEmpty($player_id);
+            if ($emptyPotionsCount > $min) {
+                $min = $emptyPotionsCount;
+            }
+        }
+
+        $goal = $this->getPotionsGoal();
+        $progression = ($goal - $min) / $goal;
+        return $progression;
     }
 }
