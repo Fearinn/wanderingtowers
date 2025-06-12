@@ -15,11 +15,6 @@ class StBetweenPlayers extends StateManager
         parent::__construct($game);
     }
 
-    public function activeNextPlayer(): int
-    {
-        return $this->game->wtw_activeNextPlayer();
-    }
-
     public function enter()
     {
         $this->globals->set(G_MOVE, null);
@@ -41,7 +36,8 @@ class StBetweenPlayers extends StateManager
         $this->game->incTurnsPlayed($player_id);
         $this->checkGameEnd();
 
-        $this->activeNextPlayer();
+        $this->game->giveExtraTime($player_id);
+        $this->game->wtw_activeNextPlayer();
         $this->game->gamestate->nextState(TR_NEXT_PLAYER);
     }
 
