@@ -600,6 +600,18 @@ body > .card {
   font-size: 24px;
 }
 
+.wtw_button {
+  background: var(--color);
+  border: 1px solid var(--borderColor);
+}
+.wtw_button:hover {
+  background: var(--color) !important;
+}
+.wtw_button-brown {
+  --color: peru;
+  --borderColor: sienna;
+}
+
 :root {
   --boardWidth: calc(var(--spaceWidth) * 5.8);
 }

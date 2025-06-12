@@ -26,7 +26,7 @@ class StPlayerTurn extends StateManager {
           const stPickAdvanceTower = new StPickAdvanceTower(this.game);
           stPickAdvanceTower.set();
         },
-        {}
+        { classes: ["wtw_button", "wtw_button-brown"] }
       );
     }
   }

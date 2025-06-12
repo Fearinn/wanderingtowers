@@ -3354,7 +3354,7 @@ var StPlayerTurn = /** @class */ (function (_super) {
             this.statusBar.addActionButton(_("advance a tower (discards hand)"), function () {
                 var stPickAdvanceTower = new StPickAdvanceTower(_this.game);
                 stPickAdvanceTower.set();
-            }, {});
+            }, { classes: ["wtw_button", "wtw_button-brown"] });
         }
     };
     StPlayerTurn.prototype.leave = function () {
