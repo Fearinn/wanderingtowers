@@ -76,6 +76,7 @@ class Wizard extends WizardManager
         $TowerManager = new TowerManager($this->game);
         $space_id = $TowerManager->getRavenskeepSpace();
         $this->moveCard($this->card_id, "ravenskeep", $space_id);
+        $TowerManager->moveRavenskeep($player_id);
 
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(

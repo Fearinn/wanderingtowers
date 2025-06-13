@@ -51,8 +51,15 @@ class TowerManager extends CardManager
     public function getByTier(int $space_id, int $tier): ?array
     {
         $sql = "SELECT {$this->fields} from {$this->dbTable} WHERE card_location_arg={$space_id} AND tier={$tier}";
-        $card = $this->game->wtw_getObjectFromDB($sql);
-        return $card;
+        $towerCard = $this->game->wtw_getObjectFromDB($sql);
+        return $towerCard;
+    }
+
+    public function getByMaxTier(int $space_id): ?array
+    {
+        $maxTier = $this->countOnSpace($space_id);
+        $towerCard = $this->getByTier($space_id, $maxTier);
+        return $towerCard;
     }
 
     public function getMovable(int $moveCard_id): array
@@ -97,8 +104,8 @@ class TowerManager extends CardManager
             return [];
         }
 
-        $cards = $this->getCardsInLocation("space");
-        $advanceableTowers = array_filter($cards, function ($towerCard) {
+        $towerCards = $this->getCardsInLocation("space");
+        $advanceableTowers = array_filter($towerCards, function ($towerCard) {
             $towerCard_id = (int) $towerCard["id"];
             $Tower = new Tower($this->game, $towerCard_id);
 
@@ -112,5 +119,16 @@ class TowerManager extends CardManager
     {
         $space_id = (int) $this->game->getUniqueValueFromDB("SELECT card_location_arg FROM {$this->dbTable} WHERE card_type_arg=1");
         return $space_id;
+    }
+
+    public function getRavenskeepCard(): array
+    {
+        return $this->game->wtw_getObjectFromDb("SELECT {$this->fields} FROM {$this->dbTable} WHERE card_type_arg=1");
+    }
+
+    public function moveRavenskeep(): void
+    {
+        $Ravenskeep = new Ravenskeep($this->game);
+        $Ravenskeep->moveRavenskeep();
     }
 }

@@ -410,7 +410,7 @@ class Game extends \Table
     public function debug_enterRavenskeep(): void
     {
         $Wizard = new Wizard($this, 1);
-        $Wizard->enterRavenskeep($this->getCurrentPlayerId());
+        $Wizard->enterRavenskeep((int) $this->getCurrentPlayerId());
     }
 
     public function debug_rollDice(): void
