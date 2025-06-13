@@ -82,19 +82,24 @@ class NotificationManager implements NotificationManager {
     potion.fill();
   }
 
-  public notif_wizardToRavenskeep(args: {
+  public notif_enterRavenskeep(args: {
     wizardCard: WizardCard;
     player_id: number;
   }): void {
     const { wizardCard, player_id } = args;
     const wizard = new Wizard(this.game, wizardCard);
-    wizard.moveToRavenskeep();
+    wizard.enterRavenskeep();
     this.game.wtw.counters[player_id].ravenskeep.incValue(1);
   }
 
   notif_autoreshuffle(args: {}): void {
     const { discard, deck } = this.game.wtw.stocks.moves;
     deck.addCards(discard.getCards());
-    deck.shuffle({animatedCardsMax: 5});
+    deck.shuffle({ animatedCardsMax: 5 });
+  }
+
+  notif_incScore(args: { score: number; player_id: number }) {
+    const { score, player_id } = args;
+    this.game.scoreCtrl[player_id].incValue(score);
   }
 }

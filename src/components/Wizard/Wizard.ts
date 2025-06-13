@@ -79,7 +79,7 @@ class Wizard extends Card {
     cardElement.classList.toggle("wtw_wizard-imprisioned", !isVisible);
   }
 
-  moveToRavenskeep() {
+  enterRavenskeep() {
     const cardElement = this.stocks.spaces[this.space_id].getCardElement(
       this.card
     );

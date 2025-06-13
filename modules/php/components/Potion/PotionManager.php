@@ -5,6 +5,7 @@ namespace Bga\Games\WanderingTowers\Components\Potion;
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\CardManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
+use Bga\Games\WanderingTowers\Score\ScoreManager;
 
 class PotionManager extends CardManager
 {
@@ -65,6 +66,10 @@ class PotionManager extends CardManager
             ],
             $player_id,
         );
+
+        $ScoreManager = new ScoreManager($this->game);
+        $ScoreManager->incScore(1, $player_id);
+        $ScoreManager->incScoreAux(1, $player_id);
     }
 
     public function countEmpty(int $player_id): int

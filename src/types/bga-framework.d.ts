@@ -206,7 +206,7 @@ declare class Game {
   ensureSpecificGameImageLoading(list: string[]): void;
   updatePageTitle(gamestate: any);
 
-  // RECENT UPDATES
+  // RECENT OR MISSING
 
   bgaSetupPromiseNotifications(params?: {
     prefix?: string;

@@ -38,6 +38,7 @@ use Bga\Games\WanderingTowers\Components\Wizard\Wizard;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 use Bga\Games\WanderingTowers\States\StAfterRoll;
 use Bga\Games\WanderingTowers\States\StBetweenPlayers;
+use Bga\Games\WanderingTowers\States\StDefineWinner;
 use Bga\Games\WanderingTowers\States\StPlayerTurn;
 use Bga\Games\WanderingTowers\States\StRerollDice;
 
@@ -403,7 +404,7 @@ class Game extends \Table
     public function debug_enterRavenskeep(): void
     {
         $Wizard = new Wizard($this, 1);
-        $Wizard->moveToRavenskeep();
+        $Wizard->enterRavenskeep($this->getCurrentPlayerId());
     }
 
     public function debug_rollDice(): void
@@ -426,7 +427,8 @@ class Game extends \Table
         $StBetweenPlayers->checkGameEnd();
     }
 
-    public function debug_autoreshuffle(): void {
+    public function debug_autoreshuffle(): void
+    {
         $this->move_cards->moveAllCardsInLocation("deck", "discard");
         $this->move_cards->pickCard("deck", $this->getActivePlayerId());
     }

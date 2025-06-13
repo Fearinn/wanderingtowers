@@ -7,6 +7,7 @@ use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\Tower\Tower;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
+use Bga\Games\WanderingTowers\Score\ScoreManager;
 
 class Wizard extends WizardManager
 {
@@ -37,7 +38,7 @@ class Wizard extends WizardManager
         }
     }
 
-    public function move(int $steps, bool $silent = false): void
+    public function move(int $steps, int $player_id, bool $silent = false): void
     {
         $space_id = $this->getSpaceId($this->card_id);
         $space_id = $this->game->sumSteps($space_id, $steps);
@@ -65,12 +66,12 @@ class Wizard extends WizardManager
         $TowerManager = new TowerManager($this->game);
         $enteredRavenskeep = $space_id === $TowerManager->getRavenskeepSpace();
         if ($enteredRavenskeep) {
-            $this->moveToRavenskeep();
+            $this->enterRavenskeep($player_id);
             $this->globals->set(G_TURN_MOVE, 2);
         }
     }
 
-    public function moveToRavenskeep(): void
+    public function enterRavenskeep(int $player_id): void
     {
         $TowerManager = new TowerManager($this->game);
         $space_id = $TowerManager->getRavenskeepSpace();
@@ -78,12 +79,16 @@ class Wizard extends WizardManager
 
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(
-            "wizardToRavenskeep",
+            "enterRavenskeep",
             clienttranslate('A wizard of ${player_name} enters the Ravenskeep'),
             [
                 "wizardCard" => $this->getCard($this->card_id),
-            ]
+            ],
+            $player_id,
         );
+
+        $ScoreManager = new ScoreManager($this->game);
+        $ScoreManager->incScore(1, $player_id);
     }
 
     public function moveWithTower(int $towerCard_id): void

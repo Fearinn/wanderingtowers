@@ -33,7 +33,7 @@ class ActMoveWizard extends ActionManager
         }
 
         $Wizard = new Wizard($this->game, $wizardCard_id);
-        $Wizard->move($steps);
+        $Wizard->move($steps, $this->player_id);
         $Move->discard();
 
         $this->globals->inc(G_TURN_MOVE, 1);

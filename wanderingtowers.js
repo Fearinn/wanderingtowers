@@ -2874,7 +2874,7 @@ var Wizard = /** @class */ (function (_super) {
         var cardElement = this.stocks.spaces[this.space_id].getCardElement(this.card);
         cardElement.classList.toggle("wtw_wizard-imprisioned", !isVisible);
     };
-    Wizard.prototype.moveToRavenskeep = function () {
+    Wizard.prototype.enterRavenskeep = function () {
         var cardElement = this.stocks.spaces[this.space_id].getCardElement(this.card);
         cardElement.classList.add("wtw_wizard-ravenskeep");
     };
@@ -2979,16 +2979,20 @@ var NotificationManager = /** @class */ (function () {
         var potion = new Potion(this.game, potionCard);
         potion.fill();
     };
-    NotificationManager.prototype.notif_wizardToRavenskeep = function (args) {
+    NotificationManager.prototype.notif_enterRavenskeep = function (args) {
         var wizardCard = args.wizardCard, player_id = args.player_id;
         var wizard = new Wizard(this.game, wizardCard);
-        wizard.moveToRavenskeep();
+        wizard.enterRavenskeep();
         this.game.wtw.counters[player_id].ravenskeep.incValue(1);
     };
     NotificationManager.prototype.notif_autoreshuffle = function (args) {
         var _a = this.game.wtw.stocks.moves, discard = _a.discard, deck = _a.deck;
         deck.addCards(discard.getCards());
         deck.shuffle({ animatedCardsMax: 5 });
+    };
+    NotificationManager.prototype.notif_incScore = function (args) {
+        var score = args.score, player_id = args.player_id;
+        this.game.scoreCtrl[player_id].incValue(score);
     };
     return NotificationManager;
 }());

@@ -5,7 +5,6 @@ namespace Bga\Games\WanderingTowers\States;
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\Move\MoveManager;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
-use BgaUserException;
 
 class StPlayerTurn extends StateManager
 {
