@@ -2602,6 +2602,13 @@ var Move = /** @class */ (function (_super) {
             spritePos -= 10;
         }
         element.style.backgroundPosition = "".concat(spritePos * -100, "%");
+        var tooltipElement = element.parentElement.parentElement.cloneNode(true);
+        tooltipElement.removeAttribute("id");
+        tooltipElement.querySelectorAll("[id]").forEach(function (childElement) {
+            childElement.removeAttribute("id");
+        });
+        tooltipElement.classList.add("wtw_move-tooltip");
+        this.game.addTooltipHtml(element.id, tooltipElement.outerHTML);
     };
     Move.prototype.setupBackDiv = function (element) {
         element.classList.add("wtw_move-back");

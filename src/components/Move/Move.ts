@@ -57,6 +57,17 @@ class Move extends Card {
     }
 
     element.style.backgroundPosition = `${spritePos * -100}%`;
+
+    const tooltipElement = element.parentElement.parentElement.cloneNode(
+      true
+    ) as HTMLDivElement;
+    tooltipElement.removeAttribute("id");
+    tooltipElement.querySelectorAll("[id]").forEach((childElement) => {
+      childElement.removeAttribute("id");
+    });
+    tooltipElement.classList.add("wtw_move-tooltip");
+
+    this.game.addTooltipHtml(element.id, tooltipElement.outerHTML);
   }
 
   setupBackDiv(element: HTMLDivElement): void {
