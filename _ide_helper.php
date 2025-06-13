@@ -203,6 +203,11 @@ namespace Bga\GameFramework {
             return [];
         }
 
+        public function isSolo(): bool
+        {
+            return false;
+        }
+
         public function getStateId(): int
         {
             return 0;
@@ -213,12 +218,11 @@ namespace Bga\GameFramework {
             return 0;
         }
 
-
         public function getTurnsPlayed(int $player_id): int
         {
             return 0;
         }
-        
+
         public function incTurnsPlayed(int $player_id): void {}
 
         /**

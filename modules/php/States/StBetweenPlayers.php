@@ -35,16 +35,26 @@ class StBetweenPlayers extends StateManager
         );
 
         $this->game->incTurnsPlayed($player_id);
-        $this->checkGameEnd();
+        
+        if ($this->checkGameEnd()) {
+            $this->gamestate->nextState(TR_GAME_END);
+            return;
+        };
 
         $this->game->giveExtraTime($player_id);
         $this->game->wtw_activeNextPlayer();
         $this->game->gamestate->nextState(TR_NEXT_PLAYER);
     }
 
-    public function checkGameEnd(): void
+    public function checkGameEnd(): bool
     {
         $players = $this->game->loadPlayersBasicInfos();
+
+        $MoveManager = new MoveManager($this->game);
+        $isSolo = $this->game->isSolo();
+        if ($isSolo) {
+            return $MoveManager->countCardsInDeck() === 0;
+        }
 
         $PotionManager = new PotionManager($this->game);
         $WizardManager = new WizardManager($this->game);
@@ -60,6 +70,12 @@ class StBetweenPlayers extends StateManager
             $goalsMet = $ScoreManager->getScore($player_id) === $totalGoal;
 
             if ($goalsMet) {
+                if ($isSolo) {
+                    $score = $MoveManager->countCardsInDiscard() > 30 ? 0 : 1;
+                    $ScoreManager->setScore($score, $player_id);
+                    return true;
+                }
+
                 $finalTurn = $this->game->getTurnsPlayed($player_id);
 
                 if ($finalTurn > $this->globals->get(G_FINAL_TURN, 0)) {
@@ -77,7 +93,7 @@ class StBetweenPlayers extends StateManager
         }
 
         if (!$this->globals->get(G_FINAL_TURN, 0)) {
-            return;
+            return false;
         }
 
         $gameEnd = true;
@@ -88,8 +104,6 @@ class StBetweenPlayers extends StateManager
             }
         }
 
-        if ($gameEnd) {
-            $this->gamestate->nextState(TR_GAME_END);
-        }
+        return $gameEnd;
     }
 }

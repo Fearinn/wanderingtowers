@@ -87,6 +87,11 @@ class Game extends \Table
         return $object;
     }
 
+    public function isSolo(): bool
+    {
+        return $this->getPlayersNumber() === 1;
+    }
+
     public function getStateId(): int
     {
         return (int) $this->gamestate->state_id();
@@ -283,6 +288,7 @@ class Game extends \Table
         $MoveManager = new MoveManager($this);
 
         $gamedatas = [
+            "isSolo" => $this->isSolo(),
             "players" => $this->getCollectionFromDb("SELECT `player_id` `id`, `player_score` `score` FROM `player`"),
             "diceFace" => $this->globals->get(G_ROLL, 3),
             "towerCards" => $TowerManager->getCardsInLocation("space"),

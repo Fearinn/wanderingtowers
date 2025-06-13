@@ -47,6 +47,10 @@ class PotionManager extends CardManager
 
     public function fillPotion(int $player_id): void
     {
+        if ($this->game->isSolo()) {
+            return;
+        }
+
         $potionCard = $this->getCardInLocation("empty", $player_id);
 
         if (!$potionCard) {
@@ -91,6 +95,10 @@ class PotionManager extends CardManager
 
     public function getProgression(): float
     {
+        if ($this->game->isSolo()) {
+            return 0;
+        }
+
         $players = $this->game->loadPlayersBasicInfos();
 
         $min = 0;

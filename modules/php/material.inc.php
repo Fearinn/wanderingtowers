@@ -118,6 +118,10 @@ $this->TOWERS = [
 ];
 
 $this->SETUP_COUNTS = [
+    1 => [
+        "wizards" => 12,
+        "potions" => 0,
+    ],
     2 => [
         "wizards" => 5,
         "potions" => 6,

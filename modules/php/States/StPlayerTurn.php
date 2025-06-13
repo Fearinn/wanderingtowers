@@ -32,7 +32,8 @@ class StPlayerTurn extends StateManager
         $TowerManager = new TowerManager($this->game);
         $advanceableTowers = $TowerManager->getAdvanceable();
 
-        $endTurn = $this->globals->get(G_TURN_MOVE) >= 2;
+        $moveLimit = $this->game->isSolo() ? 1 : 2;
+        $endTurn = $this->globals->get(G_TURN_MOVE) >= $moveLimit;
 
         $args = [
             "playableMoves" => $MoveManager->hideCards($playableMoves),

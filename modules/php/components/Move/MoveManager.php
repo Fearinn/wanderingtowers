@@ -29,9 +29,18 @@ class MoveManager extends CardManager
         }
     }
 
+    public function countCardsInDeck(): int {
+        return $this->countCardsInLocation("deck");
+    }
+
     public function getDiscard(): array
     {
         return $this->getCardsInLocation("discard");
+    }
+
+    public function countCardsInDiscard(): int
+    {
+        return $this->countCardsInLocation("discard");
     }
 
     public function drawMoves(int $nbr, int $player_id): void
@@ -127,6 +136,10 @@ class MoveManager extends CardManager
 
     public function autoreshuffle(): void
     {
+        if ($this->game->isSolo()) {
+            return;
+        }
+
         $this->deck->moveAllCardsInLocation("discard", "deck");
         $this->deck->shuffle("deck");
 
