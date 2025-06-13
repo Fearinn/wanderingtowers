@@ -135,6 +135,12 @@ var WanderingTowers = /** @class */ (function (_super) {
             counters.spaces[space_id].setValue(tierCount);
             this.addTooltipHtml("wtw_tierCounter-".concat(space_id), "<span class=\"wtw_tooltipText\">".concat(_("number of towers at this space"), "</span>"));
         }
+        if (this.getGameUserPreference(101) == 0) {
+            var moveHandElement = document.getElementById("wtw_moveHand");
+            document
+                .getElementById("wtw_gameArea")
+                .insertAdjacentElement("afterbegin", moveHandElement);
+        }
         var moveStocks = {
             hand: new MoveHandStock(this, moveManager),
             deck: new Deck(moveManager, document.getElementById("wtw_moveDeck"), {

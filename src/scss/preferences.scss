@@ -8,3 +8,20 @@
     background-position: center;
   }
 }
+
+.wtw_pref-floatingHand {
+  .wtw_moveHand {
+    position: fixed;
+    left: 50%;
+    bottom: -10%;
+    margin: 0;
+    transform: translateX(-50%) translateY(-50%);
+    transition: 1s;
+    z-index: 2;
+
+    &:hover,
+    &:has(.wtw_move-selected) {
+      bottom: -5%;
+    }
+  }
+}

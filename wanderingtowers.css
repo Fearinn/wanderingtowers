@@ -650,6 +650,19 @@ body > .card {
   background-position: center;
 }
 
+.wtw_pref-floatingHand .wtw_moveHand {
+  position: fixed;
+  left: 50%;
+  bottom: -10%;
+  margin: 0;
+  transform: translateX(-50%) translateY(-50%);
+  transition: 1s;
+  z-index: 2;
+}
+.wtw_pref-floatingHand .wtw_moveHand:hover, .wtw_pref-floatingHand .wtw_moveHand:has(.wtw_move-selected) {
+  bottom: -5%;
+}
+
 :root {
   --spaceWidth: 200px;
   --tileWidth: calc(var(--spaceWidth) * 3.75);
@@ -960,15 +973,7 @@ body > .card {
 }
 
 .wtw_moveHand {
-  position: fixed;
-  left: 50%;
-  bottom: -10%;
-  transform: translateX(-50%) translateY(-50%);
-  transition: 1s;
-  z-index: 2;
-}
-.wtw_moveHand:hover, .wtw_moveHand:has(.wtw_move-selected) {
-  bottom: -5%;
+  margin: 16px 0 32px 0;
 }
 
 .wtw_moveDiscard {

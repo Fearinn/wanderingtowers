@@ -235,6 +235,9 @@ declare class Game {
   ): void;
 
   getPlayerPanelElement(player_id: number): HTMLElement;
+
+  getGameUserPreference(pref_id: number): number | string;
+  onGameUserPreferenceChanged(pref_id: number, pref_value: number): void;
 }
 
 /* TODO repace Function by (..params) => void */

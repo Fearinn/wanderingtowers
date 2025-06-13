@@ -1,5 +1,5 @@
 {
-   "100": {
+  "100": {
     "name": "Thematic background",
     "values": {
       "0": {
@@ -11,5 +11,19 @@
       }
     },
     "default": 1
-  } 
+  },
+  "101": {
+    "name": "Floating hand",
+    "values": {
+      "0": {
+        "name": "Disabled"
+      },
+      "1": {
+        "name": "Enabled",
+        "cssPref": "wtw_pref-floatingHand"
+      }
+    },
+    "default": 1,
+    "needReload": true
+  }
 }

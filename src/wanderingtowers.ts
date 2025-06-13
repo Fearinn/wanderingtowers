@@ -133,6 +133,13 @@ class WanderingTowers extends WanderingTowersGui {
       );
     }
 
+    if (this.getGameUserPreference(101) == 0) {
+      const moveHandElement = document.getElementById("wtw_moveHand");
+      document
+        .getElementById("wtw_gameArea")
+        .insertAdjacentElement("afterbegin", moveHandElement);
+    }
+
     const moveStocks = {
       hand: new MoveHandStock(this, moveManager),
       deck: new Deck(moveManager, document.getElementById("wtw_moveDeck"), {
