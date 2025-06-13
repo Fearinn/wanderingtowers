@@ -922,8 +922,13 @@ body > .card {
 .wtw_wizard-tooltip {
   width: calc(var(--wizardWidth) * 2);
 }
+.wtw_wizard-selectable {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.6666666667);
+}
 .wtw_wizard-selected {
-  transform: scale(1.5);
+  background-color: rgba(0, 170, 0, 0.3333333333);
+  transform: scale(1.5) rotate(10deg);
   z-index: 2;
 }
 .wtw_wizard-imprisoned {

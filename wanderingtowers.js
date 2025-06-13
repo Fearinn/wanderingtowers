@@ -73,6 +73,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             getId: function (card) {
                 return "wtw_wizard-".concat(card.id);
             },
+            selectableCardClass: "wtw_wizard-selectable",
             selectedCardClass: "wtw_wizard-selected",
             setupDiv: function (card, element) {
                 var wizard = new Wizard(_this, card);

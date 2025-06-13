@@ -39,8 +39,14 @@
     width: calc(var(--wizardWidth) * 2);
   }
 
+  &-selectable {
+    cursor: pointer;
+    background-color: #ffffffaa;
+  }
+
   &-selected {
-    transform: scale(1.5);
+    background-color: #00aa0055;
+    transform: scale(1.5) rotate(10deg);
     z-index: 2;
   }
 
@@ -75,7 +81,6 @@
   display: flex;
   gap: 2px;
 }
-
 
 .wtw_wizardTooltip {
   display: flex;
