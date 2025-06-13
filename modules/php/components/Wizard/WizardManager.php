@@ -108,23 +108,34 @@ class WizardManager extends CardManager
     {
         $wizardCards = $this->getByTier($space_id, $tier);
 
-        $imprisioned = false;
+        $imprisoned = false;
         foreach ($wizardCards as $wizardCard) {
             $wizardCard_id = (int) $wizardCard["id"];
             $Wizard = new Wizard($this->game, $wizardCard_id);
             $Wizard->imprison();
-            $imprisioned = true;
+            $imprisoned = true;
         }
 
-        if ($imprisioned) {
+        if ($imprisoned) {
             $NotifManager = new NotifManager($this->game);
             $NotifManager->all(
-                "imprisonWizards",
+                "message",
                 clienttranslate('${player_name} imprisons wizard(s)'),
             );
 
             $PotionManager = new PotionManager($this->game);
             $PotionManager->fillPotion($player_id);
+        }
+    }
+
+    public function coverWizards(int $space_id, int $tier): void
+    {
+        $wizardCards = $this->getByTier($space_id, $tier);
+
+        foreach ($wizardCards as $wizardCard) {
+            $wizardCard_id = (int) $wizardCard["id"];
+            $Wizard = new Wizard($this->game, $wizardCard_id);
+            $Wizard->imprison();
         }
     }
 

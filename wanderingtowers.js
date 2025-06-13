@@ -2878,7 +2878,7 @@ var Wizard = /** @class */ (function (_super) {
     };
     Wizard.prototype.toggleVisibility = function (isVisible) {
         var cardElement = this.stocks.spaces[this.space_id].getCardElement(this.card);
-        cardElement.classList.toggle("wtw_wizard-imprisioned", !isVisible);
+        cardElement.classList.toggle("wtw_wizard-imprisoned", !isVisible);
     };
     Wizard.prototype.enterRavenskeep = function () {
         var cardElement = this.stocks.spaces[this.space_id].getCardElement(this.card);
