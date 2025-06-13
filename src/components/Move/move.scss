@@ -40,7 +40,7 @@
   height: var(--moveHeight);
 
   &-selected {
-    outline: 3px solid red;
+    outline: 3px solid green;
     transform: translateY(-20%) !important;
     z-index: 1;
   }
