@@ -14,6 +14,11 @@ class ScoreManager
         $this->game = $game;
     }
 
+    public function getScore(int $player_id): int
+    {
+        return (int) $this->game->getUniqueValueFromDB("SELECT player_score FROM player WHERE player_id={$player_id}");
+    }
+
     public function setScore(int $score, int $player_id): void
     {
         $this->game->DbQuery("UPDATE player SET player_score={$score} WHERE player_id={$player_id}");

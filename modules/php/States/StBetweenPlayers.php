@@ -7,6 +7,7 @@ use Bga\Games\WanderingTowers\Components\Move\MoveManager;
 use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
 use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
+use Bga\Games\WanderingTowers\Score\ScoreManager;
 
 class StBetweenPlayers extends StateManager
 {
@@ -45,15 +46,18 @@ class StBetweenPlayers extends StateManager
     {
         $players = $this->game->loadPlayersBasicInfos();
 
+        $PotionManager = new PotionManager($this->game);
+        $WizardManager = new WizardManager($this->game);
+        $totalGoal = $PotionManager->getPotionsGoal() + $WizardManager->getRavenskeepGoal();
+
+        $ScoreManager = new ScoreManager($this->game);
+
         foreach ($players as $player_id => $player) {
             if ($this->globals->get(G_FINAL_TURN)) {
                 break;
             }
 
-            $PotionManager = new PotionManager($this->game);
-            $WizardManager = new WizardManager($this->game);
-
-            $goalsMet = $PotionManager->goalMet($player_id) && $WizardManager->goalMet($player_id);
+            $goalsMet = $ScoreManager->getScore($player_id) === $totalGoal;
 
             if ($goalsMet) {
                 $finalTurn = $this->game->getTurnsPlayed($player_id);
