@@ -34,6 +34,7 @@ use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
 use Bga\Games\WanderingTowers\Components\Move\MoveManager;
 use Bga\Games\WanderingTowers\Components\Dice\Dice;
+use Bga\Games\WanderingTowers\Components\Spell\SpellManager;
 use Bga\Games\WanderingTowers\Components\Wizard\Wizard;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 use Bga\Games\WanderingTowers\States\StAfterRoll;
@@ -71,6 +72,9 @@ class Game extends \Table
             "obj" => new MoveManager($this),
             "method" => "autoreshuffle",
         ];
+
+        $this->spell_cards = $this->getNew("module.common.deck");
+        $this->spell_cards->init("spell");
 
         $NotifManager = new NotifManager($this);
         $NotifManager->addDecorator();
@@ -357,6 +361,9 @@ class Game extends \Table
 
         $MoveManager = new MoveManager($this);
         $MoveManager->setupCards();
+
+        $SpellManager = new SpellManager($this);
+        $SpellManager->setupCards();
 
         $this->globals->set(G_REROLLS, 0);
         $this->globals->set(G_ROLL, 3);
