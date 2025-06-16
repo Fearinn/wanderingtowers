@@ -15,7 +15,7 @@
 --       you have to restart a game to see your changes in database.
 CREATE TABLE IF NOT EXISTS `tower` (
     `card_id` int(2) unsigned NOT NULL AUTO_INCREMENT,
-    `card_type` varchar(1) NOT NULL,
+    `card_type` varchar(16) NOT NULL,
     `card_type_arg` int(2) NOT NULL,
     `card_location` varchar(16) NOT NULL,
     `card_location_arg` int(11) NOT NULL,
@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `wizard` (
     `card_type` varchar(16) NOT NULL,
     `card_type_arg` int(2) NOT NULL,
     `card_location` varchar(16) NOT NULL,
+    
     `card_location_arg` int(11) NOT NULL,
     `tier` int(2) unsigned NOT NULL DEFAULT 1,
     PRIMARY KEY (`card_id`)

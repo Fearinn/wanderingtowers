@@ -23,6 +23,17 @@ class Space {
   }
 
   getMaxTier(): number {
-    return this.towerStock.getCards().length;
+    const towerCards = this.towerStock.getCards();
+    let maxTier = towerCards.length;
+    const hasRavenskeep = towerCards.some((towerCard) => {
+      const tower = new Tower(this.game, towerCard);
+      return tower.isRavenskeep;
+    });
+
+    if (hasRavenskeep) {
+      maxTier -= 1;
+    }
+
+    return maxTier;
   }
 }

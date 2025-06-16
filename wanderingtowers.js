@@ -2768,7 +2768,17 @@ var Space = /** @class */ (function () {
         this.tierCounter.toValue(tier);
     };
     Space.prototype.getMaxTier = function () {
-        return this.towerStock.getCards().length;
+        var _this = this;
+        var towerCards = this.towerStock.getCards();
+        var maxTier = towerCards.length;
+        var hasRavenskeep = towerCards.some(function (towerCard) {
+            var tower = new Tower(_this.game, towerCard);
+            return tower.isRavenskeep;
+        });
+        if (hasRavenskeep) {
+            maxTier -= 1;
+        }
+        return maxTier;
     };
     return Space;
 }());
@@ -2779,6 +2789,7 @@ var Tower = /** @class */ (function (_super) {
         _this.card.tier = Number(card.tier);
         _this.stocks = _this.game.wtw.stocks.towers;
         _this.space_id = _this.card.location_arg;
+        _this.isRavenskeep = _this.card.type === "ravenskeep";
         return _this;
     }
     Tower.prototype.setup = function () {
@@ -2786,10 +2797,10 @@ var Tower = /** @class */ (function (_super) {
     };
     Tower.prototype.setupDiv = function (element) {
         element.classList.add("wtw_card", "wtw_tower");
-        if (this.card.type_arg === 1) {
+        if (this.isRavenskeep) {
             element.classList.add("wtw_tower-ravenskeep");
         }
-        if (this.card.type_arg % 2 === 0) {
+        if (this.card.type === "raven") {
             element.classList.add("wtw_tower-raven");
         }
     };

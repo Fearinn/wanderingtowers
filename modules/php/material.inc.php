@@ -3,6 +3,7 @@
 $this->SPACES = [
     1 => [
         "raven" => true,
+        "type" => "raven",
         "setupWizardCount" => 0,
         "landscape" => 1,
     ],
@@ -23,6 +24,7 @@ $this->SPACES = [
     ],
     5 => [
         "raven" => true,
+        "type" => "raven",
         "setupWizardCount" => 2,
         "landscape" => 2,
     ],
@@ -43,6 +45,7 @@ $this->SPACES = [
     ],
     9 => [
         "raven" => true,
+        "type" => "raven",
         "setupWizardCount" => 1,
         "landscape" => 3,
     ],
@@ -63,6 +66,7 @@ $this->SPACES = [
     ],
     13 => [
         "raven" => true,
+        "type" => "raven",
         "setupWizardCount" => 0,
         "landscape" => 4,
     ],
@@ -87,33 +91,43 @@ $this->TOWERS = [
     1 => [
         "raven" => true,
         "ravenskeep" => true,
+        "type" => "ravenskeep",
     ],
     2 => [
         "raven" => true,
+        "type" => "raven",
     ],
     3 => [
         "raven" => false,
+        "type" => "normal",
     ],
     4 => [
         "raven" => true,
+        "type" => "raven",
     ],
     5 => [
         "raven" => false,
+        "type" => "normal",
     ],
     6 => [
         "raven" => true,
+        "type" => "raven",
     ],
     7 => [
         "raven" => false,
+        "type" => "normal",
     ],
     8 => [
         "raven" => true,
+        "type" => "raven",
     ],
     9 => [
         "raven" => false,
+        "type" => "normal",
     ],
     10 => [
         "raven" => true,
+        "type" => "raven",
     ],
 ];
 

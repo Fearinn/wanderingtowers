@@ -19,15 +19,17 @@ class TowerManager extends CardManager
         $towerCards = [];
         foreach ($this->game->TOWERS as $tower_id => $tower) {
             $towerCards[] = [
-                "type" => $tower["raven"] ? 1 : 0,
+                "type" => $tower["type"],
                 "type_arg" => $tower_id,
                 "nbr" => 1,
             ];
         }
-        $this->createCards($towerCards, "space");
 
-        $towerCards = $this->getCardsInLocation("deck");
-        foreach ($towerCards as $towerCard_id => $towerCard) {
+        $this->createCards($towerCards, "space");
+        $towerCards = $this->getCardsInLocation("space");
+
+        foreach ($towerCards as $towerCard) {
+            $towerCard_id = (int) $towerCard["id"];
             $tower_id = (int) $towerCard["type_arg"];
             $this->moveByLocationArg($towerCard_id, $tower_id);
         }

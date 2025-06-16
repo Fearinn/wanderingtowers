@@ -1,4 +1,5 @@
 interface TowerCard extends BgaCard {
+  type: "raven" | "ravenskeep" | "normal",
   type_arg: number;
   tier: number;
 }
@@ -7,9 +8,7 @@ interface Tower extends Card {
   stocks: TowerStocks;
   card: TowerCard;
   space_id: number;
-  setup(): void;
-  place(space_id: number): void;
-  move(space_id: number, current_space_id: number): void;
+  isRavenskeep: boolean;
 }
 
 class Tower extends Card {
@@ -18,6 +17,7 @@ class Tower extends Card {
     this.card.tier = Number(card.tier);
     this.stocks = this.game.wtw.stocks.towers;
     this.space_id = this.card.location_arg;
+    this.isRavenskeep = this.card.type === "ravenskeep";
   }
 
   setup() {
@@ -27,11 +27,11 @@ class Tower extends Card {
   setupDiv(element: HTMLDivElement) {
     element.classList.add("wtw_card", "wtw_tower");
 
-    if (this.card.type_arg === 1) {
+    if (this.isRavenskeep) {
       element.classList.add("wtw_tower-ravenskeep");
     }
 
-    if (this.card.type_arg % 2 === 0) {
+    if (this.card.type === "raven") {
       element.classList.add("wtw_tower-raven");
     }
   }
