@@ -34,6 +34,7 @@ declare class WanderingTowersGui extends Game {
       moveCard?: MoveCard;
       towerCard?: TowerCard;
       maxTier?: number;
+      minTier?: number;
       action?: ActionName;
     };
   };

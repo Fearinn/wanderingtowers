@@ -2768,17 +2768,19 @@ var Space = /** @class */ (function () {
         this.tierCounter.toValue(tier);
     };
     Space.prototype.getMaxTier = function () {
-        var _this = this;
         var towerCards = this.towerStock.getCards();
         var maxTier = towerCards.length;
+        return maxTier;
+    };
+    Space.prototype.getMinTier = function () {
+        var _this = this;
+        var towerCards = this.towerStock.getCards();
         var hasRavenskeep = towerCards.some(function (towerCard) {
             var tower = new Tower(_this.game, towerCard);
             return tower.isRavenskeep;
         });
-        if (hasRavenskeep) {
-            maxTier -= 1;
-        }
-        return maxTier;
+        var minTier = hasRavenskeep ? 2 : 1;
+        return minTier;
     };
     return Space;
 }());
@@ -3065,10 +3067,12 @@ var StPickAdvanceTower = /** @class */ (function (_super) {
                     var tower = new Tower(_this.game, card);
                     var space = new Space(_this.game, tower.space_id);
                     var maxTier = space.getMaxTier();
+                    var minTier = space.getMinTier();
                     _this.game.wtw.globals.towerCard = tower.card;
                     _this.game.wtw.globals.maxTier = maxTier;
+                    _this.game.wtw.globals.minTier = minTier;
                     _this.game.wtw.globals.action = "actAdvanceTower";
-                    if (maxTier > 1) {
+                    if (maxTier > minTier) {
                         var stPickMoveTier = new StPickMoveTier(_this.game);
                         stPickMoveTier.set();
                         return;
@@ -3144,30 +3148,33 @@ var StPickMoveTier = /** @class */ (function (_super) {
     StPickMoveTier.prototype.enter = function () {
         var _this = this;
         _super.prototype.enter.call(this);
-        var _a = this.game.wtw.globals, moveCard = _a.moveCard, towerCard = _a.towerCard, maxTier = _a.maxTier, _b = _a.action, action = _b === void 0 ? "actMoveTower" : _b;
+        var _a = this.game.wtw.globals, moveCard = _a.moveCard, towerCard = _a.towerCard, maxTier = _a.maxTier, minTier = _a.minTier, _b = _a.action, action = _b === void 0 ? "actMoveTower" : _b;
         var tower = new Tower(this.game, towerCard);
-        if (maxTier === 1) {
+        var moveCard_id = action === "actMoveTower" ? moveCard.id : undefined;
+        if (maxTier === minTier) {
             this.game.performAction(action, {
-                moveCard_id: action === "actMoveTower" ? moveCard.id : undefined,
+                moveCard_id: moveCard_id,
                 space_id: tower.space_id,
-                tier: maxTier,
+                tier: maxTier - 1 || 1,
             });
             return;
         }
         tower.toggleSelection(true);
-        var move = new Move(this.game, moveCard);
-        move.toggleSelection(true);
+        if (action === "actMoveTower") {
+            var move = new Move(this.game, moveCard);
+            move.toggleSelection(true);
+        }
         var _loop_4 = function (i) {
             this_1.game.statusBar.addActionButton("".concat(i), function () {
                 _this.game.performAction(action, {
-                    moveCard_id: action === "actMoveTower" ? move.card.id : undefined,
+                    moveCard_id: moveCard_id,
                     space_id: tower.space_id,
                     tier: maxTier - i + 1,
                 });
             }, {});
         };
         var this_1 = this;
-        for (var i = 1; i <= maxTier; i++) {
+        for (var i = minTier; i <= maxTier; i++) {
             _loop_4(i);
         }
     };
@@ -3212,9 +3219,11 @@ var StPickMoveTower = /** @class */ (function (_super) {
                     var tower = new Tower(_this.game, card);
                     var space = new Space(_this.game, tower.space_id);
                     var maxTier = space.getMaxTier();
+                    var minTier = space.getMinTier();
                     _this.game.wtw.globals.towerCard = tower.card;
                     _this.game.wtw.globals.maxTier = maxTier;
-                    if (maxTier > 1) {
+                    _this.game.wtw.globals.minTier = minTier;
+                    if (maxTier > minTier) {
                         var stPickMoveTier = new StPickMoveTier(_this.game);
                         stPickMoveTier.set();
                         return;

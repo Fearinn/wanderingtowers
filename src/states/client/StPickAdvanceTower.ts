@@ -29,12 +29,14 @@ class StPickAdvanceTower extends StateManager {
           const tower = new Tower(this.game, card);
           const space = new Space(this.game, tower.space_id);
           const maxTier = space.getMaxTier();
+          const minTier = space.getMinTier();
 
           this.game.wtw.globals.towerCard = tower.card;
           this.game.wtw.globals.maxTier = maxTier;
+          this.game.wtw.globals.minTier = minTier;
           this.game.wtw.globals.action = "actAdvanceTower";
 
-          if (maxTier > 1) {
+          if (maxTier > minTier) {
             const stPickMoveTier = new StPickMoveTier(this.game);
             stPickMoveTier.set();
             return;
@@ -54,7 +56,7 @@ class StPickAdvanceTower extends StateManager {
 
   leave() {
     super.leave();
-    
+
     const towerStocks = this.game.wtw.stocks.towers.spaces;
 
     for (const space_id in towerStocks) {

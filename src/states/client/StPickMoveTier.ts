@@ -17,28 +17,39 @@ class StPickMoveTier extends StateManager {
   enter() {
     super.enter();
 
-    const { moveCard, towerCard, maxTier, action = "actMoveTower" } = this.game.wtw.globals;
+    const {
+      moveCard,
+      towerCard,
+      maxTier,
+      minTier,
+      action = "actMoveTower",
+    } = this.game.wtw.globals;
     const tower = new Tower(this.game, towerCard);
 
-    if (maxTier === 1) {
+    const moveCard_id = action === "actMoveTower" ? moveCard.id : undefined;
+
+    if (maxTier === minTier) {
       this.game.performAction(action, {
-        moveCard_id: action === "actMoveTower" ? moveCard.id : undefined,
+        moveCard_id: moveCard_id,
         space_id: tower.space_id,
-        tier: maxTier,
+        tier: maxTier - 1 || 1,
       });
       return;
     }
 
     tower.toggleSelection(true);
-    const move = new Move(this.game, moveCard);
-    move.toggleSelection(true);
 
-    for (let i = 1; i <= maxTier; i++) {
+    if (action === "actMoveTower") {
+      const move = new Move(this.game, moveCard);
+      move.toggleSelection(true);
+    }
+
+    for (let i = minTier; i <= maxTier; i++) {
       this.game.statusBar.addActionButton(
         `${i}`,
         () => {
           this.game.performAction(action, {
-            moveCard_id: action === "actMoveTower" ? move.card.id : undefined,
+            moveCard_id: moveCard_id,
             space_id: tower.space_id,
             tier: maxTier - i + 1,
           });
@@ -50,7 +61,7 @@ class StPickMoveTier extends StateManager {
 
   leave() {
     super.leave();
-    
+
     const { moveCard, towerCard } = this.game.wtw.globals;
 
     if (moveCard) {

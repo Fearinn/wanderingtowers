@@ -24,16 +24,19 @@ class Space {
 
   getMaxTier(): number {
     const towerCards = this.towerStock.getCards();
-    let maxTier = towerCards.length;
+    const maxTier = towerCards.length;
+    return maxTier;
+  }
+
+  getMinTier(): number {
+    const towerCards = this.towerStock.getCards();
+
     const hasRavenskeep = towerCards.some((towerCard) => {
       const tower = new Tower(this.game, towerCard);
       return tower.isRavenskeep;
     });
 
-    if (hasRavenskeep) {
-      maxTier -= 1;
-    }
-
-    return maxTier;
+    const minTier = hasRavenskeep ? 2 : 1;
+    return minTier;
   }
 }
