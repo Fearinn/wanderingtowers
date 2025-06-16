@@ -30,7 +30,8 @@ class Tower extends TowerManager
         return $this->id === 1;
     }
 
-    public function isRaven(): bool {
+    public function isRaven(): bool
+    {
         return $this->info["raven"];
     }
 
@@ -66,17 +67,17 @@ class Tower extends TowerManager
 
         $tier = $this->countOnSpace($final_space_id);
         $this->updateTier($tier);
-        
-        $NotifManager = new NotifManager($this->game);
-        $NotifManager->all(
-            "message",
-            clienttranslate('${player_name} moves a tower by ${steps_label} space(s)'),
-            [
-                "steps_label" => $steps
-            ]
-        );
 
         if (!$stacked) {
+            $NotifManager = new NotifManager($this->game);
+            $NotifManager->all(
+                "message",
+                clienttranslate('${player_name} moves a tower by ${steps_label} space(s)'),
+                [
+                    "steps_label" => $steps
+                ]
+            );
+
             $WizardManager->imprisonWizards(
                 $final_space_id,
                 $tier - 1,
