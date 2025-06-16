@@ -367,8 +367,14 @@ class WanderingTowers extends WanderingTowersGui {
     document.getElementById("wtw_confirmationButton")?.remove();
   }
 
-  public performAction(action: ActionName, args = {}, options = {}): void {
-    this.bgaPerformAction(action, args, options);
+  public performAction(
+    action: ActionName,
+    args = {},
+    options = { lock: true, checkAction: true }
+  ): void {
+    this.bgaPerformAction(action, args, options).catch((e) => {
+      this.restoreServerGameState();
+    });
   }
 
   public getStateName(): StateName {

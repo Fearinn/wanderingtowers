@@ -291,9 +291,12 @@ var WanderingTowers = /** @class */ (function (_super) {
         (_a = document.getElementById("wtw_confirmationButton")) === null || _a === void 0 ? void 0 : _a.remove();
     };
     WanderingTowers.prototype.performAction = function (action, args, options) {
+        var _this = this;
         if (args === void 0) { args = {}; }
-        if (options === void 0) { options = {}; }
-        this.bgaPerformAction(action, args, options);
+        if (options === void 0) { options = { lock: true, checkAction: true }; }
+        this.bgaPerformAction(action, args, options).catch(function (e) {
+            _this.restoreServerGameState();
+        });
     };
     WanderingTowers.prototype.getStateName = function () {
         return this.gamedatas.gamestate.name;

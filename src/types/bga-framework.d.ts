@@ -225,7 +225,7 @@ declare class Game {
       lock?: boolean;
       checkAction?: boolean;
     }
-  ): void;
+  ): Promise<void>;
 
   statusBar: StatusBar;
 
