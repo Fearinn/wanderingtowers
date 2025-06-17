@@ -24,7 +24,7 @@ class Spell extends SpellManager
         $this->tr_name = $this->info["tr_name"];
     }
 
-    public function cast(int $player_id): void
+    public function usePotions(int $player_id): void
     {
         $PotionManager = new PotionManager($this->game);
         $PotionManager->usePotions($this->cost, $player_id);

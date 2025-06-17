@@ -23,6 +23,7 @@ namespace Bga\Games\WanderingTowers;
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\Games\WanderingTowers\Actions\ActAcceptRoll;
 use Bga\Games\WanderingTowers\Actions\ActAdvanceTower;
+use Bga\Games\WanderingTowers\Actions\ActCastSpell;
 use Bga\Games\WanderingTowers\Actions\ActMoveTowerDice;
 use Bga\Games\WanderingTowers\Actions\ActMoveTower;
 use Bga\Games\WanderingTowers\Actions\ActMoveWizard;
@@ -449,9 +450,9 @@ class Game extends \Table
         $this->move_cards->pickCard("deck", $this->getActivePlayerId());
     }
 
-    public function debug_castSpell(): void {
-        $player_id = (int) $this->getCurrentPlayerId();
-        $Spell = new Spell($this, 1);
-        $Spell->cast($player_id);
+    public function debug_castSpell(): void
+    {
+        $ActCastSpell = new ActCastSpell($this);
+        $ActCastSpell->act(2, ["wizardCard_id" => 1]);
     }
 }
