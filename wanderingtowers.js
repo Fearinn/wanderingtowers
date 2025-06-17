@@ -118,6 +118,19 @@ var WanderingTowers = /** @class */ (function (_super) {
                 potionCard.setupBackDiv(element);
             },
         });
+        var spellManager = new CardManager(this, {
+            getId: function (card) {
+                return "wtw_spellCard-".concat(card.id);
+            },
+            setupDiv: function (card, element) {
+                var spellCard = new Spell(_this, card);
+                spellCard.setupDiv(element);
+            },
+            setupFrontDiv: function (card, element) {
+                var spellCard = new Spell(_this, card);
+                spellCard.setupFrontDiv(element);
+            },
+        });
         var towerStocks = {
             spaces: {},
         };
@@ -174,6 +187,11 @@ var WanderingTowers = /** @class */ (function (_super) {
                 cargo: new PotionCargoStock(this, potionCardManager, player_id),
             };
         }
+        var spellStocks = {
+            table: new CardStock(spellManager, document.getElementById("wtw_spells"), {
+                sort: sortFunction("type_arg"),
+            }),
+        };
         this.wtw = {
             managers: {
                 zoom: zoomManager,
@@ -181,6 +199,7 @@ var WanderingTowers = /** @class */ (function (_super) {
                 moves: moveManager,
                 towers: towerManager,
                 wizards: wizardManager,
+                spells: spellManager,
             },
             stocks: {
                 dice: diceStock,
@@ -188,6 +207,7 @@ var WanderingTowers = /** @class */ (function (_super) {
                 wizards: wizardStocks,
                 moves: moveStocks,
                 potions: potionStocks,
+                spells: spellStocks,
             },
             counters: counters,
             globals: {},
@@ -213,6 +233,10 @@ var WanderingTowers = /** @class */ (function (_super) {
             move.discard();
         });
         moveStocks.hand.setup(gamedatas.hand);
+        gamedatas.spellCards.forEach(function (spellCard) {
+            var spell = new Spell(_this, spellCard);
+            spell.setup();
+        });
         this.setupNotifications();
     };
     WanderingTowers.prototype.onEnteringState = function (stateName, args) {
@@ -2787,6 +2811,28 @@ var Space = /** @class */ (function () {
     };
     return Space;
 }());
+var Spell = /** @class */ (function (_super) {
+    __extends(Spell, _super);
+    function Spell(game, card) {
+        var _this = _super.call(this, game, card) || this;
+        _this.table = _this.game.wtw.stocks.spells.table;
+        return _this;
+    }
+    Spell.prototype.setup = function () {
+        this.table.addCard(this.card);
+        console.log(this.card);
+        if (this.card.location !== "table") {
+            this.table.setCardVisible(this.card, false);
+        }
+    };
+    Spell.prototype.setupDiv = function (element) {
+        element.classList.add("wtw_card", "wtw_spell");
+    };
+    Spell.prototype.setupFrontDiv = function (element) {
+        element.parentElement.parentElement.style.backgroundPosition = "".concat(this.card.type_arg * -100, "%");
+    };
+    return Spell;
+}(Card));
 var Tower = /** @class */ (function (_super) {
     __extends(Tower, _super);
     function Tower(game, card) {

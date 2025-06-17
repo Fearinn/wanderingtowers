@@ -290,6 +290,7 @@ class Game extends \Table
         $WizardManager = new WizardManager($this);
         $PotionManager = new PotionManager($this);
         $MoveManager = new MoveManager($this);
+        $SpellManager = new SpellManager($this);
 
         $gamedatas = [
             "isSolo" => $this->isSolo(),
@@ -301,6 +302,7 @@ class Game extends \Table
             "moveDeck" => $MoveManager->getDeck(),
             "moveDiscard" => $MoveManager->getDiscard(),
             "hand" => $MoveManager->getPlayerHand($current_player_id),
+            "spellCards" => $SpellManager->getAll(),
             "tierCounts" => $TowerManager->getTierCounts(),
             "ravenskeepCounts" => $WizardManager->getRavenskeepCounts(),
             "ravenskeepGoal" => $WizardManager->getRavenskeepGoal(),

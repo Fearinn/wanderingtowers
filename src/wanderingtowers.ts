@@ -100,6 +100,20 @@ class WanderingTowers extends WanderingTowersGui {
       },
     });
 
+    const spellManager = new CardManager<SpellCard>(this, {
+      getId: (card) => {
+        return `wtw_spellCard-${card.id}`;
+      },
+      setupDiv: (card, element) => {
+        const spellCard = new Spell(this, card);
+        spellCard.setupDiv(element);
+      },
+      setupFrontDiv: (card, element) => {
+        const spellCard = new Spell(this, card);
+        spellCard.setupFrontDiv(element);
+      },
+    });
+
     const towerStocks: TowerStocks = {
       spaces: {},
     };
@@ -217,6 +231,16 @@ class WanderingTowers extends WanderingTowersGui {
       };
     }
 
+    const spellStocks = {
+      table: new CardStock<SpellCard>(
+        spellManager,
+        document.getElementById(`wtw_spells`),
+        {
+          sort: sortFunction("type_arg"),
+        }
+      ),
+    };
+
     this.wtw = {
       managers: {
         zoom: zoomManager,
@@ -224,6 +248,7 @@ class WanderingTowers extends WanderingTowersGui {
         moves: moveManager,
         towers: towerManager,
         wizards: wizardManager,
+        spells: spellManager,
       },
       stocks: {
         dice: diceStock,
@@ -231,6 +256,7 @@ class WanderingTowers extends WanderingTowersGui {
         wizards: wizardStocks,
         moves: moveStocks,
         potions: potionStocks,
+        spells: spellStocks,
       },
       counters: counters,
       globals: {},
@@ -262,6 +288,11 @@ class WanderingTowers extends WanderingTowersGui {
     });
 
     moveStocks.hand.setup(gamedatas.hand);
+    
+    gamedatas.spellCards.forEach((spellCard) => {
+      const spell = new Spell(this, spellCard);
+      spell.setup();
+    });
 
     this.setupNotifications();
   }

@@ -23,6 +23,7 @@ class SpellManager extends CardManager
             $spellCards[] = [
                 "type" => (string) $spell["cost"],
                 "type_arg" => $spell_id,
+                "nbr" => 1,
             ];
         }
 
@@ -30,5 +31,13 @@ class SpellManager extends CardManager
         $this->deck->shuffle("deck");
 
         $this->deck->pickCardsForLocation(8, "deck", "table");
+    }
+
+    public function getAll(): array
+    {
+        $spellCards = $this->game->getCollectionFromDB("SELECT {$this->fields} FROM {$this->dbTable} 
+        WHERE card_location='table' OR card_location='deck'");
+
+        return array_values($spellCards);
     }
 }

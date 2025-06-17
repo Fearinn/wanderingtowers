@@ -1,0 +1,14 @@
+:root {
+    --spellWidth: 100px;
+}
+
+.wtw_spells {
+    position: absolute;
+}
+
+.wtw_spell {
+    background-image: url("img/spells.png");
+    background-size: cover;
+    aspect-ratio: 1;
+    width: var(--spellWidth);
+}

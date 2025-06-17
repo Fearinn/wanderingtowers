@@ -8,6 +8,7 @@ interface Stocks {
   wizards: WizardStocks;
   moves: MoveStocks;
   potions: PotionStocks;
+  spells: SpellStocks;
 }
 
 interface Counters {
@@ -27,6 +28,7 @@ declare class WanderingTowersGui extends Game {
       moves: CardManager<MoveCard>;
       towers: CardManager<TowerCard>;
       wizards: CardManager<WizardCard>;
+      spells: CardManager<SpellCard>;
     };
     stocks: Stocks;
     counters: Counters;
@@ -79,6 +81,7 @@ interface WanderingTowersGamedatas {
     [player_id: number]: number;
   };
   ravenskeepGoal: number;
+  spellCards: SpellCard[];
 }
 
 interface WanderingTowersGamestate extends Gamestate {
