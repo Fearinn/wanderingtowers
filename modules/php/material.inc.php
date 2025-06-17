@@ -306,7 +306,7 @@ $this->MOVES = [
 
 $this->SPELLS = [
     1 => [
-        "tr_name" => clienttranslate("Push a Wizard"),
+        "tr_name" => clienttranslate("Advance a Wizard"),
         "description" => clienttranslate("Move any 1 visible wizard 1 space clockwise"),
         "cost" => 2,
     ],
@@ -331,18 +331,18 @@ $this->SPELLS = [
         "cost" => 2,
     ],
     6 => [
-        "tr_name" => clienttranslate("Push a Wizard"),
+        "tr_name" => clienttranslate("Swap a Tower"),
         "description" => clienttranslate("Move any 1 visible wizard 1 space clockwise"),
-        "cost" => 2,
-    ],
-    7 => [
-        "tr_name" => clienttranslate("Free a Wizard"),
-        "description" => clienttranslate("Lift any 1 tower to free 1 of your wizards from beneath it, placing the wizard on top of the stack"),
         "cost" => 1,
     ],
-    8 => [
+    7 => [
         "tr_name" => clienttranslate("Piggyback"),
         "description" => clienttranslate("You can cast this spell only when the current player is moving a wizard from a space or tower top where you also have a wizard. They must move your wizard along with theirs!"),
+        "cost" => 2,
+    ],
+    8 => [
+        "tr_name" => clienttranslate("Free a Wizard"),
+        "description" => clienttranslate("Lift any 1 tower to free 1 of your wizards from beneath it, placing the wizard on top of the stack"),
         "cost" => 2,
     ],
 ];

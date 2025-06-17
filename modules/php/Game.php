@@ -450,11 +450,10 @@ class Game extends \Table
         $this->move_cards->pickCard("deck", $this->getActivePlayerId());
     }
 
-    public function debug_fillPotions(): void
+    public function debug_fillPotion(): void
     {
         $player_id = (int) $this->getCurrentPlayerId();
         $PotionManager = new PotionManager($this);
-        $PotionManager->fillPotion($player_id);
         $PotionManager->fillPotion($player_id);
     }
 

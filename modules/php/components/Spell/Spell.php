@@ -40,9 +40,9 @@ class Spell extends SpellManager
         );
     }
 
-    public function isCastable(int $player_id): bool {
+    public function isCastable(int $player_id): bool
+    {
         $PotionManager = new PotionManager($this->game);
-
         return $this->cost <= $PotionManager->countFilled($player_id);
     }
 }
