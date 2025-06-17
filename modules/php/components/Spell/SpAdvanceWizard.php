@@ -6,7 +6,7 @@ use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\Spell\Spell;
 use Bga\Games\WanderingTowers\Components\Wizard\Wizard;
 
-class SpAdvanceWizard extends Spell
+class SpPushWizard extends Spell
 {
     public int $wizardCard_id;
 

@@ -8,7 +8,7 @@ class StPlayerTurn extends StateManager {
 
     this.wtw.globals = {};
 
-    const { advanceableTowers, castableSpells } = args;
+    const { pushableTowers, castableSpells } = args;
 
     this.statusBar.addActionButton(
       _("play movement"),
@@ -30,12 +30,12 @@ class StPlayerTurn extends StateManager {
       );
     }
 
-    if (advanceableTowers.length > 0) {
+    if (pushableTowers.length > 0) {
       this.statusBar.addActionButton(
-        _("advance a tower (discards hand)"),
+        _("push a tower (discards hand)"),
         () => {
-          const stPickAdvanceTower = new StPickAdvanceTower(this.game);
-          stPickAdvanceTower.set();
+          const stPickPushTower = new StPickPushTower(this.game);
+          stPickPushTower.set();
         },
         { classes: ["wtw_button", "wtw_button-brown"] }
       );
@@ -50,6 +50,6 @@ class StPlayerTurn extends StateManager {
 interface arg_playerTurn {
   playableMoves: MoveCard[];
   movableMeeples: MovableMeeples;
-  advanceableTowers: TowerCard[];
+  pushableTowers: TowerCard[];
   castableSpells: SpellCard[];
 }

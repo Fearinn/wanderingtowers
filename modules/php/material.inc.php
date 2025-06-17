@@ -306,7 +306,7 @@ $this->MOVES = [
 
 $this->SPELLS = [
     1 => [
-        "tr_name" => clienttranslate("Advance a Wizard"),
+        "tr_name" => clienttranslate("Push a Wizard"),
         "description" => clienttranslate("Move any 1 visible wizard 1 space clockwise"),
         "cost" => 2,
     ],
@@ -316,7 +316,7 @@ $this->SPELLS = [
         "cost" => 2,
     ],
     3 => [
-        "tr_name" => clienttranslate("Advance a Tower"),
+        "tr_name" => clienttranslate("Push a Tower"),
         "description" => clienttranslate("Move any 1 tower (and everything atop it) 2 spaces clockwise"),
         "cost" => 1,
     ],
@@ -331,7 +331,7 @@ $this->SPELLS = [
         "cost" => 2,
     ],
     6 => [
-        "tr_name" => clienttranslate("Advance a Wizard"),
+        "tr_name" => clienttranslate("Push a Wizard"),
         "description" => clienttranslate("Move any 1 visible wizard 1 space clockwise"),
         "cost" => 2,
     ],

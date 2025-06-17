@@ -8,7 +8,7 @@ use Bga\Games\WanderingTowers\Components\Tower\Tower;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
-class ActAdvanceTower extends ActionManager
+class ActPushTower extends ActionManager
 {
     public function __construct(Table $game)
     {
@@ -23,8 +23,8 @@ class ActAdvanceTower extends ActionManager
 
         $Tower = new Tower($this->game, $towerCard_id);
 
-        if (!$Tower->isAdvanceable()) {
-            throw new \BgaVisibleSystemException("You can't advance this tower");
+        if (!$Tower->isPushable()) {
+            throw new \BgaVisibleSystemException("You can't push this tower");
         }
     }
 

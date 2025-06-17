@@ -336,8 +336,8 @@ class WanderingTowers extends WanderingTowersGui {
         new StAfterRoll(this).enter(args.args);
         break;
 
-      case "client_pickAdvanceTower":
-        new StPickAdvanceTower(this).enter(args.args);
+      case "client_pickPushTower":
+        new StPickPushTower(this).enter(args.args);
         break;
 
       case "client_castSpell":
@@ -372,8 +372,8 @@ class WanderingTowers extends WanderingTowersGui {
         new StAfterRoll(this).leave();
         break;
 
-      case "client_pickAdvanceTower":
-        new StPickAdvanceTower(this).leave();
+      case "client_pickPushTower":
+        new StPickPushTower(this).leave();
         break;
 
       case "client_castSpell":

@@ -96,4 +96,4 @@ type ActionName =
   | "actRollDice"
   | "actRerollDice"
   | "actAcceptRoll"
-  | "actAdvanceTower";
+  | "actPushTower";

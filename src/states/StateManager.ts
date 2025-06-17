@@ -15,7 +15,7 @@ type StateName =
   | "client_pickMoveWizard"
   | "client_pickMoveTower"
   | "client_pickMoveTier"
-  | "client_pickAdvanceTower"
+  | "client_pickPushTower"
   | "client_castSpell";
 
 class StateManager implements StateManager {

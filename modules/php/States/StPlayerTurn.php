@@ -31,7 +31,7 @@ class StPlayerTurn extends StateManager
         $movableMeeples = $MoveManager->getMovableMeeples($player_id);
 
         $TowerManager = new TowerManager($this->game);
-        $advanceableTowers = $TowerManager->getAdvanceable();
+        $pushableTowers = $TowerManager->getPushable();
 
         $moveLimit = $this->game->isSolo() ? 1 : 2;
         $turnMove = $this->globals->get(G_TURN_MOVE);
@@ -43,10 +43,10 @@ class StPlayerTurn extends StateManager
         $args = [
             "playableMoves" => $MoveManager->hideCards($playableMoves),
             "movableMeeples" => $movableMeeples,
-            "advanceableTowers" => $advanceableTowers,
+            "pushableTowers" => $pushableTowers,
             "castableSpells" => $castableSpells,
             "no_notify" => $endTurn ||
-                (!$playableMoves && !$advanceableTowers
+                (!$playableMoves && !$pushableTowers
                     && (!$castableSpells || $turnMove === 0)),
         ];
 

@@ -3,7 +3,7 @@
 namespace Bga\Games\WanderingTowers\Actions;
 
 use Bga\GameFramework\Table;
-use Bga\Games\WanderingTowers\Components\Spell\SpAdvanceWizard;
+use Bga\Games\WanderingTowers\Components\Spell\SpPushWizard;
 use Bga\Games\WanderingTowers\Components\Spell\SpHeadwindWizard;
 
 class ActCastSpell extends ActionManager
@@ -17,8 +17,8 @@ class ActCastSpell extends ActionManager
     {
         switch ($spell_id) {
             case 1:
-                $SpAdvanceWizard = new SpAdvanceWizard($this->game, $args);
-                $SpAdvanceWizard->cast($this->player_id);
+                $SpPushWizard = new SpPushWizard($this->game, $args);
+                $SpPushWizard->cast($this->player_id);
 
             case 2:
                 $SpHeadwindWizard = new SpHeadwindWizard($this->game, $args);

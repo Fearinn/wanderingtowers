@@ -1,24 +1,24 @@
-class StPickAdvanceTower extends StateManager {
+class StPickPushTower extends StateManager {
   constructor(game: WanderingTowers) {
-    super(game, "client_pickAdvanceTower");
+    super(game, "client_pickPushTower");
   }
 
   set() {
     this.game.setClientState(this.stateName, {
-      descriptionmyturn: _("${you} must pick a tower to advance 1 space"),
+      descriptionmyturn: _("${you} must pick a tower to push 1 space"),
     });
   }
 
-  enter(args: arg_StPickAdvanceTower) {
+  enter(args: arg_StPickPushTower) {
     super.enter();
 
-    const { advanceableTowers } = args;
+    const { pushableTowers } = args;
 
     const towerStocks = this.game.wtw.stocks.towers.spaces;
     for (const space_id in towerStocks) {
       const stock = towerStocks[space_id];
       stock.toggleSelection(true);
-      stock.setSelectableCards(advanceableTowers);
+      stock.setSelectableCards(pushableTowers);
 
       stock.onSelectionChange = (selection, card) => {
         this.game.removeConfirmationButton();
@@ -34,7 +34,7 @@ class StPickAdvanceTower extends StateManager {
           this.game.wtw.globals.towerCard = tower.card;
           this.game.wtw.globals.maxTier = maxTier;
           this.game.wtw.globals.minTier = minTier;
-          this.game.wtw.globals.action = "actAdvanceTower";
+          this.game.wtw.globals.action = "actPushTower";
 
           if (maxTier > minTier) {
             const stPickMoveTier = new StPickMoveTier(this.game);
@@ -66,6 +66,6 @@ class StPickAdvanceTower extends StateManager {
   }
 }
 
-interface arg_StPickAdvanceTower {
-  advanceableTowers: TowerCard[];
+interface arg_StPickPushTower {
+  pushableTowers: TowerCard[];
 }

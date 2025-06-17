@@ -100,21 +100,21 @@ class TowerManager extends CardManager
         return array_values($movableCards);
     }
 
-    public function getAdvanceable(): array
+    public function getPushable(): array
     {
         if ($this->globals->get(G_TURN_MOVE) === 1) {
             return [];
         }
 
         $towerCards = $this->getCardsInLocation("space");
-        $advanceableTowers = array_filter($towerCards, function ($towerCard) {
+        $pushableTowers = array_filter($towerCards, function ($towerCard) {
             $towerCard_id = (int) $towerCard["id"];
             $Tower = new Tower($this->game, $towerCard_id);
 
-            return $Tower->isAdvanceable();
+            return $Tower->isPushable();
         });
 
-        return array_values($advanceableTowers);
+        return array_values($pushableTowers);
     }
 
     public function getRavenskeepSpace(): int

@@ -22,7 +22,7 @@ namespace Bga\Games\WanderingTowers;
 
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\Games\WanderingTowers\Actions\ActAcceptRoll;
-use Bga\Games\WanderingTowers\Actions\ActAdvanceTower;
+use Bga\Games\WanderingTowers\Actions\ActPushTower;
 use Bga\Games\WanderingTowers\Actions\ActCastSpell;
 use Bga\Games\WanderingTowers\Actions\ActMoveTowerDice;
 use Bga\Games\WanderingTowers\Actions\ActMoveTower;
@@ -201,12 +201,12 @@ class Game extends \Table
         $ActMoveWizardDice->act($wizardCard_id, $tier);
     }
 
-    public function actAdvanceTower(
+    public function actPushTower(
         #[IntParam(min: 1, max: 16)] int $space_id,
         #[IntParam(min: 1, max: 10)] int $tier,
     ): void {
-        $ActAdvanceTower = new ActAdvanceTower($this);
-        $ActAdvanceTower->act($space_id, $tier);
+        $ActPushTower = new ActPushTower($this);
+        $ActPushTower->act($space_id, $tier);
     }
 
     /**

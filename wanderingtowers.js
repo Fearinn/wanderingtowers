@@ -269,8 +269,8 @@ var WanderingTowers = /** @class */ (function (_super) {
             case "afterRoll":
                 new StAfterRoll(this).enter(args.args);
                 break;
-            case "client_pickAdvanceTower":
-                new StPickAdvanceTower(this).enter(args.args);
+            case "client_pickPushTower":
+                new StPickPushTower(this).enter(args.args);
                 break;
             case "client_castSpell":
                 new StCastSpell(this).enter(args.args);
@@ -297,8 +297,8 @@ var WanderingTowers = /** @class */ (function (_super) {
             case "afterRoll":
                 new StAfterRoll(this).leave();
                 break;
-            case "client_pickAdvanceTower":
-                new StPickAdvanceTower(this).leave();
+            case "client_pickPushTower":
+                new StPickPushTower(this).leave();
                 break;
             case "client_castSpell":
                 new StCastSpell(this).leave();
@@ -3137,65 +3137,6 @@ var StCastSpell = /** @class */ (function (_super) {
     };
     return StCastSpell;
 }(StateManager));
-var StPickAdvanceTower = /** @class */ (function (_super) {
-    __extends(StPickAdvanceTower, _super);
-    function StPickAdvanceTower(game) {
-        return _super.call(this, game, "client_pickAdvanceTower") || this;
-    }
-    StPickAdvanceTower.prototype.set = function () {
-        this.game.setClientState(this.stateName, {
-            descriptionmyturn: _("${you} must pick a tower to advance 1 space"),
-        });
-    };
-    StPickAdvanceTower.prototype.enter = function (args) {
-        var _this = this;
-        _super.prototype.enter.call(this);
-        var advanceableTowers = args.advanceableTowers;
-        var towerStocks = this.game.wtw.stocks.towers.spaces;
-        var _loop_3 = function (space_id) {
-            var stock = towerStocks[space_id];
-            stock.toggleSelection(true);
-            stock.setSelectableCards(advanceableTowers);
-            stock.onSelectionChange = function (selection, card) {
-                _this.game.removeConfirmationButton();
-                if (selection.length > 0) {
-                    stock.unselectOthers();
-                    var tower = new Tower(_this.game, card);
-                    var space = new Space(_this.game, tower.space_id);
-                    var maxTier = space.getMaxTier();
-                    var minTier = space.getMinTier();
-                    _this.game.wtw.globals.towerCard = tower.card;
-                    _this.game.wtw.globals.maxTier = maxTier;
-                    _this.game.wtw.globals.minTier = minTier;
-                    _this.game.wtw.globals.action = "actAdvanceTower";
-                    if (maxTier > minTier) {
-                        var stPickMoveTier = new StPickMoveTier(_this.game);
-                        stPickMoveTier.set();
-                        return;
-                    }
-                    _this.game.addConfirmationButton(_("tower"), function () {
-                        var stPickMoveTier = new StPickMoveTier(_this.game);
-                        stPickMoveTier.set();
-                    });
-                    return;
-                }
-                _this.game.restoreServerGameState();
-            };
-        };
-        for (var space_id in towerStocks) {
-            _loop_3(space_id);
-        }
-    };
-    StPickAdvanceTower.prototype.leave = function () {
-        _super.prototype.leave.call(this);
-        var towerStocks = this.game.wtw.stocks.towers.spaces;
-        for (var space_id in towerStocks) {
-            var stock = towerStocks[space_id];
-            stock.toggleSelection(false);
-        }
-    };
-    return StPickAdvanceTower;
-}(StateManager));
 var StPickMoveSide = /** @class */ (function (_super) {
     __extends(StPickMoveSide, _super);
     function StPickMoveSide(game) {
@@ -3260,7 +3201,7 @@ var StPickMoveTier = /** @class */ (function (_super) {
             var move = new Move(this.game, moveCard);
             move.toggleSelection(true);
         }
-        var _loop_4 = function (i) {
+        var _loop_3 = function (i) {
             this_1.game.statusBar.addActionButton("".concat(i), function () {
                 _this.game.performAction(action, {
                     moveCard_id: moveCard_id,
@@ -3271,7 +3212,7 @@ var StPickMoveTier = /** @class */ (function (_super) {
         };
         var this_1 = this;
         for (var i = minTier; i <= maxTier; i++) {
-            _loop_4(i);
+            _loop_3(i);
         }
     };
     StPickMoveTier.prototype.leave = function () {
@@ -3304,7 +3245,7 @@ var StPickMoveTower = /** @class */ (function (_super) {
         var move = new Move(this.game, card);
         move.toggleSelection(true);
         var towerStocks = this.game.wtw.stocks.towers.spaces;
-        var _loop_5 = function (space_id) {
+        var _loop_4 = function (space_id) {
             var stock = towerStocks[space_id];
             stock.toggleSelection(true);
             stock.setSelectableCards(movableMeeples[move.card.id].tower);
@@ -3334,7 +3275,7 @@ var StPickMoveTower = /** @class */ (function (_super) {
             };
         };
         for (var space_id in towerStocks) {
-            _loop_5(space_id);
+            _loop_4(space_id);
         }
     };
     StPickMoveTower.prototype.leave = function () {
@@ -3385,6 +3326,65 @@ var StPickMoveWizard = /** @class */ (function (_super) {
         }
     };
     return StPickMoveWizard;
+}(StateManager));
+var StPickPushTower = /** @class */ (function (_super) {
+    __extends(StPickPushTower, _super);
+    function StPickPushTower(game) {
+        return _super.call(this, game, "client_pickPushTower") || this;
+    }
+    StPickPushTower.prototype.set = function () {
+        this.game.setClientState(this.stateName, {
+            descriptionmyturn: _("${you} must pick a tower to push 1 space"),
+        });
+    };
+    StPickPushTower.prototype.enter = function (args) {
+        var _this = this;
+        _super.prototype.enter.call(this);
+        var pushableTowers = args.pushableTowers;
+        var towerStocks = this.game.wtw.stocks.towers.spaces;
+        var _loop_5 = function (space_id) {
+            var stock = towerStocks[space_id];
+            stock.toggleSelection(true);
+            stock.setSelectableCards(pushableTowers);
+            stock.onSelectionChange = function (selection, card) {
+                _this.game.removeConfirmationButton();
+                if (selection.length > 0) {
+                    stock.unselectOthers();
+                    var tower = new Tower(_this.game, card);
+                    var space = new Space(_this.game, tower.space_id);
+                    var maxTier = space.getMaxTier();
+                    var minTier = space.getMinTier();
+                    _this.game.wtw.globals.towerCard = tower.card;
+                    _this.game.wtw.globals.maxTier = maxTier;
+                    _this.game.wtw.globals.minTier = minTier;
+                    _this.game.wtw.globals.action = "actPushTower";
+                    if (maxTier > minTier) {
+                        var stPickMoveTier = new StPickMoveTier(_this.game);
+                        stPickMoveTier.set();
+                        return;
+                    }
+                    _this.game.addConfirmationButton(_("tower"), function () {
+                        var stPickMoveTier = new StPickMoveTier(_this.game);
+                        stPickMoveTier.set();
+                    });
+                    return;
+                }
+                _this.game.restoreServerGameState();
+            };
+        };
+        for (var space_id in towerStocks) {
+            _loop_5(space_id);
+        }
+    };
+    StPickPushTower.prototype.leave = function () {
+        _super.prototype.leave.call(this);
+        var towerStocks = this.game.wtw.stocks.towers.spaces;
+        for (var space_id in towerStocks) {
+            var stock = towerStocks[space_id];
+            stock.toggleSelection(false);
+        }
+    };
+    return StPickPushTower;
 }(StateManager));
 var StPickSpellWizard = /** @class */ (function (_super) {
     __extends(StPickSpellWizard, _super);
@@ -3499,7 +3499,7 @@ var StPlayerTurn = /** @class */ (function (_super) {
         var _this = this;
         _super.prototype.enter.call(this);
         this.wtw.globals = {};
-        var advanceableTowers = args.advanceableTowers, castableSpells = args.castableSpells;
+        var pushableTowers = args.pushableTowers, castableSpells = args.castableSpells;
         this.statusBar.addActionButton(_("play movement"), function () {
             var stPlayMove = new StPlayMove(_this.game);
             stPlayMove.set();
@@ -3510,10 +3510,10 @@ var StPlayerTurn = /** @class */ (function (_super) {
                 stCastSpell.set();
             }, {});
         }
-        if (advanceableTowers.length > 0) {
-            this.statusBar.addActionButton(_("advance a tower (discards hand)"), function () {
-                var stPickAdvanceTower = new StPickAdvanceTower(_this.game);
-                stPickAdvanceTower.set();
+        if (pushableTowers.length > 0) {
+            this.statusBar.addActionButton(_("push a tower (discards hand)"), function () {
+                var stPickPushTower = new StPickPushTower(_this.game);
+                stPickPushTower.set();
             }, { classes: ["wtw_button", "wtw_button-brown"] });
         }
     };

@@ -125,7 +125,7 @@ class Tower extends TowerManager
         $Tower->move($steps, $player_id, $cards, true);
     }
 
-    public function isAdvanceable(): bool
+    public function isPushable(): bool
     {
         if ($this->isRavenskeep()) {
             return false;
