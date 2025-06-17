@@ -76,9 +76,30 @@ class PotionManager extends CardManager
         $ScoreManager->incScoreAux(1, $player_id);
     }
 
+
+    public function countFilled(int $player_id): int
+    {
+        return $this->countCardsInLocation("filled", $player_id);
+    }
+
     public function countEmpty(int $player_id): int
     {
         return $this->countCardsInLocation("empty", $player_id);
+    }
+
+    public function usePotions(int $nbr, int $player_id): void
+    {
+        $this->game->DbQuery("UPDATE {$this->dbTable} SET card_location='discard' WHERE card_location='filled' AND card_location_arg={$player_id} LIMIT {$nbr}");
+
+        $NotifManager = new NotifManager($this->game);
+        $NotifManager->all(
+            "usePotions",
+            "",
+            [
+                "nbr" => $nbr,
+            ],
+            $player_id,
+        );
     }
 
     public function getPotionsGoal(): int

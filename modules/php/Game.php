@@ -34,6 +34,7 @@ use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
 use Bga\Games\WanderingTowers\Components\Move\MoveManager;
 use Bga\Games\WanderingTowers\Components\Dice\Dice;
+use Bga\Games\WanderingTowers\Components\Spell\Spell;
 use Bga\Games\WanderingTowers\Components\Spell\SpellManager;
 use Bga\Games\WanderingTowers\Components\Wizard\Wizard;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
@@ -446,5 +447,11 @@ class Game extends \Table
     {
         $this->move_cards->moveAllCardsInLocation("deck", "discard");
         $this->move_cards->pickCard("deck", $this->getActivePlayerId());
+    }
+
+    public function debug_castSpell(): void {
+        $player_id = (int) $this->getCurrentPlayerId();
+        $Spell = new Spell($this, 1);
+        $Spell->cast($player_id);
     }
 }

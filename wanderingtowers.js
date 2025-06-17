@@ -3055,6 +3055,12 @@ var NotificationManager = /** @class */ (function () {
         var potion = new Potion(this.game, potionCard);
         potion.fill();
     };
+    NotificationManager.prototype.notif_usePotions = function (args) {
+        var nbr = args.nbr, player_id = args.player_id;
+        var cargo = this.game.wtw.stocks.potions[player_id].cargo;
+        var potionCards = cargo.getCards().slice(0, nbr);
+        cargo.removeCards(potionCards);
+    };
     NotificationManager.prototype.notif_enterRavenskeep = function (args) {
         var wizardCard = args.wizardCard, player_id = args.player_id;
         var wizard = new Wizard(this.game, wizardCard);

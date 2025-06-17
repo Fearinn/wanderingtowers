@@ -82,6 +82,13 @@ class NotificationManager implements NotificationManager {
     potion.fill();
   }
 
+  public notif_usePotions(args: { nbr: number; player_id: number }): void {
+    const { nbr, player_id } = args;
+    const cargo = this.game.wtw.stocks.potions[player_id].cargo;
+    const potionCards = cargo.getCards().slice(0, nbr);
+    cargo.removeCards(potionCards);
+  }
+
   public notif_enterRavenskeep(args: {
     wizardCard: WizardCard;
     player_id: number;
@@ -92,13 +99,13 @@ class NotificationManager implements NotificationManager {
     this.game.wtw.counters[player_id].ravenskeep.incValue(1);
   }
 
-  notif_autoreshuffle(args: {}): void {
+  public notif_autoreshuffle(args: {}): void {
     const { discard, deck } = this.game.wtw.stocks.moves;
     deck.addCards(discard.getCards());
     deck.shuffle({ animatedCardsMax: 5 });
   }
 
-  notif_incScore(args: { score: number; player_id: number }) {
+  public notif_incScore(args: { score: number; player_id: number }) {
     const { score, player_id } = args;
     this.game.scoreCtrl[player_id].incValue(score);
   }

@@ -5,8 +5,6 @@ namespace Bga\Games\WanderingTowers\Actions;
 use Bga\GameFramework\Db\Globals;
 use Bga\GameFramework\Table;
 
-use const Bga\Games\WanderingTowers\TR_AFTER_ROLL;
-
 class ActAcceptRoll extends ActionManager
 {
     public Table $game;
