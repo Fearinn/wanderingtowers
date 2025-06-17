@@ -18,6 +18,11 @@
   width: var(--spellWidth);
   transform: translate(-50%, -50%);
 
+  &-selected {
+    border: 3px solid green;
+    transform: scale(1.2) translate(-50%, -50%);
+  }
+
   &:nth-child(1) {
     top: 20%;
     left: 37.5%;

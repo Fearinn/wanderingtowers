@@ -8,7 +8,7 @@ class StPlayerTurn extends StateManager {
 
     this.wtw.globals = {};
 
-    const { advanceableTowers } = args;
+    const { advanceableTowers, castableSpells } = args;
 
     this.statusBar.addActionButton(
       _("play movement"),
@@ -18,6 +18,17 @@ class StPlayerTurn extends StateManager {
       },
       {}
     );
+
+    if (castableSpells.length > 0) {
+      this.statusBar.addActionButton(
+        _("cast spell"),
+        () => {
+          const stCastSpell = new StCastSpell(this.game);
+          stCastSpell.set();
+        },
+        {}
+      );
+    }
 
     if (advanceableTowers.length > 0) {
       this.statusBar.addActionButton(
@@ -40,4 +51,5 @@ interface arg_playerTurn {
   playableMoves: MoveCard[];
   movableMeeples: MovableMeeples;
   advanceableTowers: TowerCard[];
+  castableSpells: SpellCard[];
 }

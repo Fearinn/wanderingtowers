@@ -122,6 +122,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             getId: function (card) {
                 return "wtw_spellCard-".concat(card.id);
             },
+            selectedCardClass: "wtw_spell-selected",
             setupDiv: function (card, element) {
                 var spellCard = new Spell(_this, card);
                 spellCard.setupDiv(element);
@@ -271,6 +272,9 @@ var WanderingTowers = /** @class */ (function (_super) {
             case "client_pickAdvanceTower":
                 new StPickAdvanceTower(this).enter(args.args);
                 break;
+            case "client_castSpell":
+                new StCastSpell(this).enter(args.args);
+                break;
         }
     };
     WanderingTowers.prototype.onLeavingState = function (stateName) {
@@ -295,6 +299,9 @@ var WanderingTowers = /** @class */ (function (_super) {
                 break;
             case "client_pickAdvanceTower":
                 new StPickAdvanceTower(this).leave();
+                break;
+            case "client_castSpell":
+                new StCastSpell(this).leave();
                 break;
         }
     };
@@ -3096,6 +3103,40 @@ var StateManager = /** @class */ (function () {
     StateManager.prototype.leave = function () { };
     return StateManager;
 }());
+var StCastSpell = /** @class */ (function (_super) {
+    __extends(StCastSpell, _super);
+    function StCastSpell(game) {
+        return _super.call(this, game, "client_castSpell") || this;
+    }
+    StCastSpell.prototype.set = function () {
+        this.game.setClientState(this.stateName, {
+            descriptionmyturn: _("${you} must pick a spell"),
+        });
+    };
+    StCastSpell.prototype.enter = function (args) {
+        var _this = this;
+        _super.prototype.enter.call(this);
+        var spellTable = this.wtw.stocks.spells.table;
+        spellTable.setSelectionMode("single");
+        spellTable.setSelectableCards(args.castableSpells);
+        spellTable.onSelectionChange = function (selection, lastChange) {
+            _this.game.removeConfirmationButton();
+            if (selection.length > 0) {
+                _this.game.addConfirmationButton(_("spell"), function () {
+                    var stPickSpellWizard = new StPickSpellWizard(_this.game);
+                    stPickSpellWizard.set();
+                });
+                return;
+            }
+        };
+    };
+    StCastSpell.prototype.leave = function () {
+        _super.prototype.leave.call(this);
+        var spellTable = this.wtw.stocks.spells.table;
+        spellTable.setSelectionMode("none");
+    };
+    return StCastSpell;
+}(StateManager));
 var StPickAdvanceTower = /** @class */ (function (_super) {
     __extends(StPickAdvanceTower, _super);
     function StPickAdvanceTower(game) {
@@ -3345,6 +3386,26 @@ var StPickMoveWizard = /** @class */ (function (_super) {
     };
     return StPickMoveWizard;
 }(StateManager));
+var StPickSpellWizard = /** @class */ (function (_super) {
+    __extends(StPickSpellWizard, _super);
+    function StPickSpellWizard(game) {
+        return _super.call(this, game, "client_castSpell") || this;
+    }
+    StPickSpellWizard.prototype.set = function () {
+        this.game.setClientState(this.stateName, {
+            descriptionmyturn: _("${you} must pick a wizard"),
+        });
+    };
+    StPickSpellWizard.prototype.enter = function (args) {
+        _super.prototype.enter.call(this);
+    };
+    StPickSpellWizard.prototype.leave = function () {
+        _super.prototype.leave.call(this);
+        var spellTable = this.wtw.stocks.spells.table;
+        spellTable.setSelectionMode("none");
+    };
+    return StPickSpellWizard;
+}(StateManager));
 var StPlayMove = /** @class */ (function (_super) {
     __extends(StPlayMove, _super);
     function StPlayMove(game) {
@@ -3438,11 +3499,17 @@ var StPlayerTurn = /** @class */ (function (_super) {
         var _this = this;
         _super.prototype.enter.call(this);
         this.wtw.globals = {};
-        var advanceableTowers = args.advanceableTowers;
+        var advanceableTowers = args.advanceableTowers, castableSpells = args.castableSpells;
         this.statusBar.addActionButton(_("play movement"), function () {
             var stPlayMove = new StPlayMove(_this.game);
             stPlayMove.set();
         }, {});
+        if (castableSpells.length > 0) {
+            this.statusBar.addActionButton(_("cast spell"), function () {
+                var stCastSpell = new StCastSpell(_this.game);
+                stCastSpell.set();
+            }, {});
+        }
         if (advanceableTowers.length > 0) {
             this.statusBar.addActionButton(_("advance a tower (discards hand)"), function () {
                 var stPickAdvanceTower = new StPickAdvanceTower(_this.game);

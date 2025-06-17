@@ -4,6 +4,7 @@ namespace Bga\Games\WanderingTowers\States;
 
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\Move\MoveManager;
+use Bga\Games\WanderingTowers\Components\Spell\SpellManager;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 
 class StPlayerTurn extends StateManager
@@ -33,13 +34,20 @@ class StPlayerTurn extends StateManager
         $advanceableTowers = $TowerManager->getAdvanceable();
 
         $moveLimit = $this->game->isSolo() ? 1 : 2;
-        $endTurn = $this->globals->get(G_TURN_MOVE) >= $moveLimit;
+        $turnMove = $this->globals->get(G_TURN_MOVE);
+        $endTurn = $turnMove >= $moveLimit;
+
+        $SpellManager = new SpellManager($this->game);
+        $castableSpells = $SpellManager->getCastable($player_id);
 
         $args = [
             "playableMoves" => $MoveManager->hideCards($playableMoves),
             "movableMeeples" => $movableMeeples,
             "advanceableTowers" => $advanceableTowers,
-            "no_notify" => $endTurn || (!$playableMoves && !$advanceableTowers),
+            "castableSpells" => $castableSpells,
+            "no_notify" => $endTurn ||
+                (!$playableMoves && !$advanceableTowers
+                    && (!$castableSpells || $turnMove === 0)),
         ];
 
         return $args;

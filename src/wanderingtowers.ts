@@ -104,6 +104,7 @@ class WanderingTowers extends WanderingTowersGui {
       getId: (card) => {
         return `wtw_spellCard-${card.id}`;
       },
+      selectedCardClass: "wtw_spell-selected",
       setupDiv: (card, element) => {
         const spellCard = new Spell(this, card);
         spellCard.setupDiv(element);
@@ -288,7 +289,7 @@ class WanderingTowers extends WanderingTowersGui {
     });
 
     moveStocks.hand.setup(gamedatas.hand);
-    
+
     gamedatas.spellCards.forEach((spellCard) => {
       const spell = new Spell(this, spellCard);
       spell.setup();
@@ -338,6 +339,10 @@ class WanderingTowers extends WanderingTowersGui {
       case "client_pickAdvanceTower":
         new StPickAdvanceTower(this).enter(args.args);
         break;
+
+      case "client_castSpell":
+        new StCastSpell(this).enter(args.args);
+        break;
     }
   }
 
@@ -369,6 +374,10 @@ class WanderingTowers extends WanderingTowersGui {
 
       case "client_pickAdvanceTower":
         new StPickAdvanceTower(this).leave();
+        break;
+
+      case "client_castSpell":
+        new StCastSpell(this).leave();
         break;
     }
   }

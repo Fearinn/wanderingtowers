@@ -40,4 +40,19 @@ class SpellManager extends CardManager
 
         return array_values($spellCards);
     }
+
+    public function getCastable(int $player_id): array
+    {
+        $spellCards = $this->getCardsInLocation("table");
+        $castableSpells = array_filter(
+            $spellCards,
+            function ($spellCard) use ($player_id) {
+                $spell_id = (int) $spellCard["type_arg"];
+                $Spell = new Spell($this->game, $spell_id);
+                return $Spell->isCastable($player_id);
+            }
+        );
+
+        return array_values($castableSpells);
+    }
 }

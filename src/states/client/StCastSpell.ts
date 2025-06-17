@@ -1,0 +1,42 @@
+class StCastSpell extends StateManager {
+  constructor(game: WanderingTowers) {
+    super(game, "client_castSpell");
+  }
+
+  set() {
+    this.game.setClientState(this.stateName, {
+      descriptionmyturn: _("${you} must pick a spell"),
+    });
+  }
+
+  enter(args: args_StCastSpell) {
+    super.enter();
+
+    const spellTable = this.wtw.stocks.spells.table;
+    spellTable.setSelectionMode("single");
+    spellTable.setSelectableCards(args.castableSpells);
+
+    spellTable.onSelectionChange = (selection, lastChange) => {
+      this.game.removeConfirmationButton();
+
+      if (selection.length > 0) {
+        this.game.addConfirmationButton(_("spell"), () => {
+          const stPickSpellWizard = new StPickSpellWizard(this.game);
+          stPickSpellWizard.set();
+        });
+        return;
+      }
+    };
+  }
+
+  leave() {
+    super.leave();
+
+    const spellTable = this.wtw.stocks.spells.table;
+    spellTable.setSelectionMode("none");
+  }
+}
+
+interface args_StCastSpell {
+  castableSpells: SpellCard[];
+}
