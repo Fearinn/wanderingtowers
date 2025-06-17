@@ -2820,13 +2820,13 @@ var Spell = /** @class */ (function (_super) {
     }
     Spell.prototype.setup = function () {
         this.table.addCard(this.card);
-        console.log(this.card);
         if (this.card.location !== "table") {
             this.table.setCardVisible(this.card, false);
         }
     };
     Spell.prototype.setupDiv = function (element) {
         element.classList.add("wtw_card", "wtw_spell");
+        element.style.position = "".concat(this.card.type_arg, "%");
     };
     Spell.prototype.setupFrontDiv = function (element) {
         element.parentElement.parentElement.style.backgroundPosition = "".concat(this.card.type_arg * -100, "%");

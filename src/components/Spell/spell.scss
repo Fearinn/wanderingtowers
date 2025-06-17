@@ -1,14 +1,53 @@
 :root {
-    --spellWidth: 100px;
+  --spellWidth: calc(var(--towerWidth) * 0.8);
 }
 
 .wtw_spells {
-    position: absolute;
+  position: absolute;
+  aspect-ratio: 1;
+  width: calc(var(--boardWidth) * 0.7);
 }
 
 .wtw_spell {
-    background-image: url("img/spells.png");
-    background-size: cover;
-    aspect-ratio: 1;
-    width: var(--spellWidth);
+  position: absolute;
+  background-image: url("img/spells.png");
+  background-size: cover;
+  border-radius: 100%;
+  box-shadow: 0 2px 8px 2px black;
+  aspect-ratio: 1;
+  width: var(--spellWidth);
+  transform: translate(-50%, -50%);
+
+  &:nth-child(1) {
+    top: 20%;
+    left: 37.5%;
+  }
+  &:nth-child(2) {
+    top: 20%;
+    left: 62.5%;
+  }
+  &:nth-child(5) {
+    top: 35%;
+    left: 85%;
+  }
+  &:nth-child(6) {
+    top: 65%;
+    left: 85%;
+  }
+  &:nth-child(3) {
+    top: 80%;
+    left: 37.5%;
+  }
+  &:nth-child(4) {
+    top: 80%;
+    left: 62.5%;
+  }
+  &:nth-child(7) {
+    top: 35%;
+    left: 15%;
+  }
+  &:nth-child(8) {
+    top: 65%;
+    left: 15%;
+  }
 }

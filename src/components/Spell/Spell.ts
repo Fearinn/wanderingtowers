@@ -17,8 +17,6 @@ class Spell extends Card {
   setup(): void {
     this.table.addCard(this.card);
 
-    console.log(this.card);
-
     if (this.card.location !== "table") {
       this.table.setCardVisible(this.card, false);
     }
@@ -26,6 +24,7 @@ class Spell extends Card {
 
   setupDiv(element: HTMLDivElement): void {
     element.classList.add("wtw_card", "wtw_spell");
+    element.style.position = `${this.card.type_arg}%`;
   }
 
   setupFrontDiv(element: HTMLDivElement): void {
