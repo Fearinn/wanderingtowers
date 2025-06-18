@@ -14,6 +14,8 @@ class Spell extends SpellManager
     public array $info;
     public int $cost;
     public string $tr_name;
+    public string $type;
+    public int $steps;
 
     public function __construct(Table $game, #[IntParam(min: 1, max: 8)] int $spell_id)
     {
@@ -22,6 +24,8 @@ class Spell extends SpellManager
         $this->info = $this->SPELLS[$this->id];
         $this->cost = (int) $this->info["cost"];
         $this->tr_name = $this->info["tr_name"];
+        $this->type = $this->info["type"];
+        $this->steps = $this->info["steps"];
     }
 
     public function usePotions(int $player_id): void

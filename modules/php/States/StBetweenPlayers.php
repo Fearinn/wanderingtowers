@@ -23,6 +23,7 @@ class StBetweenPlayers extends StateManager
         $this->globals->set(G_WIZARD, null);
         $this->globals->set(G_REROLLS, 0);
         $this->globals->set(G_TURN_MOVE, 0);
+        $this->globals->set(G_SPELL_CASTED, false);
 
         $player_id = $this->game->getActivePlayerId();
         $MoveManager = new MoveManager($this->game);
@@ -35,7 +36,7 @@ class StBetweenPlayers extends StateManager
         );
 
         $this->game->incTurnsPlayed($player_id);
-        
+
         if ($this->checkGameEnd()) {
             $this->gamestate->nextState(TR_GAME_END);
             return;

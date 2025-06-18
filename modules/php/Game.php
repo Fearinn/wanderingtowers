@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace Bga\Games\WanderingTowers;
 
 use Bga\GameFramework\Actions\Types\IntParam;
+use Bga\GameFramework\Actions\Types\JsonParam;
 use Bga\Games\WanderingTowers\Actions\ActAcceptRoll;
 use Bga\Games\WanderingTowers\Actions\ActPushTower;
 use Bga\Games\WanderingTowers\Actions\ActCastSpell;
@@ -207,6 +208,14 @@ class Game extends \Table
     ): void {
         $ActPushTower = new ActPushTower($this);
         $ActPushTower->act($space_id, $tier);
+    }
+
+    public function actCastSpell(
+        #[IntParam(min: 1, max: 8)] int $spell_id,
+        #[JsonParam] array $args,
+    ) {
+        $ActCastSpell = new ActCastSpell($this);
+        $ActCastSpell->act($spell_id, $args);
     }
 
     /**

@@ -16,7 +16,8 @@ type StateName =
   | "client_pickMoveTower"
   | "client_pickMoveTier"
   | "client_pickPushTower"
-  | "client_castSpell";
+  | "client_castSpell"
+  | "client_pickSpellWizard";
 
 class StateManager implements StateManager {
   constructor(game: WanderingTowersGui, stateName: StateName) {
@@ -43,6 +44,13 @@ class StateManager implements StateManager {
 
 interface MovableMeeples {
   [moveCard_id: number]: {
+    wizard: WizardCard[];
+    tower: TowerCard[];
+  };
+}
+
+interface SpellableMeeples {
+  [spell_id: number]: {
     wizard: WizardCard[];
     tower: TowerCard[];
   };

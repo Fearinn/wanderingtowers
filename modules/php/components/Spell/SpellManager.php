@@ -3,6 +3,8 @@
 namespace Bga\Games\WanderingTowers\Components\Spell;
 
 use Bga\Games\WanderingTowers\Components\CardManager;
+use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
+use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Table;
 
 class SpellManager extends CardManager
@@ -43,6 +45,10 @@ class SpellManager extends CardManager
 
     public function getCastable(int $player_id): array
     {
+        if ($this->globals->get(G_SPELL_CASTED, false)) {
+            return [];
+        }
+
         $spellCards = $this->getCardsInLocation("table");
         $castableSpells = array_filter(
             $spellCards,
@@ -54,5 +60,27 @@ class SpellManager extends CardManager
         );
 
         return array_values($castableSpells);
+    }
+
+    public function getSpellableMeeples(int $player_id): array
+    {
+        $spellableMeeples = [];
+
+        $castableSpells = $this->getCastable($player_id);
+
+        $WizardManager = new WizardManager($this->game);
+        $TowerManager = new TowerManager($this->game);
+
+        foreach ($castableSpells as $spellCard) {
+            $spell_id = (int) $spellCard["type_arg"];
+
+            $spellableWizards = $WizardManager->getSpellable($spell_id, $player_id);
+
+            $spellableMeeples[$spell_id] = [
+                "wizard" => $spellableWizards,
+            ];
+        }
+
+        return $spellableMeeples;
     }
 }

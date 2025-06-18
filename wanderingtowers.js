@@ -275,6 +275,9 @@ var WanderingTowers = /** @class */ (function (_super) {
             case "client_castSpell":
                 new StCastSpell(this).enter(args.args);
                 break;
+            case "client_pickSpellWizard":
+                new StPickSpellWizard(this).enter(args.args);
+                break;
         }
     };
     WanderingTowers.prototype.onLeavingState = function (stateName) {
@@ -302,6 +305,10 @@ var WanderingTowers = /** @class */ (function (_super) {
                 break;
             case "client_castSpell":
                 new StCastSpell(this).leave();
+                break;
+            case "client_pickSpellWizard":
+                console.log("TEST");
+                new StPickSpellWizard(this).leave();
                 break;
         }
     };
@@ -2823,6 +2830,7 @@ var Spell = /** @class */ (function (_super) {
     function Spell(game, card) {
         var _this = _super.call(this, game, card) || this;
         _this.table = _this.game.wtw.stocks.spells.table;
+        _this.id = _this.card.type_arg;
         return _this;
     }
     Spell.prototype.setup = function () {
@@ -2837,6 +2845,16 @@ var Spell = /** @class */ (function (_super) {
     };
     Spell.prototype.setupFrontDiv = function (element) {
         element.parentElement.parentElement.style.backgroundPosition = "".concat(this.card.type_arg * -100, "%");
+    };
+    Spell.prototype.toggleSelection = function (enabled) {
+        this.table.setSelectionMode(enabled ? "single" : "none");
+        if (enabled) {
+            this.select(true);
+        }
+    };
+    Spell.prototype.select = function (silent) {
+        if (silent === void 0) { silent = false; }
+        this.table.selectCard(this.card, silent);
     };
     return Spell;
 }(Card));
@@ -2972,18 +2990,6 @@ var WizardSpaceStock = /** @class */ (function (_super) {
         _this.game = game;
         _this.space_id = space_id;
         _this.setSelectionMode("none");
-        _this.onSelectionChange = function (selection, card) {
-            _this.game.removeConfirmationButton();
-            if (selection.length > 0) {
-                _this.unselectOthers();
-                _this.game.addConfirmationButton(_("wizard"), function () {
-                    _this.game.performAction("actMoveWizard", {
-                        moveCard_id: _this.game.wtw.globals.moveCard.id,
-                        wizardCard_id: card.id,
-                    });
-                });
-            }
-        };
         return _this;
     }
     WizardSpaceStock.prototype.unselectOthers = function () {
@@ -3123,6 +3129,7 @@ var StCastSpell = /** @class */ (function (_super) {
             _this.game.removeConfirmationButton();
             if (selection.length > 0) {
                 _this.game.addConfirmationButton(_("spell"), function () {
+                    _this.wtw.globals.spellCard = lastChange;
                     var stPickSpellWizard = new StPickSpellWizard(_this.game);
                     stPickSpellWizard.set();
                 });
@@ -3302,16 +3309,32 @@ var StPickMoveWizard = /** @class */ (function (_super) {
         });
     };
     StPickMoveWizard.prototype.enter = function (args) {
+        var _this = this;
         _super.prototype.enter.call(this);
         var movableMeeples = args.movableMeeples;
         var card = this.game.wtw.globals.moveCard;
         var move = new Move(this.game, card);
         move.toggleSelection(true);
         var wizardStocks = this.game.wtw.stocks.wizards.spaces;
-        for (var space_id in wizardStocks) {
+        var _loop_5 = function (space_id) {
             var stock = wizardStocks[space_id];
             stock.toggleSelection(true);
             stock.setSelectableCards(movableMeeples[move.card.id].wizard);
+            stock.onSelectionChange = function (selection, card) {
+                _this.game.removeConfirmationButton();
+                if (selection.length > 0) {
+                    stock.unselectOthers();
+                    _this.game.addConfirmationButton(_("wizard"), function () {
+                        _this.game.performAction("actMoveWizard", {
+                            moveCard_id: _this.game.wtw.globals.moveCard.id,
+                            wizardCard_id: card.id,
+                        });
+                    });
+                }
+            };
+        };
+        for (var space_id in wizardStocks) {
+            _loop_5(space_id);
         }
     };
     StPickMoveWizard.prototype.leave = function () {
@@ -3342,7 +3365,7 @@ var StPickPushTower = /** @class */ (function (_super) {
         _super.prototype.enter.call(this);
         var pushableTowers = args.pushableTowers;
         var towerStocks = this.game.wtw.stocks.towers.spaces;
-        var _loop_5 = function (space_id) {
+        var _loop_6 = function (space_id) {
             var stock = towerStocks[space_id];
             stock.toggleSelection(true);
             stock.setSelectableCards(pushableTowers);
@@ -3373,7 +3396,7 @@ var StPickPushTower = /** @class */ (function (_super) {
             };
         };
         for (var space_id in towerStocks) {
-            _loop_5(space_id);
+            _loop_6(space_id);
         }
     };
     StPickPushTower.prototype.leave = function () {
@@ -3389,7 +3412,7 @@ var StPickPushTower = /** @class */ (function (_super) {
 var StPickSpellWizard = /** @class */ (function (_super) {
     __extends(StPickSpellWizard, _super);
     function StPickSpellWizard(game) {
-        return _super.call(this, game, "client_castSpell") || this;
+        return _super.call(this, game, "client_pickSpellWizard") || this;
     }
     StPickSpellWizard.prototype.set = function () {
         this.game.setClientState(this.stateName, {
@@ -3397,12 +3420,45 @@ var StPickSpellWizard = /** @class */ (function (_super) {
         });
     };
     StPickSpellWizard.prototype.enter = function (args) {
+        var _this = this;
         _super.prototype.enter.call(this);
+        var spellCard = this.wtw.globals.spellCard;
+        var spell = new Spell(this.game, spellCard);
+        spell.toggleSelection(true);
+        var selectableWizards = args.spellableMeeples[spell.id].wizard;
+        var wizardStocks = this.game.wtw.stocks.wizards.spaces;
+        var _loop_7 = function (space_id) {
+            var stock = wizardStocks[space_id];
+            stock.toggleSelection(true);
+            stock.setSelectableCards(selectableWizards);
+            stock.onSelectionChange = function (selection, wizardCard) {
+                _this.game.removeConfirmationButton();
+                if (selection.length > 0) {
+                    stock.unselectOthers();
+                    _this.game.addConfirmationButton(_("wizard"), function () {
+                        _this.game.performAction("actCastSpell", {
+                            spell_id: spell.id,
+                            args: JSON.stringify({
+                                wizardCard_id: wizardCard.id,
+                            }),
+                        });
+                    });
+                }
+            };
+        };
+        for (var space_id in wizardStocks) {
+            _loop_7(space_id);
+        }
     };
     StPickSpellWizard.prototype.leave = function () {
         _super.prototype.leave.call(this);
         var spellTable = this.wtw.stocks.spells.table;
         spellTable.setSelectionMode("none");
+        var wizardStocks = this.game.wtw.stocks.wizards.spaces;
+        for (var space_id in wizardStocks) {
+            var stock = wizardStocks[space_id];
+            stock.toggleSelection(false);
+        }
     };
     return StPickSpellWizard;
 }(StateManager));

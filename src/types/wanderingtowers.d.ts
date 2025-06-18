@@ -35,6 +35,7 @@ declare class WanderingTowersGui extends Game {
     globals: {
       moveCard?: MoveCard;
       towerCard?: TowerCard;
+      spellCard?: SpellCard;
       maxTier?: number;
       minTier?: number;
       action?: ActionName;
@@ -96,4 +97,5 @@ type ActionName =
   | "actRollDice"
   | "actRerollDice"
   | "actAcceptRoll"
-  | "actPushTower";
+  | "actPushTower"
+  | "actCastSpell";

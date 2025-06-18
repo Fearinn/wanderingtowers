@@ -7,6 +7,7 @@ use Bga\GameFramework\Table;
 
 class ActionManager
 {
+
     public Table $game;
     public $gamestate;
     public Globals $globals;

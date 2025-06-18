@@ -1,6 +1,7 @@
 interface SpellCard extends BgaCard {
   type_arg: number;
   location: "table" | "deck";
+  id: number;
 }
 
 interface Spell extends Card {
@@ -12,6 +13,7 @@ class Spell extends Card {
   constructor(game: WanderingTowersGui, card: SpellCard) {
     super(game, card);
     this.table = this.game.wtw.stocks.spells.table;
+    this.id = this.card.type_arg;
   }
 
   setup(): void {
@@ -31,6 +33,18 @@ class Spell extends Card {
     element.parentElement.parentElement.style.backgroundPosition = `${
       this.card.type_arg * -100
     }%`;
+  }
+
+  toggleSelection(enabled: boolean): void {
+    this.table.setSelectionMode(enabled ? "single" : "none");
+
+    if (enabled) {
+      this.select(true);
+    }
+  }
+
+  select(silent = false): void {
+    this.table.selectCard(this.card, silent);
   }
 }
 

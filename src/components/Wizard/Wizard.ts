@@ -105,20 +105,6 @@ class WizardSpaceStock extends CardStock<WizardCard> {
     this.game = game;
     this.space_id = space_id;
     this.setSelectionMode("none");
-
-    this.onSelectionChange = (selection, card) => {
-      this.game.removeConfirmationButton();
-
-      if (selection.length > 0) {
-        this.unselectOthers();
-        this.game.addConfirmationButton(_("wizard"), () => {
-          this.game.performAction("actMoveWizard", {
-            moveCard_id: this.game.wtw.globals.moveCard.id,
-            wizardCard_id: card.id,
-          });
-        });
-      }
-    };
   }
 
   unselectOthers() {

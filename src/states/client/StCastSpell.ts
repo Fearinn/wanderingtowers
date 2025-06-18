@@ -21,6 +21,7 @@ class StCastSpell extends StateManager {
 
       if (selection.length > 0) {
         this.game.addConfirmationButton(_("spell"), () => {
+          this.wtw.globals.spellCard = lastChange;
           const stPickSpellWizard = new StPickSpellWizard(this.game);
           stPickSpellWizard.set();
         });

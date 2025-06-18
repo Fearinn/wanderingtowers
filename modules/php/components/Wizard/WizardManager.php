@@ -6,6 +6,7 @@ use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\CardManager;
 use Bga\Games\WanderingTowers\Components\Move\Move;
 use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
+use Bga\Games\WanderingTowers\Components\Spell\Spell;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
@@ -175,25 +176,46 @@ class WizardManager extends CardManager
             return [];
         }
 
-        $movableCards = $this->getByOwner($player_id, true);
+        $wizardCards = $this->getByOwner($player_id, true);
 
         if ($Move->isDice()) {
             if ($this->game->gamestate->state_id() === ST_AFTER_ROLL) {
-                return array_values($movableCards);
+                return array_values($wizardCards);
             }
             $steps = $this->game->globals->get(G_ROLL);
         } else {
             $steps = $Move->getSteps("wizard");
         }
 
-        $movableCards = array_filter($movableCards, function ($wizardCard_id)  use ($steps) {
+        $movableWizards = array_filter($wizardCards, function ($wizardCard_id)  use ($steps) {
             $Wizard = new Wizard($this->game, $wizardCard_id);
             $space_id = $this->game->sumSteps($Wizard->getSpaceId(), $steps);
 
             return $this->countOnSpace($space_id, $Wizard->tier) < 6;
         }, ARRAY_FILTER_USE_KEY);
 
-        return array_values($movableCards);
+        return array_values($movableWizards);
+    }
+
+    public function getSpellable(int $spell_id, int $player_id): array
+    {
+        $Spell = new Spell($this->game, $spell_id);
+
+        if ($Spell->type !== "wizard") {
+            return [];
+        }
+
+        $steps = $Spell->steps;
+        $wizardCards = $this->getByOwner($player_id, true);
+
+        $spellableWizards = array_filter($wizardCards, function ($wizardCard_id) use ($steps) {
+            $Wizard = new Wizard($this->game, $wizardCard_id);
+            $space_id = $this->game->sumSteps($Wizard->getSpaceId(), $steps);
+
+            return $this->countOnSpace($space_id, $Wizard->tier) < 6;
+        }, ARRAY_FILTER_USE_KEY);
+
+        return array_values($spellableWizards);
     }
 
     public function getRavenskeepCount(int $player_id): int

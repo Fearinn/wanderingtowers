@@ -40,11 +40,14 @@ class StPlayerTurn extends StateManager
         $SpellManager = new SpellManager($this->game);
         $castableSpells = $SpellManager->getCastable($player_id);
 
+        $spellableMeeples = $SpellManager->getSpellableMeeples($player_id);
+
         $args = [
             "playableMoves" => $MoveManager->hideCards($playableMoves),
             "movableMeeples" => $movableMeeples,
             "pushableTowers" => $pushableTowers,
             "castableSpells" => $castableSpells,
+            "spellableMeeples" => $spellableMeeples,
             "no_notify" => $endTurn ||
                 (!$playableMoves && !$pushableTowers
                     && (!$castableSpells || $turnMove === 0)),

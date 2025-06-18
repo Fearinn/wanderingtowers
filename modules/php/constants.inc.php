@@ -17,6 +17,7 @@ if (!defined("ST_GAME_END")) {
     define("G_TOWER", "tower");
     define("G_TURN_MOVE", "turnMove");
     define("G_FINAL_TURN", "finalTurn");
+    define("G_SPELL_CASTED", "spellCasted");
 
     define("TR_REROLL_DICE", "rerollDice");
     define("TR_NEXT_PLAYER", "nextPlayer");
