@@ -41,6 +41,7 @@ class ActCastSpell extends ActionManager
         }
 
         $this->globals->set(G_SPELL_CASTED, true);
+        $this->game->incStat(1, STAT_SPELLS_CASTED, $this->player_id);
         $this->gamestate->nextState(TR_NEXT_ACTION);
     }
 }

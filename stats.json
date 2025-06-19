@@ -1,1 +1,29 @@
-{}
+{
+  "player": {
+    "wizardsRavenskeep": {
+      "id": 10,
+      "name": "Wizards in Ravenskeep",
+      "type": "int"
+    },
+    "wizardsImprisoned": {
+      "id": 11,
+      "name": "Wizards imprisoned",
+      "type": "int"
+    },
+    "potionsFilled": {
+      "id": 12,
+      "name": "Potions filled",
+      "type": "int"
+    },
+    "potionsUsed": {
+      "id": 13,
+      "name": "Potions used",
+      "type": "int"
+    },
+    "spellsCasted": {
+      "id": 14,
+      "name": "Spells casted",
+      "type": "int"
+    }
+  }
+}

@@ -90,6 +90,8 @@ class Wizard extends WizardManager
 
         $ScoreManager = new ScoreManager($this->game);
         $ScoreManager->incScore(1, $player_id);
+
+        $this->game->incStat(1, STAT_WIZARDS_RAVENSKEEP, $player_id);
     }
 
     public function moveWithTower(int $towerCard_id): void
@@ -133,7 +135,7 @@ class Wizard extends WizardManager
         );
     }
 
-    public function imprison(): void
+    public function imprison(int $player_id): void
     {
         $this->toggleVisibility(false);
 
@@ -145,6 +147,8 @@ class Wizard extends WizardManager
                 "card" => $this->getCard($this->card_id),
             ],
         );
+
+        $this->game->incStat(1, STAT_WIZARDS_IMPRISONED, $player_id);
     }
 
     public function freeUp(): void

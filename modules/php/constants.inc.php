@@ -22,6 +22,12 @@ if (!defined("ST_GAME_END")) {
     define("OPT_SPELLS", 100);
     define("OPT_SPELLS_NUMBER", 101);
 
+    define("STAT_WIZARDS_RAVENSKEEP", "wizardsRavenskeep");
+    define("STAT_WIZARDS_IMPRISONED", "wizardsImprisoned");
+    define("STAT_SPELLS_CASTED", "spellsCasted");
+    define("STAT_POTIONS_FILLED", "spellsFilled");
+    define("STAT_POTIONS_USED", "potionsUsed");
+
     define("TR_REROLL_DICE", "rerollDice");
     define("TR_NEXT_PLAYER", "nextPlayer");
     define("TR_AFTER_ROLL", "afterRoll");

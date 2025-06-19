@@ -113,7 +113,7 @@ class WizardManager extends CardManager
         foreach ($wizardCards as $wizardCard) {
             $wizardCard_id = (int) $wizardCard["id"];
             $Wizard = new Wizard($this->game, $wizardCard_id);
-            $Wizard->imprison();
+            $Wizard->imprison($player_id);
             $imprisoned = true;
         }
 
@@ -136,7 +136,7 @@ class WizardManager extends CardManager
         foreach ($wizardCards as $wizardCard) {
             $wizardCard_id = (int) $wizardCard["id"];
             $Wizard = new Wizard($this->game, $wizardCard_id);
-            $Wizard->imprison();
+            $Wizard->toggleVisibility(false);
         }
     }
 

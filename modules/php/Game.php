@@ -384,6 +384,19 @@ class Game extends \Table
         $this->globals->set(G_ROLL, 3);
         $this->globals->set(G_TURN_MOVE, 0);
         $this->globals->set(G_FINAL_TURN, 0);
+
+        $isSolo = $this->isSolo();
+
+        foreach ($players as $player_id => $player) {
+            $this->initStat("player", STAT_SPELLS_CASTED, 0, $player_id);
+            $this->initStat("player", STAT_WIZARDS_RAVENSKEEP, 0, $player_id);
+            $this->initStat("player", STAT_WIZARDS_IMPRISONED, 0, $player_id);
+            $this->initStat("player", STAT_POTIONS_USED, 0, $player_id);
+
+            if (!$isSolo) {
+                $this->initStat("player", STAT_POTIONS_FILLED, 0, $player_id);
+            }
+        }
     }
 
     /**
@@ -471,6 +484,6 @@ class Game extends \Table
     public function debug_castSpell(): void
     {
         $ActCastSpell = new ActCastSpell($this);
-        $ActCastSpell->act(2, ["wizardCard_id" => 1]);
+        $ActCastSpell->act(2, 1);
     }
 }

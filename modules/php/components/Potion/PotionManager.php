@@ -74,6 +74,10 @@ class PotionManager extends CardManager
         $ScoreManager = new ScoreManager($this->game);
         $ScoreManager->incScore(1, $player_id);
         $ScoreManager->incScoreAux(1, $player_id);
+
+        if (!$this->game->isSolo()) {
+            $this->game->incStat(1, STAT_POTIONS_FILLED, $player_id);
+        }
     }
 
 
@@ -100,6 +104,8 @@ class PotionManager extends CardManager
             ],
             $player_id,
         );
+
+        $this->game->incStat($nbr, STAT_POTIONS_USED, $player_id);
     }
 
     public function getPotionsGoal(): int
