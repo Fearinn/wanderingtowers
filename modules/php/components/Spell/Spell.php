@@ -68,7 +68,7 @@ class Spell extends SpellManager
         return $this->canPayCost($player_id) && $hasMeeples;
     }
 
-    public function validateSpell(int $player_id): void
+    public function baseValidation(int $player_id): void
     {
         if (!$this->isCastable($player_id)) {
             throw new \BgaVisibleSystemException("You can't cast this spell");

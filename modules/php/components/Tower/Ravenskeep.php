@@ -14,15 +14,36 @@ class Ravenskeep extends Tower
         parent::__construct($game, $card_id);
     }
 
-    public function moveRavenskeep(): void
+    public function moveRavenskeep($nudge = false): void
     {
         $current_space_id = $this->getSpaceId();
         $current_tier = $this->tier;
 
         $next_space_id = $this->game->sumSteps($current_space_id, 1);
         $final_space_id = $current_space_id;
-        for ($i = $next_space_id; $i !== $current_space_id; $i = $this->game->sumSteps($i, 1)) {
-            $towerCard = $this->getByMaxTier($i);
+
+        $WizardManager = new WizardManager($this->game);
+
+        for ($space_id = $next_space_id; $space_id !== $current_space_id; $space_id = $this->game->sumSteps($space_id, 1)) {
+            $space = $this->game->SPACES[$space_id];
+            $next_tier = $this->countOnSpace($space_id);
+
+            $wizardCards = $WizardManager->getByTier($space_id, $next_tier);
+
+            if ($nudge) {
+                if (!$wizardCards) {
+                    $final_space_id = $space_id;
+                    break;
+                }
+                continue;
+            }
+
+            if ($space["raven"]) {
+                $final_space_id = $space_id;
+                break;
+            }
+
+            $towerCard = $this->getByMaxTier($space_id);
 
             if (!$towerCard) {
                 continue;
@@ -32,7 +53,7 @@ class Ravenskeep extends Tower
             $Tower = new Tower($this->game, $towerCard_id);
 
             if ($Tower->isRaven()) {
-                $final_space_id = $Tower->getSpaceId();
+                $final_space_id = $space_id;
                 break;
             };
         }
@@ -41,9 +62,7 @@ class Ravenskeep extends Tower
             return;
         }
 
-        $WizardManager = new WizardManager($this->game);
         $WizardManager->freeUpWizards($current_space_id, $current_tier);
-
 
         $this->moveCard($this->card_id, "space", $final_space_id);
         $final_tier = $this->countOnSpace($final_space_id);

@@ -17,7 +17,7 @@ class SpHeadwindWizard extends Spell
 
     public function validate(int $player_id, int $meeple_id): void
     {
-        $this->validateSpell($player_id);
+        $this->baseValidation($player_id);
 
         $spellableMeeples = (array) $this->getSpellableMeeples($player_id)[$this->type];
         if (in_array($meeple_id, $spellableMeeples)) {

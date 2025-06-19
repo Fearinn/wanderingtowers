@@ -8,6 +8,7 @@ use Bga\Games\WanderingTowers\Components\Spell\SpAdvanceWizard;
 use Bga\Games\WanderingTowers\Components\Spell\Spell;
 use Bga\Games\WanderingTowers\Components\Spell\SpHeadwindTower;
 use Bga\Games\WanderingTowers\Components\Spell\SpHeadwindWizard;
+use Bga\Games\WanderingTowers\Components\Spell\SpNudgeRavenskeep;
 
 class ActCastSpell extends ActionManager
 {
@@ -37,6 +38,11 @@ class ActCastSpell extends ActionManager
             case 4:
                 $SpHeadwindTower = new SpHeadwindTower($this->game);
                 $SpHeadwindTower->cast($this->player_id, $meeple_id);
+                break;
+
+            case 5:
+                $SpNudgeRavenskeep = new SpNudgeRavenskeep($this->game);
+                $SpNudgeRavenskeep->cast($this->player_id);
                 break;
         }
 
