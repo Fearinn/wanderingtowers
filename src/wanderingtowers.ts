@@ -347,6 +347,10 @@ class WanderingTowers extends WanderingTowersGui {
       case "client_pickSpellWizard":
         new StPickSpellWizard(this).enter(args.args);
         break;
+
+      case "client_pickSpellTower":
+        new StPickSpellTower(this).enter(args.args);
+        break;
     }
   }
 
@@ -385,8 +389,11 @@ class WanderingTowers extends WanderingTowersGui {
         break;
 
       case "client_pickSpellWizard":
-        console.log("TEST");
         new StPickSpellWizard(this).leave();
+        break;
+
+      case "client_pickSpellTower":
+        new StPickSpellTower(this).leave();
         break;
     }
   }

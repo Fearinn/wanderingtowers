@@ -1,4 +1,5 @@
 interface SpellCard extends BgaCard {
+  type: "wizard" | "tower" | "auto";
   type_arg: number;
   location: "table" | "deck";
   id: number;

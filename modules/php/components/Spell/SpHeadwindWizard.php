@@ -20,6 +20,6 @@ class SpHeadwindWizard extends Spell
     {
         $this->usePotions($player_id);
         $Wizard = new Wizard($this->game, $this->wizardCard_id);
-        $Wizard->move($this->steps, $player_id, true);
+        $Wizard->move($this->steps, $player_id);
     }
 }

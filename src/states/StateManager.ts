@@ -17,7 +17,8 @@ type StateName =
   | "client_pickMoveTier"
   | "client_pickPushTower"
   | "client_castSpell"
-  | "client_pickSpellWizard";
+  | "client_pickSpellWizard"
+  | "client_pickSpellTower";
 
 class StateManager implements StateManager {
   constructor(game: WanderingTowersGui, stateName: StateName) {

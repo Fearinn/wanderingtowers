@@ -75,9 +75,11 @@ class SpellManager extends CardManager
             $spell_id = (int) $spellCard["type_arg"];
 
             $spellableWizards = $WizardManager->getSpellable($spell_id, $player_id);
+            $spellableTowers = $TowerManager->getSpellable($spell_id, $player_id);
 
             $spellableMeeples[$spell_id] = [
                 "wizard" => $spellableWizards,
+                "tower" => $spellableTowers,
             ];
         }
 

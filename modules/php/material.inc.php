@@ -320,7 +320,7 @@ $this->SPELLS = [
         "steps" => -1,
     ],
     3 => [
-        "tr_name" => clienttranslate("Push a Tower"),
+        "tr_name" => clienttranslate("Advance a Tower"),
         "description" => clienttranslate("Move any 1 tower (and everything atop it) 2 spaces clockwise"),
         "cost" => 1,
         "type" => "tower",

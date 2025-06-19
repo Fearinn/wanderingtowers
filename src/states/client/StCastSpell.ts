@@ -16,15 +16,24 @@ class StCastSpell extends StateManager {
     spellTable.setSelectionMode("single");
     spellTable.setSelectableCards(args.castableSpells);
 
-    spellTable.onSelectionChange = (selection, lastChange) => {
+    spellTable.onSelectionChange = (selection, spellCard) => {
       this.game.removeConfirmationButton();
 
       if (selection.length > 0) {
         this.game.addConfirmationButton(_("spell"), () => {
-          this.wtw.globals.spellCard = lastChange;
-          const stPickSpellWizard = new StPickSpellWizard(this.game);
-          stPickSpellWizard.set();
+          this.wtw.globals.spellCard = spellCard;
+
+          if (spellCard.type === "wizard") {
+            const stPickSpellWizard = new StPickSpellWizard(this.game);
+            stPickSpellWizard.set();
+          }
+
+          if (spellCard.type === "tower") {
+            const stPickSpellTower = new StPickSpellTower(this.game);
+            stPickSpellTower.set();
+          }
         });
+
         return;
       }
     };

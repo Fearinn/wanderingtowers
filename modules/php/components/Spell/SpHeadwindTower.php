@@ -20,6 +20,6 @@ class SpHeadwindTower extends Spell
     {
         $this->usePotions($player_id);
         $Tower = new Tower($this->game, $this->towerCard_id);
-        $Tower->move($this->steps, $player_id, true);
+        $Tower->move($this->steps, $player_id);
     }
 }

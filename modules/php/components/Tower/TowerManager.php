@@ -4,6 +4,7 @@ namespace Bga\Games\WanderingTowers\Components\Tower;
 
 use Bga\Games\WanderingTowers\Components\CardManager;
 use Bga\Games\WanderingTowers\Components\Move\Move;
+use Bga\Games\WanderingTowers\Components\Spell\Spell;
 use Table;
 
 class TowerManager extends CardManager
@@ -72,18 +73,18 @@ class TowerManager extends CardManager
             return [];
         }
 
-        $cards = $this->getCardsInLocation("space");
+        $towerCards = $this->getCardsInLocation("space");
 
         if ($Move->isDice()) {
             if ($this->game->gamestate->state_id() === ST_AFTER_ROLL) {
-                return $cards;
+                return $towerCards;
             }
             $steps = $this->game->globals->get(G_ROLL);
         } else {
             $steps = $Move->getSteps("tower");
         }
 
-        $movableCards = array_filter($cards, function ($towerCard) use ($steps) {
+        $movableCards = array_filter($towerCards, function ($towerCard) use ($steps) {
             $towerCard_id = (int) $towerCard["id"];
             $Tower = new Tower($this->game, $towerCard_id);
 
@@ -115,6 +116,35 @@ class TowerManager extends CardManager
         });
 
         return array_values($pushableTowers);
+    }
+
+    public function getSpellable(int $spell_id): array
+    {
+        $Spell = new Spell($this->game, $spell_id);
+
+        if ($Spell->type !== "tower") {
+            return [];
+        }
+
+        $towerCards = $this->getCardsInLocation("space");
+
+        $steps = $Spell->steps;
+
+        $spellableTowers = array_filter($towerCards, function ($towerCard) use ($steps) {
+            $towerCard_id = (int) $towerCard["id"];
+            $Tower = new Tower($this->game, $towerCard_id);
+
+            if ($Tower->isRavenskeep()) {
+                return false;
+            }
+
+            $space_id = $this->game->sumSteps($Tower->getSpaceId(), $steps);
+
+            $ravenskeepSpace = (int) $this->getRavenskeepSpace();
+            return $space_id !== $ravenskeepSpace;
+        });
+
+        return array_values($spellableTowers);
     }
 
     public function getRavenskeepSpace(): int
