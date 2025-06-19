@@ -3158,18 +3158,11 @@ var StPickMoveTier = /** @class */ (function (_super) {
     }
     StPickMoveTier.prototype.set = function (action) {
         if (action === void 0) { action = "actMoveTower"; }
-        this.game.setClientState("client_pickMoveTier", {
-            descriptionmyturn: _("${you} must pick the number of tiers to move"),
-        });
         this.game.wtw.globals.action = action;
-    };
-    StPickMoveTier.prototype.enter = function () {
-        var _this = this;
-        _super.prototype.enter.call(this);
-        var _a = this.game.wtw.globals, moveCard = _a.moveCard, towerCard = _a.towerCard, maxTier = _a.maxTier, minTier = _a.minTier, _b = _a.action, action = _b === void 0 ? "actMoveTower" : _b;
-        var tower = new Tower(this.game, towerCard);
-        var moveCard_id = action === "actMoveTower" ? moveCard.id : undefined;
+        var _a = this.game.wtw.globals, moveCard = _a.moveCard, towerCard = _a.towerCard, maxTier = _a.maxTier, minTier = _a.minTier;
         if (maxTier === minTier) {
+            var moveCard_id = action === "actMoveTower" ? moveCard.id : undefined;
+            var tower = new Tower(this.game, towerCard);
             this.game.performAction(action, {
                 moveCard_id: moveCard_id,
                 space_id: tower.space_id,
@@ -3177,7 +3170,17 @@ var StPickMoveTier = /** @class */ (function (_super) {
             });
             return;
         }
+        this.game.setClientState("client_pickMoveTier", {
+            descriptionmyturn: _("${you} must pick the number of tiers to move"),
+        });
+    };
+    StPickMoveTier.prototype.enter = function () {
+        var _this = this;
+        _super.prototype.enter.call(this);
+        var _a = this.game.wtw.globals, moveCard = _a.moveCard, towerCard = _a.towerCard, maxTier = _a.maxTier, minTier = _a.minTier, _b = _a.action, action = _b === void 0 ? "actMoveTower" : _b;
+        var tower = new Tower(this.game, towerCard);
         tower.toggleSelection(true);
+        var moveCard_id = action === "actMoveTower" ? moveCard.id : undefined;
         if (action === "actMoveTower") {
             var move = new Move(this.game, moveCard);
             move.toggleSelection(true);

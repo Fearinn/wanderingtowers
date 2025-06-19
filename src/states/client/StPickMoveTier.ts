@@ -8,10 +8,25 @@ class StPickMoveTier extends StateManager {
   }
 
   set(action: ActionName = "actMoveTower") {
+    this.game.wtw.globals.action = action;
+
+    const { moveCard, towerCard, maxTier, minTier } = this.game.wtw.globals;
+
+    if (maxTier === minTier) {
+      const moveCard_id = action === "actMoveTower" ? moveCard.id : undefined;
+      const tower = new Tower(this.game, towerCard);
+
+      this.game.performAction(action, {
+        moveCard_id: moveCard_id,
+        space_id: tower.space_id,
+        tier: maxTier - 1 || 1,
+      });
+      return;
+    }
+
     this.game.setClientState("client_pickMoveTier", {
       descriptionmyturn: _("${you} must pick the number of tiers to move"),
     });
-    this.game.wtw.globals.action = action;
   }
 
   enter() {
@@ -24,20 +39,11 @@ class StPickMoveTier extends StateManager {
       minTier,
       action = "actMoveTower",
     } = this.game.wtw.globals;
+
     const tower = new Tower(this.game, towerCard);
+    tower.toggleSelection(true);
 
     const moveCard_id = action === "actMoveTower" ? moveCard.id : undefined;
-
-    if (maxTier === minTier) {
-      this.game.performAction(action, {
-        moveCard_id: moveCard_id,
-        space_id: tower.space_id,
-        tier: maxTier - 1 || 1,
-      });
-      return;
-    }
-
-    tower.toggleSelection(true);
 
     if (action === "actMoveTower") {
       const move = new Move(this.game, moveCard);
