@@ -2701,42 +2701,6 @@ var MoveHandStock = /** @class */ (function (_super) {
         }) || this;
         _this.game = game;
         _this.setSelectionMode("none");
-        _this.onSelectionChange = function (selection, card) {
-            _this.game.removeConfirmationButton();
-            if (selection.length > 0) {
-                _this.game.wtw.globals.moveCard = card;
-                var move_1 = new Move(_this.game, card);
-                if (move_1.card.type_arg >= 19) {
-                    _this.game.statusBar.removeActionButtons();
-                    _this.game.statusBar.addActionButton(_("cancel"), function () {
-                        _this.game.restoreServerGameState();
-                    }, { color: "alert" });
-                    _this.game.addConfirmationButton(_("move"), function () {
-                        _this.game.performAction("actRollDice", {
-                            moveCard_id: move_1.card.id,
-                        });
-                    });
-                    return;
-                }
-                if (move_1.card.type === "both") {
-                    var stPickMoveSide = new StPickMoveSide(_this.game);
-                    stPickMoveSide.set();
-                    return;
-                }
-                if (move_1.card.type === "tower") {
-                    var stPickMoveTower = new StPickMoveTower(_this.game);
-                    stPickMoveTower.set();
-                    return;
-                }
-                if (move_1.card.type === "wizard") {
-                    var stPickMoveWizard = new StPickMoveWizard(_this.game);
-                    stPickMoveWizard.set();
-                    return;
-                }
-                return;
-            }
-            _this.game.restoreServerGameState();
-        };
         return _this;
     }
     MoveHandStock.prototype.setup = function (cards) {
@@ -3537,10 +3501,47 @@ var StPlayMove = /** @class */ (function (_super) {
         });
     };
     StPlayMove.prototype.enter = function (args) {
+        var _this = this;
         _super.prototype.enter.call(this);
         var moveHand = this.wtw.stocks.moves.hand;
         moveHand.toggleSelection(true);
         moveHand.setSelectableCards(args.playableMoves);
+        moveHand.onSelectionChange = function (selection, card) {
+            _this.game.removeConfirmationButton();
+            if (selection.length > 0) {
+                _this.game.wtw.globals.moveCard = card;
+                var move_1 = new Move(_this.game, card);
+                if (move_1.card.type_arg >= 19) {
+                    _this.game.statusBar.removeActionButtons();
+                    _this.game.statusBar.addActionButton(_("cancel"), function () {
+                        _this.game.restoreServerGameState();
+                    }, { color: "alert" });
+                    _this.game.addConfirmationButton(_("move"), function () {
+                        _this.game.performAction("actRollDice", {
+                            moveCard_id: move_1.card.id,
+                        });
+                    });
+                    return;
+                }
+                if (move_1.card.type === "both") {
+                    var stPickMoveSide = new StPickMoveSide(_this.game);
+                    stPickMoveSide.set();
+                    return;
+                }
+                if (move_1.card.type === "tower") {
+                    var stPickMoveTower = new StPickMoveTower(_this.game);
+                    stPickMoveTower.set();
+                    return;
+                }
+                if (move_1.card.type === "wizard") {
+                    var stPickMoveWizard = new StPickMoveWizard(_this.game);
+                    stPickMoveWizard.set();
+                    return;
+                }
+                return;
+            }
+            _this.game.restoreServerGameState();
+        };
     };
     StPlayMove.prototype.leave = function () {
         _super.prototype.leave.call(this);
