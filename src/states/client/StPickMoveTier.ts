@@ -7,10 +7,14 @@ class StPickMoveTier extends StateManager {
     super(game, "client_pickMoveTier");
   }
 
-  set(action: ActionName = "actMoveTower") {
-    this.game.wtw.globals.action = action;
-
-    const { moveCard, towerCard, maxTier, minTier } = this.game.wtw.globals;
+  set() {
+    const {
+      action = "actMoveTower",
+      moveCard,
+      towerCard,
+      maxTier,
+      minTier,
+    } = this.game.wtw.globals;
 
     if (maxTier === minTier) {
       const moveCard_id = action === "actMoveTower" ? moveCard.id : undefined;

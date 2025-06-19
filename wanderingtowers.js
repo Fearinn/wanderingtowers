@@ -3161,10 +3161,8 @@ var StPickMoveTier = /** @class */ (function (_super) {
     function StPickMoveTier(game) {
         return _super.call(this, game, "client_pickMoveTier") || this;
     }
-    StPickMoveTier.prototype.set = function (action) {
-        if (action === void 0) { action = "actMoveTower"; }
-        this.game.wtw.globals.action = action;
-        var _a = this.game.wtw.globals, moveCard = _a.moveCard, towerCard = _a.towerCard, maxTier = _a.maxTier, minTier = _a.minTier;
+    StPickMoveTier.prototype.set = function () {
+        var _a = this.game.wtw.globals, _b = _a.action, action = _b === void 0 ? "actMoveTower" : _b, moveCard = _a.moveCard, towerCard = _a.towerCard, maxTier = _a.maxTier, minTier = _a.minTier;
         if (maxTier === minTier) {
             var moveCard_id = action === "actMoveTower" ? moveCard.id : undefined;
             var tower = new Tower(this.game, towerCard);
