@@ -3101,11 +3101,16 @@ var StCastSpell = /** @class */ (function (_super) {
                     if (spellCard.type === "wizard") {
                         var stPickSpellWizard = new StPickSpellWizard(_this.game);
                         stPickSpellWizard.set();
+                        return;
                     }
                     if (spellCard.type === "tower") {
                         var stPickSpellTower = new StPickSpellTower(_this.game);
                         stPickSpellTower.set();
+                        return;
                     }
+                    _this.game.performAction("actCastSpell", {
+                        spell_id: spellCard.type_arg,
+                    });
                 });
                 return;
             }

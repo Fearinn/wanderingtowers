@@ -26,12 +26,18 @@ class StCastSpell extends StateManager {
           if (spellCard.type === "wizard") {
             const stPickSpellWizard = new StPickSpellWizard(this.game);
             stPickSpellWizard.set();
+            return;
           }
 
           if (spellCard.type === "tower") {
             const stPickSpellTower = new StPickSpellTower(this.game);
             stPickSpellTower.set();
+            return;
           }
+
+          this.game.performAction("actCastSpell", {
+            spell_id: spellCard.type_arg,
+          });
         });
 
         return;
