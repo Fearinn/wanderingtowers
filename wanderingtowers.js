@@ -281,6 +281,9 @@ var WanderingTowers = /** @class */ (function (_super) {
             case "client_pickSpellTower":
                 new StPickSpellTower(this).enter(args.args);
                 break;
+            case "client_pickSpellTier":
+                new StPickSpellTier(this).enter();
+                break;
         }
     };
     WanderingTowers.prototype.onLeavingState = function (stateName) {
@@ -314,6 +317,9 @@ var WanderingTowers = /** @class */ (function (_super) {
                 break;
             case "client_pickSpellTower":
                 new StPickSpellTower(this).leave();
+                break;
+            case "client_pickSpellTier":
+                new StPickSpellTier(this).leave();
                 break;
         }
     };
@@ -3389,6 +3395,59 @@ var StPickPushTower = /** @class */ (function (_super) {
     };
     return StPickPushTower;
 }(StateManager));
+var StPickSpellTier = /** @class */ (function (_super) {
+    __extends(StPickSpellTier, _super);
+    function StPickSpellTier(game) {
+        return _super.call(this, game, "client_pickSpellTier") || this;
+    }
+    StPickSpellTier.prototype.set = function () {
+        var _a = this.game.wtw.globals, spellCard = _a.spellCard, towerCard = _a.towerCard, maxTier = _a.maxTier, minTier = _a.minTier;
+        if (maxTier === minTier) {
+            var tower = new Tower(this.game, towerCard);
+            var spell = new Spell(this.game, spellCard);
+            this.game.performAction("actCastSpell", {
+                spell_id: spell.id,
+                meeple_id: tower.space_id,
+                tier: maxTier - 1 || 1,
+            });
+            return;
+        }
+        this.game.setClientState("client_pickMoveTier", {
+            descriptionmyturn: _("${you} must pick the number of tiers for the spell"),
+        });
+    };
+    StPickSpellTier.prototype.enter = function () {
+        var _this = this;
+        _super.prototype.enter.call(this);
+        var _a = this.game.wtw.globals, spellCard = _a.spellCard, towerCard = _a.towerCard, maxTier = _a.maxTier, minTier = _a.minTier;
+        var spell = new Spell(this.game, spellCard);
+        spell.toggleSelection(true);
+        var tower = new Tower(this.game, towerCard);
+        tower.toggleSelection(true);
+        var _loop_7 = function (i) {
+            this_2.game.statusBar.addActionButton("".concat(i), function () {
+                _this.game.performAction("actCastSpell", {
+                    spell_id: spell.id,
+                    meeple_id: tower.space_id,
+                    tier: maxTier - i + 1,
+                });
+            }, {});
+        };
+        var this_2 = this;
+        for (var i = minTier; i <= maxTier; i++) {
+            _loop_7(i);
+        }
+    };
+    StPickSpellTier.prototype.leave = function () {
+        _super.prototype.leave.call(this);
+        var _a = this.game.wtw.globals, spellCard = _a.spellCard, towerCard = _a.towerCard;
+        var spell = new Spell(this.game, spellCard);
+        spell.toggleSelection(false);
+        var tower = new Tower(this.game, towerCard);
+        tower.toggleSelection(false);
+    };
+    return StPickSpellTier;
+}(StateManager));
 var StPickSpellTower = /** @class */ (function (_super) {
     __extends(StPickSpellTower, _super);
     function StPickSpellTower(game) {
@@ -3407,7 +3466,7 @@ var StPickSpellTower = /** @class */ (function (_super) {
         spell.toggleSelection(true);
         var selectableTowers = args.spellableMeeples[spell.id].tower;
         var towerStocks = this.game.wtw.stocks.towers.spaces;
-        var _loop_7 = function (space_id) {
+        var _loop_8 = function (space_id) {
             var stock = towerStocks[space_id];
             stock.toggleSelection(true);
             stock.setSelectableCards(selectableTowers);
@@ -3416,16 +3475,15 @@ var StPickSpellTower = /** @class */ (function (_super) {
                 if (selection.length > 0) {
                     stock.unselectOthers();
                     _this.game.addConfirmationButton(_("tower"), function () {
-                        _this.game.performAction("actCastSpell", {
-                            spell_id: spell.id,
-                            meeple_id: towerCard.id,
-                        });
+                        _this.wtw.globals.towerCard = towerCard;
+                        var stPickSpellTier = new StPickSpellTier(_this.game);
+                        stPickSpellTier.set();
                     });
                 }
             };
         };
         for (var space_id in towerStocks) {
-            _loop_7(space_id);
+            _loop_8(space_id);
         }
     };
     StPickSpellTower.prototype.leave = function () {
@@ -3458,7 +3516,7 @@ var StPickSpellWizard = /** @class */ (function (_super) {
         spell.toggleSelection(true);
         var selectableWizards = args.spellableMeeples[spell.id].wizard;
         var wizardStocks = this.game.wtw.stocks.wizards.spaces;
-        var _loop_8 = function (space_id) {
+        var _loop_9 = function (space_id) {
             var stock = wizardStocks[space_id];
             stock.toggleSelection(true);
             stock.setSelectableCards(selectableWizards);
@@ -3476,7 +3534,7 @@ var StPickSpellWizard = /** @class */ (function (_super) {
             };
         };
         for (var space_id in wizardStocks) {
-            _loop_8(space_id);
+            _loop_9(space_id);
         }
     };
     StPickSpellWizard.prototype.leave = function () {

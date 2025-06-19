@@ -17,8 +17,12 @@ class ActCastSpell extends ActionManager
         parent::__construct($game);
     }
 
-    public function act(int $spell_id, ?int $meeple_id): void
+    public function act(int $spell_id, ?int $meeple_id = null, ?int $tier = null): void
     {
+        if ($this->globals->get(G_SPELL_CASTED)) {
+            throw new \BgaVisibleSystemException("You can't cast other spell this turn");
+        }
+
         switch ($spell_id) {
             case 1:
                 $SpAdvanceWizard = new SpAdvanceWizard($this->game);
@@ -32,12 +36,12 @@ class ActCastSpell extends ActionManager
 
             case 3:
                 $SpAdvanceTower = new SpAdvanceTower($this->game);
-                $SpAdvanceTower->cast($this->player_id, $meeple_id);
+                $SpAdvanceTower->cast($this->player_id, $meeple_id, $tier);
                 break;
 
             case 4:
                 $SpHeadwindTower = new SpHeadwindTower($this->game);
-                $SpHeadwindTower->cast($this->player_id, $meeple_id);
+                $SpHeadwindTower->cast($this->player_id, $meeple_id, $tier);
                 break;
 
             case 5:

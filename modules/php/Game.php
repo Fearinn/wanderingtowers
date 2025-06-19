@@ -214,10 +214,11 @@ class Game extends \Table
 
     public function actCastSpell(
         #[IntParam(min: 1, max: 8)] int $spell_id,
-        ?int $meeple_id,
+        #[IntParam(min: 1, max: 16)] ?int $meeple_id,
+        #[IntParam(min: 1, max: 10)] ?int $tier,
     ) {
         $ActCastSpell = new ActCastSpell($this);
-        $ActCastSpell->act($spell_id, $meeple_id);
+        $ActCastSpell->act($spell_id, $meeple_id, $tier);
     }
 
     /**

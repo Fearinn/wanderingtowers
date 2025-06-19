@@ -29,12 +29,12 @@ class StPickSpellTower extends StateManager {
 
         if (selection.length > 0) {
           stock.unselectOthers();
-
+          
           this.game.addConfirmationButton(_("tower"), () => {
-            this.game.performAction("actCastSpell", {
-              spell_id: spell.id,
-              meeple_id: towerCard.id,
-            });
+            this.wtw.globals.towerCard = towerCard;
+
+            const stPickSpellTier = new StPickSpellTier(this.game);
+            stPickSpellTier.set();
           });
         }
       };
