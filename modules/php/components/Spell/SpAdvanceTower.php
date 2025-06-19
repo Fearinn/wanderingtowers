@@ -17,8 +17,7 @@ class SpAdvanceTower extends Spell
     {
         $this->validateSpell($player_id);
 
-        $spellableMeeples = (array) $this->getSpellableMeeples($player_id)[$this->id][$this->type];
-
+        $spellableMeeples = (array) $this->getSpellableMeeples($player_id)[$this->type];
         if (in_array($meeple_id, $spellableMeeples)) {
             throw new \BgaVisibleSystemException("You can't cast Advance a Tower");
         }

@@ -44,6 +44,11 @@ class Spell extends SpellManager
         );
     }
 
+    public function getSpellableMeeples(int $player_id): array
+    {
+        return parent::getSpellableMeeples($player_id)[$this->id];
+    }
+
     public function validateCost(int $player_id): bool
     {
         $PotionManager = new PotionManager($this->game);
