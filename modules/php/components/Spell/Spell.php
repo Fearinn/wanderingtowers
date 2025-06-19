@@ -44,15 +44,29 @@ class Spell extends SpellManager
         );
     }
 
+    public function validateCost(int $player_id): bool
+    {
+        $PotionManager = new PotionManager($this->game);
+        return $this->cost <= $PotionManager->countFilled($player_id);
+    }
+
     public function isCastable(int $player_id): bool
     {
         $onTable = $this->game->getUniqueValueFromDB("SELECT card_location FROM {$this->dbTable} WHERE card_type_arg={$this->id}") === "table";
-        
+
         if (!$onTable) {
             return false;
         }
 
-        $PotionManager = new PotionManager($this->game);
-        return $this->cost <= $PotionManager->countFilled($player_id);
+        return $this->validateCost($player_id);
+    }
+
+    public function validateSpell(int $player_id): void
+    {
+        $spellableMeeples = $this->getSpellableMeeples($player_id);
+
+        if (!$this->isCastable($player_id) || !$spellableMeeples) {
+            throw new \BgaVisibleSystemException("You can't cast this spell");
+        }
     }
 }

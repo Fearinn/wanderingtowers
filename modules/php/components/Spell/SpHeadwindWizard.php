@@ -10,16 +10,26 @@ class SpHeadwindWizard extends Spell
 {
     public int $wizardCard_id;
 
-    public function __construct(Table $game, array $args)
+    public function __construct(Table $game)
     {
         parent::__construct($game, 2);
-        $this->wizardCard_id = (int) $args["wizardCard_id"];
     }
 
-    public function cast(int $player_id): void
+    public function validate(int $player_id, int $meeple_id): void
+    {
+        $this->validateSpell($player_id);
+
+        $spellableMeeples = (array) $this->getSpellableMeeples($player_id)[$this->id][$this->type];
+
+        if (in_array($meeple_id, $spellableMeeples)) {
+            throw new \BgaVisibleSystemException("You can't cast Headwind for a Wizard");
+        }
+    }
+
+    public function cast(int $player_id, int $meeple_id): void
     {
         $this->usePotions($player_id);
-        $Wizard = new Wizard($this->game, $this->wizardCard_id);
+        $Wizard = new Wizard($this->game, $meeple_id);
         $Wizard->move($this->steps, $player_id);
     }
 }

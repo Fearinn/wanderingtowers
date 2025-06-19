@@ -3415,9 +3415,7 @@ var StPickSpellTower = /** @class */ (function (_super) {
                     _this.game.addConfirmationButton(_("tower"), function () {
                         _this.game.performAction("actCastSpell", {
                             spell_id: spell.id,
-                            args: JSON.stringify({
-                                towerCard_id: towerCard.id,
-                            }),
+                            meeple_id: towerCard.id,
                         });
                     });
                 }
@@ -3468,9 +3466,7 @@ var StPickSpellWizard = /** @class */ (function (_super) {
                     _this.game.addConfirmationButton(_("wizard"), function () {
                         _this.game.performAction("actCastSpell", {
                             spell_id: spell.id,
-                            args: JSON.stringify({
-                                wizardCard_id: wizardCard.id,
-                            }),
+                            meeple_id: wizardCard.id,
                         });
                     });
                 }

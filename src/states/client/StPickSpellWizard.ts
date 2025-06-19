@@ -33,9 +33,7 @@ class StPickSpellWizard extends StateManager {
           this.game.addConfirmationButton(_("wizard"), () => {
             this.game.performAction("actCastSpell", {
               spell_id: spell.id,
-              args: JSON.stringify({
-                wizardCard_id: wizardCard.id,
-              }),
+              meeple_id: wizardCard.id,
             });
           });
         }
@@ -48,7 +46,7 @@ class StPickSpellWizard extends StateManager {
 
     const spellTable = this.wtw.stocks.spells.table;
     spellTable.setSelectionMode("none");
-    
+
     const wizardStocks = this.game.wtw.stocks.wizards.spaces;
     for (const space_id in wizardStocks) {
       const stock = wizardStocks[space_id];

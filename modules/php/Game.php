@@ -214,10 +214,10 @@ class Game extends \Table
 
     public function actCastSpell(
         #[IntParam(min: 1, max: 8)] int $spell_id,
-        #[JsonParam] array $args,
+        ?int $meeple_id,
     ) {
         $ActCastSpell = new ActCastSpell($this);
-        $ActCastSpell->act($spell_id, $args);
+        $ActCastSpell->act($spell_id, $meeple_id);
     }
 
     /**

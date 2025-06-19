@@ -33,9 +33,7 @@ class StPickSpellTower extends StateManager {
           this.game.addConfirmationButton(_("tower"), () => {
             this.game.performAction("actCastSpell", {
               spell_id: spell.id,
-              args: JSON.stringify({
-                towerCard_id: towerCard.id,
-              }),
+              meeple_id: towerCard.id,
             });
           });
         }
