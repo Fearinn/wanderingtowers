@@ -25,7 +25,7 @@ if (!defined("ST_GAME_END")) {
     define("STAT_WIZARDS_RAVENSKEEP", "wizardsRavenskeep");
     define("STAT_WIZARDS_IMPRISONED", "wizardsImprisoned");
     define("STAT_SPELLS_CASTED", "spellsCasted");
-    define("STAT_POTIONS_FILLED", "spellsFilled");
+    define("STAT_POTIONS_FILLED", "potionsFilled");
     define("STAT_POTIONS_USED", "potionsUsed");
 
     define("TR_REROLL_DICE", "rerollDice");
