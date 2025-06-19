@@ -23,7 +23,7 @@ class SpellManager extends CardManager
 
         foreach ($this->SPELLS as $spell_id => $spell) {
             $spellCards[] = [
-                "type" => (string) $spell["cost"],
+                "type" => $spell["type"],
                 "type_arg" => $spell_id,
                 "nbr" => 1,
             ];
