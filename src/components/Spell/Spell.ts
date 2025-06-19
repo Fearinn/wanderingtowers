@@ -27,11 +27,10 @@ class Spell extends Card {
 
   setupDiv(element: HTMLDivElement): void {
     element.classList.add("wtw_card", "wtw_spell");
-    element.style.position = `${this.card.type_arg}%`;
   }
 
   setupFrontDiv(element: HTMLDivElement): void {
-    element.parentElement.parentElement.style.backgroundPosition = `${
+    element.style.backgroundPosition = `${
       this.card.type_arg * -100
     }%`;
   }

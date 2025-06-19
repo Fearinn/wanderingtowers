@@ -30,9 +30,12 @@ class SpellManager extends CardManager
         }
 
         $this->deck->createCards($spellCards, "deck");
-        $this->deck->shuffle("deck");
 
-        $this->deck->pickCardsForLocation(8, "deck", "table");
+        if ($this->game->getGameOption(OPT_SPELLS) === 2) {
+            $this->deck->shuffle("deck");
+            $spell_nbr = (int) $this->game->getGameOption(OPT_SPELLS_NUMBER);
+            $this->deck->pickCardsForLocation($spell_nbr, "deck", "table");
+        }
     }
 
     public function getAll(): array

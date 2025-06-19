@@ -2810,10 +2810,9 @@ var Spell = /** @class */ (function (_super) {
     };
     Spell.prototype.setupDiv = function (element) {
         element.classList.add("wtw_card", "wtw_spell");
-        element.style.position = "".concat(this.card.type_arg, "%");
     };
     Spell.prototype.setupFrontDiv = function (element) {
-        element.parentElement.parentElement.style.backgroundPosition = "".concat(this.card.type_arg * -100, "%");
+        element.style.backgroundPosition = "".concat(this.card.type_arg * -100, "%");
     };
     Spell.prototype.toggleSelection = function (enabled) {
         this.table.setSelectionMode(enabled ? "single" : "none");

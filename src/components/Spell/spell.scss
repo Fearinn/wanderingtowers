@@ -11,14 +11,17 @@
 
 .wtw_spell {
   position: absolute;
-  background-image: url("img/spells.png");
-  background-size: cover;
   border-radius: 100%;
   box-shadow: 0 2px 8px 2px black;
   aspect-ratio: 1;
   width: var(--spellWidth);
   transform: translate(-50%, -50%);
   pointer-events: auto;
+
+  .card-side {
+    background-image: url("img/spells.png");
+    background-size: cover;
+  }
 
   &-selected {
     border: 3px solid green;

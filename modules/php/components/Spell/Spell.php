@@ -46,6 +46,12 @@ class Spell extends SpellManager
 
     public function isCastable(int $player_id): bool
     {
+        $onTable = $this->game->getUniqueValueFromDB("SELECT card_location FROM {$this->dbTable} WHERE card_type_arg={$this->id}") === "table";
+        
+        if (!$onTable) {
+            return false;
+        }
+
         $PotionManager = new PotionManager($this->game);
         return $this->cost <= $PotionManager->countFilled($player_id);
     }

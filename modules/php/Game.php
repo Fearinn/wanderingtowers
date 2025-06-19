@@ -42,7 +42,6 @@ use Bga\Games\WanderingTowers\Components\Wizard\Wizard;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 use Bga\Games\WanderingTowers\States\StAfterRoll;
 use Bga\Games\WanderingTowers\States\StBetweenPlayers;
-use Bga\Games\WanderingTowers\States\StDefineWinner;
 use Bga\Games\WanderingTowers\States\StPlayerTurn;
 use Bga\Games\WanderingTowers\States\StRerollDice;
 
@@ -57,7 +56,10 @@ class Game extends \Table
         require "material.inc.php";
         require "constants.inc.php";
 
-        $this->initGameStateLabels([]);
+        $this->initGameStateLabels([
+            OPT_SPELLS => 100,
+            OPT_SPELLS_NUMBER => 101,
+        ]);
 
         $this->tower_cards = $this->getNew("module.common.deck");
         $this->tower_cards->init("tower");
@@ -97,6 +99,11 @@ class Game extends \Table
     public function isSolo(): bool
     {
         return $this->getPlayersNumber() === 1;
+    }
+
+    public function getGameOption(string $label): int
+    {
+        return (int) $this->getGameStateValue($label);
     }
 
     public function getStateId(): int
