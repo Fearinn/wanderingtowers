@@ -619,12 +619,14 @@ body > .card {
 .wtw_boardCenter {
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 55%;
   transform: translateX(-50%) translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 16px;
+  aspect-ratio: 1;
+  width: calc(var(--boardWidth) * 0.7);
   z-index: 1;
 }
 
@@ -661,6 +663,9 @@ body > .card {
 }
 .wtw_pref-floatingHand .wtw_moveHand:hover, .wtw_pref-floatingHand .wtw_moveHand:has(.wtw_move-selected) {
   bottom: -5%;
+}
+.wtw_pref-floatingHand .wtw_boardCenter {
+  top: 50%;
 }
 
 :root {
@@ -1063,7 +1068,8 @@ body > .card {
 .wtw_spells {
   position: absolute;
   aspect-ratio: 1;
-  width: calc(var(--boardWidth) * 0.7);
+  pointer-events: none;
+  width: 100%;
 }
 
 .wtw_spell {
@@ -1075,6 +1081,7 @@ body > .card {
   aspect-ratio: 1;
   width: var(--spellWidth);
   transform: translate(-50%, -50%);
+  pointer-events: auto;
 }
 .wtw_spell-selected {
   border: 3px solid green;
