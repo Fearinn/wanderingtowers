@@ -628,6 +628,7 @@ body > .card {
   aspect-ratio: 1;
   width: calc(var(--boardWidth) * 0.7);
   z-index: 1;
+  pointer-events: none;
 }
 
 .wtw_card {
