@@ -77,12 +77,12 @@ class SpellManager extends CardManager
     {
         $spellableMeeples = [];
 
-        $castableSpells = $this->getCastable($player_id);
+        $spellCards = $this->getAll($player_id);
 
         $WizardManager = new WizardManager($this->game);
         $TowerManager = new TowerManager($this->game);
 
-        foreach ($castableSpells as $spellCard) {
+        foreach ($spellCards as $spellCard) {
             $spell_id = (int) $spellCard["type_arg"];
 
             $spellableWizards = $WizardManager->getSpellable($spell_id, $player_id);

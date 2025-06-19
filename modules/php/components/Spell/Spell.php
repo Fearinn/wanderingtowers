@@ -49,7 +49,7 @@ class Spell extends SpellManager
         return parent::getSpellableMeeples($player_id)[$this->id];
     }
 
-    public function validateCost(int $player_id): bool
+    public function canPayCost(int $player_id): bool
     {
         $PotionManager = new PotionManager($this->game);
         return $this->cost <= $PotionManager->countFilled($player_id);
@@ -63,14 +63,14 @@ class Spell extends SpellManager
             return false;
         }
 
-        return $this->validateCost($player_id);
+        $hasMeeples = $this->type === "auto" || !!$this->getSpellableMeeples($player_id)[$this->type];
+
+        return $this->canPayCost($player_id) && $hasMeeples;
     }
 
     public function validateSpell(int $player_id): void
     {
-        $spellableMeeples = $this->getSpellableMeeples($player_id);
-
-        if (!$this->isCastable($player_id) || !$spellableMeeples) {
+        if (!$this->isCastable($player_id)) {
             throw new \BgaVisibleSystemException("You can't cast this spell");
         }
     }
