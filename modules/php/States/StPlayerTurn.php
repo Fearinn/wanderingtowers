@@ -50,7 +50,7 @@ class StPlayerTurn extends StateManager
             "spellableMeeples" => $spellableMeeples,
             "no_notify" => $endTurn ||
                 (!$playableMoves && !$pushableTowers
-                    && (!$castableSpells || $turnMove === 0)),
+                    && (!$castableSpells || $turnMove !== 0)),
         ];
 
         return $args;
