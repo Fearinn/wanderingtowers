@@ -2,6 +2,7 @@
 
 namespace Bga\Games\WanderingTowers\Components\Spell;
 
+use Bga\GameFramework\TableOptions;
 use Bga\Games\WanderingTowers\Components\CardManager;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
@@ -10,11 +11,13 @@ use Table;
 class SpellManager extends CardManager
 {
     public array $SPELLS;
+    public TableOptions $tableOptions;
 
     public function __construct(Table $game)
     {
         parent::__construct($game, $game->spell_cards, "spell");
         $this->SPELLS = $this->game->SPELLS;
+        $this->tableOptions = $this->game->tableOptions;
     }
 
     public function setupCards(): void
@@ -31,9 +34,9 @@ class SpellManager extends CardManager
 
         $this->deck->createCards($spellCards, "deck");
 
-        if ($this->game->getGameOption(OPT_SPELLS) === 2) {
+        if ($this->tableOptions->get(OPT_SPELLS) === 2) {
             $this->deck->shuffle("deck");
-            $spell_nbr = (int) $this->game->getGameOption(OPT_SPELLS_NUMBER);
+            $spell_nbr = $this->tableOptions->get(OPT_SPELLS_NUMBER);
             $this->deck->pickCardsForLocation($spell_nbr, "deck", "table");
         }
     }

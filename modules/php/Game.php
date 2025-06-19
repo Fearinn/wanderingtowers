@@ -101,11 +101,6 @@ class Game extends \Table
         return $this->getPlayersNumber() === 1;
     }
 
-    public function getGameOption(string $label): int
-    {
-        return (int) $this->getGameStateValue($label);
-    }
-
     public function getStateId(): int
     {
         return (int) $this->gamestate->state_id();

@@ -210,11 +210,6 @@ namespace Bga\GameFramework {
             return false;
         }
 
-        public function getGameOption(string $label): int
-        {
-            return 0;
-        }
-
         public function getStateId(): int
         {
             return 0;

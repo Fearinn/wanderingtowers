@@ -19,8 +19,8 @@ if (!defined("ST_GAME_END")) {
     define("G_FINAL_TURN", "finalTurn");
     define("G_SPELL_CASTED", "spellCasted");
 
-    define("OPT_SPELLS", "spells");
-    define("OPT_SPELLS_NUMBER", "spellsNumber");
+    define("OPT_SPELLS", 100);
+    define("OPT_SPELLS_NUMBER", 101);
 
     define("TR_REROLL_DICE", "rerollDice");
     define("TR_NEXT_PLAYER", "nextPlayer");
