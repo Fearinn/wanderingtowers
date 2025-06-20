@@ -23,7 +23,6 @@ class Spell extends SpellManager
         $this->id = $spell_id;
         $this->info = $this->SPELLS[$this->id];
         $this->cost = (int) $this->info["cost"];
-        $this->tr_name = $this->info["tr_name"];
         $this->type = $this->info["type"];
         $this->steps = $this->info["steps"];
     }

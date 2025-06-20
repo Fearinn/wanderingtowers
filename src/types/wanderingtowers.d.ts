@@ -40,6 +40,11 @@ declare class WanderingTowersGui extends Game {
       minTier?: number;
       action?: ActionName;
     };
+    material: {
+      spells: {
+        [spell_id: number]: SpellInfo;
+      };
+    };
   };
 
   performAction(

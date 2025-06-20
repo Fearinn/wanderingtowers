@@ -212,6 +212,42 @@ var WanderingTowers = /** @class */ (function (_super) {
             },
             counters: counters,
             globals: {},
+            material: {
+                spells: {
+                    1: {
+                        name: _("Advance a Wizard"),
+                        description: _("Move any 1 visible wizard 1 space clockwise"),
+                    },
+                    2: {
+                        name: _("Headwind for a Wizard"),
+                        description: _("Move any 1 visible wizard 1 space counterclockwise"),
+                    },
+                    3: {
+                        name: _("Advance a Tower"),
+                        description: _("Move any 1 tower (and everything atop it) 2 spaces clockwise"),
+                    },
+                    4: {
+                        name: _("Headwind for a Tower"),
+                        description: _("Move any 1 tower (and everything atop it) 2 spaces counterclockwise."),
+                    },
+                    5: {
+                        name: _("Nudge a Ravenskeep"),
+                        description: _("Move Ravenskeep clockwise or counterclockwise to the next empty space or empty tower top, whichever it encounters first in that direction"),
+                    },
+                    6: {
+                        name: _("Swap a Tower"),
+                        description: _("Swap the topmost tower (and wizards atop them) in 2 spaces"),
+                    },
+                    7: {
+                        name: _("Piggyback"),
+                        description: _("You can cast this spell only when the current player is moving a wizard from a space or tower top where you also have a wizard. They must move your wizard along with theirs!"),
+                    },
+                    8: {
+                        name: _("Free a Wizard"),
+                        description: _("Lift any 1 tower to free 1 of your wizards from beneath it, placing the wizard on top of the stack"),
+                    },
+                },
+            },
         };
         gamedatas.towerCards.forEach(function (card) {
             var tower = new Tower(_this, card);
@@ -2806,6 +2842,8 @@ var Spell = /** @class */ (function (_super) {
         var _this = _super.call(this, game, card) || this;
         _this.table = _this.game.wtw.stocks.spells.table;
         _this.id = _this.card.type_arg;
+        var info = _this.game.wtw.material.spells[_this.id];
+        _this.description = info.description;
         return _this;
     }
     Spell.prototype.setup = function () {
@@ -2819,6 +2857,14 @@ var Spell = /** @class */ (function (_super) {
     };
     Spell.prototype.setupFrontDiv = function (element) {
         element.style.backgroundPosition = "".concat(this.card.type_arg * -100, "%");
+        var cloneElement = element.parentElement.parentElement.cloneNode(true);
+        cloneElement.removeAttribute("id");
+        cloneElement.querySelectorAll("[id]").forEach(function (childElement) {
+            childElement.removeAttribute("id");
+        });
+        cloneElement.classList.add("wtw_spell-tooltip");
+        var tooltipHTML = "\n      <div class=\"wtw_spellTooltip\">\n        ".concat(cloneElement.outerHTML, "\n        <div class=\"wtw_tooltipText wtw_spellDescription\">\n          <p>").concat(this.description, "</p>\n        </div>\n      </div>\n    ");
+        this.game.addTooltipHtml(element.id, tooltipHTML);
     };
     Spell.prototype.toggleSelection = function (enabled) {
         this.table.setSelectionMode(enabled ? "single" : "none");

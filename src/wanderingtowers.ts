@@ -261,6 +261,56 @@ class WanderingTowers extends WanderingTowersGui {
       },
       counters: counters,
       globals: {},
+      material: {
+        spells: {
+          1: {
+            name: _("Advance a Wizard"),
+            description: _("Move any 1 visible wizard 1 space clockwise"),
+          },
+          2: {
+            name: _("Headwind for a Wizard"),
+            description: _(
+              "Move any 1 visible wizard 1 space counterclockwise"
+            ),
+          },
+          3: {
+            name: _("Advance a Tower"),
+            description: _(
+              "Move any 1 tower (and everything atop it) 2 spaces clockwise"
+            ),
+          },
+          4: {
+            name: _("Headwind for a Tower"),
+            description: _(
+              "Move any 1 tower (and everything atop it) 2 spaces counterclockwise."
+            ),
+          },
+          5: {
+            name: _("Nudge a Ravenskeep"),
+            description: _(
+              "Move Ravenskeep clockwise or counterclockwise to the next empty space or empty tower top, whichever it encounters first in that direction"
+            ),
+          },
+          6: {
+            name: _("Swap a Tower"),
+            description: _(
+              "Swap the topmost tower (and wizards atop them) in 2 spaces"
+            ),
+          },
+          7: {
+            name: _("Piggyback"),
+            description: _(
+              "You can cast this spell only when the current player is moving a wizard from a space or tower top where you also have a wizard. They must move your wizard along with theirs!"
+            ),
+          },
+          8: {
+            name: _("Free a Wizard"),
+            description: _(
+              "Lift any 1 tower to free 1 of your wizards from beneath it, placing the wizard on top of the stack"
+            ),
+          },
+        },
+      },
     };
 
     gamedatas.towerCards.forEach((card) => {

@@ -5,9 +5,16 @@ interface SpellCard extends BgaCard {
   id: number;
 }
 
+interface SpellInfo {
+  name: string;
+  description: string;
+  details?: string;
+}
+
 interface Spell extends Card {
   card: SpellCard;
   table: SpellStocks["table"];
+  description: string;
 }
 
 class Spell extends Card {
@@ -15,6 +22,9 @@ class Spell extends Card {
     super(game, card);
     this.table = this.game.wtw.stocks.spells.table;
     this.id = this.card.type_arg;
+
+    const info = this.game.wtw.material.spells[this.id];
+    this.description = info.description;
   }
 
   setup(): void {
@@ -30,9 +40,28 @@ class Spell extends Card {
   }
 
   setupFrontDiv(element: HTMLDivElement): void {
-    element.style.backgroundPosition = `${
-      this.card.type_arg * -100
-    }%`;
+    element.style.backgroundPosition = `${this.card.type_arg * -100}%`;
+
+    const cloneElement = element.parentElement.parentElement.cloneNode(
+      true
+    ) as HTMLDivElement;
+
+    cloneElement.removeAttribute("id");
+    cloneElement.querySelectorAll("[id]").forEach((childElement) => {
+      childElement.removeAttribute("id");
+    });
+    cloneElement.classList.add("wtw_spell-tooltip");
+
+    const tooltipHTML = `
+      <div class="wtw_spellTooltip">
+        ${cloneElement.outerHTML}
+        <div class="wtw_tooltipText wtw_spellDescription">
+          <p>${this.description}</p>
+        </div>
+      </div>
+    `;
+
+    this.game.addTooltipHtml(element.id, tooltipHTML);
   }
 
   toggleSelection(enabled: boolean): void {

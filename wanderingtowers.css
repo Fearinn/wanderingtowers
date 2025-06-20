@@ -1086,6 +1086,12 @@ body > .card {
   background-image: url("img/spells.png");
   background-size: cover;
 }
+.wtw_spell-tooltip {
+  position: relative;
+  top: unset !important;
+  left: unset !important;
+  transform: none !important;
+}
 .wtw_spell-selected {
   border: 3px solid green;
   transform: scale(1.2) translate(-50%, -50%);
@@ -1121,6 +1127,23 @@ body > .card {
 .wtw_spell:nth-child(8) {
   top: 65%;
   left: 15%;
+}
+
+.wtw_spellTooltip {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.wtw_spellDescription {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  background-image: url("img/background.png");
+  padding: 8px;
 }
 
 @font-face {
