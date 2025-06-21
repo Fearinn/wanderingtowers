@@ -134,7 +134,7 @@ $this->TOWERS = [
 $this->SETUP_COUNTS = [
     1 => [
         "wizards" => 12,
-        "potions" => 0,
+        "potions" => 6,
     ],
     2 => [
         "wizards" => 5,
@@ -306,43 +306,54 @@ $this->MOVES = [
 
 $this->SPELLS = [
     1 => [
+        "tr_name" => clienttranslate("Advance a Wizard"),
         "cost" => 2,
         "type" => "wizard",
         "steps" => 1,
     ],
     2 => [
+        "tr_name" => clienttranslate("Headwind for a Wizard"),
+
         "cost" => 2,
         "type" => "wizard",
         "steps" => -1,
     ],
     3 => [
+        "tr_name" => clienttranslate("Advance a Tower"),
+
         "cost" => 1,
         "type" => "tower",
         "steps" => 2,
     ],
     4 => [
+        "tr_name" => clienttranslate("Headwind for a Tower"),
+
         "cost" => 1,
         "type" => "tower",
         "steps" => -2,
     ],
     5 => [
+        "tr_name" => clienttranslate("Nudge a Ravenskeep"),
         "cost" => 2,
         "type" => "auto",
         "steps" => 0,
     ],
-    6 => [
-        "cost" => 1,
-        "type" => "tower",
-        "steps" => 2,
-    ],
-    7 => [
-        "cost" => 2,
-        "type" => "auto",
-        "steps" => 0,
-    ],
-    8 => [
-        "cost" => 2,
-        "type" => "tower",
-        "steps" => 0,
-    ],
+    // 6 => [
+    //     "tr_name" => clienttranslate("Swap a Tower"),
+    //     "cost" => 1,
+    //     "type" => "tower",
+    //     "steps" => 2,
+    // ],
+    // 7 => [
+    //     "tr_name" => clienttranslate("Piggyback"),
+    //     "cost" => 2,
+    //     "type" => "auto",
+    //     "steps" => 0,
+    // ],
+    // 8 => [
+    //     "tr_name" => clienttranslate("Free a Wizard"),
+    //     "cost" => 2,
+    //     "type" => "tower",
+    //     "steps" => 0,
+    // ],
 ];

@@ -1110,14 +1110,6 @@ body > .card {
   top: 20%;
   left: 62.5%;
 }
-.wtw_spell:nth-child(5) {
-  top: 35%;
-  left: 85%;
-}
-.wtw_spell:nth-child(6) {
-  top: 65%;
-  left: 85%;
-}
 .wtw_spell:nth-child(3) {
   top: 80%;
   left: 37.5%;
@@ -1126,13 +1118,21 @@ body > .card {
   top: 80%;
   left: 62.5%;
 }
-.wtw_spell:nth-child(7) {
+.wtw_spell:nth-child(5) {
   top: 35%;
   left: 15%;
 }
-.wtw_spell:nth-child(8) {
+.wtw_spell:nth-child(6) {
   top: 65%;
   left: 15%;
+}
+.wtw_spell:nth-child(7) {
+  top: 35%;
+  left: 85%;
+}
+.wtw_spell:nth-child(8) {
+  top: 65%;
+  left: 85%;
 }
 
 .wtw_spellTooltip {

@@ -396,16 +396,23 @@ class Game extends \Table
         $isSolo = $this->isSolo();
 
         foreach ($players as $player_id => $player) {
-            $this->initStat("player", STAT_SPELLS_CASTED, 0, $player_id);
             $this->initStat("player", STAT_WIZARDS_RAVENSKEEP, 0, $player_id);
             $this->initStat("player", STAT_WIZARDS_IMPRISONED, 0, $player_id);
-            $this->initStat("player", STAT_POTIONS_USED, 0, $player_id);
+            $this->initStat("player", STAT_MOVES_DISCARDED, 0, $player_id);
 
             if ($isSolo) {
-                $this->initStat("player", STAT_MOVES_DISCARDED, 0, $player_id);
-            } else {
-                $this->initStat("player", STAT_POTIONS_FILLED, 0, $player_id);
+                if ($this->tableOptions->get(OPT_SPELLS_SOLO) === 1) {
+                    $this->initStat("player", STAT_SPELLS_CASTED, 0, $player_id);
+                    $this->initStat("player", STAT_POTIONS_USED, 0, $player_id);
+                }
+
+                continue;
             }
+
+
+            $this->initStat("player", STAT_SPELLS_CASTED, 0, $player_id);
+            $this->initStat("player", STAT_POTIONS_USED, 0, $player_id);
+            $this->initStat("player", STAT_POTIONS_FILLED, 0, $player_id);
         }
     }
 

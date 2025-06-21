@@ -28,6 +28,7 @@ if (!defined("ST_GAME_END")) {
 
     define("OPT_SPELLS", 100);
     define("OPT_SPELLS_NUMBER", 101);
+    define("OPT_SPELLS_SOLO", 102);
 
     define("STAT_WIZARDS_RAVENSKEEP", "wizardsRavenskeep");
     define("STAT_WIZARDS_IMPRISONED", "wizardsImprisoned");

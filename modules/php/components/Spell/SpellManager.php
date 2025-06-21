@@ -34,7 +34,18 @@ class SpellManager extends CardManager
 
         $this->deck->createCards($spellCards, "deck");
 
+        $isSolo = $this->game->isSolo();
+
+        if ($isSolo) {
+            if ($this->tableOptions->get(OPT_SPELLS_SOLO) === 1) {
+                $this->deck->shuffle("deck");
+                $this->deck->pickCardsForLocation(3, "deck", "table");
+            }
+            return;
+        }
+
         $opt_spells = $this->tableOptions->get(OPT_SPELLS);
+
         if ($opt_spells === 1) {
             $this->game->DbQuery("UPDATE {$this->dbTable} SET card_location='table' WHERE card_type_arg=1 OR card_type_arg=3");
         }

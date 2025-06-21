@@ -11,7 +11,13 @@
         "name": "Random"
       }
     },
-    "default": 2
+    "default": 2,
+    "displaycondition": [
+      {
+        "type": "minplayers",
+        "value": 2
+      }
+    ]
   },
   "101": {
     "name": "Number of spells",
@@ -41,7 +47,26 @@
         "type": "otheroption",
         "id": 100,
         "value": 2
+      },
+      {
+        "type": "minplayers",
+        "value": 2
       }
     ]
+  },
+  "102": {
+    "name": "Spells (solo)",
+    "values": {
+      "0": {
+        "name": "Off",
+        "description": "No spells nor potion bottles"
+      },
+      "1": {
+        "name": "On",
+        "description": "3 random spells and 6 full potions bottles"
+      }
+    },
+    "default": 1,
+    "displaycondition": [{ "type": "maxplayers", "value": 1 }]
   }
 }
