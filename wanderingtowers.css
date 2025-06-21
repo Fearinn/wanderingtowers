@@ -596,8 +596,14 @@ body > .card {
 
 .wtw_tooltipText {
   font-family: "Kuhlenbach", Roboto, Arial, sans-serif;
+  font-size: 28px;
+}
+
+.wtw_tooltipTitle {
+  font-size: 32px;
+  font-family: "Kuhlenbach", Roboto, Arial, sans-serif;
   font-weight: bold;
-  font-size: 24px;
+  margin: 0;
 }
 
 .wtw_button {
@@ -1139,8 +1145,9 @@ body > .card {
 .wtw_spellDescription {
   text-align: center;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   align-self: stretch;
   background-image: url("img/background.png");
   padding: 8px;

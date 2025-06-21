@@ -14,6 +14,7 @@ interface SpellInfo {
 interface Spell extends Card {
   card: SpellCard;
   table: SpellStocks["table"];
+  name: string;
   description: string;
 }
 
@@ -25,6 +26,7 @@ class Spell extends Card {
 
     const info = this.game.wtw.material.spells[this.id];
     this.description = info.description;
+    this.name = info.name;
   }
 
   setup(): void {
@@ -56,6 +58,7 @@ class Spell extends Card {
       <div class="wtw_spellTooltip">
         ${cloneElement.outerHTML}
         <div class="wtw_tooltipText wtw_spellDescription">
+          <h4 class="wtw_tooltipTitle">${this.name}</h4>
           <p>${this.description}</p>
         </div>
       </div>

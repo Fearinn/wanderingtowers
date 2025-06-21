@@ -21,8 +21,14 @@
 
 .wtw_tooltipText {
   font-family: "Kuhlenbach", Roboto, Arial, sans-serif;
+  font-size: 28px;
+}
+
+.wtw_tooltipTitle {
+  font-size: 32px;
+  font-family: "Kuhlenbach", Roboto, Arial, sans-serif;
   font-weight: bold;
-  font-size: 24px;
+  margin: 0;
 }
 
 .wtw_button {

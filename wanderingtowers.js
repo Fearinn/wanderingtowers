@@ -2844,6 +2844,7 @@ var Spell = /** @class */ (function (_super) {
         _this.id = _this.card.type_arg;
         var info = _this.game.wtw.material.spells[_this.id];
         _this.description = info.description;
+        _this.name = info.name;
         return _this;
     }
     Spell.prototype.setup = function () {
@@ -2863,7 +2864,7 @@ var Spell = /** @class */ (function (_super) {
             childElement.removeAttribute("id");
         });
         cloneElement.classList.add("wtw_spell-tooltip");
-        var tooltipHTML = "\n      <div class=\"wtw_spellTooltip\">\n        ".concat(cloneElement.outerHTML, "\n        <div class=\"wtw_tooltipText wtw_spellDescription\">\n          <p>").concat(this.description, "</p>\n        </div>\n      </div>\n    ");
+        var tooltipHTML = "\n      <div class=\"wtw_spellTooltip\">\n        ".concat(cloneElement.outerHTML, "\n        <div class=\"wtw_tooltipText wtw_spellDescription\">\n          <h4 class=\"wtw_tooltipTitle\">").concat(this.name, "</h4>\n          <p>").concat(this.description, "</p>\n        </div>\n      </div>\n    ");
         this.game.addTooltipHtml(element.id, tooltipHTML);
     };
     Spell.prototype.toggleSelection = function (enabled) {
@@ -3146,9 +3147,13 @@ var StCastSpell = /** @class */ (function (_super) {
         spellTable.setSelectionMode("single");
         spellTable.setSelectableCards(args.castableSpells);
         spellTable.onSelectionChange = function (selection, spellCard) {
-            _this.game.removeConfirmationButton();
+            var _a;
+            (_a = document.getElementById("wtw_spellBtn")) === null || _a === void 0 ? void 0 : _a.remove();
             if (selection.length > 0) {
-                _this.game.addConfirmationButton(_("spell"), function () {
+                var spell = new Spell(_this.game, spellCard);
+                _this.statusBar.addActionButton(_this.game.format_string_recursive(_("cast ${spell_label}"), {
+                    spell_label: _(spell.name),
+                }), function () {
                     _this.wtw.globals.spellCard = spellCard;
                     if (spellCard.type === "wizard") {
                         var stPickSpellWizard = new StPickSpellWizard(_this.game);
@@ -3163,6 +3168,8 @@ var StCastSpell = /** @class */ (function (_super) {
                     _this.game.performAction("actCastSpell", {
                         spell_id: spellCard.type_arg,
                     });
+                }, {
+                    id: "wtw_spellBtn",
                 });
                 return;
             }
