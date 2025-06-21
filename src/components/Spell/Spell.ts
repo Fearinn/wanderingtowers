@@ -72,6 +72,9 @@ class Spell extends Card {
 
     if (enabled) {
       this.select(true);
+      this.table.onSelectionChange = () => {
+        this.game.restoreServerGameState();
+      };
     }
   }
 

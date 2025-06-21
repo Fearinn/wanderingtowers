@@ -2868,9 +2868,13 @@ var Spell = /** @class */ (function (_super) {
         this.game.addTooltipHtml(element.id, tooltipHTML);
     };
     Spell.prototype.toggleSelection = function (enabled) {
+        var _this = this;
         this.table.setSelectionMode(enabled ? "single" : "none");
         if (enabled) {
             this.select(true);
+            this.table.onSelectionChange = function () {
+                _this.game.restoreServerGameState();
+            };
         }
     };
     Spell.prototype.select = function (silent) {
