@@ -43,6 +43,37 @@ class StAfterRoll extends StateManager {
         const stock = towerStocks[space_id];
         stock.toggleSelection(true);
         stock.setSelectableCards(movableMeeples[move.card.id].tower);
+
+        stock.onSelectionChange = (selection, card) => {
+          this.game.removeConfirmationButton();
+
+          if (selection.length > 0) {
+            stock.unselectOthers();
+
+            const tower = new Tower(this.game, card);
+            const space = new Space(this.game, tower.space_id);
+            const maxTier = space.getMaxTier();
+            const minTier = space.getMinTier();
+
+            this.game.wtw.globals.towerCard = tower.card;
+            this.game.wtw.globals.maxTier = maxTier;
+            this.game.wtw.globals.minTier = minTier;
+
+            if (maxTier > minTier) {
+              const stPickMoveTier = new StPickMoveTier(this.game);
+              stPickMoveTier.set();
+              return;
+            }
+
+            this.game.addConfirmationButton(_("tower"), () => {
+              const stPickMoveTier = new StPickMoveTier(this.game);
+              stPickMoveTier.set();
+            });
+            return;
+          }
+
+          this.game.restoreServerGameState();
+        };
       }
       return;
     }
@@ -52,8 +83,22 @@ class StAfterRoll extends StateManager {
       for (const space_id in wizardStocks) {
         const stock = wizardStocks[space_id];
         stock.toggleSelection(true);
-
         stock.setSelectableCards(movableMeeples[move.card.id].wizard);
+
+        stock.onSelectionChange = (selection, card) => {
+          this.game.removeConfirmationButton();
+
+          if (selection.length > 0) {
+            stock.unselectOthers();
+
+            this.game.addConfirmationButton(_("wizard"), () => {
+              this.game.performAction("actMoveWizard", {
+                moveCard_id: move.card.id,
+                wizardCard_id: card.id,
+              });
+            });
+          }
+        };
       }
       return;
     }

@@ -3355,22 +3355,22 @@ var StPickMoveWizard = /** @class */ (function (_super) {
         var _this = this;
         _super.prototype.enter.call(this);
         var movableMeeples = args._private.movableMeeples;
-        var card = this.game.wtw.globals.moveCard;
-        var move = new Move(this.game, card);
+        var moveCard = this.game.wtw.globals.moveCard;
+        var move = new Move(this.game, moveCard);
         move.toggleSelection(true);
         var wizardStocks = this.game.wtw.stocks.wizards.spaces;
         var _loop_5 = function (space_id) {
             var stock = wizardStocks[space_id];
             stock.toggleSelection(true);
             stock.setSelectableCards(movableMeeples[move.card.id].wizard);
-            stock.onSelectionChange = function (selection, card) {
+            stock.onSelectionChange = function (selection, towerCard) {
                 _this.game.removeConfirmationButton();
                 if (selection.length > 0) {
                     stock.unselectOthers();
                     _this.game.addConfirmationButton(_("wizard"), function () {
                         _this.game.performAction("actMoveWizard", {
-                            moveCard_id: _this.game.wtw.globals.moveCard.id,
-                            wizardCard_id: card.id,
+                            moveCard_id: move.card.id,
+                            wizardCard_id: towerCard.id,
                         });
                     });
                 }
@@ -3694,19 +3694,61 @@ var StAfterRoll = /** @class */ (function (_super) {
         }
         if (move.card.type === "tower") {
             var towerStocks = this.game.wtw.stocks.towers.spaces;
-            for (var space_id in towerStocks) {
+            var _loop_10 = function (space_id) {
                 var stock = towerStocks[space_id];
                 stock.toggleSelection(true);
                 stock.setSelectableCards(movableMeeples[move.card.id].tower);
+                stock.onSelectionChange = function (selection, card) {
+                    _this.game.removeConfirmationButton();
+                    if (selection.length > 0) {
+                        stock.unselectOthers();
+                        var tower = new Tower(_this.game, card);
+                        var space = new Space(_this.game, tower.space_id);
+                        var maxTier = space.getMaxTier();
+                        var minTier = space.getMinTier();
+                        _this.game.wtw.globals.towerCard = tower.card;
+                        _this.game.wtw.globals.maxTier = maxTier;
+                        _this.game.wtw.globals.minTier = minTier;
+                        if (maxTier > minTier) {
+                            var stPickMoveTier = new StPickMoveTier(_this.game);
+                            stPickMoveTier.set();
+                            return;
+                        }
+                        _this.game.addConfirmationButton(_("tower"), function () {
+                            var stPickMoveTier = new StPickMoveTier(_this.game);
+                            stPickMoveTier.set();
+                        });
+                        return;
+                    }
+                    _this.game.restoreServerGameState();
+                };
+            };
+            for (var space_id in towerStocks) {
+                _loop_10(space_id);
             }
             return;
         }
         if (move.card.type === "wizard") {
             var wizardStocks = this.game.wtw.stocks.wizards.spaces;
-            for (var space_id in wizardStocks) {
+            var _loop_11 = function (space_id) {
                 var stock = wizardStocks[space_id];
                 stock.toggleSelection(true);
                 stock.setSelectableCards(movableMeeples[move.card.id].wizard);
+                stock.onSelectionChange = function (selection, card) {
+                    _this.game.removeConfirmationButton();
+                    if (selection.length > 0) {
+                        stock.unselectOthers();
+                        _this.game.addConfirmationButton(_("wizard"), function () {
+                            _this.game.performAction("actMoveWizard", {
+                                moveCard_id: move.card.id,
+                                wizardCard_id: card.id,
+                            });
+                        });
+                    }
+                };
+            };
+            for (var space_id in wizardStocks) {
+                _loop_11(space_id);
             }
             return;
         }
