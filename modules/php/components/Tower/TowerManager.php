@@ -103,7 +103,7 @@ class TowerManager extends CardManager
 
     public function getPushable(): array
     {
-        if ($this->globals->get(G_TURN_MOVE) === 1) {
+        if ($this->globals->get(G_TURN_MOVE) >= 1) {
             return [];
         }
 

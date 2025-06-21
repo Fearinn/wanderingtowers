@@ -36,6 +36,7 @@ $machinestates = [
 			"actRollDice",
 			"actPushTower",
 			"actCastSpell",
+			"actPass",
 		],
 		"transitions" => [
 			TR_NEXT_ACTION => ST_PLAYER_TURN,

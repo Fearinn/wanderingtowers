@@ -7,10 +7,6 @@ use Bga\GameFramework\Table;
 
 class ActAcceptRoll extends ActionManager
 {
-    public Table $game;
-    public $gamestate;
-    public Globals $globals;
-
     public function __construct(Table $game)
     {
         parent::__construct($game);

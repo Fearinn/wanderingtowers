@@ -3725,11 +3725,13 @@ var StPlayerTurn = /** @class */ (function (_super) {
         var _this = this;
         _super.prototype.enter.call(this);
         this.wtw.globals = {};
-        var pushableTowers = args.pushableTowers, castableSpells = args.castableSpells;
-        this.statusBar.addActionButton(_("play movement"), function () {
-            var stPlayMove = new StPlayMove(_this.game);
-            stPlayMove.set();
-        }, {});
+        var playableMoves = args.playableMoves, pushableTowers = args.pushableTowers, castableSpells = args.castableSpells, canPass = args.canPass;
+        if (playableMoves.length > 0) {
+            this.statusBar.addActionButton(_("play movement"), function () {
+                var stPlayMove = new StPlayMove(_this.game);
+                stPlayMove.set();
+            }, {});
+        }
         if (castableSpells.length > 0) {
             this.statusBar.addActionButton(_("cast spell"), function () {
                 var stCastSpell = new StCastSpell(_this.game);
@@ -3741,6 +3743,13 @@ var StPlayerTurn = /** @class */ (function (_super) {
                 var stPickPushTower = new StPickPushTower(_this.game);
                 stPickPushTower.set();
             }, { classes: ["wtw_button", "wtw_button-brown"] });
+        }
+        if (canPass) {
+            this.statusBar.addActionButton(_("pass"), function () {
+                _this.game.performAction("actPass");
+            }, {
+                color: "alert",
+            });
         }
     };
     StPlayerTurn.prototype.leave = function () {

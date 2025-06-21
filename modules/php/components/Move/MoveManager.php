@@ -29,7 +29,8 @@ class MoveManager extends CardManager
         }
     }
 
-    public function countCardsInDeck(): int {
+    public function countCardsInDeck(): int
+    {
         return $this->countCardsInLocation("deck");
     }
 
@@ -72,6 +73,11 @@ class MoveManager extends CardManager
 
     public function getPlayable(int $player_id): array
     {
+        $moveLimit = $moveLimit = $this->game->isSolo() ? 1 : 2;
+        if ($this->globals->get(G_TURN_MOVE) >= $moveLimit) {
+            return [];
+        }
+        
         $playableMoves = [];
 
         foreach ($this->getPlayerHand($player_id) as $moveCard) {

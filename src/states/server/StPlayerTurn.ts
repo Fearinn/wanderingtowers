@@ -8,16 +8,18 @@ class StPlayerTurn extends StateManager {
 
     this.wtw.globals = {};
 
-    const { pushableTowers, castableSpells } = args;
+    const { playableMoves, pushableTowers, castableSpells, canPass } = args;
 
-    this.statusBar.addActionButton(
-      _("play movement"),
-      () => {
-        const stPlayMove = new StPlayMove(this.game);
-        stPlayMove.set();
-      },
-      {}
-    );
+    if (playableMoves.length > 0) {
+      this.statusBar.addActionButton(
+        _("play movement"),
+        () => {
+          const stPlayMove = new StPlayMove(this.game);
+          stPlayMove.set();
+        },
+        {}
+      );
+    }
 
     if (castableSpells.length > 0) {
       this.statusBar.addActionButton(
@@ -40,6 +42,18 @@ class StPlayerTurn extends StateManager {
         { classes: ["wtw_button", "wtw_button-brown"] }
       );
     }
+
+    if (canPass) {
+      this.statusBar.addActionButton(
+        _("pass"),
+        () => {
+          this.game.performAction("actPass");
+        },
+        {
+          color: "alert",
+        }
+      );
+    }
   }
 
   leave() {
@@ -52,4 +66,5 @@ interface arg_playerTurn {
   movableMeeples: MovableMeeples;
   pushableTowers: TowerCard[];
   castableSpells: SpellCard[];
+  canPass: boolean;
 }

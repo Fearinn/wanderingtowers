@@ -103,4 +103,5 @@ type ActionName =
   | "actRerollDice"
   | "actAcceptRoll"
   | "actPushTower"
-  | "actCastSpell";
+  | "actCastSpell"
+  | "actPass";

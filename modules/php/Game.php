@@ -29,6 +29,7 @@ use Bga\Games\WanderingTowers\Actions\ActMoveTowerDice;
 use Bga\Games\WanderingTowers\Actions\ActMoveTower;
 use Bga\Games\WanderingTowers\Actions\ActMoveWizard;
 use Bga\Games\WanderingTowers\Actions\ActMoveWizardDice;
+use Bga\Games\WanderingTowers\Actions\ActPass;
 use Bga\Games\WanderingTowers\Actions\ActRerollDice;
 use Bga\Games\WanderingTowers\Actions\ActRollDice;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
@@ -216,9 +217,15 @@ class Game extends \Table
         #[IntParam(min: 1, max: 8)] int $spell_id,
         #[IntParam(min: 1, max: 16)] ?int $meeple_id,
         #[IntParam(min: 1, max: 10)] ?int $tier,
-    ) {
+    ): void {
         $ActCastSpell = new ActCastSpell($this);
         $ActCastSpell->act($spell_id, $meeple_id, $tier);
+    }
+
+    public function actPass(): void
+    {
+        $ActPass = new ActPass($this);
+        $ActPass->act();
     }
 
     /**
