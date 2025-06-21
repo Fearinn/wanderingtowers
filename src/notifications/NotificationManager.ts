@@ -85,8 +85,9 @@ class NotificationManager implements NotificationManager {
   public notif_usePotions(args: { nbr: number; player_id: number }): void {
     const { nbr, player_id } = args;
     const cargo = this.game.wtw.stocks.potions[player_id].cargo;
+    const voidStock = this.game.wtw.stocks.potions.void;
     const potionCards = cargo.getCards().slice(0, nbr);
-    cargo.removeCards(potionCards);
+    voidStock.addCards(potionCards);
   }
 
   public notif_enterRavenskeep(args: {

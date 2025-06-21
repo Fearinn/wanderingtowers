@@ -82,7 +82,7 @@ class WanderingTowers extends WanderingTowersGui {
       },
     });
 
-    const potionCardManager = new CardManager<PotionCard>(this, {
+    const potionManager = new CardManager<PotionCard>(this, {
       getId: (card) => {
         return `wtw_potionCard-${card.id}`;
       },
@@ -188,7 +188,12 @@ class WanderingTowers extends WanderingTowersGui {
       };
     }
 
-    const potionStocks = {};
+    const potionStocks = {
+      void: new VoidStock(
+        potionManager,
+        document.getElementById("wtw_potionVoid")
+      ),
+    };
     for (let p_id in gamedatas.players) {
       const player_id = Number(p_id);
       const playerPanelElement = this.getPlayerPanelElement(player_id);
@@ -228,7 +233,7 @@ class WanderingTowers extends WanderingTowersGui {
       );
 
       potionStocks[player_id] = {
-        cargo: new PotionCargoStock(this, potionCardManager, player_id),
+        cargo: new PotionCargoStock(this, potionManager, player_id),
       };
     }
 

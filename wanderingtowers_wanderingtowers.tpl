@@ -19,6 +19,7 @@
         <span class="wtw_moveDiscardTitle">Discard</span>
       </div>
       <div id="wtw_spells" class="wtw_spells"></div>
+      <div id="wtw_potionVoid" class="wtw_potionVoid"></div>
     </div>
     <div id="wtw_spacesContainer" class="wtw_spacesContainer">
       <div id="wtw_tiles" class="wtw_tiles">

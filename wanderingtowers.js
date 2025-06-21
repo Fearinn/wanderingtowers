@@ -101,7 +101,7 @@ var WanderingTowers = /** @class */ (function (_super) {
                 move.setupBackDiv(element);
             },
         });
-        var potionCardManager = new CardManager(this, {
+        var potionManager = new CardManager(this, {
             getId: function (card) {
                 return "wtw_potionCard-".concat(card.id);
             },
@@ -174,7 +174,9 @@ var WanderingTowers = /** @class */ (function (_super) {
                 hand: new VoidStock(moveManager, document.getElementById("wtw_moveVoid-".concat(player_id))),
             };
         }
-        var potionStocks = {};
+        var potionStocks = {
+            void: new VoidStock(potionManager, document.getElementById("wtw_potionVoid")),
+        };
         for (var p_id in gamedatas.players) {
             var player_id = Number(p_id);
             var playerPanelElement = this.getPlayerPanelElement(player_id);
@@ -185,7 +187,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             counters[player_id].ravenskeep.create("wtw_ravenskeepCount-".concat(player_id));
             counters[player_id].ravenskeep.setValue(gamedatas.ravenskeepCounts[player_id]);
             potionStocks[player_id] = {
-                cargo: new PotionCargoStock(this, potionCardManager, player_id),
+                cargo: new PotionCargoStock(this, potionManager, player_id),
             };
         }
         var spellStocks = {
@@ -3096,8 +3098,9 @@ var NotificationManager = /** @class */ (function () {
     NotificationManager.prototype.notif_usePotions = function (args) {
         var nbr = args.nbr, player_id = args.player_id;
         var cargo = this.game.wtw.stocks.potions[player_id].cargo;
+        var voidStock = this.game.wtw.stocks.potions.void;
         var potionCards = cargo.getCards().slice(0, nbr);
-        cargo.removeCards(potionCards);
+        voidStock.addCards(potionCards);
     };
     NotificationManager.prototype.notif_enterRavenskeep = function (args) {
         var wizardCard = args.wizardCard, player_id = args.player_id;

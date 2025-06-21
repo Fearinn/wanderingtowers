@@ -44,6 +44,7 @@ class Potion extends Card {
 }
 
 interface PotionStocks {
+  void: VoidStock<PotionCard>;
   [player_id: number]: { cargo: PotionCargoStock };
 }
 

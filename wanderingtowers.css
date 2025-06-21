@@ -949,7 +949,7 @@ body > .card {
   display: none;
 }
 .wtw_wizard-ravenskeep {
-  animation: 0.5s linear forwards enterRavenskeep;
+  animation: 1s linear forwards enterRavenskeep;
 }
 
 .wtw_ravenskeepCounter {
@@ -1051,6 +1051,13 @@ body > .card {
 
 .wtw_potionCargo:empty {
   display: none;
+}
+
+.wtw_potionVoid {
+  position: absolute !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .wtw_potion {
