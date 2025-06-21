@@ -44,8 +44,12 @@ class StPlayerTurn extends StateManager
         $spellableMeeples = $SpellManager->getSpellableMeeples($player_id);
 
         $args = [
-            "playableMoves" => $MoveManager->hideCards($playableMoves),
-            "movableMeeples" => $movableMeeples,
+            "_private" => [
+                "active" => [
+                    "playableMoves" => $playableMoves,
+                    "movableMeeples" => $movableMeeples,
+                ],
+            ],
             "pushableTowers" => $pushableTowers,
             "castableSpells" => $castableSpells,
             "spellableMeeples" => $spellableMeeples,

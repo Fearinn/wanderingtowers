@@ -12,7 +12,7 @@ class StPickMoveWizard extends StateManager {
   enter(args) {
     super.enter();
 
-    const { movableMeeples } = args;
+    const { movableMeeples } = args._private;
 
     const card = this.game.wtw.globals.moveCard;
     const move = new Move(this.game, card);
@@ -25,25 +25,25 @@ class StPickMoveWizard extends StateManager {
       stock.setSelectableCards(movableMeeples[move.card.id].wizard);
 
       stock.onSelectionChange = (selection, card) => {
-      this.game.removeConfirmationButton();
+        this.game.removeConfirmationButton();
 
-      if (selection.length > 0) {
-        stock.unselectOthers();
-        
-        this.game.addConfirmationButton(_("wizard"), () => {
-          this.game.performAction("actMoveWizard", {
-            moveCard_id: this.game.wtw.globals.moveCard.id,
-            wizardCard_id: card.id,
+        if (selection.length > 0) {
+          stock.unselectOthers();
+
+          this.game.addConfirmationButton(_("wizard"), () => {
+            this.game.performAction("actMoveWizard", {
+              moveCard_id: this.game.wtw.globals.moveCard.id,
+              wizardCard_id: card.id,
+            });
           });
-        });
-      }
-    };
+        }
+      };
     }
   }
 
   leave() {
     super.leave();
-    
+
     const card = this.game.wtw.globals.moveCard;
     const move = new Move(this.game, card);
     move.toggleSelection(false);
@@ -57,5 +57,7 @@ class StPickMoveWizard extends StateManager {
 }
 
 interface arg_StPickMoveWizard {
-  movableMeeples: MovableMeeples
+  _private: {
+    movableMeeples: MovableMeeples;
+  };
 }

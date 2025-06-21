@@ -17,15 +17,19 @@ class StAfterRoll extends StateManager
     {
         $moveCard_id = $this->globals->get(G_MOVE);
         $Move = new Move($this->game, $moveCard_id);
-        
+
         $MoveManager = new MoveManager($this->game);
         $movableMeeples = $MoveManager->getMovableMeeples($this->player_id);
 
         $wizard_or_tower = $Move->type === "both" ? clienttranslate("wizard or tower") : $Move->type;
 
         $args = [
+            "_private" => [
+                "active" => [
+                    "movableMeeples" => $movableMeeples,
+                ]
+            ],
             "moveCard" => $Move->getMoveCard(),
-            "movableMeeples" => $movableMeeples,
             "wizard_or_tower" => $wizard_or_tower,
             "i18n" => ["wizard_or_tower"],
         ];

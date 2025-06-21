@@ -8,7 +8,8 @@ class StAfterRoll extends StateManager {
 
     this.game.wtw.globals = {};
 
-    const { moveCard, movableMeeples } = args;
+    const { moveCard, _private } = args;
+    const { movableMeeples } = _private;
     this.game.wtw.globals.moveCard = moveCard;
 
     const move = new Move(this.game, moveCard);
@@ -81,6 +82,8 @@ class StAfterRoll extends StateManager {
 }
 
 interface arg_StAfterRoll {
+  _private: {
+    movableMeeples: MovableMeeples;
+  };
   moveCard: MoveCard;
-  movableMeeples: MovableMeeples;
 }

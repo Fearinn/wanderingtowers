@@ -8,7 +8,8 @@ class StPlayerTurn extends StateManager {
 
     this.wtw.globals = {};
 
-    const { playableMoves, pushableTowers, castableSpells, canPass } = args;
+    const { _private, pushableTowers, castableSpells, canPass } = args;
+    const { playableMoves } = _private;
 
     if (playableMoves.length > 0) {
       this.statusBar.addActionButton(
@@ -62,8 +63,9 @@ class StPlayerTurn extends StateManager {
 }
 
 interface arg_playerTurn {
-  playableMoves: MoveCard[];
-  movableMeeples: MovableMeeples;
+  _private: {
+    playableMoves: MoveCard[];
+  };
   pushableTowers: TowerCard[];
   castableSpells: SpellCard[];
   canPass: boolean;

@@ -3290,7 +3290,7 @@ var StPickMoveTower = /** @class */ (function (_super) {
     StPickMoveTower.prototype.enter = function (args) {
         var _this = this;
         _super.prototype.enter.call(this);
-        var movableMeeples = args.movableMeeples;
+        var movableMeeples = args._private.movableMeeples;
         var card = this.game.wtw.globals.moveCard;
         var move = new Move(this.game, card);
         move.toggleSelection(true);
@@ -3354,7 +3354,7 @@ var StPickMoveWizard = /** @class */ (function (_super) {
     StPickMoveWizard.prototype.enter = function (args) {
         var _this = this;
         _super.prototype.enter.call(this);
-        var movableMeeples = args.movableMeeples;
+        var movableMeeples = args._private.movableMeeples;
         var card = this.game.wtw.globals.moveCard;
         var move = new Move(this.game, card);
         move.toggleSelection(true);
@@ -3619,9 +3619,10 @@ var StPlayMove = /** @class */ (function (_super) {
     StPlayMove.prototype.enter = function (args) {
         var _this = this;
         _super.prototype.enter.call(this);
+        var playableMoves = args._private.playableMoves;
         var moveHand = this.wtw.stocks.moves.hand;
         moveHand.toggleSelection(true);
-        moveHand.setSelectableCards(args.playableMoves);
+        moveHand.setSelectableCards(playableMoves);
         moveHand.onSelectionChange = function (selection, card) {
             _this.game.removeConfirmationButton();
             if (selection.length > 0) {
@@ -3675,7 +3676,8 @@ var StAfterRoll = /** @class */ (function (_super) {
         var _this = this;
         _super.prototype.enter.call(this);
         this.game.wtw.globals = {};
-        var moveCard = args.moveCard, movableMeeples = args.movableMeeples;
+        var moveCard = args.moveCard, _private = args._private;
+        var movableMeeples = _private.movableMeeples;
         this.game.wtw.globals.moveCard = moveCard;
         var move = new Move(this.game, moveCard);
         move.toggleSelectedClass(true);
@@ -3736,7 +3738,8 @@ var StPlayerTurn = /** @class */ (function (_super) {
         var _this = this;
         _super.prototype.enter.call(this);
         this.wtw.globals = {};
-        var playableMoves = args.playableMoves, pushableTowers = args.pushableTowers, castableSpells = args.castableSpells, canPass = args.canPass;
+        var _private = args._private, pushableTowers = args.pushableTowers, castableSpells = args.castableSpells, canPass = args.canPass;
+        var playableMoves = _private.playableMoves;
         if (playableMoves.length > 0) {
             this.statusBar.addActionButton(_("play movement"), function () {
                 var stPlayMove = new StPlayMove(_this.game);

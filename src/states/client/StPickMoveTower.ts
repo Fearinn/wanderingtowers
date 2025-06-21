@@ -12,7 +12,7 @@ class StPickMoveTower extends StateManager {
   enter(args: arg_StPickMoveTower) {
     super.enter();
 
-    const { movableMeeples } = args;
+    const { movableMeeples } = args._private;
 
     const card = this.game.wtw.globals.moveCard;
     const move = new Move(this.game, card);
@@ -74,5 +74,7 @@ class StPickMoveTower extends StateManager {
 }
 
 interface arg_StPickMoveTower {
-  movableMeeples: MovableMeeples;
+  _private: {
+    movableMeeples: MovableMeeples;
+  };
 }

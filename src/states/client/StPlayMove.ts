@@ -12,9 +12,11 @@ class StPlayMove extends StateManager {
   enter(args: args_StPlayMove) {
     super.enter();
 
+    const { playableMoves } = args._private;
+
     const moveHand = this.wtw.stocks.moves.hand;
     moveHand.toggleSelection(true);
-    moveHand.setSelectableCards(args.playableMoves);
+    moveHand.setSelectableCards(playableMoves);
 
     moveHand.onSelectionChange = (selection, card) => {
       this.game.removeConfirmationButton();
@@ -76,5 +78,7 @@ class StPlayMove extends StateManager {
 }
 
 interface args_StPlayMove {
-  playableMoves: MoveCard[];
+  _private: {
+    playableMoves: MoveCard[];
+  };
 }
