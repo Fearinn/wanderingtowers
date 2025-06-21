@@ -77,7 +77,7 @@ class MoveManager extends CardManager
         if ($this->globals->get(G_TURN_MOVE) >= $moveLimit) {
             return [];
         }
-        
+
         $playableMoves = [];
 
         foreach ($this->getPlayerHand($player_id) as $moveCard) {
@@ -117,19 +117,19 @@ class MoveManager extends CardManager
         return $movableMeeples;
     }
 
-    public function discardMoves(array $cards): void
+    public function discardMoves(array $cards, int $player_id): void
     {
         foreach ($cards as $moveCard) {
             $moveCard_id =  (int) $moveCard["id"];
             $Move = new Move($this->game, $moveCard_id);
-            $Move->discard();
+            $Move->discard($player_id);
         }
     }
 
     public function recycleHand(int $player_id): void
     {
         $hand = $this->getPlayerHand($player_id);
-        $this->discardMoves($hand);
+        $this->discardMoves($hand, $player_id);
 
         $this->drawMoves(3, $player_id);
     }

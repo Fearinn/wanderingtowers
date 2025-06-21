@@ -24,6 +24,11 @@
       "id": 14,
       "name": "Spells casted",
       "type": "int"
+    },
+    "movesDiscarded": {
+      "id": 15,
+      "name": "Moves discarded",
+      "type": "int"
     }
   }
 }

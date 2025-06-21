@@ -401,7 +401,9 @@ class Game extends \Table
             $this->initStat("player", STAT_WIZARDS_IMPRISONED, 0, $player_id);
             $this->initStat("player", STAT_POTIONS_USED, 0, $player_id);
 
-            if (!$isSolo) {
+            if ($isSolo) {
+                $this->initStat("player", STAT_MOVES_DISCARDED, 0, $player_id);
+            } else {
                 $this->initStat("player", STAT_POTIONS_FILLED, 0, $player_id);
             }
         }

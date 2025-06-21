@@ -10,6 +10,13 @@ if (!defined("ST_GAME_END")) {
     define("ST_AFTER_ROLL", 5);
     define("ST_GAME_END", 99);
 
+    define("TR_REROLL_DICE", "rerollDice");
+    define("TR_NEXT_PLAYER", "nextPlayer");
+    define("TR_AFTER_ROLL", "afterRoll");
+    define("TR_PASS", "pass");
+    define("TR_NEXT_ACTION", "nextAction");
+    define("TR_GAME_END", "gameEnd");
+
     define("G_REROLLS", "rerolls");
     define("G_ROLL", "roll");
     define("G_MOVE", "move");
@@ -27,11 +34,5 @@ if (!defined("ST_GAME_END")) {
     define("STAT_SPELLS_CASTED", "spellsCasted");
     define("STAT_POTIONS_FILLED", "potionsFilled");
     define("STAT_POTIONS_USED", "potionsUsed");
-
-    define("TR_REROLL_DICE", "rerollDice");
-    define("TR_NEXT_PLAYER", "nextPlayer");
-    define("TR_AFTER_ROLL", "afterRoll");
-    define("TR_PASS", "pass");
-    define("TR_NEXT_ACTION", "nextAction");
-    define("TR_GAME_END", "gameEnd");
+    define("STAT_MOVES_DISCARDED", "movesDiscarded");
 }

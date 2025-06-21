@@ -104,7 +104,7 @@ class Move extends MoveManager
         $this->validateIsMovable($card_id, $side, $player_id);
     }
 
-    public function discard(): void
+    public function discard(int $player_id): void
     {
         $discardPosition = $this->countCardsInLocation("discard");
         $this->moveCard($this->card_id, "discard", $discardPosition);
@@ -117,6 +117,8 @@ class Move extends MoveManager
                 "card" => $this->getCard($this->card_id)
             ]
         );
+
+        $this->game->incStat(1, STAT_MOVES_DISCARDED, $player_id);
     }
 
     public function isPlayable(int $player_id): bool

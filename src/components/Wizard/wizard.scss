@@ -55,7 +55,7 @@
   }
 
   &-ravenskeep {
-    animation: 1s linear forwards ravenskeep;
+    animation: 0.5s linear forwards enterRavenskeep;
   }
 }
 
@@ -89,7 +89,7 @@
   gap: 4px;
 }
 
-@keyframes ravenskeep {
+@keyframes enterRavenskeep {
   100% {
     transform: translateY(40%) scale(0.1) rotate(1080deg);
     display: none;
