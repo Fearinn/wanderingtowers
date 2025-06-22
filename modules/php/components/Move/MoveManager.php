@@ -73,7 +73,7 @@ class MoveManager extends CardManager
 
     public function getPlayable(int $player_id): array
     {
-        $moveLimit = $moveLimit = $this->game->isSolo() ? 1 : 2;
+        $moveLimit = $moveLimit = $this->game->MOVE_LIMIT();
         if ($this->globals->get(G_TURN_MOVE) >= $moveLimit) {
             return [];
         }

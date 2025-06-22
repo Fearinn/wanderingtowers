@@ -67,7 +67,10 @@ class SpellManager extends CardManager
 
     public function getCastable(int $player_id): array
     {
-        if ($this->globals->get(G_SPELL_CASTED, false)) {
+        if (
+            $this->globals->get(G_SPELL_CASTED, false) ||
+            $this->game->isSolo() && $this->globals->get(G_TURN_MOVE) === 0
+        ) {
             return [];
         }
 

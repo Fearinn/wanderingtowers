@@ -33,7 +33,7 @@ class StPlayerTurn extends StateManager
         $TowerManager = new TowerManager($this->game);
         $pushableTowers = $TowerManager->getPushable();
 
-        $moveLimit = $this->game->isSolo() ? 1 : 2;
+        $moveLimit = $this->game->MOVE_LIMIT();
         $turnMove = $this->globals->get(G_TURN_MOVE);
 
         $SpellManager = new SpellManager($this->game);

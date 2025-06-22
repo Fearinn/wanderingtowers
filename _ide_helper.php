@@ -205,12 +205,17 @@ namespace Bga\GameFramework {
             return [];
         }
 
+        public function getStateId(): int
+        {
+            return 0;
+        }
+
         public function isSolo(): bool
         {
             return false;
         }
 
-        public function getStateId(): int
+        public function MOVE_LIMIT(): int
         {
             return 0;
         }

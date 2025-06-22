@@ -96,14 +96,19 @@ class Game extends \Table
         return $object;
     }
 
+    public function getStateId(): int
+    {
+        return (int) $this->gamestate->state_id();
+    }
+
     public function isSolo(): bool
     {
         return $this->getPlayersNumber() === 1;
     }
 
-    public function getStateId(): int
+    public function MOVE_LIMIT(): int
     {
-        return (int) $this->gamestate->state_id();
+        return $this->isSolo() ? 1 : 2;
     }
 
     public function sumSteps(int $initial, int $steps): int
@@ -392,7 +397,7 @@ class Game extends \Table
         $this->globals->set(G_TURN_MOVE, 0);
         $this->globals->set(G_FINAL_TURN, 0);
 
-        $isSolo = $this->isSolo();
+        $isSolo = count($players) === 1;
 
         foreach ($players as $player_id => $player) {
             $this->initStat("player", STAT_WIZARDS_RAVENSKEEP, 0, $player_id);

@@ -14,13 +14,9 @@ class ActPass extends ActionManager
 
     public function validate(): void
     {
-        if ($this->globals->get(G_TURN_MOVE) !== 2) {
-            $SpellManager = new SpellManager($this->game);
-            $castableSpells = $SpellManager->getCastable($this->player_id);
-
-            if ($castableSpells) {
-                throw new \BgaVisibleSystemException("You must play a movement");
-            }
+        $moveLimit = $this->game->MOVE_LIMIT();
+        if ($this->globals->get(G_TURN_MOVE) < $moveLimit) {
+            throw new \BgaVisibleSystemException("You must play a movement");
         }
     }
 
