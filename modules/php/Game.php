@@ -21,7 +21,6 @@ declare(strict_types=1);
 namespace Bga\Games\WanderingTowers;
 
 use Bga\GameFramework\Actions\Types\IntParam;
-use Bga\GameFramework\Actions\Types\JsonParam;
 use Bga\Games\WanderingTowers\Actions\ActAcceptRoll;
 use Bga\Games\WanderingTowers\Actions\ActPushTower;
 use Bga\Games\WanderingTowers\Actions\ActCastSpell;

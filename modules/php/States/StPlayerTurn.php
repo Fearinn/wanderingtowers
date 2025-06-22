@@ -39,7 +39,7 @@ class StPlayerTurn extends StateManager
         $SpellManager = new SpellManager($this->game);
         $castableSpells = $SpellManager->getCastable($player_id);
 
-        $endTurn = $turnMove >= $moveLimit && !$castableSpells;
+        $endTurn = $turnMove === $moveLimit && !$castableSpells || ($turnMove > $moveLimit);
 
         $spellableMeeples = $SpellManager->getSpellableMeeples($player_id);
 
@@ -53,7 +53,7 @@ class StPlayerTurn extends StateManager
             "pushableTowers" => $pushableTowers,
             "castableSpells" => $castableSpells,
             "spellableMeeples" => $spellableMeeples,
-            "canPass" => $turnMove === 2 && $castableSpells,
+            "canPass" => $turnMove === $moveLimit && $castableSpells,
             "no_notify" => $endTurn || (!$playableMoves && !$pushableTowers && !$castableSpells),
         ];
 
