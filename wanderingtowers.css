@@ -618,6 +618,10 @@ body > .card {
   --borderColor: sienna;
 }
 
+.wtw_logHighlight {
+  font-weight: bold;
+}
+
 :root {
   --boardWidth: calc(var(--spaceWidth) * 5.8);
 }

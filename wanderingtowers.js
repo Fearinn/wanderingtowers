@@ -389,6 +389,23 @@ var WanderingTowers = /** @class */ (function (_super) {
     WanderingTowers.prototype.getStateName = function () {
         return this.gamedatas.gamestate.name;
     };
+    WanderingTowers.prototype.bgaFormatText = function (log, args) {
+        try {
+            if (log && args && !args.processed) {
+                args.processed = true;
+                for (var key in args) {
+                    if (!key.includes("_label")) {
+                        continue;
+                    }
+                    args[key] = "<span class=\"wtw_logHighlight\">".concat(args[key], "</span>");
+                }
+            }
+        }
+        catch (e) {
+            console.error(log, args, "Exception thrown", e.stack);
+        }
+        return { log: log, args: args };
+    };
     return WanderingTowers;
 }(WanderingTowersGui));
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {

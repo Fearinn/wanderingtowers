@@ -500,4 +500,23 @@ class WanderingTowers extends WanderingTowersGui {
   public getStateName(): StateName {
     return this.gamedatas.gamestate.name;
   }
+
+  public bgaFormatText(log: string, args: any): { log: string; args: any } {
+    try {
+      if (log && args && !args.processed) {
+        args.processed = true;
+
+        for (const key in args) {
+          if (!key.includes("_label")) {
+            continue;
+          }
+
+          args[key] = `<span class="wtw_logHighlight">${args[key]}</span>`;
+        }
+      }
+    } catch (e) {
+      console.error(log, args, "Exception thrown", e.stack);
+    }
+    return { log, args };
+  }
 }
