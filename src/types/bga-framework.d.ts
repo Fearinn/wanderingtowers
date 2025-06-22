@@ -7,11 +7,15 @@ declare var g_img_preload: string[];
 declare function _(str: string): string;
 declare function __(site: string, str: string): string;
 declare function $(text: string | Element): HTMLElement;
+declare function getLibUrl(url: string, version: string): void;
 
 declare const define;
 declare const ebg;
 declare const dojo;
 declare const dijit;
+declare const BgaAutoFit: {
+  init: () => void;
+};
 declare type eventhandler = (event?: any) => void;
 
 type ElementOrId = Element | string;

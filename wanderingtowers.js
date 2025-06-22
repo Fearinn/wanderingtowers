@@ -277,6 +277,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             spell.setup();
         });
         this.setupNotifications();
+        BgaAutoFit.init();
     };
     WanderingTowers.prototype.onEnteringState = function (stateName, args) {
         if (!this.isCurrentPlayerActive()) {
@@ -2596,9 +2597,10 @@ define([
     "dojo/_base/declare",
     "ebg/core/gamegui",
     "ebg/counter",
-    "ebg/stock",
     "".concat(g_gamethemeurl, "modules/js/libs/bga-dice.js"),
-], function (dojo, declare) {
+    getLibUrl("bga-autofit", "1.x"),
+], function (dojo, declare, counter, gamegui, dice, BgaAutoFit) {
+    window.BgaAutoFit = BgaAutoFit;
     return declare("bgagame.wanderingtowers", ebg.core.gamegui, new WanderingTowers());
 });
 var Card = /** @class */ (function () {
@@ -2866,7 +2868,7 @@ var Spell = /** @class */ (function (_super) {
             childElement.removeAttribute("id");
         });
         cloneElement.classList.add("wtw_spell-tooltip");
-        var tooltipHTML = "\n      <div class=\"wtw_spellTooltip\">\n        ".concat(cloneElement.outerHTML, "\n        <div class=\"wtw_tooltipText wtw_spellDescription\">\n          <h4 class=\"wtw_tooltipTitle\">").concat(this.name, "</h4>\n          <p>").concat(this.description, "</p>\n        </div>\n      </div>\n    ");
+        var tooltipHTML = "\n      <div class=\"wtw_spellTooltip\">\n      <h4 class=\"wtw_tooltipText wtw_tooltipTitle\">".concat(this.name, "</h4>\n      <div class=\"wtw_spellContent\">\n          ").concat(cloneElement.outerHTML, "\n          <p class=\"bga-autofit wtw_tooltipText wtw_spellDescription\">").concat(this.description, "</p>\n        </div>\n      </div>\n    ");
         this.game.addTooltipHtml(element.id, tooltipHTML);
     };
     Spell.prototype.toggleSelection = function (enabled) {

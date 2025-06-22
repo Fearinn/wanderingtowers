@@ -351,6 +351,7 @@ class WanderingTowers extends WanderingTowersGui {
     });
 
     this.setupNotifications();
+    BgaAutoFit.init();
   }
 
   public onEnteringState(stateName: StateName, args?: any): void {

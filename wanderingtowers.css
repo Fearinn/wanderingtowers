@@ -1144,20 +1144,27 @@ body > .card {
 
 .wtw_spellTooltip {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 4px;
   align-items: center;
   justify-content: center;
+  background-image: url("img/background2.png");
+  padding: 8px;
+}
+
+.wtw_spellContent {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
 }
 
 .wtw_spellDescription {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  align-self: stretch;
-  background-image: url("img/background.png");
-  padding: 8px;
+  font-size: 32px;
+  margin: 0;
+  height: var(--spellWidth);
+  width: calc(var(--spellWidth) * 2);
 }
 
 @font-face {
@@ -1165,6 +1172,7 @@ body > .card {
   src: url("img/kuhlenbach-font/kuhlenbach.ttf");
 }
 .wtw_gameArea {
+  direction: ltr !important;
   font-family: "Kuhlenbach", Roboto, Arial, sans-serif;
   display: flex;
   flex-direction: column;

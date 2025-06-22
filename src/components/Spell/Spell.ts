@@ -56,10 +56,10 @@ class Spell extends Card {
 
     const tooltipHTML = `
       <div class="wtw_spellTooltip">
-        ${cloneElement.outerHTML}
-        <div class="wtw_tooltipText wtw_spellDescription">
-          <h4 class="wtw_tooltipTitle">${this.name}</h4>
-          <p>${this.description}</p>
+      <h4 class="wtw_tooltipText wtw_tooltipTitle">${this.name}</h4>
+      <div class="wtw_spellContent">
+          ${cloneElement.outerHTML}
+          <p class="bga-autofit wtw_tooltipText wtw_spellDescription">${this.description}</p>
         </div>
       </div>
     `;
