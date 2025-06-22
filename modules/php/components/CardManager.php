@@ -104,7 +104,7 @@ class CardManager
         $this->deck->moveCard($card_id, $location, $location_arg);
     }
 
-    public function moveByLocationArg(int $card_id, int $location_arg): void
+    public function moveLocationArg(int $card_id, int $location_arg): void
     {
         $this->game->DbQuery("UPDATE {$this->dbTable} SET card_location_arg={$location_arg} WHERE card_id={$card_id}");
     }

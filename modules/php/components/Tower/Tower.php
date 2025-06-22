@@ -57,7 +57,7 @@ class Tower extends TowerManager
 
         $final_space_id = $this->game->sumSteps($current_space_id, $steps);
 
-        $this->moveByLocationArg($this->card_id, $final_space_id);
+        $this->moveLocationArg($this->card_id, $final_space_id);
 
         $WizardManager->moveWizardsWithTower(
             $current_space_id,
@@ -123,6 +123,40 @@ class Tower extends TowerManager
         $towerCard_id = (int) $towerCard["id"];
         $Tower = new Tower($this->game, $towerCard_id);
         $Tower->move($steps, $player_id, $cards, true);
+    }
+
+    public function swap(int $steps, int $player_id): void
+    {
+        $current_space_id = $this->getSpaceId($this->card_id);
+        $current_tier = $this->tier;
+
+        $WizardManager = new WizardManager($this->game);
+        $WizardManager->freeUpWizards($current_space_id, $current_tier - 1);
+
+        $final_space_id = $this->game->sumSteps($current_space_id, $steps);
+
+        $this->moveLocationArg($this->card_id, $final_space_id);
+
+        $WizardManager->moveWizardsWithTower(
+            $current_space_id,
+            $current_tier,
+            $this->card_id
+        );
+
+        $tier = $this->countOnSpace($final_space_id);
+        $this->updateTier($tier);
+
+        $NotifManager = new NotifManager($this->game);
+        $NotifManager->all(
+            "swapTower",
+            "",
+            [
+                "towerCard" => $this->getCard($this->card_id),
+                "final_space_id" => $final_space_id,
+                "current_space_id" => $current_space_id,
+            ],
+            $player_id,
+        );
     }
 
     public function isPushable(): bool

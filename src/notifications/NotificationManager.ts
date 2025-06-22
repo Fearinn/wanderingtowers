@@ -110,4 +110,15 @@ class NotificationManager implements NotificationManager {
     const { score, player_id } = args;
     this.game.scoreCtrl[player_id].incValue(score);
   }
+
+  public notif_swapTower(args: {
+    towerCard: TowerCard;
+    final_space_id: number;
+    current_space_id: number;
+  }) {
+    const { towerCard, final_space_id, current_space_id } = args;
+
+    const tower = new Tower(this.game, towerCard);
+    tower.move(final_space_id, current_space_id);
+  }
 }

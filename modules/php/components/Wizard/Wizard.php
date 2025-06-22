@@ -43,7 +43,7 @@ class Wizard extends WizardManager
         $space_id = $this->getSpaceId($this->card_id);
         $space_id = $this->game->sumSteps($space_id, $steps);
 
-        $this->moveByLocationArg($this->card_id, $space_id);
+        $this->moveLocationArg($this->card_id, $space_id);
 
         $TowerManager = new TowerManager($this->game);
         $tier = $TowerManager->countOnSpace($space_id);
@@ -99,7 +99,7 @@ class Wizard extends WizardManager
         $Tower = new Tower($this->game, $towerCard_id);
         $space_id = $Tower->getSpaceId();
 
-        $this->moveByLocationArg($this->card_id, $space_id);
+        $this->moveLocationArg($this->card_id, $space_id);
 
         $TowerManager = new TowerManager($this->game);
         $tier = $TowerManager->countOnSpace($space_id);

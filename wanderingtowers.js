@@ -3136,6 +3136,11 @@ var NotificationManager = /** @class */ (function () {
         var score = args.score, player_id = args.player_id;
         this.game.scoreCtrl[player_id].incValue(score);
     };
+    NotificationManager.prototype.notif_swapTower = function (args) {
+        var towerCard = args.towerCard, final_space_id = args.final_space_id, current_space_id = args.current_space_id;
+        var tower = new Tower(this.game, towerCard);
+        tower.move(final_space_id, current_space_id);
+    };
     return NotificationManager;
 }());
 var StateManager = /** @class */ (function () {

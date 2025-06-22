@@ -5,10 +5,10 @@ namespace Bga\Games\WanderingTowers\Actions;
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\Spell\SpAdvanceTower;
 use Bga\Games\WanderingTowers\Components\Spell\SpAdvanceWizard;
-use Bga\Games\WanderingTowers\Components\Spell\Spell;
 use Bga\Games\WanderingTowers\Components\Spell\SpHeadwindTower;
 use Bga\Games\WanderingTowers\Components\Spell\SpHeadwindWizard;
 use Bga\Games\WanderingTowers\Components\Spell\SpNudgeRavenskeep;
+use Bga\Games\WanderingTowers\Components\Spell\SpSwapTower;
 
 class ActCastSpell extends ActionManager
 {
@@ -48,6 +48,10 @@ class ActCastSpell extends ActionManager
                 $SpNudgeRavenskeep = new SpNudgeRavenskeep($this->game);
                 $SpNudgeRavenskeep->cast($this->player_id);
                 break;
+
+            case 6: 
+                $SpSwapTower = new SpSwapTower($this->game);
+                $SpSwapTower->cast($this->player_id, $meeple_id);
         }
 
         $this->globals->set(G_SPELL_CASTED, true);

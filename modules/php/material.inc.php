@@ -338,19 +338,13 @@ $this->SPELLS = [
         "type" => "auto",
         "steps" => 0,
     ],
-    // 6 => [
-    //     "tr_name" => clienttranslate("Swap a Tower"),
-    //     "cost" => 1,
-    //     "type" => "tower",
-    //     "steps" => 2,
-    // ],
+    6 => [
+        "tr_name" => clienttranslate("Swap a Tower"),
+        "cost" => 1,
+        "type" => "tower",
+        "steps" => 2,
+    ],
     // 7 => [
-    //     "tr_name" => clienttranslate("Piggyback"),
-    //     "cost" => 2,
-    //     "type" => "auto",
-    //     "steps" => 0,
-    // ],
-    // 8 => [
     //     "tr_name" => clienttranslate("Free a Wizard"),
     //     "cost" => 2,
     //     "type" => "tower",

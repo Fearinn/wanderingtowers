@@ -5,6 +5,7 @@ namespace Bga\Games\WanderingTowers\Components\Tower;
 use Bga\Games\WanderingTowers\Components\CardManager;
 use Bga\Games\WanderingTowers\Components\Move\Move;
 use Bga\Games\WanderingTowers\Components\Spell\Spell;
+use Bga\Games\WanderingTowers\Notifications\NotifManager;
 use Table;
 
 class TowerManager extends CardManager
@@ -32,7 +33,7 @@ class TowerManager extends CardManager
         foreach ($towerCards as $towerCard) {
             $towerCard_id = (int) $towerCard["id"];
             $tower_id = (int) $towerCard["type_arg"];
-            $this->moveByLocationArg($towerCard_id, $tower_id);
+            $this->moveLocationArg($towerCard_id, $tower_id);
         }
     }
 
@@ -130,7 +131,7 @@ class TowerManager extends CardManager
 
         $steps = $Spell->steps;
 
-        $spellableTowers = array_filter($towerCards, function ($towerCard) use ($steps) {
+        $spellableTowers = array_filter($towerCards, function ($towerCard) use ($steps, $spell_id) {
             $towerCard_id = (int) $towerCard["id"];
             $Tower = new Tower($this->game, $towerCard_id);
 
@@ -139,6 +140,10 @@ class TowerManager extends CardManager
             }
 
             $space_id = $this->game->sumSteps($Tower->getSpaceId(), $steps);
+
+            if ($spell_id === 6) {
+                return !!$this->getByMaxTier($space_id);
+            }
 
             $ravenskeepSpace = (int) $this->getRavenskeepSpace();
             return $space_id !== $ravenskeepSpace;
@@ -162,5 +167,18 @@ class TowerManager extends CardManager
     {
         $Ravenskeep = new Ravenskeep($this->game);
         $Ravenskeep->moveRavenskeep();
+    }
+
+    public function swapTowers(
+        int $towerCard_id,
+        int $towerCard2_id,
+        int $steps,
+        int $player_id,
+    ): void {
+        $Tower = new Tower($this->game, $towerCard_id);
+        $Tower2 = new Tower($this->game, $towerCard2_id);
+
+        $Tower->swap($steps, $player_id);
+        $Tower2->swap(-$steps, $player_id);
     }
 }
