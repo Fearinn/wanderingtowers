@@ -474,6 +474,8 @@ class WanderingTowers extends WanderingTowersGui {
     const notificationManager = new NotificationManager(this);
     this.bgaSetupPromiseNotifications({
       handlers: [notificationManager],
+      minDuration: 1000,
+      minDurationNoText: 500,
     });
   }
 

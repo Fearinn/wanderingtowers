@@ -369,6 +369,8 @@ var WanderingTowers = /** @class */ (function (_super) {
         var notificationManager = new NotificationManager(this);
         this.bgaSetupPromiseNotifications({
             handlers: [notificationManager],
+            minDuration: 1000,
+            minDurationNoText: 500,
         });
     };
     WanderingTowers.prototype.addConfirmationButton = function (selection, callback) {
