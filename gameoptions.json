@@ -9,6 +9,13 @@
       },
       "2": {
         "name": "Random"
+      },
+      "3": {
+        "name": "All"
+      },
+      "4": {
+        "name": "Manual",
+        "description": "Enable or disable each spell"
       }
     },
     "default": 2,
@@ -36,9 +43,6 @@
       },
       "6": {
         "name": "6"
-      },
-      "7": {
-        "name": "7"
       }
     },
     "default": 2,

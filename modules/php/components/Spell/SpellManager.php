@@ -46,14 +46,20 @@ class SpellManager extends CardManager
 
         $opt_spells = $this->tableOptions->get(OPT_SPELLS);
 
-        if ($opt_spells === 1) {
-            $this->game->DbQuery("UPDATE {$this->dbTable} SET card_location='table' WHERE card_type_arg=1 OR card_type_arg=3");
-        }
+        switch ($opt_spells) {
+            case 1:
+                $this->game->DbQuery("UPDATE {$this->dbTable} SET card_location='table' WHERE card_type_arg=1 OR card_type_arg=3");
+                break;
 
-        if ($opt_spells === 2) {
-            $this->deck->shuffle("deck");
-            $spell_nbr = $this->tableOptions->get(OPT_SPELLS_NUMBER);
-            $this->deck->pickCardsForLocation($spell_nbr, "deck", "table");
+            case 2:
+                $this->deck->shuffle("deck");
+                $spell_nbr = $this->tableOptions->get(OPT_SPELLS_NUMBER);
+                $this->deck->pickCardsForLocation($spell_nbr, "deck", "table");
+                break;
+
+            case 3:
+                $this->deck->moveAllCardsInLocation("deck", "table");
+                break;
         }
     }
 
