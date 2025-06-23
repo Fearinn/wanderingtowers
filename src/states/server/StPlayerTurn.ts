@@ -1,5 +1,5 @@
 class StPlayerTurn extends StateManager {
-  constructor(game: WanderingTowers) {
+  constructor(game: WanderingTowersGui){
     super(game, "playerTurn");
   }
 

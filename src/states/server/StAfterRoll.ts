@@ -1,5 +1,5 @@
 class StAfterRoll extends StateManager {
-  constructor(game: WanderingTowers) {
+  constructor(game: WanderingTowersGui){
     super(game, "afterRoll");
   }
 

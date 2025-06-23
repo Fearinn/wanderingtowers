@@ -1,5 +1,5 @@
 class StPickMoveTower extends StateManager {
-  constructor(game: WanderingTowers) {
+  constructor(game: WanderingTowersGui){
     super(game, "client_pickMoveTower");
   }
 
