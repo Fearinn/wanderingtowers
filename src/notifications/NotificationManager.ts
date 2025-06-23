@@ -81,13 +81,14 @@ class NotificationManager implements NotificationManager {
     voidStock.addCards(potionCards);
   }
 
-  public notif_enterRavenskeep(args: {
+  public async notif_enterRavenskeep(args: {
     wizardCard: WizardCard;
     player_id: number;
-  }): void {
+  }): Promise<void> {
     const { wizardCard, player_id } = args;
     const wizard = new Wizard(this.game, wizardCard);
     wizard.enterRavenskeep();
+    this.game.wait(1000);
     this.game.wtw.counters[player_id].ravenskeep.incValue(1);
   }
 

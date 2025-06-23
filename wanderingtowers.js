@@ -435,9 +435,12 @@ var WanderingTowers = /** @class */ (function (_super) {
                 var isBelow = counter.getValue() > tier;
                 // Check if there is any sibling with the elevated class
                 var hasElevatedSibling = Array.from(parent.children).some(function (sibling) {
-                    return sibling !== tierElement &&
+                    if (sibling.classList.contains("bga-animations_animted")) {
+                        console.log(sibling);
+                    }
+                    return (sibling !== tierElement &&
                         (sibling.classList.contains("wtw_wizardTier-elevated") ||
-                            sibling.classList.contains("bga-animations_animated"));
+                            sibling.classList.contains("bga-animations_animated")));
                 });
                 var shouldBeImprisoned = isBelow && !hasElevatedSibling;
                 tierElement.classList.toggle("wtw_wizardTier-imprisoned", shouldBeImprisoned);
@@ -3165,10 +3168,17 @@ var NotificationManager = /** @class */ (function () {
         voidStock.addCards(potionCards);
     };
     NotificationManager.prototype.notif_enterRavenskeep = function (args) {
-        var wizardCard = args.wizardCard, player_id = args.player_id;
-        var wizard = new Wizard(this.game, wizardCard);
-        wizard.enterRavenskeep();
-        this.game.wtw.counters[player_id].ravenskeep.incValue(1);
+        return __awaiter(this, void 0, void 0, function () {
+            var wizardCard, player_id, wizard;
+            return __generator(this, function (_a) {
+                wizardCard = args.wizardCard, player_id = args.player_id;
+                wizard = new Wizard(this.game, wizardCard);
+                wizard.enterRavenskeep();
+                this.game.wait(1000);
+                this.game.wtw.counters[player_id].ravenskeep.incValue(1);
+                return [2 /*return*/];
+            });
+        });
     };
     NotificationManager.prototype.notif_autoreshuffle = function (args) {
         var _a = this.stocks.moves, discard = _a.discard, deck = _a.deck;

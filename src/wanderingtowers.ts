@@ -562,10 +562,16 @@ class WanderingTowers extends WanderingTowersGui {
 
         // Check if there is any sibling with the elevated class
         const hasElevatedSibling = Array.from(parent.children).some(
-          (sibling) =>
-            sibling !== tierElement &&
-            (sibling.classList.contains("wtw_wizardTier-elevated") ||
-              sibling.classList.contains("bga-animations_animated"))
+          (sibling) => {
+            if (sibling.classList.contains("bga-animations_animted")) {
+              console.log(sibling);
+            }
+            return (
+              sibling !== tierElement &&
+              (sibling.classList.contains("wtw_wizardTier-elevated") ||
+                sibling.classList.contains("bga-animations_animated"))
+            );
+          }
         );
 
         const shouldBeImprisoned = isBelow && !hasElevatedSibling;
