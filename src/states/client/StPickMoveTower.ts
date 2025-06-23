@@ -24,13 +24,13 @@ class StPickMoveTower extends StateManager {
       stock.toggleSelection(true);
       stock.setSelectableCards(movableMeeples[move.card.id].tower);
 
-      stock.onSelectionChange = (selection, card) => {
+      stock.onSelectionChange = (selection, towerCard) => {
         this.game.removeConfirmationButton();
 
         if (selection.length > 0) {
           stock.unselectOthers();
 
-          const tower = new Tower(this.game, card);
+          const tower = new Tower(this.game, towerCard);
           const space = new Space(this.game, tower.space_id);
           const maxTier = space.getMaxTier();
           const minTier = space.getMinTier();

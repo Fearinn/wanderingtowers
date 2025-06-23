@@ -3359,11 +3359,11 @@ var StPickMoveTower = /** @class */ (function (_super) {
             var stock = towerStocks[space_id];
             stock.toggleSelection(true);
             stock.setSelectableCards(movableMeeples[move.card.id].tower);
-            stock.onSelectionChange = function (selection, card) {
+            stock.onSelectionChange = function (selection, towerCard) {
                 _this.game.removeConfirmationButton();
                 if (selection.length > 0) {
                     stock.unselectOthers();
-                    var tower = new Tower(_this.game, card);
+                    var tower = new Tower(_this.game, towerCard);
                     var space = new Space(_this.game, tower.space_id);
                     var maxTier = space.getMaxTier();
                     var minTier = space.getMinTier();
@@ -3522,7 +3522,7 @@ var StPickSpellTier = /** @class */ (function (_super) {
             });
             return;
         }
-        this.game.setClientState("client_pickMoveTier", {
+        this.game.setClientState("client_pickSpellTier", {
             descriptionmyturn: _("${you} must pick the number of tiers for the spell"),
         });
     };
@@ -3584,8 +3584,19 @@ var StPickSpellTower = /** @class */ (function (_super) {
                 _this.game.removeConfirmationButton();
                 if (selection.length > 0) {
                     stock.unselectOthers();
+                    var tower = new Tower(_this.game, towerCard);
+                    var space = new Space(_this.game, tower.space_id);
+                    var maxTier = space.getMaxTier();
+                    var minTier = space.getMinTier();
+                    _this.game.wtw.globals.towerCard = tower.card;
+                    _this.game.wtw.globals.maxTier = maxTier;
+                    _this.game.wtw.globals.minTier = minTier;
+                    if (maxTier > minTier) {
+                        var stPickSpellTier = new StPickSpellTier(_this.game);
+                        stPickSpellTier.set();
+                        return;
+                    }
                     _this.game.addConfirmationButton(_("tower"), function () {
-                        _this.wtw.globals.towerCard = towerCard;
                         var stPickSpellTier = new StPickSpellTier(_this.game);
                         stPickSpellTier.set();
                     });

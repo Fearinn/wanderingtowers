@@ -1,5 +1,5 @@
 class StPickSpellTower extends StateManager {
-  constructor(game: WanderingTowersGui){
+  constructor(game: WanderingTowersGui) {
     super(game, "client_pickSpellTower");
   }
 
@@ -29,10 +29,23 @@ class StPickSpellTower extends StateManager {
 
         if (selection.length > 0) {
           stock.unselectOthers();
-          
-          this.game.addConfirmationButton(_("tower"), () => {
-            this.wtw.globals.towerCard = towerCard;
 
+          const tower = new Tower(this.game, towerCard);
+          const space = new Space(this.game, tower.space_id);
+          const maxTier = space.getMaxTier();
+          const minTier = space.getMinTier();
+
+          this.game.wtw.globals.towerCard = tower.card;
+          this.game.wtw.globals.maxTier = maxTier;
+          this.game.wtw.globals.minTier = minTier;
+
+          if (maxTier > minTier) {
+            const stPickSpellTier = new StPickSpellTier(this.game);
+            stPickSpellTier.set();
+            return;
+          }
+
+          this.game.addConfirmationButton(_("tower"), () => {
             const stPickSpellTier = new StPickSpellTier(this.game);
             stPickSpellTier.set();
           });

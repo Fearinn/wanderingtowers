@@ -22,7 +22,7 @@ class StPickSpellTier extends StateManager {
       return;
     }
 
-    this.game.setClientState("client_pickMoveTier", {
+    this.game.setClientState("client_pickSpellTier", {
       descriptionmyturn: _(
         "${you} must pick the number of tiers for the spell"
       ),
