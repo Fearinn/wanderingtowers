@@ -145,7 +145,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             towerStocks.spaces[space_id] = new TowerSpaceStock(this, towerManager, space_id);
             var spaceElement = document.getElementById("wtw_spaceWizards-".concat(space_id));
             wizardStocks.spaces[space_id] = {};
-            for (var tier = 1; tier <= 10; tier++) {
+            for (var tier = 0; tier <= 10; tier++) {
                 spaceElement.insertAdjacentHTML("beforeend", "<div id=\"wtw_wizardTier-".concat(space_id, "-").concat(tier, "\" class=\"wtw_wizardTier\" data-tier=").concat(tier, "></div>"));
                 wizardStocks.spaces[space_id][tier] = new WizardSpaceStock(this, wizardManager, space_id, tier);
             }

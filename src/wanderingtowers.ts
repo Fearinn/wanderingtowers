@@ -135,7 +135,7 @@ class WanderingTowers extends WanderingTowersGui {
         `wtw_spaceWizards-${space_id}`
       );
       wizardStocks.spaces[space_id] = {};
-      for (let tier = 1; tier <= 10; tier++) {
+      for (let tier = 0; tier <= 10; tier++) {
         spaceElement.insertAdjacentHTML(
           "beforeend",
           `<div id="wtw_wizardTier-${space_id}-${tier}" class="wtw_wizardTier" data-tier=${tier}></div>`
