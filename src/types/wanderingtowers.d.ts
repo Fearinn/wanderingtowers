@@ -59,6 +59,9 @@ declare class WanderingTowersGui extends Game {
 
   addConfirmationButton(title: string, callback: () => void): HTMLButtonElement;
   removeConfirmationButton(): void;
+  loopWizardStocks(
+    callback: (stock: WizardSpaceStock, space_id: number, tier: number) => void
+  ): void;
 }
 
 interface WanderingTowersGamedatas {

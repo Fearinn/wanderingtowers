@@ -10,16 +10,23 @@
 
 .wtw_spaceWizards {
   position: absolute;
+  transform: translate(30%, 15%);
+  aspect-ratio: 1;
+  width: var(--innerTowerWidth);
+  pointer-events: none;
+  z-index: 11;
+}
+
+.wtw_wizardTier {
+  position: absolute;
   display: grid;
   grid-template-columns: repeat(auto-fit, var(--wizardWidth));
   align-items: center;
   align-content: center;
   justify-items: center;
   justify-content: center;
-  transform: translate(30%, 15%);
   aspect-ratio: 1;
-  width: var(--innerTowerWidth);
-  z-index: 11;
+  width: 100%;
   pointer-events: none;
 }
 

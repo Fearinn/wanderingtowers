@@ -131,11 +131,15 @@ class WanderingTowers extends WanderingTowersGui {
         space_id
       );
 
-      wizardStocks.spaces[space_id] = new WizardSpaceStock(
-        this,
-        wizardManager,
-        space_id
-      );
+      wizardStocks.spaces[space_id] = {};
+      for (let tier = 1; tier <= 10; tier++) {
+        wizardStocks.spaces[space_id][tier] = new WizardSpaceStock(
+          this,
+          wizardManager,
+          space_id,
+          tier
+        );
+      }
 
       const tierCount = gamedatas.tierCounts[space_id];
       counters.spaces[space_id] = new ebg.counter();
@@ -499,6 +503,21 @@ class WanderingTowers extends WanderingTowersGui {
 
   public getStateName(): StateName {
     return this.gamedatas.gamestate.name;
+  }
+
+  public loopWizardStocks(
+    callback: (stock: WizardSpaceStock, space_id: number, tier: number) => void
+  ): void {
+    const spaces = this.wtw.stocks.wizards.spaces;
+
+    for (const i in spaces) {
+      const space_id = Number(i);
+      const space = spaces[space_id];
+      for (const t in space) {
+        const tier = Number(t);
+        callback(space[tier], space_id, tier);
+      }
+    }
   }
 
   public bgaFormatText(log: string, args: any): { log: string; args: any } {

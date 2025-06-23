@@ -143,7 +143,10 @@ var WanderingTowers = /** @class */ (function (_super) {
         };
         for (var space_id = 1; space_id <= 16; space_id++) {
             towerStocks.spaces[space_id] = new TowerSpaceStock(this, towerManager, space_id);
-            wizardStocks.spaces[space_id] = new WizardSpaceStock(this, wizardManager, space_id);
+            wizardStocks.spaces[space_id] = {};
+            for (var tier = 1; tier <= 10; tier++) {
+                wizardStocks.spaces[space_id][tier] = new WizardSpaceStock(this, wizardManager, space_id, tier);
+            }
             var tierCount = gamedatas.tierCounts[space_id];
             counters.spaces[space_id] = new ebg.counter();
             counters.spaces[space_id].create("wtw_tierCounter-".concat(space_id));
@@ -388,6 +391,17 @@ var WanderingTowers = /** @class */ (function (_super) {
     };
     WanderingTowers.prototype.getStateName = function () {
         return this.gamedatas.gamestate.name;
+    };
+    WanderingTowers.prototype.loopWizardStocks = function (callback) {
+        var spaces = this.wtw.stocks.wizards.spaces;
+        for (var i in spaces) {
+            var space_id = Number(i);
+            var space = spaces[space_id];
+            for (var t in space) {
+                var tier = Number(t);
+                callback(space[tier], space_id, tier);
+            }
+        }
     };
     WanderingTowers.prototype.bgaFormatText = function (log, args) {
         try {
@@ -2985,13 +2999,11 @@ var Wizard = /** @class */ (function (_super) {
         _this.stocks = _this.game.wtw.stocks.wizards;
         _this.towerTier =
             _this.game.wtw.stocks.towers.spaces[_this.space_id].getCards().length;
+        _this.tier = _this.card.tier;
         return _this;
     }
     Wizard.prototype.setup = function () {
         this.place(this.space_id);
-        if (this.card.tier < this.towerTier) {
-            this.toggleVisibility(false);
-        }
     };
     Wizard.prototype.setupDiv = function (element) {
         element.classList.add("wtw_card", "wtw_wizard");
@@ -3012,40 +3024,40 @@ var Wizard = /** @class */ (function (_super) {
         }
     };
     Wizard.prototype.place = function (space_id) {
-        this.stocks.spaces[space_id].addCard(this.card, {}, { visible: true });
+        this.stocks.spaces[space_id][this.tier].addCard(this.card, {}, { visible: true });
     };
     Wizard.prototype.move = function (space_id) {
         this.place(space_id);
     };
-    Wizard.prototype.toggleVisibility = function (isVisible) {
-        var cardElement = this.stocks.spaces[this.space_id].getCardElement(this.card);
-        cardElement.classList.toggle("wtw_wizard-imprisoned", !isVisible);
-    };
+    // toggleVisibility(isVisible: boolean) {
+    //   const cardElement = this.stocks.spaces[this.space_id][
+    //     this.tier
+    //   ].getCardElement(this.card);
+    //   cardElement.classList.toggle("wtw_wizard-imprisoned", !isVisible);
+    // }
     Wizard.prototype.enterRavenskeep = function () {
-        var cardElement = this.stocks.spaces[this.space_id].getCardElement(this.card);
+        var cardElement = this.stocks.spaces[this.space_id][this.tier].getCardElement(this.card);
         cardElement.classList.add("wtw_wizard-ravenskeep");
     };
     return Wizard;
 }(Card));
 var WizardSpaceStock = /** @class */ (function (_super) {
     __extends(WizardSpaceStock, _super);
-    function WizardSpaceStock(game, manager, space_id) {
-        var _this = _super.call(this, manager, document.getElementById("wtw_spaceWizards-".concat(space_id)), {
-            sort: sortFunction("type"),
-        }) || this;
+    function WizardSpaceStock(game, manager, space_id, tier) {
+        var _this = _super.call(this, manager, document.getElementById("wtw_wizardTier-".concat(space_id, "-").concat(tier)), {}) || this;
         _this.game = game;
         _this.space_id = space_id;
         _this.setSelectionMode("none");
         return _this;
     }
     WizardSpaceStock.prototype.unselectOthers = function () {
-        var otherStocks = this.game.wtw.stocks.wizards.spaces;
-        for (var space_id in otherStocks) {
-            if (Number(space_id) === this.space_id) {
-                continue;
+        var _this = this;
+        this.game.loopWizardStocks(function (stock, space_id, tier) {
+            if (Number(space_id) === _this.space_id) {
+                return;
             }
-            otherStocks[space_id].unselectAll(true);
-        }
+            stock.unselectAll(true);
+        });
     };
     WizardSpaceStock.prototype.toggleSelection = function (enable) {
         var selectionMode = enable ? "single" : "none";
@@ -3385,9 +3397,7 @@ var StPickMoveWizard = /** @class */ (function (_super) {
         var moveCard = this.game.wtw.globals.moveCard;
         var move = new Move(this.game, moveCard);
         move.toggleSelection(true);
-        var wizardStocks = this.game.wtw.stocks.wizards.spaces;
-        var _loop_5 = function (space_id) {
-            var stock = wizardStocks[space_id];
+        this.game.loopWizardStocks(function (stock) {
             stock.toggleSelection(true);
             stock.setSelectableCards(movableMeeples[move.card.id].wizard);
             stock.onSelectionChange = function (selection, towerCard) {
@@ -3402,21 +3412,16 @@ var StPickMoveWizard = /** @class */ (function (_super) {
                     });
                 }
             };
-        };
-        for (var space_id in wizardStocks) {
-            _loop_5(space_id);
-        }
+        });
     };
     StPickMoveWizard.prototype.leave = function () {
         _super.prototype.leave.call(this);
         var card = this.game.wtw.globals.moveCard;
         var move = new Move(this.game, card);
         move.toggleSelection(false);
-        var wizardStocks = this.game.wtw.stocks.wizards.spaces;
-        for (var space_id in wizardStocks) {
-            var stock = wizardStocks[space_id];
+        this.game.loopWizardStocks(function (stock) {
             stock.toggleSelection(false);
-        }
+        });
     };
     return StPickMoveWizard;
 }(StateManager));
@@ -3435,7 +3440,7 @@ var StPickPushTower = /** @class */ (function (_super) {
         _super.prototype.enter.call(this);
         var pushableTowers = args.pushableTowers;
         var towerStocks = this.game.wtw.stocks.towers.spaces;
-        var _loop_6 = function (space_id) {
+        var _loop_5 = function (space_id) {
             var stock = towerStocks[space_id];
             stock.toggleSelection(true);
             stock.setSelectableCards(pushableTowers);
@@ -3466,7 +3471,7 @@ var StPickPushTower = /** @class */ (function (_super) {
             };
         };
         for (var space_id in towerStocks) {
-            _loop_6(space_id);
+            _loop_5(space_id);
         }
     };
     StPickPushTower.prototype.leave = function () {
@@ -3508,7 +3513,7 @@ var StPickSpellTier = /** @class */ (function (_super) {
         spell.toggleSelection(true);
         var tower = new Tower(this.game, towerCard);
         tower.toggleSelection(true);
-        var _loop_7 = function (i) {
+        var _loop_6 = function (i) {
             this_2.game.statusBar.addActionButton("".concat(i), function () {
                 _this.game.performAction("actCastSpell", {
                     spell_id: spell.id,
@@ -3519,7 +3524,7 @@ var StPickSpellTier = /** @class */ (function (_super) {
         };
         var this_2 = this;
         for (var i = minTier; i <= maxTier; i++) {
-            _loop_7(i);
+            _loop_6(i);
         }
     };
     StPickSpellTier.prototype.leave = function () {
@@ -3550,7 +3555,7 @@ var StPickSpellTower = /** @class */ (function (_super) {
         spell.toggleSelection(true);
         var selectableTowers = args.spellableMeeples[spell.id].tower;
         var towerStocks = this.game.wtw.stocks.towers.spaces;
-        var _loop_8 = function (space_id) {
+        var _loop_7 = function (space_id) {
             var stock = towerStocks[space_id];
             stock.toggleSelection(true);
             stock.setSelectableCards(selectableTowers);
@@ -3567,7 +3572,7 @@ var StPickSpellTower = /** @class */ (function (_super) {
             };
         };
         for (var space_id in towerStocks) {
-            _loop_8(space_id);
+            _loop_7(space_id);
         }
     };
     StPickSpellTower.prototype.leave = function () {
@@ -3600,7 +3605,7 @@ var StPickSpellWizard = /** @class */ (function (_super) {
         spell.toggleSelection(true);
         var selectableWizards = args.spellableMeeples[spell.id].wizard;
         var wizardStocks = this.game.wtw.stocks.wizards.spaces;
-        var _loop_9 = function (space_id) {
+        var _loop_8 = function (space_id) {
             var stock = wizardStocks[space_id];
             stock.toggleSelection(true);
             stock.setSelectableCards(selectableWizards);
@@ -3618,7 +3623,7 @@ var StPickSpellWizard = /** @class */ (function (_super) {
             };
         };
         for (var space_id in wizardStocks) {
-            _loop_9(space_id);
+            _loop_8(space_id);
         }
     };
     StPickSpellWizard.prototype.leave = function () {
@@ -3721,7 +3726,7 @@ var StAfterRoll = /** @class */ (function (_super) {
         }
         if (move.card.type === "tower") {
             var towerStocks = this.game.wtw.stocks.towers.spaces;
-            var _loop_10 = function (space_id) {
+            var _loop_9 = function (space_id) {
                 var stock = towerStocks[space_id];
                 stock.toggleSelection(true);
                 stock.setSelectableCards(movableMeeples[move.card.id].tower);
@@ -3751,13 +3756,13 @@ var StAfterRoll = /** @class */ (function (_super) {
                 };
             };
             for (var space_id in towerStocks) {
-                _loop_10(space_id);
+                _loop_9(space_id);
             }
             return;
         }
         if (move.card.type === "wizard") {
             var wizardStocks = this.game.wtw.stocks.wizards.spaces;
-            var _loop_11 = function (space_id) {
+            var _loop_10 = function (space_id) {
                 var stock = wizardStocks[space_id];
                 stock.toggleSelection(true);
                 stock.setSelectableCards(movableMeeples[move.card.id].wizard);
@@ -3775,7 +3780,7 @@ var StAfterRoll = /** @class */ (function (_super) {
                 };
             };
             for (var space_id in wizardStocks) {
-                _loop_11(space_id);
+                _loop_10(space_id);
             }
             return;
         }

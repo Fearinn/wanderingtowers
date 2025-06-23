@@ -4,7 +4,7 @@ interface WizardCard extends BgaCard {
 }
 
 interface WizardStocks {
-  spaces: { [space_id: number]: WizardSpaceStock };
+  spaces: { [space_id: number]: { [tier: number]: WizardSpaceStock } };
 }
 
 interface Wizard extends Card {
@@ -12,6 +12,7 @@ interface Wizard extends Card {
   stocks: WizardStocks;
   space_id: number;
   towerTier: number;
+  tier: number;
 }
 
 class Wizard extends Card {
@@ -22,13 +23,11 @@ class Wizard extends Card {
     this.stocks = this.game.wtw.stocks.wizards;
     this.towerTier =
       this.game.wtw.stocks.towers.spaces[this.space_id].getCards().length;
+    this.tier = this.card.tier;
   }
 
   setup() {
     this.place(this.space_id);
-    if (this.card.tier < this.towerTier) {
-      this.toggleVisibility(false);
-    }
   }
 
   setupDiv(element: HTMLDivElement) {
@@ -65,24 +64,28 @@ class Wizard extends Card {
   }
 
   place(space_id: number): void {
-    this.stocks.spaces[space_id].addCard(this.card, {}, { visible: true });
+    this.stocks.spaces[space_id][this.tier].addCard(
+      this.card,
+      {},
+      { visible: true }
+    );
   }
 
   move(space_id: number): void {
     this.place(space_id);
   }
 
-  toggleVisibility(isVisible: boolean) {
-    const cardElement = this.stocks.spaces[this.space_id].getCardElement(
-      this.card
-    );
-    cardElement.classList.toggle("wtw_wizard-imprisoned", !isVisible);
-  }
+  // toggleVisibility(isVisible: boolean) {
+  //   const cardElement = this.stocks.spaces[this.space_id][
+  //     this.tier
+  //   ].getCardElement(this.card);
+  //   cardElement.classList.toggle("wtw_wizard-imprisoned", !isVisible);
+  // }
 
   enterRavenskeep() {
-    const cardElement = this.stocks.spaces[this.space_id].getCardElement(
-      this.card
-    );
+    const cardElement = this.stocks.spaces[this.space_id][
+      this.tier
+    ].getCardElement(this.card);
     cardElement.classList.add("wtw_wizard-ravenskeep");
   }
 }
@@ -96,11 +99,14 @@ class WizardSpaceStock extends CardStock<WizardCard> {
   constructor(
     game: WanderingTowersGui,
     manager: CardManager<WizardCard>,
-    space_id: number
+    space_id: number,
+    tier: number
   ) {
-    super(manager, document.getElementById(`wtw_spaceWizards-${space_id}`), {
-      sort: sortFunction("type"),
-    });
+    super(
+      manager,
+      document.getElementById(`wtw_wizardTier-${space_id}-${tier}`),
+      {}
+    );
 
     this.game = game;
     this.space_id = space_id;
@@ -108,14 +114,12 @@ class WizardSpaceStock extends CardStock<WizardCard> {
   }
 
   unselectOthers() {
-    const otherStocks = this.game.wtw.stocks.wizards.spaces;
-
-    for (const space_id in otherStocks) {
+    this.game.loopWizardStocks((stock, space_id, tier) => {
       if (Number(space_id) === this.space_id) {
-        continue;
+        return;
       }
-      otherStocks[space_id].unselectAll(true);
-    }
+      stock.unselectAll(true);
+    });
   }
 
   toggleSelection(enable: boolean) {

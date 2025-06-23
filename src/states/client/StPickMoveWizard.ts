@@ -18,9 +18,7 @@ class StPickMoveWizard extends StateManager {
     const move = new Move(this.game, moveCard);
     move.toggleSelection(true);
 
-    const wizardStocks = this.game.wtw.stocks.wizards.spaces;
-    for (const space_id in wizardStocks) {
-      const stock = wizardStocks[space_id];
+    this.game.loopWizardStocks((stock) => {
       stock.toggleSelection(true);
       stock.setSelectableCards(movableMeeples[move.card.id].wizard);
 
@@ -38,7 +36,7 @@ class StPickMoveWizard extends StateManager {
           });
         }
       };
-    }
+    });
   }
 
   leave() {
@@ -48,11 +46,9 @@ class StPickMoveWizard extends StateManager {
     const move = new Move(this.game, card);
     move.toggleSelection(false);
 
-    const wizardStocks = this.game.wtw.stocks.wizards.spaces;
-    for (const space_id in wizardStocks) {
-      const stock = wizardStocks[space_id];
+    this.game.loopWizardStocks((stock) => {
       stock.toggleSelection(false);
-    }
+    });
   }
 }
 
