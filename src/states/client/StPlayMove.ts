@@ -1,5 +1,5 @@
 class StPlayMove extends StateManager {
-  constructor(game: WanderingTowersGui){
+  constructor(game: WanderingTowersGui) {
     super(game, "client_playMove");
   }
 
@@ -26,6 +26,7 @@ class StPlayMove extends StateManager {
         const move = new Move(this.game, card);
 
         if (move.card.type_arg >= 19) {
+          this.statusBar.setTitle(_("${you} must pick a movement card"));
           this.game.statusBar.removeActionButtons();
 
           this.game.statusBar.addActionButton(

@@ -3679,6 +3679,7 @@ var StPlayMove = /** @class */ (function (_super) {
                 _this.game.wtw.globals.moveCard = card;
                 var move_1 = new Move(_this.game, card);
                 if (move_1.card.type_arg >= 19) {
+                    _this.statusBar.setTitle(_("${you} must pick a movement card"));
                     _this.game.statusBar.removeActionButtons();
                     _this.game.statusBar.addActionButton(_("cancel"), function () {
                         _this.game.restoreServerGameState();
