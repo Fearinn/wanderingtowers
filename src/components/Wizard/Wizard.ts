@@ -75,18 +75,15 @@ class Wizard extends Card {
     this.place(space_id);
   }
 
-  // toggleVisibility(isVisible: boolean) {
-  //   const cardElement = this.stocks.spaces[this.space_id][
-  //     this.tier
-  //   ].getCardElement(this.card);
-  //   cardElement.classList.toggle("wtw_wizard-imprisoned", !isVisible);
-  // }
-
   enterRavenskeep() {
     const cardElement = this.stocks.spaces[this.space_id][
       this.tier
     ].getCardElement(this.card);
     cardElement.classList.add("wtw_wizard-ravenskeep");
+  }
+
+  free() {
+    this.stocks.spaces[this.space_id][this.tier].addCard(this.card);
   }
 }
 

@@ -19,15 +19,6 @@ class NotificationManager implements NotificationManager {
     wizard.move(space_id);
   }
 
-  // public notif_toggleWizardVisibility(args: {
-  //   wizardCard: WizardCard;
-  //   isVisible: boolean;
-  // }) {
-  //   const { wizardCard, isVisible } = args;
-  //   const wizard = new Wizard(this.game, wizardCard);
-  //   wizard.toggleVisibility(isVisible);
-  // }
-
   public notif_moveTower(args: {
     cards: TowerCard[];
     final_space_id: number;
@@ -120,5 +111,11 @@ class NotificationManager implements NotificationManager {
 
     const tower = new Tower(this.game, towerCard);
     tower.move(final_space_id, current_space_id);
+  }
+
+  public notif_freeWizard(args: { wizardCard: WizardCard }) {
+    const { wizardCard } = args;
+    const wizard = new Wizard(this.game, wizardCard);
+    wizard.free();
   }
 }

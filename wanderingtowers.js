@@ -2911,6 +2911,9 @@ var Spell = /** @class */ (function (_super) {
     };
     Spell.prototype.setupFrontDiv = function (element) {
         element.style.backgroundPosition = "".concat(this.card.type_arg * -100, "%");
+        if (this.card.type_arg === 7) {
+            element.style.backgroundPosition = "-800%";
+        }
         var cloneElement = element.parentElement.parentElement.cloneNode(true);
         cloneElement.removeAttribute("id");
         cloneElement.querySelectorAll("[id]").forEach(function (childElement) {
@@ -3047,15 +3050,12 @@ var Wizard = /** @class */ (function (_super) {
     Wizard.prototype.move = function (space_id) {
         this.place(space_id);
     };
-    // toggleVisibility(isVisible: boolean) {
-    //   const cardElement = this.stocks.spaces[this.space_id][
-    //     this.tier
-    //   ].getCardElement(this.card);
-    //   cardElement.classList.toggle("wtw_wizard-imprisoned", !isVisible);
-    // }
     Wizard.prototype.enterRavenskeep = function () {
         var cardElement = this.stocks.spaces[this.space_id][this.tier].getCardElement(this.card);
         cardElement.classList.add("wtw_wizard-ravenskeep");
+    };
+    Wizard.prototype.free = function () {
+        this.stocks.spaces[this.space_id][this.tier].addCard(this.card);
     };
     return Wizard;
 }(Card));
@@ -3098,14 +3098,6 @@ var NotificationManager = /** @class */ (function () {
         var wizard = new Wizard(this.game, wizardCard);
         wizard.move(space_id);
     };
-    // public notif_toggleWizardVisibility(args: {
-    //   wizardCard: WizardCard;
-    //   isVisible: boolean;
-    // }) {
-    //   const { wizardCard, isVisible } = args;
-    //   const wizard = new Wizard(this.game, wizardCard);
-    //   wizard.toggleVisibility(isVisible);
-    // }
     NotificationManager.prototype.notif_moveTower = function (args) {
         var _this = this;
         var cards = args.cards, final_space_id = args.final_space_id, current_space_id = args.current_space_id;
@@ -3173,6 +3165,11 @@ var NotificationManager = /** @class */ (function () {
         var towerCard = args.towerCard, final_space_id = args.final_space_id, current_space_id = args.current_space_id;
         var tower = new Tower(this.game, towerCard);
         tower.move(final_space_id, current_space_id);
+    };
+    NotificationManager.prototype.notif_freeWizard = function (args) {
+        var wizardCard = args.wizardCard;
+        var wizard = new Wizard(this.game, wizardCard);
+        wizard.free();
     };
     return NotificationManager;
 }());

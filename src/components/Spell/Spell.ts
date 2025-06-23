@@ -44,6 +44,10 @@ class Spell extends Card {
   setupFrontDiv(element: HTMLDivElement): void {
     element.style.backgroundPosition = `${this.card.type_arg * -100}%`;
 
+    if (this.card.type_arg === 7) {
+      element.style.backgroundPosition = "-800%";
+    }
+
     const cloneElement = element.parentElement.parentElement.cloneNode(
       true
     ) as HTMLDivElement;

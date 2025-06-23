@@ -162,7 +162,9 @@ class Wizard extends WizardManager
         $NotifManager->all(
             "freeWizard",
             clienttranslate('${player_name} successfully frees a wizard'),
-            [],
+            [
+                "wizardCard" => $this->getCard($this->card_id),
+            ],
             $player_id,
         );
 
