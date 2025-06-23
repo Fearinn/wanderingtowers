@@ -3102,15 +3102,18 @@ var NotificationManager = /** @class */ (function () {
         this.stocks = this.game.wtw.stocks;
     }
     NotificationManager.prototype.notif_moveWizard = function (args) {
-        var card = args.card, space_id = args.space_id;
-        var wizard = new Wizard(this.game, card);
+        var wizardCard = args.wizardCard, space_id = args.space_id;
+        var wizard = new Wizard(this.game, wizardCard);
         wizard.move(space_id);
     };
-    NotificationManager.prototype.notif_toggleWizardVisibility = function (args) {
-        var card = args.card, isVisible = args.isVisible;
-        var wizard = new Wizard(this.game, card);
-        wizard.toggleVisibility(isVisible);
-    };
+    // public notif_toggleWizardVisibility(args: {
+    //   wizardCard: WizardCard;
+    //   isVisible: boolean;
+    // }) {
+    //   const { wizardCard, isVisible } = args;
+    //   const wizard = new Wizard(this.game, wizardCard);
+    //   wizard.toggleVisibility(isVisible);
+    // }
     NotificationManager.prototype.notif_moveTower = function (args) {
         var _this = this;
         var cards = args.cards, final_space_id = args.final_space_id, current_space_id = args.current_space_id;

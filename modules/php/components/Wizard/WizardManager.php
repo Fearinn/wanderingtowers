@@ -105,6 +105,17 @@ class WizardManager extends CardManager
         }
     }
 
+    public function swapWizardsAlongTower(int $space_id, int $final_space_id, int $current_tier, int $final_tier): void
+    {
+        $wizardCards = $this->getByTier($space_id, $current_tier);
+
+        foreach ($wizardCards as $wizardCard) {
+            $wizardCard_id = (int) $wizardCard["id"];
+            $Wizard = new Wizard($this->game, $wizardCard_id);
+            $Wizard->swapAlongTower($final_space_id, $final_tier);
+        }
+    }
+
     public function imprisonWizards(int $space_id, int $tier, int $player_id): void
     {
         $wizardCards = $this->getByTier($space_id, $tier);

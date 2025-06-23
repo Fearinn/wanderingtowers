@@ -5,6 +5,7 @@ namespace Bga\Games\WanderingTowers\Components\Tower;
 use Bga\Games\WanderingTowers\Components\CardManager;
 use Bga\Games\WanderingTowers\Components\Move\Move;
 use Bga\Games\WanderingTowers\Components\Spell\Spell;
+use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 use Table;
 
@@ -172,13 +173,58 @@ class TowerManager extends CardManager
     public function swapTowers(
         int $towerCard_id,
         int $towerCard2_id,
-        int $steps,
         int $player_id,
     ): void {
         $Tower = new Tower($this->game, $towerCard_id);
         $Tower2 = new Tower($this->game, $towerCard2_id);
 
-        $Tower->swap($steps, $player_id);
-        $Tower2->swap(-$steps, $player_id);
+        $tower_space_id = $Tower->getSpaceId();
+        $tower2_space_id = $Tower2->getSpaceId();
+
+        $tower_tier = $Tower->tier;
+        $tower2_tier = $Tower2->tier;
+
+        $this->moveLocationArg($Tower->card_id, $tower2_space_id);
+        $this->moveLocationArg($Tower2->card_id, $tower_space_id);
+
+        $WizardManager = new WizardManager($this->game);
+        $WizardManager->swapWizardsAlongTower(
+            $tower_space_id,
+            $tower2_space_id,
+            $tower_tier,
+            $tower2_tier,
+        );
+
+        $WizardManager->swapWizardsAlongTower(
+            $tower2_space_id,
+            $tower_space_id,
+            $tower2_tier,
+            $tower_tier,
+        );
+
+        $Tower->updateTier($tower2_tier);
+        $Tower2->updateTier($tower_tier);
+
+        $NotifManager = new NotifManager($this->game);
+        $NotifManager->all(
+            "swapTower",
+            "",
+            [
+                "towerCard" => $Tower->getCard($Tower->card_id),
+                "final_space_id" => $tower2_space_id,
+                "current_space_id" => $tower_space_id,
+            ],
+            $player_id,
+        );
+        $NotifManager->all(
+            "swapTower",
+            "",
+            [
+                "towerCard" => $Tower->getCard($Tower2->card_id),
+                "final_space_id" => $tower_space_id,
+                "current_space_id" => $tower2_space_id,
+            ],
+            $player_id,
+        );
     }
 }
