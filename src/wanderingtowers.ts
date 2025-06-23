@@ -131,8 +131,16 @@ class WanderingTowers extends WanderingTowersGui {
         space_id
       );
 
+      const spaceElement = document.getElementById(
+        `wtw_spaceWizards-${space_id}`
+      );
       wizardStocks.spaces[space_id] = {};
       for (let tier = 1; tier <= 10; tier++) {
+        spaceElement.insertAdjacentHTML(
+          "beforeend",
+          `<div id="wtw_wizardTier-${space_id}-${tier}" class="wtw_wizardTier" data-tier=${tier}></div>`
+        );
+
         wizardStocks.spaces[space_id][tier] = new WizardSpaceStock(
           this,
           wizardManager,
@@ -356,7 +364,7 @@ class WanderingTowers extends WanderingTowersGui {
 
     this.setupNotifications();
     BgaAutoFit.init();
-    this.initAutoHideAllPreviousTiers();
+    this.initAutoHideWizards();
   }
 
   public onEnteringState(stateName: StateName, args?: any): void {
@@ -540,37 +548,28 @@ class WanderingTowers extends WanderingTowersGui {
     return { log, args };
   }
 
-  initAutoHideAllPreviousTiers(): void {
-    const spaces = document.querySelectorAll<HTMLElement>(".wtw_spaceWizards");
+  initAutoHideWizards(): void {
+    const tierElements = Array.from(
+      document.querySelectorAll<HTMLElement>(".wtw_wizardTier")
+    );
 
-    spaces.forEach((space) => {
-      const tiers = Array.from(
-        space.querySelectorAll<HTMLElement>(".wtw_wizardTier")
-      );
+    const updateVisibility = (): void => {
+      tierElements.forEach((tierElement) => {
+        const space_id = Number(tierElement.parentElement.dataset.space);
+        const tier = Number(tierElement.dataset.tier);
+        const counter = this.wtw.counters.spaces[space_id];
 
-      const updateVisibility = (): void => {
-        const indexesToHide = new Set<number>();
-
-        tiers.forEach((tier, i) => {
-          if (tier.children.length > 0) {
-            for (let j = 0; j < i; j++) {
-              indexesToHide.add(j);
-            }
-          }
-        });
-
-        tiers.forEach((tier, i) => {
-          tier.style.display = indexesToHide.has(i) ? "none" : "";
-        });
-      };
-
-      const observer = new MutationObserver(updateVisibility);
-      observer.observe(space, {
-        childList: true,
-        subtree: true,
+        tierElement.style.display =
+          counter.getValue() > Number(tier) ? "none" : "";
       });
+    };
 
-      updateVisibility(); // Initial run
+    const observer = new MutationObserver(updateVisibility);
+    observer.observe(document.getElementById("wtw_spacesContainer"), {
+      childList: true,
+      subtree: true,
     });
+
+    updateVisibility();
   }
 }

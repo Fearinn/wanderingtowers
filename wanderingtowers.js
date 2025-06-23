@@ -143,8 +143,10 @@ var WanderingTowers = /** @class */ (function (_super) {
         };
         for (var space_id = 1; space_id <= 16; space_id++) {
             towerStocks.spaces[space_id] = new TowerSpaceStock(this, towerManager, space_id);
+            var spaceElement = document.getElementById("wtw_spaceWizards-".concat(space_id));
             wizardStocks.spaces[space_id] = {};
             for (var tier = 1; tier <= 10; tier++) {
+                spaceElement.insertAdjacentHTML("beforeend", "<div id=\"wtw_wizardTier-".concat(space_id, "-").concat(tier, "\" class=\"wtw_wizardTier\" data-tier=").concat(tier, "></div>"));
                 wizardStocks.spaces[space_id][tier] = new WizardSpaceStock(this, wizardManager, space_id, tier);
             }
             var tierCount = gamedatas.tierCounts[space_id];
@@ -281,7 +283,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         });
         this.setupNotifications();
         BgaAutoFit.init();
-        this.initAutoHideAllPreviousTiers();
+        this.initAutoHideWizards();
     };
     WanderingTowers.prototype.onEnteringState = function (stateName, args) {
         if (!this.isCurrentPlayerActive()) {
@@ -421,30 +423,24 @@ var WanderingTowers = /** @class */ (function (_super) {
         }
         return { log: log, args: args };
     };
-    WanderingTowers.prototype.initAutoHideAllPreviousTiers = function () {
-        var spaces = document.querySelectorAll(".wtw_spaceWizards");
-        spaces.forEach(function (space) {
-            var tiers = Array.from(space.querySelectorAll(".wtw_wizardTier"));
-            var updateVisibility = function () {
-                var indexesToHide = new Set();
-                tiers.forEach(function (tier, i) {
-                    if (tier.children.length > 0) {
-                        for (var j = 0; j < i; j++) {
-                            indexesToHide.add(j);
-                        }
-                    }
-                });
-                tiers.forEach(function (tier, i) {
-                    tier.style.display = indexesToHide.has(i) ? "none" : "";
-                });
-            };
-            var observer = new MutationObserver(updateVisibility);
-            observer.observe(space, {
-                childList: true,
-                subtree: true,
+    WanderingTowers.prototype.initAutoHideWizards = function () {
+        var _this = this;
+        var tierElements = Array.from(document.querySelectorAll(".wtw_wizardTier"));
+        var updateVisibility = function () {
+            tierElements.forEach(function (tierElement) {
+                var space_id = Number(tierElement.parentElement.dataset.space);
+                var tier = Number(tierElement.dataset.tier);
+                var counter = _this.wtw.counters.spaces[space_id];
+                tierElement.style.display =
+                    counter.getValue() > Number(tier) ? "none" : "";
             });
-            updateVisibility(); // Initial run
+        };
+        var observer = new MutationObserver(updateVisibility);
+        observer.observe(document.getElementById("wtw_spacesContainer"), {
+            childList: true,
+            subtree: true,
         });
+        updateVisibility();
     };
     return WanderingTowers;
 }(WanderingTowersGui));
