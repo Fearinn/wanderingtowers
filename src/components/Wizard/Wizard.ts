@@ -75,15 +75,15 @@ class Wizard extends Card {
     this.place(space_id);
   }
 
-  enterRavenskeep() {
+  enterRavenskeep(): void {
     const cardElement = this.stocks.spaces[this.space_id][
       this.tier
     ].getCardElement(this.card);
     cardElement.classList.add("wtw_wizard-ravenskeep");
   }
 
-  free() {
-    this.stocks.spaces[this.space_id][this.tier].addCard(this.card);
+  async free(): Promise<boolean> {
+    return this.stocks.spaces[this.space_id][this.tier].addCard(this.card);
   }
 }
 

@@ -75,8 +75,8 @@ class NotificationManager implements NotificationManager {
 
   public notif_usePotions(args: { nbr: number; player_id: number }): void {
     const { nbr, player_id } = args;
-    const cargo = this.game.wtw.stocks.potions[player_id].cargo;
-    const voidStock = this.game.wtw.stocks.potions.void;
+    const cargo = this.stocks.potions[player_id].cargo;
+    const voidStock = this.stocks.potions.void;
     const potionCards = cargo.getCards().slice(0, nbr);
     voidStock.addCards(potionCards);
   }
@@ -92,12 +92,12 @@ class NotificationManager implements NotificationManager {
   }
 
   public notif_autoreshuffle(args: {}): void {
-    const { discard, deck } = this.game.wtw.stocks.moves;
+    const { discard, deck } = this.stocks.moves;
     deck.addCards(discard.getCards());
     deck.shuffle({ animatedCardsMax: 5 });
   }
 
-  public notif_incScore(args: { score: number; player_id: number }) {
+  public notif_incScore(args: { score: number; player_id: number }): void {
     const { score, player_id } = args;
     this.game.scoreCtrl[player_id].incValue(score);
   }
@@ -106,16 +106,33 @@ class NotificationManager implements NotificationManager {
     towerCard: TowerCard;
     final_space_id: number;
     current_space_id: number;
-  }) {
+  }): void {
     const { towerCard, final_space_id, current_space_id } = args;
 
     const tower = new Tower(this.game, towerCard);
     tower.move(final_space_id, current_space_id);
   }
 
-  public notif_freeWizard(args: { wizardCard: WizardCard }) {
-    const { wizardCard } = args;
+  public async notif_freeWizard(args: {
+    wizardCard: WizardCard;
+    towerCard: TowerCard;
+    space_id: number;
+    tier: number;
+  }): Promise<void> {
+    const { wizardCard, towerCard, space_id, tier } = args;
+
+    const towerElement = document.getElementById(`wtw_tower-${towerCard.id}`);
+    towerElement.classList.add("wtw_tower-elevated");
+
+    const tierElement = document.getElementById(
+      `wtw_wizardTier-${space_id}-${tier}`
+    );
+    tierElement.classList.add("wtw_wizardTier-elevated");
+
     const wizard = new Wizard(this.game, wizardCard);
-    wizard.free();
+    await wizard.free();
+
+    towerElement.classList.remove("wtw_tower-elevated");
+    tierElement.classList.remove("wtw_wizardTier-elevated");
   }
 }

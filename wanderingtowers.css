@@ -900,6 +900,11 @@ body > .card {
   border-radius: 100%;
   transform: scale(1.2);
 }
+.wtw_tower-elevated {
+  animation: 0.5;
+  transform: translateY(100%);
+  z-index: 9;
+}
 
 :root {
   --innerTowerWidth: calc(var(--towerWidth) * 0.7);
@@ -938,6 +943,11 @@ body > .card {
 }
 .wtw_wizardTier-imprisoned .wtw_wizard {
   pointer-events: none;
+}
+.wtw_wizardTier-elevated {
+  animation: 0.5s;
+  transform: translateY(150%);
+  z-index: 9;
 }
 
 .wtw_wizard {

@@ -549,12 +549,28 @@ class WanderingTowers extends WanderingTowersGui {
 
     const updateVisibility = (): void => {
       tierElements.forEach((tierElement) => {
-        const space_id = Number(tierElement.parentElement.dataset.space);
+        const parent = tierElement.parentElement;
+        if (!parent) return;
+
+        const space_id = Number(parent.dataset.space);
         const tier = Number(tierElement.dataset.tier);
         const counter = this.wtw.counters.spaces[space_id];
 
-        const isImprisoned = counter.getValue() > Number(tier);
-        tierElement.classList.toggle("wtw_wizardTier-imprisoned", isImprisoned);
+        const isBelow = counter.getValue() > tier;
+
+        // Check if there is any sibling with the elevated class
+        const hasElevatedSibling = Array.from(parent.children).some(
+          (sibling) =>
+            sibling !== tierElement &&
+            (sibling.classList.contains("wtw_wizardTier-elevated") ||
+              sibling.classList.contains("bga-animations_animated"))
+        );
+
+        const shouldBeImprisoned = isBelow && !hasElevatedSibling;
+        tierElement.classList.toggle(
+          "wtw_wizardTier-imprisoned",
+          shouldBeImprisoned
+        );
       });
     };
 
@@ -562,6 +578,8 @@ class WanderingTowers extends WanderingTowersGui {
     observer.observe(document.getElementById("wtw_spacesContainer"), {
       childList: true,
       subtree: true,
+      attributes: true,
+      attributeFilter: ["class"], // to catch class changes (like elevated being added/removed)
     });
 
     updateVisibility();

@@ -424,17 +424,29 @@ var WanderingTowers = /** @class */ (function (_super) {
         var tierElements = Array.from(document.querySelectorAll(".wtw_wizardTier"));
         var updateVisibility = function () {
             tierElements.forEach(function (tierElement) {
-                var space_id = Number(tierElement.parentElement.dataset.space);
+                var parent = tierElement.parentElement;
+                if (!parent)
+                    return;
+                var space_id = Number(parent.dataset.space);
                 var tier = Number(tierElement.dataset.tier);
                 var counter = _this.wtw.counters.spaces[space_id];
-                var isImprisoned = counter.getValue() > Number(tier);
-                tierElement.classList.toggle("wtw_wizardTier-imprisoned", isImprisoned);
+                var isBelow = counter.getValue() > tier;
+                // Check if there is any sibling with the elevated class
+                var hasElevatedSibling = Array.from(parent.children).some(function (sibling) {
+                    return sibling !== tierElement &&
+                        (sibling.classList.contains("wtw_wizardTier-elevated") ||
+                            sibling.classList.contains("bga-animations_animated"));
+                });
+                var shouldBeImprisoned = isBelow && !hasElevatedSibling;
+                tierElement.classList.toggle("wtw_wizardTier-imprisoned", shouldBeImprisoned);
             });
         };
         var observer = new MutationObserver(updateVisibility);
         observer.observe(document.getElementById("wtw_spacesContainer"), {
             childList: true,
             subtree: true,
+            attributes: true,
+            attributeFilter: ["class"], // to catch class changes (like elevated being added/removed)
         });
         updateVisibility();
     };
@@ -3055,7 +3067,11 @@ var Wizard = /** @class */ (function (_super) {
         cardElement.classList.add("wtw_wizard-ravenskeep");
     };
     Wizard.prototype.free = function () {
-        this.stocks.spaces[this.space_id][this.tier].addCard(this.card);
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.stocks.spaces[this.space_id][this.tier].addCard(this.card)];
+            });
+        });
     };
     return Wizard;
 }(Card));
@@ -3141,8 +3157,8 @@ var NotificationManager = /** @class */ (function () {
     };
     NotificationManager.prototype.notif_usePotions = function (args) {
         var nbr = args.nbr, player_id = args.player_id;
-        var cargo = this.game.wtw.stocks.potions[player_id].cargo;
-        var voidStock = this.game.wtw.stocks.potions.void;
+        var cargo = this.stocks.potions[player_id].cargo;
+        var voidStock = this.stocks.potions.void;
         var potionCards = cargo.getCards().slice(0, nbr);
         voidStock.addCards(potionCards);
     };
@@ -3153,7 +3169,7 @@ var NotificationManager = /** @class */ (function () {
         this.game.wtw.counters[player_id].ravenskeep.incValue(1);
     };
     NotificationManager.prototype.notif_autoreshuffle = function (args) {
-        var _a = this.game.wtw.stocks.moves, discard = _a.discard, deck = _a.deck;
+        var _a = this.stocks.moves, discard = _a.discard, deck = _a.deck;
         deck.addCards(discard.getCards());
         deck.shuffle({ animatedCardsMax: 5 });
     };
@@ -3167,9 +3183,26 @@ var NotificationManager = /** @class */ (function () {
         tower.move(final_space_id, current_space_id);
     };
     NotificationManager.prototype.notif_freeWizard = function (args) {
-        var wizardCard = args.wizardCard;
-        var wizard = new Wizard(this.game, wizardCard);
-        wizard.free();
+        return __awaiter(this, void 0, void 0, function () {
+            var wizardCard, towerCard, space_id, tier, towerElement, tierElement, wizard;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        wizardCard = args.wizardCard, towerCard = args.towerCard, space_id = args.space_id, tier = args.tier;
+                        towerElement = document.getElementById("wtw_tower-".concat(towerCard.id));
+                        towerElement.classList.add("wtw_tower-elevated");
+                        tierElement = document.getElementById("wtw_wizardTier-".concat(space_id, "-").concat(tier));
+                        tierElement.classList.add("wtw_wizardTier-elevated");
+                        wizard = new Wizard(this.game, wizardCard);
+                        return [4 /*yield*/, wizard.free()];
+                    case 1:
+                        _a.sent();
+                        towerElement.classList.remove("wtw_tower-elevated");
+                        tierElement.classList.remove("wtw_wizardTier-elevated");
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     return NotificationManager;
 }());

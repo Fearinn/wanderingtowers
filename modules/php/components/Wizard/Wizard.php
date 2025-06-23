@@ -164,6 +164,9 @@ class Wizard extends WizardManager
             clienttranslate('${player_name} successfully frees a wizard'),
             [
                 "wizardCard" => $this->getCard($this->card_id),
+                "towerCard" => $TowerManager->getByMaxTier($space_id),
+                "space_id" => $space_id,
+                "tier" => $this->tier,
             ],
             $player_id,
         );
