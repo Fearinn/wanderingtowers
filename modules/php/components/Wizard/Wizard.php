@@ -67,7 +67,6 @@ class Wizard extends WizardManager
         $enteredRavenskeep = $space_id === $TowerManager->getRavenskeepSpace();
         if ($enteredRavenskeep) {
             $this->enterRavenskeep($player_id);
-            $this->globals->set(G_TURN_MOVE, 2);
         }
     }
 
@@ -91,6 +90,7 @@ class Wizard extends WizardManager
         $ScoreManager = new ScoreManager($this->game);
         $ScoreManager->incScore(1, $player_id);
 
+        $this->globals->set(G_TURN_MOVE, 3);
         $this->game->incStat(1, STAT_WIZARDS_RAVENSKEEP, $player_id);
     }
 
@@ -137,23 +137,8 @@ class Wizard extends WizardManager
         $this->game->DbQuery("UPDATE {$this->dbTable} SET tier={$tier} WHERE card_id={$this->card_id}");
     }
 
-    // public function toggleVisibility(bool $isVisible): void
-    // {
-    //     $NotifManager = new NotifManager($this->game);
-    //     $NotifManager->all(
-    //         "toggleWizardVisibility",
-    //         "",
-    //         [
-    //             "card" => $this->getCard($this->card_id),
-    //             "isVisible" => $isVisible,
-    //         ],
-    //     );
-    // }
-
     public function imprison(int $player_id): void
     {
-        // $this->toggleVisibility(false);to
-
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(
             "imprisionWizard",
@@ -166,8 +151,23 @@ class Wizard extends WizardManager
         $this->game->incStat(1, STAT_WIZARDS_IMPRISONED, $player_id);
     }
 
-    // public function freeUp(): void
-    // {
-    //     // $this->toggleVisibility(true);
-    // }
+    public function free(int $player_id): void
+    {
+        $space_id = $this->getSpaceId();
+        $TowerManager = new TowerManager($this->game);
+        $max_tier = $TowerManager->countOnSpace($space_id);
+        $this->updateTier($max_tier);
+
+        $NotifManager = new NotifManager($this->game);
+        $NotifManager->all(
+            "freeWizard",
+            clienttranslate('${player_name} successfully frees a wizard'),
+            [],
+            $player_id,
+        );
+
+        if ($space_id === $TowerManager->getRavenskeepSpace()) {
+            $this->enterRavenskeep($player_id);
+        }
+    }
 }

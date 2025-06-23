@@ -344,10 +344,10 @@ $this->SPELLS = [
         "type" => "tower",
         "steps" => 2,
     ],
-    // 7 => [
-    //     "tr_name" => clienttranslate("Free a Wizard"),
-    //     "cost" => 2,
-    //     "type" => "tower",
-    //     "steps" => 0,
-    // ],
+    7 => [
+        "tr_name" => clienttranslate("Free a Wizard"),
+        "cost" => 2,
+        "type" => "tower",
+        "steps" => 0,
+    ],
 ];

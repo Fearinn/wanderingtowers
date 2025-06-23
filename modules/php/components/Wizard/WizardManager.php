@@ -140,27 +140,19 @@ class WizardManager extends CardManager
         }
     }
 
-    // public function coverWizards(int $space_id, int $tier): void
-    // {
-    //     $wizardCards = $this->getByTier($space_id, $tier);
+    public function freeWizards(int $space_id, int $tier, int $player_id): void
+    {
+        $wizardCards = $this->getByOwnerAndTier($space_id, $tier, $player_id);
 
-    //     foreach ($wizardCards as $wizardCard) {
-    //         $wizardCard_id = (int) $wizardCard["id"];
-    //         $Wizard = new Wizard($this->game, $wizardCard_id);
-    //         $Wizard->toggleVisibility(false);
-    //     }
-    // }
+        if (!$wizardCards) {
+            return;
+        }
 
-    // public function freeUpWizards(int $space_id, int $tier): void
-    // {
-    //     $wizardCards = $this->getByTier($space_id, $tier);
-
-    //     foreach ($wizardCards as $wizardCard) {
-    //         $wizardCard_id = (int) $wizardCard["id"];
-    //         $Wizard = new Wizard($this->game, $wizardCard_id);
-    //         $Wizard->freeUp();
-    //     }
-    // }
+        $wizardCard = reset($wizardCards);
+        $wizardCard_id = (int) $wizardCard["id"];
+        $Wizard = new Wizard($this->game, $wizardCard_id);
+        $Wizard->free($player_id);
+    }
 
     public function getByOwner(int $player_id, bool $visibleOnly): array
     {
@@ -177,6 +169,13 @@ class WizardManager extends CardManager
         }
 
         return $wizardCards;
+    }
+
+    public function getByOwnerAndTier(int $space_id, int $tier, int $player_id): array
+    {
+        $wizardCards = $this->game->getCollectionFromDB("SELECT {$this->fields} FROM {$this->dbTable} 
+        WHERE card_location_arg={$space_id} AND card_location='space' AND card_type_arg={$player_id} AND tier={$tier}");
+        return array_values($wizardCards);
     }
 
     public function getMovable(int $moveCard_id, int $player_id): array

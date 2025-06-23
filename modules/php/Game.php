@@ -505,6 +505,6 @@ class Game extends \Table
     public function debug_castSpell(): void
     {
         $ActCastSpell = new ActCastSpell($this);
-        $ActCastSpell->act(6, 2);
+        $ActCastSpell->act(7, 2);
     }
 }

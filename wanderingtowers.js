@@ -246,10 +246,6 @@ var WanderingTowers = /** @class */ (function (_super) {
                         description: _("Swap the topmost tower (and wizards atop them) in 2 spaces"),
                     },
                     7: {
-                        name: _("Piggyback"),
-                        description: _("You can cast this spell only when the current player is moving a wizard from a space or tower top where you also have a wizard. They must move your wizard along with theirs!"),
-                    },
-                    8: {
                         name: _("Free a Wizard"),
                         description: _("Lift any 1 tower to free 1 of your wizards from beneath it, placing the wizard on top of the stack"),
                     },

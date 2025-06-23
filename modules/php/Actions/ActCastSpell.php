@@ -5,6 +5,7 @@ namespace Bga\Games\WanderingTowers\Actions;
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\Spell\SpAdvanceTower;
 use Bga\Games\WanderingTowers\Components\Spell\SpAdvanceWizard;
+use Bga\Games\WanderingTowers\Components\Spell\SpFreeWizard;
 use Bga\Games\WanderingTowers\Components\Spell\SpHeadwindTower;
 use Bga\Games\WanderingTowers\Components\Spell\SpHeadwindWizard;
 use Bga\Games\WanderingTowers\Components\Spell\SpNudgeRavenskeep;
@@ -49,9 +50,13 @@ class ActCastSpell extends ActionManager
                 $SpNudgeRavenskeep->cast($this->player_id);
                 break;
 
-            case 6: 
+            case 6:
                 $SpSwapTower = new SpSwapTower($this->game);
                 $SpSwapTower->cast($this->player_id, $meeple_id);
+
+            case 7:
+                $SpFreeWizard = new SpFreeWizard($this->game);
+                $SpFreeWizard->cast($this->player_id, $meeple_id, $tier);
         }
 
         $this->globals->set(G_SPELL_CASTED, true);

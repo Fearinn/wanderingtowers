@@ -136,14 +136,21 @@ class TowerManager extends CardManager
             $towerCard_id = (int) $towerCard["id"];
             $Tower = new Tower($this->game, $towerCard_id);
 
+            if ($spell_id === 7) {
+                $WizardManager = new WizardManager($this->game);
+                $space_id = $Tower->getSpaceId();
+                $tier = $Tower->countOnSpace($space_id);
+                return $WizardManager->countOnSpace($space_id, $tier) < 6;
+            }
+
             if ($Tower->isRavenskeep()) {
                 return false;
             }
 
             $space_id = $this->game->sumSteps($Tower->getSpaceId(), $steps);
 
-            if ($spell_id === 6) {
-                return !!$this->getByMaxTier($space_id);
+            if ($spell_id === 6 && !!$this->getByMaxTier($space_id)) {
+                return false;
             }
 
             $ravenskeepSpace = (int) $this->getRavenskeepSpace();
