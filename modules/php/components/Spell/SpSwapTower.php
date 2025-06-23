@@ -37,6 +37,7 @@ class SpSwapTower extends Spell
     public function cast(int $player_id, int $space_id): void
     {
         $this->validate($player_id, $space_id);
+        
         $this->usePotions($player_id);
 
         $TowerManager = new TowerManager($this->game);

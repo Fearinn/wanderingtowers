@@ -36,6 +36,7 @@ class SpHeadwindTower extends Spell
     public function cast(int $player_id, int $space_id, int $tier): void
     {
         $this->validate($player_id, $space_id, $tier);
+
         $this->usePotions($player_id);
 
         $TowerManager = new TowerManager($this->game);

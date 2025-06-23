@@ -27,6 +27,8 @@ class SpHeadwindWizard extends Spell
 
     public function cast(int $player_id, int $meeple_id): void
     {
+        $this->validate($player_id, $meeple_id);
+        
         $this->usePotions($player_id);
         $Wizard = new Wizard($this->game, $meeple_id);
         $Wizard->move($this->steps, $player_id);
