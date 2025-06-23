@@ -122,22 +122,22 @@ class Wizard extends WizardManager
         $this->game->DbQuery("UPDATE {$this->dbTable} SET tier={$tier} WHERE card_id={$this->card_id}");
     }
 
-    public function toggleVisibility(bool $isVisible): void
-    {
-        $NotifManager = new NotifManager($this->game);
-        $NotifManager->all(
-            "toggleWizardVisibility",
-            "",
-            [
-                "card" => $this->getCard($this->card_id),
-                "isVisible" => $isVisible,
-            ],
-        );
-    }
+    // public function toggleVisibility(bool $isVisible): void
+    // {
+    //     $NotifManager = new NotifManager($this->game);
+    //     $NotifManager->all(
+    //         "toggleWizardVisibility",
+    //         "",
+    //         [
+    //             "card" => $this->getCard($this->card_id),
+    //             "isVisible" => $isVisible,
+    //         ],
+    //     );
+    // }
 
     public function imprison(int $player_id): void
     {
-        $this->toggleVisibility(false);
+        // $this->toggleVisibility(false);to
 
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(
@@ -151,8 +151,8 @@ class Wizard extends WizardManager
         $this->game->incStat(1, STAT_WIZARDS_IMPRISONED, $player_id);
     }
 
-    public function freeUp(): void
-    {
-        $this->toggleVisibility(true);
-    }
+    // public function freeUp(): void
+    // {
+    //     // $this->toggleVisibility(true);
+    // }
 }

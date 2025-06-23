@@ -62,13 +62,13 @@ class Ravenskeep extends Tower
             return;
         }
 
-        $WizardManager->freeUpWizards($current_space_id, $current_tier);
+        // $WizardManager->freeUpWizards($current_space_id, $current_tier);
 
         $this->moveCard($this->card_id, "space", $final_space_id);
         $final_tier = $this->countOnSpace($final_space_id);
         $this->updateTier($final_tier);
 
-        $WizardManager->coverWizards($final_space_id, $final_tier - 1);
+        // $WizardManager->coverWizards($final_space_id, $final_tier - 1);
 
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(

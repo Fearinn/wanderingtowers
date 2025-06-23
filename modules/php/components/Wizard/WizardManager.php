@@ -129,27 +129,27 @@ class WizardManager extends CardManager
         }
     }
 
-    public function coverWizards(int $space_id, int $tier): void
-    {
-        $wizardCards = $this->getByTier($space_id, $tier);
+    // public function coverWizards(int $space_id, int $tier): void
+    // {
+    //     $wizardCards = $this->getByTier($space_id, $tier);
 
-        foreach ($wizardCards as $wizardCard) {
-            $wizardCard_id = (int) $wizardCard["id"];
-            $Wizard = new Wizard($this->game, $wizardCard_id);
-            $Wizard->toggleVisibility(false);
-        }
-    }
+    //     foreach ($wizardCards as $wizardCard) {
+    //         $wizardCard_id = (int) $wizardCard["id"];
+    //         $Wizard = new Wizard($this->game, $wizardCard_id);
+    //         $Wizard->toggleVisibility(false);
+    //     }
+    // }
 
-    public function freeUpWizards(int $space_id, int $tier): void
-    {
-        $wizardCards = $this->getByTier($space_id, $tier);
+    // public function freeUpWizards(int $space_id, int $tier): void
+    // {
+    //     $wizardCards = $this->getByTier($space_id, $tier);
 
-        foreach ($wizardCards as $wizardCard) {
-            $wizardCard_id = (int) $wizardCard["id"];
-            $Wizard = new Wizard($this->game, $wizardCard_id);
-            $Wizard->freeUp();
-        }
-    }
+    //     foreach ($wizardCards as $wizardCard) {
+    //         $wizardCard_id = (int) $wizardCard["id"];
+    //         $Wizard = new Wizard($this->game, $wizardCard_id);
+    //         $Wizard->freeUp();
+    //     }
+    // }
 
     public function getByOwner(int $player_id, bool $visibleOnly): array
     {

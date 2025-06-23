@@ -356,6 +356,7 @@ class WanderingTowers extends WanderingTowersGui {
 
     this.setupNotifications();
     BgaAutoFit.init();
+    this.initAutoHideAllPreviousTiers();
   }
 
   public onEnteringState(stateName: StateName, args?: any): void {
@@ -537,5 +538,39 @@ class WanderingTowers extends WanderingTowersGui {
       console.error(log, args, "Exception thrown", e.stack);
     }
     return { log, args };
+  }
+
+  initAutoHideAllPreviousTiers(): void {
+    const spaces = document.querySelectorAll<HTMLElement>(".wtw_spaceWizards");
+
+    spaces.forEach((space) => {
+      const tiers = Array.from(
+        space.querySelectorAll<HTMLElement>(".wtw_wizardTier")
+      );
+
+      const updateVisibility = (): void => {
+        const indexesToHide = new Set<number>();
+
+        tiers.forEach((tier, i) => {
+          if (tier.children.length > 0) {
+            for (let j = 0; j < i; j++) {
+              indexesToHide.add(j);
+            }
+          }
+        });
+
+        tiers.forEach((tier, i) => {
+          tier.style.display = indexesToHide.has(i) ? "none" : "";
+        });
+      };
+
+      const observer = new MutationObserver(updateVisibility);
+      observer.observe(space, {
+        childList: true,
+        subtree: true,
+      });
+
+      updateVisibility(); // Initial run
+    });
   }
 }

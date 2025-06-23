@@ -53,7 +53,7 @@ class Tower extends TowerManager
         $current_tier = $this->tier;
 
         $WizardManager = new WizardManager($this->game);
-        $WizardManager->freeUpWizards($current_space_id, $current_tier - 1);
+        // $WizardManager->freeUpWizards($current_space_id, $current_tier - 1);
 
         $final_space_id = $this->game->sumSteps($current_space_id, $steps);
 
@@ -131,7 +131,7 @@ class Tower extends TowerManager
         $current_tier = $this->tier;
 
         $WizardManager = new WizardManager($this->game);
-        $WizardManager->freeUpWizards($current_space_id, $current_tier - 1);
+        // $WizardManager->freeUpWizards($current_space_id, $current_tier - 1);
 
         $final_space_id = $this->game->sumSteps($current_space_id, $steps);
 

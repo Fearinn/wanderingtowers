@@ -281,6 +281,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         });
         this.setupNotifications();
         BgaAutoFit.init();
+        this.initAutoHideAllPreviousTiers();
     };
     WanderingTowers.prototype.onEnteringState = function (stateName, args) {
         if (!this.isCurrentPlayerActive()) {
@@ -419,6 +420,31 @@ var WanderingTowers = /** @class */ (function (_super) {
             console.error(log, args, "Exception thrown", e.stack);
         }
         return { log: log, args: args };
+    };
+    WanderingTowers.prototype.initAutoHideAllPreviousTiers = function () {
+        var spaces = document.querySelectorAll(".wtw_spaceWizards");
+        spaces.forEach(function (space) {
+            var tiers = Array.from(space.querySelectorAll(".wtw_wizardTier"));
+            var updateVisibility = function () {
+                var indexesToHide = new Set();
+                tiers.forEach(function (tier, i) {
+                    if (tier.children.length > 0) {
+                        for (var j = 0; j < i; j++) {
+                            indexesToHide.add(j);
+                        }
+                    }
+                });
+                tiers.forEach(function (tier, i) {
+                    tier.style.display = indexesToHide.has(i) ? "none" : "";
+                });
+            };
+            var observer = new MutationObserver(updateVisibility);
+            observer.observe(space, {
+                childList: true,
+                subtree: true,
+            });
+            updateVisibility(); // Initial run
+        });
     };
     return WanderingTowers;
 }(WanderingTowersGui));
