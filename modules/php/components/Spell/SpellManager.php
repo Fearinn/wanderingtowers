@@ -60,6 +60,25 @@ class SpellManager extends CardManager
             case 3:
                 $this->deck->moveAllCardsInLocation("deck", "table");
                 break;
+
+            case 4:
+                $optionToSpellId = [
+                    103 => 1, // Advance a Wizard
+                    104 => 2, // Headwind for a Wizard
+                    105 => 3, // Advance a Tower
+                    106 => 4, // Headwind for a Tower
+                    107 => 5, // Nudge a Ravenskeep
+                    108 => 6, // Swap a Tower
+                    109 => 7  // Free a Wizard
+                ];
+
+                foreach ($optionToSpellId as $option_id => $spell_id) {
+                    $spellEnabled = $this->tableOptions->get($option_id) === 1;
+                    if ($spellEnabled) {
+                        $this->game->DbQuery("UPDATE {$this->dbTable} SET card_location='table' WHERE card_type_arg={$spell_id}");
+                    }
+                }
+                break;
         }
     }
 

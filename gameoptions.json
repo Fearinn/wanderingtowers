@@ -15,7 +15,7 @@
       },
       "4": {
         "name": "Manual",
-        "description": "Enable or disable each spell"
+        "description": "Enable or disable each spell individually"
       }
     },
     "default": 2,
@@ -72,5 +72,173 @@
     },
     "default": 1,
     "displaycondition": [{ "type": "maxplayers", "value": 1 }]
+  },
+  "103": {
+    "name": "Advance a Wizard",
+    "values": {
+      "0": {
+        "name": "Off"
+      },
+      "1": {
+        "name": "On",
+        "description": "Move any 1 visible wizard 1 space clockwise"
+      }
+    },
+    "default": 1,
+    "displaycondition": [
+      {
+        "type": "otheroption",
+        "id": 100,
+        "value": 4
+      },
+      {
+        "type": "minplayers",
+        "value": [2, 3, 4, 5, 6]
+      }
+    ]
+  },
+  "104": {
+    "name": "Headwind for a Wizard",
+    "values": {
+      "0": {
+        "name": "Off"
+      },
+      "1": {
+        "name": "On",
+        "description": "Move any 1 visible wizard 1 space counterclockwise"
+      }
+    },
+    "default": 1,
+    "displaycondition": [
+      {
+        "type": "otheroption",
+        "id": 100,
+        "value": 4
+      },
+      {
+        "type": "minplayers",
+        "value": [2, 3, 4, 5, 6]
+      }
+    ]
+  },
+  "105": {
+    "name": "Advance a Tower",
+    "values": {
+      "0": {
+        "name": "Off"
+      },
+      "1": {
+        "name": "On",
+        "description": "Move any 1 tower (and everything atop it) 2 spaces clockwise"
+      }
+    },
+    "default": 1,
+    "displaycondition": [
+      {
+        "type": "otheroption",
+        "id": 100,
+        "value": 4
+      },
+      {
+        "type": "minplayers",
+        "value": [2, 3, 4, 5, 6]
+      }
+    ]
+  },
+  "106": {
+    "name": "Headwind for a Tower",
+    "values": {
+      "0": {
+        "name": "Off"
+      },
+      "1": {
+        "name": "On",
+        "description": "Move any 1 tower (and everything atop it) 2 spaces counterclockwise."
+      }
+    },
+    "default": 1,
+    "displaycondition": [
+      {
+        "type": "otheroption",
+        "id": 100,
+        "value": 4
+      },
+      {
+        "type": "minplayers",
+        "value": [2, 3, 4, 5, 6]
+      }
+    ]
+  },
+  "107": {
+    "name": "Nudge a Ravenskeep",
+    "values": {
+      "0": {
+        "name": "Off"
+      },
+      "1": {
+        "name": "On",
+        "description": "Move Ravenskeep clockwise or counterclockwise to the next empty space or empty tower top, whichever it encounters first in that direction"
+      }
+    },
+    "default": 1,
+    "displaycondition": [
+      {
+        "type": "otheroption",
+        "id": 100,
+        "value": 4
+      },
+      {
+        "type": "minplayers",
+        "value": [2, 3, 4, 5, 6]
+      }
+    ]
+  },
+  "108": {
+    "name": "Swap a Tower",
+    "values": {
+      "0": {
+        "name": "Off"
+      },
+      "1": {
+        "name": "On",
+        "description": "Swap the topmost tower (and wizards atop them) in 2 spaces"
+      }
+    },
+    "default": 1,
+    "displaycondition": [
+      {
+        "type": "otheroption",
+        "id": 100,
+        "value": 4
+      },
+      {
+        "type": "minplayers",
+        "value": [2, 3, 4, 5, 6]
+      }
+    ]
+  },
+  "109": {
+    "name": "Free a Wizard",
+    "values": {
+      "0": {
+        "name": "Off"
+      },
+      "1": {
+        "name": "On",
+        "description": "Lift any 1 tower to free 1 of your wizards from beneath it, placing the wizard on top of the stack"
+      }
+    },
+    "default": 1,
+    "displaycondition": [
+      {
+        "type": "otheroption",
+        "id": 100,
+        "value": 4
+      },
+      {
+        "type": "minplayers",
+        "value": [2, 3, 4, 5, 6]
+      }
+    ]
   }
 }
