@@ -28,6 +28,15 @@
   aspect-ratio: 1;
   width: 100%;
   pointer-events: none;
+
+  &-imprisoned {
+    opacity: 0;
+    z-index: -99;
+
+    .wtw_wizard {
+      pointer-events: none;
+    }
+  }
 }
 
 .wtw_wizard {
@@ -55,10 +64,6 @@
     background-color: #00aa0055;
     transform: scale(1.5) rotate(10deg);
     z-index: 2;
-  }
-
-  &-imprisoned {
-    display: none;
   }
 
   &-ravenskeep {

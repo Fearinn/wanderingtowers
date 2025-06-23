@@ -932,6 +932,13 @@ body > .card {
   width: 100%;
   pointer-events: none;
 }
+.wtw_wizardTier-imprisoned {
+  opacity: 0;
+  z-index: -99;
+}
+.wtw_wizardTier-imprisoned .wtw_wizard {
+  pointer-events: none;
+}
 
 .wtw_wizard {
   background-image: url("img/wizards.png");
@@ -955,9 +962,6 @@ body > .card {
   background-color: rgba(0, 170, 0, 0.3333333333);
   transform: scale(1.5) rotate(10deg);
   z-index: 2;
-}
-.wtw_wizard-imprisoned {
-  display: none;
 }
 .wtw_wizard-ravenskeep {
   animation: 1s linear forwards enterRavenskeep;

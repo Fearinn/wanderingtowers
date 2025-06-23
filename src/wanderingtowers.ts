@@ -553,8 +553,8 @@ class WanderingTowers extends WanderingTowersGui {
         const tier = Number(tierElement.dataset.tier);
         const counter = this.wtw.counters.spaces[space_id];
 
-        tierElement.style.display =
-          counter.getValue() > Number(tier) ? "none" : "";
+        const isImprisoned = counter.getValue() > Number(tier);
+        tierElement.classList.toggle("wtw_wizardTier-imprisoned", isImprisoned);
       });
     };
 

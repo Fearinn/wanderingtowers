@@ -427,8 +427,8 @@ var WanderingTowers = /** @class */ (function (_super) {
                 var space_id = Number(tierElement.parentElement.dataset.space);
                 var tier = Number(tierElement.dataset.tier);
                 var counter = _this.wtw.counters.spaces[space_id];
-                tierElement.style.display =
-                    counter.getValue() > Number(tier) ? "none" : "";
+                var isImprisoned = counter.getValue() > Number(tier);
+                tierElement.classList.toggle("wtw_wizardTier-imprisoned", isImprisoned);
             });
         };
         var observer = new MutationObserver(updateVisibility);
