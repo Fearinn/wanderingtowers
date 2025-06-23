@@ -242,6 +242,7 @@ declare class Game {
 
   getGameUserPreference(pref_id: number): number | string;
   onGameUserPreferenceChanged(pref_id: number, pref_value: number): void;
+  wait(delay: number): Promise<boolean>;
 }
 
 /* TODO repace Function by (..params) => void */

@@ -131,6 +131,28 @@ class NotificationManager implements NotificationManager {
 
     const wizard = new Wizard(this.game, wizardCard);
     await wizard.free();
+    await this.game.wait(1000);
+
+    towerElement.classList.remove("wtw_tower-elevated");
+    tierElement.classList.remove("wtw_wizardTier-elevated");
+  }
+
+  public async notif_failFreeWizard(args: {
+    towerCard: TowerCard;
+    space_id: number;
+    tier: number;
+  }): Promise<void> {
+    const { towerCard, space_id, tier } = args;
+
+    const towerElement = document.getElementById(`wtw_tower-${towerCard.id}`);
+    towerElement.classList.add("wtw_tower-elevated");
+
+    const tierElement = document.getElementById(
+      `wtw_wizardTier-${space_id}-${tier}`
+    );
+    tierElement.classList.add("wtw_wizardTier-elevated");
+
+    await this.game.wait(1000);
 
     towerElement.classList.remove("wtw_tower-elevated");
     tierElement.classList.remove("wtw_wizardTier-elevated");

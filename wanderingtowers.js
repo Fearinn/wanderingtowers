@@ -3199,6 +3199,30 @@ var NotificationManager = /** @class */ (function () {
                         return [4 /*yield*/, wizard.free()];
                     case 1:
                         _a.sent();
+                        return [4 /*yield*/, this.game.wait(1000)];
+                    case 2:
+                        _a.sent();
+                        towerElement.classList.remove("wtw_tower-elevated");
+                        tierElement.classList.remove("wtw_wizardTier-elevated");
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    NotificationManager.prototype.notif_failFreeWizard = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var towerCard, space_id, tier, towerElement, tierElement;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        towerCard = args.towerCard, space_id = args.space_id, tier = args.tier;
+                        towerElement = document.getElementById("wtw_tower-".concat(towerCard.id));
+                        towerElement.classList.add("wtw_tower-elevated");
+                        tierElement = document.getElementById("wtw_wizardTier-".concat(space_id, "-").concat(tier));
+                        tierElement.classList.add("wtw_wizardTier-elevated");
+                        return [4 /*yield*/, this.game.wait(1000)];
+                    case 1:
+                        _a.sent();
                         towerElement.classList.remove("wtw_tower-elevated");
                         tierElement.classList.remove("wtw_wizardTier-elevated");
                         return [2 /*return*/];

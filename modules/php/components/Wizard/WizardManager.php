@@ -145,6 +145,19 @@ class WizardManager extends CardManager
         $wizardCards = $this->getByOwnerAndTier($space_id, $tier, $player_id);
 
         if (!$wizardCards) {
+            $TowerManager = new TowerManager($this->game);
+
+            $NotifManager = new NotifManager($this->game);
+            $NotifManager->all(
+                "failFreeWizard",
+                clienttranslate('${player_name} fails to free a wizard'),
+                [
+                    "towerCard" => $TowerManager->getByMaxTier($space_id),
+                    "space_id" => $space_id,
+                    "tier" => $tier,
+                ],
+                $player_id
+            );
             return;
         }
 
