@@ -19,9 +19,7 @@ class StPickSpellWizard extends StateManager {
 
     const selectableWizards = args.spellableMeeples[spell.id].wizard;
 
-    const wizardStocks = this.game.wtw.stocks.wizards.spaces;
-    for (const space_id in wizardStocks) {
-      const stock = wizardStocks[space_id];
+    this.game.loopWizardStocks((stock) => {
       stock.toggleSelection(true);
       stock.setSelectableCards(selectableWizards);
       stock.onSelectionChange = (selection, wizardCard) => {
@@ -38,7 +36,7 @@ class StPickSpellWizard extends StateManager {
           });
         }
       };
-    }
+    });
   }
 
   leave() {
@@ -47,11 +45,9 @@ class StPickSpellWizard extends StateManager {
     const spellTable = this.wtw.stocks.spells.table;
     spellTable.setSelectionMode("none");
 
-    const wizardStocks = this.game.wtw.stocks.wizards.spaces;
-    for (const space_id in wizardStocks) {
-      const stock = wizardStocks[space_id];
+    this.game.loopWizardStocks((stock) => {
       stock.toggleSelection(false);
-    }
+    });
   }
 }
 
