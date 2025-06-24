@@ -382,7 +382,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         this.bgaSetupPromiseNotifications({
             handlers: [notificationManager],
             minDuration: 1000,
-            minDurationNoText: 500,
+            minDurationNoText: 1,
         });
     };
     WanderingTowers.prototype.addConfirmationButton = function (selection, callback) {
@@ -3978,6 +3978,7 @@ var StPlayerTurn = /** @class */ (function (_super) {
             }, { classes: ["wtw_button", "wtw_button-brown"] });
         }
         if (canPass) {
+            this.statusBar.setTitle(_("${you} must cast an spell or pass"));
             this.statusBar.addActionButton(_("pass"), function () {
                 _this.game.performAction("actPass");
             }, {

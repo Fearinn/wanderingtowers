@@ -491,7 +491,7 @@ class WanderingTowers extends WanderingTowersGui {
     this.bgaSetupPromiseNotifications({
       handlers: [notificationManager],
       minDuration: 1000,
-      minDurationNoText: 500,
+      minDurationNoText: 1,
     });
   }
 
