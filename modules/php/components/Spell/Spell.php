@@ -4,6 +4,9 @@ namespace Bga\Games\WanderingTowers\Components\Spell;
 
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
+use Bga\Games\WanderingTowers\Components\Tower\Ravenskeep;
+use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
+use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 use Table;
 
@@ -63,9 +66,14 @@ class Spell extends SpellManager
             return false;
         }
 
-        $hasMeeples = ($this->type !== "wizard" && $this->type !== "tower") || !!$this->getSpellableMeeples($player_id)[$this->type];
+        $isCastable = ($this->type !== "wizard" && $this->type !== "tower") || !!$this->getSpellableMeeples($player_id)[$this->type];
 
-        return $this->canPayCost($player_id) && $hasMeeples;
+        if ($this->id === 5) {
+            $Ravenskeep = new Ravenskeep($this->game);
+            $isCastable = $Ravenskeep->isNudgeable();
+        }
+
+        return $this->canPayCost($player_id) && $isCastable;
     }
 
     public function baseValidation(int $player_id): void

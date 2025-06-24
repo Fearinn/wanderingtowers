@@ -68,6 +68,26 @@ class Ravenskeep extends Tower
         );
     }
 
+    public function isNudgeable(): bool
+    {
+        $hasEmptySpace = false;
+        $WizardManager = new WizardManager($this->game);
+        $TowerManager = new TowerManager($this->game);
+
+        foreach ($this->game->SPACES as $space_id => $space) {
+            $tier = $TowerManager->countOnSpace($space_id);
+            $hasWizard = !!$this->game->getUniqueValueFromDB("SELECT card_id FROM {$WizardManager->dbTable} 
+                WHERE card_location='space' AND card_location_arg={$space_id} AND tier={$tier}");
+
+            if (!$hasWizard) {
+                $hasEmptySpace = true;
+                break;
+            }
+        }
+
+        return $hasEmptySpace;
+    }
+
     public function nudge(string $direction): void
     {
         $step = $direction === "clockwise" ? 1 : -1;
