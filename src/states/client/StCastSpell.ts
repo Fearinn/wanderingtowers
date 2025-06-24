@@ -1,5 +1,5 @@
 class StCastSpell extends StateManager {
-  constructor(game: WanderingTowersGui){
+  constructor(game: WanderingTowersGui) {
     super(game, "client_castSpell");
   }
 
@@ -29,21 +29,23 @@ class StCastSpell extends StateManager {
           () => {
             this.wtw.globals.spellCard = spellCard;
 
-            if (spellCard.type === "wizard") {
-              const stPickSpellWizard = new StPickSpellWizard(this.game);
-              stPickSpellWizard.set();
-              return;
-            }
+            switch (spellCard.type) {
+              case "wizard":
+                const stPickSpellWizard = new StPickSpellWizard(this.game);
+                stPickSpellWizard.set();
+                break;
 
-            if (spellCard.type === "tower") {
-              const stPickSpellTower = new StPickSpellTower(this.game);
-              stPickSpellTower.set();
-              return;
-            }
+              case "tower":
+                const stPickSpellTower = new StPickSpellTower(this.game);
+                stPickSpellTower.set();
+                break;
 
-            this.game.performAction("actCastSpell", {
-              spell_id: spellCard.type_arg,
-            });
+              case "direction":
+                const stPickSpellDirection = new StPickSpellDirection(
+                  this.game
+                );
+                stPickSpellDirection.set();
+            }
           },
           {
             id: "wtw_spellBtn",

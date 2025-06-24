@@ -20,12 +20,12 @@ class SpNudgeRavenskeep extends Spell
         $this->baseValidation($player_id);
     }
 
-    public function cast(int $player_id): void
+    public function cast(int $player_id, string $direction): void
     {
         $this->validate($player_id);
         
         $this->usePotions($player_id);
         $Ravenskeep = new Ravenskeep($this->game);
-        $Ravenskeep->moveRavenskeep(true);
+        $Ravenskeep->nudge($direction);
     }
 }

@@ -21,6 +21,7 @@ declare(strict_types=1);
 namespace Bga\Games\WanderingTowers;
 
 use Bga\GameFramework\Actions\Types\IntParam;
+use Bga\GameFramework\Actions\Types\StringParam;
 use Bga\Games\WanderingTowers\Actions\ActAcceptRoll;
 use Bga\Games\WanderingTowers\Actions\ActPushTower;
 use Bga\Games\WanderingTowers\Actions\ActCastSpell;
@@ -221,9 +222,10 @@ class Game extends \Table
         #[IntParam(min: 1, max: 8)] int $spell_id,
         #[IntParam(min: 1, max: 16)] ?int $meeple_id,
         #[IntParam(min: 1, max: 10)] ?int $tier,
+        #[StringParam(enum: ["counterclockwise", "clockwise"])] ?string $direction,
     ): void {
         $ActCastSpell = new ActCastSpell($this);
-        $ActCastSpell->act($spell_id, $meeple_id, $tier);
+        $ActCastSpell->act($spell_id, $meeple_id, $tier, $direction);
     }
 
     public function actPass(): void
@@ -506,6 +508,6 @@ class Game extends \Table
     public function debug_castSpell(): void
     {
         $ActCastSpell = new ActCastSpell($this);
-        $ActCastSpell->act(7, 2);
+        $ActCastSpell->act(7, 2, 1);
     }
 }

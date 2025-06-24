@@ -18,7 +18,7 @@ class ActCastSpell extends ActionManager
         parent::__construct($game);
     }
 
-    public function act(int $spell_id, ?int $meeple_id = null, ?int $tier = null): void
+    public function act(int $spell_id, ?int $meeple_id = null, ?int $tier = null, ?string $direction = null): void
     {
         if ($this->globals->get(G_SPELL_CASTED)) {
             throw new \BgaVisibleSystemException("You can't cast other spell this turn");
@@ -47,7 +47,7 @@ class ActCastSpell extends ActionManager
 
             case 5:
                 $SpNudgeRavenskeep = new SpNudgeRavenskeep($this->game);
-                $SpNudgeRavenskeep->cast($this->player_id);
+                $SpNudgeRavenskeep->cast($this->player_id, $direction);
                 break;
 
             case 6:

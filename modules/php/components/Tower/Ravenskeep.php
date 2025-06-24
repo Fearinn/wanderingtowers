@@ -17,26 +17,16 @@ class Ravenskeep extends Tower
     public function moveRavenskeep($nudge = false): void
     {
         $current_space_id = $this->getSpaceId();
-        $current_tier = $this->tier;
 
         $next_space_id = $this->game->sumSteps($current_space_id, 1);
         $final_space_id = $current_space_id;
 
-        $WizardManager = new WizardManager($this->game);
-
-        for ($space_id = $next_space_id; $space_id !== $current_space_id; $space_id = $this->game->sumSteps($space_id, 1)) {
+        for (
+            $space_id = $next_space_id;
+            $space_id !== $current_space_id;
+            $space_id = $this->game->sumSteps($space_id, 1)
+        ) {
             $space = $this->game->SPACES[$space_id];
-            $next_tier = $this->countOnSpace($space_id);
-
-            $wizardCards = $WizardManager->getByTier($space_id, $next_tier);
-
-            if ($nudge) {
-                if (!$wizardCards) {
-                    $final_space_id = $space_id;
-                    break;
-                }
-                continue;
-            }
 
             if ($space["raven"]) {
                 $final_space_id = $space_id;
@@ -62,13 +52,9 @@ class Ravenskeep extends Tower
             return;
         }
 
-        // $WizardManager->freeUpWizards($current_space_id, $current_tier);
-
         $this->moveCard($this->card_id, "space", $final_space_id);
         $final_tier = $this->countOnSpace($final_space_id);
         $this->updateTier($final_tier);
-
-        // $WizardManager->coverWizards($final_space_id, $final_tier - 1);
 
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(
@@ -78,6 +64,53 @@ class Ravenskeep extends Tower
                 "cards" => [$this->getCard($this->card_id)],
                 "final_space_id" => $final_space_id,
                 "current_space_id" => $current_space_id,
+            ]
+        );
+    }
+
+    public function nudge(string $direction): void
+    {
+        $step = $direction === "clockwise" ? 1 : -1;
+
+        $current_space_id = $this->getSpaceId();
+
+        $next_space_id = $this->game->sumSteps($current_space_id, $step);
+        $final_space_id = $current_space_id;
+
+        $WizardManager = new WizardManager($this->game);
+
+        for (
+            $space_id = $next_space_id;
+            $space_id !== $current_space_id;
+            $space_id = $this->game->sumSteps($space_id, $step)
+        ) {
+            $next_tier = $this->countOnSpace($space_id);
+
+            $wizardCards = $WizardManager->getByTier($space_id, $next_tier);
+            if (!$wizardCards) {
+                $final_space_id = $space_id;
+                break;
+            }
+        }
+
+        if ($final_space_id === $current_space_id) {
+            return;
+        }
+
+        $this->moveCard($this->card_id, "space", $final_space_id);
+        $final_tier = $this->countOnSpace($final_space_id);
+        $this->updateTier($final_tier);
+
+        $NotifManager = new NotifManager($this->game);
+        $NotifManager->all(
+            "moveTower",
+            clienttranslate('${player_name} nudges the Ravenskeep ${direction_label}'),
+            [
+                "cards" => [$this->getCard($this->card_id)],
+                "final_space_id" => $final_space_id,
+                "current_space_id" => $current_space_id,
+                "direction_label" => $direction === "clockwise" ? clienttranslate("clockwise") : clienttranslate("counterclockwise"),
+                "i18n" => ["direction_label"],
             ]
         );
     }

@@ -63,7 +63,7 @@ class Spell extends SpellManager
             return false;
         }
 
-        $hasMeeples = $this->type === "auto" || !!$this->getSpellableMeeples($player_id)[$this->type];
+        $hasMeeples = ($this->type !== "wizard" && $this->type !== "tower") || !!$this->getSpellableMeeples($player_id)[$this->type];
 
         return $this->canPayCost($player_id) && $hasMeeples;
     }

@@ -335,7 +335,7 @@ $this->SPELLS = [
     5 => [
         "tr_name" => clienttranslate("Nudge a Ravenskeep"),
         "cost" => 2,
-        "type" => "auto",
+        "type" => "direction",
         "steps" => 0,
     ],
     6 => [

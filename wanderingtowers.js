@@ -325,6 +325,9 @@ var WanderingTowers = /** @class */ (function (_super) {
             case "client_pickSpellTier":
                 new StPickSpellTier(this).enter();
                 break;
+            case "client_pickSpellDirection":
+                new StPickSpellDirection(this).enter();
+                break;
         }
     };
     WanderingTowers.prototype.onLeavingState = function (stateName) {
@@ -361,6 +364,9 @@ var WanderingTowers = /** @class */ (function (_super) {
                 break;
             case "client_pickSpellTier":
                 new StPickSpellTier(this).leave();
+                break;
+            case "client_pickSpellDirection":
+                new StPickSpellDirection(this).leave();
                 break;
         }
     };
@@ -3285,19 +3291,19 @@ var StCastSpell = /** @class */ (function (_super) {
                     spell_label: _(spell.name),
                 }), function () {
                     _this.wtw.globals.spellCard = spellCard;
-                    if (spellCard.type === "wizard") {
-                        var stPickSpellWizard = new StPickSpellWizard(_this.game);
-                        stPickSpellWizard.set();
-                        return;
+                    switch (spellCard.type) {
+                        case "wizard":
+                            var stPickSpellWizard = new StPickSpellWizard(_this.game);
+                            stPickSpellWizard.set();
+                            break;
+                        case "tower":
+                            var stPickSpellTower = new StPickSpellTower(_this.game);
+                            stPickSpellTower.set();
+                            break;
+                        case "direction":
+                            var stPickSpellDirection = new StPickSpellDirection(_this.game);
+                            stPickSpellDirection.set();
                     }
-                    if (spellCard.type === "tower") {
-                        var stPickSpellTower = new StPickSpellTower(_this.game);
-                        stPickSpellTower.set();
-                        return;
-                    }
-                    _this.game.performAction("actCastSpell", {
-                        spell_id: spellCard.type_arg,
-                    });
                 }, {
                     id: "wtw_spellBtn",
                 });
@@ -3570,6 +3576,43 @@ var StPickPushTower = /** @class */ (function (_super) {
         }
     };
     return StPickPushTower;
+}(StateManager));
+var StPickSpellDirection = /** @class */ (function (_super) {
+    __extends(StPickSpellDirection, _super);
+    function StPickSpellDirection(game) {
+        return _super.call(this, game, "client_pickSpellDirection") || this;
+    }
+    StPickSpellDirection.prototype.set = function () {
+        this.game.setClientState(this.stateName, {
+            descriptionmyturn: _("${you} must pick the direction of the spell"),
+        });
+    };
+    StPickSpellDirection.prototype.enter = function () {
+        var _this = this;
+        _super.prototype.enter.call(this);
+        var spellCard = this.game.wtw.globals.spellCard;
+        var spell = new Spell(this.game, spellCard);
+        spell.toggleSelection(true);
+        this.statusBar.addActionButton(_("clockwise"), function () {
+            _this.game.performAction("actCastSpell", {
+                spell_id: spell.id,
+                direction: "clockwise",
+            });
+        }, {});
+        this.statusBar.addActionButton(_("counterclockwise"), function () {
+            _this.game.performAction("actCastSpell", {
+                spell_id: spell.id,
+                direction: "counterclockwise",
+            });
+        }, {});
+    };
+    StPickSpellDirection.prototype.leave = function () {
+        _super.prototype.leave.call(this);
+        var spellCard = this.game.wtw.globals.spellCard;
+        var spell = new Spell(this.game, spellCard);
+        spell.toggleSelection(false);
+    };
+    return StPickSpellDirection;
 }(StateManager));
 var StPickSpellTier = /** @class */ (function (_super) {
     __extends(StPickSpellTier, _super);
