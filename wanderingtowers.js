@@ -328,6 +328,9 @@ var WanderingTowers = /** @class */ (function (_super) {
             case "client_pickSpellDirection":
                 new StPickSpellDirection(this).enter();
                 break;
+            case "spellSelection":
+                new StSpellSelection(this).enter();
+                break;
         }
     };
     WanderingTowers.prototype.onLeavingState = function (stateName) {
@@ -367,6 +370,9 @@ var WanderingTowers = /** @class */ (function (_super) {
                 break;
             case "client_pickSpellDirection":
                 new StPickSpellDirection(this).leave();
+                break;
+            case "spellSelection":
+                new StSpellSelection(this).leave();
                 break;
         }
     };
@@ -2888,7 +2894,6 @@ var Space = /** @class */ (function () {
         this.space_id = space_id;
         var wtw = this.game.wtw;
         this.towerStock = wtw.stocks.towers.spaces[this.space_id];
-        this.wizardStock = wtw.stocks.wizards.spaces[this.space_id];
         this.tierCounter = wtw.counters.spaces[this.space_id];
     }
     Space.prototype.updateTier = function () {
@@ -2959,6 +2964,9 @@ var Spell = /** @class */ (function (_super) {
     Spell.prototype.select = function (silent) {
         if (silent === void 0) { silent = false; }
         this.table.selectCard(this.card, silent);
+    };
+    Spell.prototype.discard = function () {
+        this.table.setCardVisible(this.card, false);
     };
     return Spell;
 }(Card));
@@ -3244,6 +3252,14 @@ var NotificationManager = /** @class */ (function () {
                         return [2 /*return*/];
                 }
             });
+        });
+    };
+    NotificationManager.prototype.notif_discardSpells = function (args) {
+        var _this = this;
+        var spellCards = args.spellCards;
+        spellCards.forEach(function (spellCard) {
+            var spell = new Spell(_this.game, spellCard);
+            spell.discard();
         });
     };
     return NotificationManager;
@@ -3896,9 +3912,7 @@ var StAfterRoll = /** @class */ (function (_super) {
             return;
         }
         if (move.card.type === "wizard") {
-            var wizardStocks = this.game.wtw.stocks.wizards.spaces;
-            var _loop_9 = function (space_id) {
-                var stock = wizardStocks[space_id];
+            this.game.loopWizardStocks(function (stock) {
                 stock.toggleSelection(true);
                 stock.setSelectableCards(movableMeeples[move.card.id].wizard);
                 stock.onSelectionChange = function (selection, card) {
@@ -3913,10 +3927,7 @@ var StAfterRoll = /** @class */ (function (_super) {
                         });
                     }
                 };
-            };
-            for (var space_id in wizardStocks) {
-                _loop_9(space_id);
-            }
+            });
             return;
         }
     };
@@ -3931,10 +3942,9 @@ var StAfterRoll = /** @class */ (function (_super) {
             stock.toggleSelection(false);
         }
         var wizardStocks = this.game.wtw.stocks.wizards.spaces;
-        for (var space_id in wizardStocks) {
-            var stock = wizardStocks[space_id];
+        this.game.loopWizardStocks(function (stock) {
             stock.toggleSelection(false);
-        }
+        });
     };
     return StAfterRoll;
 }(StateManager));
@@ -3999,4 +4009,43 @@ var StRerollDice = /** @class */ (function (_super) {
         _super.prototype.leave.call(this);
     };
     return StRerollDice;
+}(StateManager));
+var StSpellSelection = /** @class */ (function (_super) {
+    __extends(StSpellSelection, _super);
+    function StSpellSelection(game) {
+        return _super.call(this, game, "spellSelection") || this;
+    }
+    StSpellSelection.prototype.enter = function () {
+        var _this = this;
+        _super.prototype.enter.call(this);
+        var spellTable = this.wtw.stocks.spells.table;
+        spellTable.setSelectionMode("multiple");
+        spellTable.onSelectionChange = function (selection, spellCard) {
+            if (selection.length > 3) {
+                _this.game.showMessage(_("You can't pick more than 3 spells"), "error");
+                var spellTable_1 = _this.wtw.stocks.spells.table;
+                spellTable_1.unselectCard(spellCard, true);
+                return;
+            }
+            _this.game.removeConfirmationButton();
+            if (selection.length === 3) {
+                var spell_ids_1 = selection.map(function (spellCard) {
+                    var spell = new Spell(_this.game, spellCard);
+                    return spell.id;
+                });
+                _this.game.addConfirmationButton(_("spells"), function () {
+                    _this.game.performAction("ActSelectSpellss", {
+                        spell_ids: spell_ids_1.join(","),
+                    });
+                });
+                return;
+            }
+        };
+    };
+    StSpellSelection.prototype.leave = function () {
+        _super.prototype.leave.call(this);
+        var spellTable = this.wtw.stocks.spells.table;
+        spellTable.setSelectionMode("none");
+    };
+    return StSpellSelection;
 }(StateManager));

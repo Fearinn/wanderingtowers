@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace Bga\Games\WanderingTowers;
 
+use Bga\GameFramework\Actions\Types\IntArrayParam;
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\Actions\Types\StringParam;
 use Bga\Games\WanderingTowers\Actions\ActAcceptRoll;
@@ -32,6 +33,7 @@ use Bga\Games\WanderingTowers\Actions\ActMoveWizardDice;
 use Bga\Games\WanderingTowers\Actions\ActPass;
 use Bga\Games\WanderingTowers\Actions\ActRerollDice;
 use Bga\Games\WanderingTowers\Actions\ActRollDice;
+use Bga\Games\WanderingTowers\Actions\ActSelectSpells;
 use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
@@ -227,6 +229,12 @@ class Game extends \Table
     ): void {
         $ActCastSpell = new ActCastSpell($this);
         $ActCastSpell->act($spell_id, $meeple_id, $tier, $direction);
+    }
+
+    public function ActSelectSpellss(#[IntArrayParam(min: 3, max: 3)] array $spell_ids)
+    {
+        $ActSelectSpells = new ActSelectSpells($this);
+        $ActSelectSpells->act($spell_ids);
     }
 
     public function actPass(): void

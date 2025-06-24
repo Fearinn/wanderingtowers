@@ -158,4 +158,13 @@ class NotificationManager implements NotificationManager {
     towerElement.classList.remove("wtw_tower-elevated");
     tierElement.classList.remove("wtw_wizardTier-elevated");
   }
+
+  public notif_discardSpells(args: { spellCards: SpellCard[] }) {
+    const { spellCards } = args;
+
+    spellCards.forEach((spellCard) => {
+      const spell = new Spell(this.game, spellCard);
+      spell.discard();
+    });
+  }
 }

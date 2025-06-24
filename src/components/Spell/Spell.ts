@@ -85,6 +85,10 @@ class Spell extends Card {
   select(silent = false): void {
     this.table.selectCard(this.card, silent);
   }
+
+  discard(): void {
+    this.table.setCardVisible(this.card, false);
+  }
 }
 
 interface SpellStocks {

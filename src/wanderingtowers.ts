@@ -422,6 +422,10 @@ class WanderingTowers extends WanderingTowersGui {
       case "client_pickSpellDirection":
         new StPickSpellDirection(this).enter();
         break;
+
+      case "spellSelection":
+        new StSpellSelection(this).enter();
+        break;
     }
   }
 
@@ -473,6 +477,10 @@ class WanderingTowers extends WanderingTowersGui {
 
       case "client_pickSpellDirection":
         new StPickSpellDirection(this).leave();
+        break;
+
+      case "spellSelection":
+        new StSpellSelection(this).leave();
         break;
     }
   }

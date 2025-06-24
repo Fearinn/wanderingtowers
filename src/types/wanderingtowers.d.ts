@@ -107,4 +107,5 @@ type ActionName =
   | "actAcceptRoll"
   | "actPushTower"
   | "actCastSpell"
-  | "actPass";
+  | "actPass"
+  | "ActSelectSpellss";

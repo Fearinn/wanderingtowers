@@ -36,7 +36,7 @@ class PotionManager extends CardManager
 
         $isSolo = $this->game->isSolo();
         if ($isSolo) {
-            if ($this->game->tableOptions->get(OPT_SPELLS_SOLO) === 1) {
+            if ($this->game->tableOptions->get(OPT_SPELLS_SOLO) > 0) {
                 $player_id = (int) $this->game->getActivePlayerId();
                 $this->game->DbQuery("UPDATE potion SET card_location='filled', card_location_arg={$player_id} WHERE card_type_arg={$player_id}");
             }
