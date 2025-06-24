@@ -53,8 +53,9 @@ class StBetweenPlayers extends StateManager
 
         $MoveManager = new MoveManager($this->game);
         $isSolo = $this->game->isSolo();
-        if ($isSolo) {
-            return $MoveManager->countCardsInDeck() === 0;
+
+        if ($isSolo && $MoveManager->countCardsInDeck() === 0) {
+            return true;
         }
 
         $PotionManager = new PotionManager($this->game);
