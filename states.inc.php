@@ -23,6 +23,20 @@ $machinestates = [
 			"" => 2,
 		],
 	],
+	ST_SPELL_SELECTION => [
+		"name" => "spellSelection",
+		"description" => clienttranslate('${actplayer} must pick 3 spells to use during the game'),
+		"descriptionmyturn" => clienttranslate('${you} must pick 3 spells to use during the game'),
+		"type" => "activeplayer",
+		"args" => "arg_spellSelection",
+		"action" => "st_spellSelection",
+		"possibleactions" => [
+			"actSelectSpells",
+		],
+		"transitions" => [
+			TR_START_GAME => ST_PLAYER_TURN,
+		],
+	],
 	ST_PLAYER_TURN => [
 		"name" => "playerTurn",
 		"description" => clienttranslate('${actplayer} must perform an action'),

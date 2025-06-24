@@ -45,6 +45,7 @@ use Bga\Games\WanderingTowers\States\StAfterRoll;
 use Bga\Games\WanderingTowers\States\StBetweenPlayers;
 use Bga\Games\WanderingTowers\States\StPlayerTurn;
 use Bga\Games\WanderingTowers\States\StRerollDice;
+use Bga\Games\WanderingTowers\States\StSpellSelection;
 
 require_once(APP_GAMEMODULE_PATH . "module/table/table.game.php");
 
@@ -242,6 +243,19 @@ class Game extends \Table
      * @return array
      * @see ./states.inc.php
      */
+
+    public function arg_spellSelection(): array
+    {
+        $StSpellSelection = new StSpellSelection($this);
+        return $StSpellSelection->getArgs();
+    }
+
+    public function st_spellSelection(): void
+    {
+        $StSpellSelection = new StSpellSelection($this);
+        $StSpellSelection->enter();
+    }
+
     public function st_rerollDice(): void
     {
         $StRerollDice = new StRerollDice($this);

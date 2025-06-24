@@ -59,15 +59,19 @@
     ]
   },
   "102": {
-    "name": "Spells (solo)",
+    "name": "Spells",
     "values": {
       "0": {
-        "name": "Off",
+        "name": "Disabled",
         "description": "No spells nor potion bottles"
       },
       "1": {
-        "name": "On",
+        "name": "Random",
         "description": "3 random spells and 6 full potions bottles"
+      },
+      "2": {
+        "name": "Manual",
+        "description": "3 selected spells and 6 full potion bottles"
       }
     },
     "default": 1,

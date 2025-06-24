@@ -37,9 +37,16 @@ class SpellManager extends CardManager
         $isSolo = $this->game->isSolo();
 
         if ($isSolo) {
-            if ($this->tableOptions->get(OPT_SPELLS_SOLO) === 1) {
-                $this->deck->shuffle("deck");
-                $this->deck->pickCardsForLocation(3, "deck", "table");
+            $opt_spellsSolo = $this->tableOptions->get(OPT_SPELLS_SOLO);
+
+            switch ($opt_spellsSolo) {
+                case 1;
+                    $this->deck->shuffle("deck");
+                    $this->deck->pickCardsForLocation(3, "deck", "table");
+                    break;
+
+                case 2:
+                    $this->deck->moveAllCardsInLocation("deck", "table");
             }
             return;
         }
