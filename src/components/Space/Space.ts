@@ -13,7 +13,6 @@ class Space {
 
     const { wtw } = this.game;
     this.towerStock = wtw.stocks.towers.spaces[this.space_id];
-    this.wizardStock = wtw.stocks.wizards.spaces[this.space_id];
     this.tierCounter = wtw.counters.spaces[this.space_id];
   }
 

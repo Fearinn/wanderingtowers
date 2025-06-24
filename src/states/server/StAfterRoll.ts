@@ -1,5 +1,5 @@
 class StAfterRoll extends StateManager {
-  constructor(game: WanderingTowersGui){
+  constructor(game: WanderingTowersGui) {
     super(game, "afterRoll");
   }
 
@@ -79,9 +79,7 @@ class StAfterRoll extends StateManager {
     }
 
     if (move.card.type === "wizard") {
-      const wizardStocks = this.game.wtw.stocks.wizards.spaces;
-      for (const space_id in wizardStocks) {
-        const stock = wizardStocks[space_id];
+      this.game.loopWizardStocks((stock) => {
         stock.toggleSelection(true);
         stock.setSelectableCards(movableMeeples[move.card.id].wizard);
 
@@ -99,7 +97,8 @@ class StAfterRoll extends StateManager {
             });
           }
         };
-      }
+      });
+
       return;
     }
   }
@@ -119,10 +118,9 @@ class StAfterRoll extends StateManager {
     }
 
     const wizardStocks = this.game.wtw.stocks.wizards.spaces;
-    for (const space_id in wizardStocks) {
-      const stock = wizardStocks[space_id];
+    this.game.loopWizardStocks((stock) => {
       stock.toggleSelection(false);
-    }
+    });
   }
 }
 
