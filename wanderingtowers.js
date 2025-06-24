@@ -424,7 +424,8 @@ var WanderingTowers = /** @class */ (function (_super) {
                     if (!key.includes("_label")) {
                         continue;
                     }
-                    args[key] = "<span class=\"wtw_logHighlight\">".concat(args[key], "</span>");
+                    var arg = args.i18n.includes(key) ? _(args[key]) : args[key];
+                    args[key] = "<span class=\"wtw_logHighlight\">".concat(arg, "</span>");
                 }
             }
         }

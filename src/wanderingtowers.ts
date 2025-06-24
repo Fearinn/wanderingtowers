@@ -551,7 +551,9 @@ class WanderingTowers extends WanderingTowersGui {
             continue;
           }
 
-          args[key] = `<span class="wtw_logHighlight">${args[key]}</span>`;
+          const arg = args.i18n.includes(key) ? _(args[key]) : args[key];
+
+          args[key] = `<span class="wtw_logHighlight">${arg}</span>`;
         }
       }
     } catch (e) {
