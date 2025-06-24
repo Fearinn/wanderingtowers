@@ -1,5 +1,5 @@
 class StPlayerTurn extends StateManager {
-  constructor(game: WanderingTowersGui){
+  constructor(game: WanderingTowersGui) {
     super(game, "playerTurn");
   }
 
@@ -45,6 +45,8 @@ class StPlayerTurn extends StateManager {
     }
 
     if (canPass) {
+      this.statusBar.setTitle(_("${you} must cast an spell or pass"));
+
       this.statusBar.addActionButton(
         _("pass"),
         () => {
