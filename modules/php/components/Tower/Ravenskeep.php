@@ -29,14 +29,13 @@ class Ravenskeep extends Tower
             $space = $this->game->SPACES[$space_id];
 
             $WizardManager = new WizardManager($this->game);
-            $TowerManager = new TowerManager($this->game);
-            $tier = $TowerManager->countOnSpace($space_id);
+            $tier = $this->countOnSpace($space_id);
 
             if ($WizardManager->countOnSpace($space_id, $tier) > 0) {
                 continue;
             }
 
-            if ($space["raven"]) {
+            if ($space["raven"] && $tier === 0) {
                 $final_space_id = $space_id;
                 break;
             }
@@ -80,10 +79,9 @@ class Ravenskeep extends Tower
     {
         $hasEmptySpace = false;
         $WizardManager = new WizardManager($this->game);
-        $TowerManager = new TowerManager($this->game);
 
         foreach ($this->game->SPACES as $space_id => $space) {
-            $tier = $TowerManager->countOnSpace($space_id);
+            $tier = $this->countOnSpace($space_id);
             $hasWizard = !!$this->game->getUniqueValueFromDB("SELECT card_id FROM {$WizardManager->dbTable} 
                 WHERE card_location='space' AND card_location_arg={$space_id} AND tier={$tier}");
 
