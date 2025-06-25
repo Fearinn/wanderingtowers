@@ -75,11 +75,13 @@ class Wizard extends Card {
     this.place(space_id);
   }
 
-  enterRavenskeep(): void {
-    const cardElement = this.stocks.spaces[this.space_id][
-      this.tier
-    ].getCardElement(this.card);
+  async enterRavenskeep(): Promise<void> {
+    const stock = this.stocks.spaces[this.space_id][this.tier];
+    const cardElement = stock.getCardElement(this.card);
     cardElement.classList.add("wtw_wizard-ravenskeep");
+    await this.game.wait(1000);
+    cardElement.remove();
+    stock.cardRemoved(this.card);
   }
 
   async free(): Promise<boolean> {

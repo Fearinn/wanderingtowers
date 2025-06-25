@@ -87,8 +87,7 @@ class NotificationManager implements NotificationManager {
   }): Promise<void> {
     const { wizardCard, player_id } = args;
     const wizard = new Wizard(this.game, wizardCard);
-    wizard.enterRavenskeep();
-    this.game.wait(1000);
+    await wizard.enterRavenskeep();
     this.game.wtw.counters[player_id].ravenskeep.incValue(1);
   }
 

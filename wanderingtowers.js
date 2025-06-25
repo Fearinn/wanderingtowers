@@ -3083,8 +3083,23 @@ var Wizard = /** @class */ (function (_super) {
         this.place(space_id);
     };
     Wizard.prototype.enterRavenskeep = function () {
-        var cardElement = this.stocks.spaces[this.space_id][this.tier].getCardElement(this.card);
-        cardElement.classList.add("wtw_wizard-ravenskeep");
+        return __awaiter(this, void 0, void 0, function () {
+            var stock, cardElement;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        stock = this.stocks.spaces[this.space_id][this.tier];
+                        cardElement = stock.getCardElement(this.card);
+                        cardElement.classList.add("wtw_wizard-ravenskeep");
+                        return [4 /*yield*/, this.game.wait(1000)];
+                    case 1:
+                        _a.sent();
+                        cardElement.remove();
+                        stock.cardRemoved(this.card);
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     Wizard.prototype.free = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -3186,12 +3201,16 @@ var NotificationManager = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var wizardCard, player_id, wizard;
             return __generator(this, function (_a) {
-                wizardCard = args.wizardCard, player_id = args.player_id;
-                wizard = new Wizard(this.game, wizardCard);
-                wizard.enterRavenskeep();
-                this.game.wait(1000);
-                this.game.wtw.counters[player_id].ravenskeep.incValue(1);
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        wizardCard = args.wizardCard, player_id = args.player_id;
+                        wizard = new Wizard(this.game, wizardCard);
+                        return [4 /*yield*/, wizard.enterRavenskeep()];
+                    case 1:
+                        _a.sent();
+                        this.game.wtw.counters[player_id].ravenskeep.incValue(1);
+                        return [2 /*return*/];
+                }
             });
         });
     };
