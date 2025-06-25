@@ -14,7 +14,7 @@ class Ravenskeep extends Tower
         parent::__construct($game, $card_id);
     }
 
-    public function moveRavenskeep($nudge = false): void
+    public function moveRavenskeep(): void
     {
         $current_space_id = $this->getSpaceId();
 
@@ -27,6 +27,14 @@ class Ravenskeep extends Tower
             $space_id = $this->game->sumSteps($space_id, 1)
         ) {
             $space = $this->game->SPACES[$space_id];
+
+            $WizardManager = new WizardManager($this->game);
+            $TowerManager = new TowerManager($this->game);
+            $tier = $TowerManager->countOnSpace($space_id);
+
+            if ($WizardManager->countOnSpace($space_id, $tier) > 0) {
+                continue;
+            }
 
             if ($space["raven"]) {
                 $final_space_id = $space_id;
@@ -104,10 +112,9 @@ class Ravenskeep extends Tower
             $space_id !== $current_space_id;
             $space_id = $this->game->sumSteps($space_id, $step)
         ) {
-            $next_tier = $this->countOnSpace($space_id);
+            $tier = $this->countOnSpace($space_id);
 
-            $wizardCards = $WizardManager->getByTier($space_id, $next_tier);
-            if (!$wizardCards) {
+            if ($WizardManager->countOnSpace($space_id, $tier) === 0) {
                 $final_space_id = $space_id;
                 break;
             }
