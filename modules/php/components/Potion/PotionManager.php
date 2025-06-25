@@ -121,7 +121,7 @@ class PotionManager extends CardManager
     public function getPotionsGoal(): int
     {
         $playersNbr = $this->game->getPlayersNumber();
-        return $this->game->SETUP_COUNTS[$playersNbr]["potions"];
+        return $this->game->isSolo() ? 0 : $this->game->SETUP_COUNTS[$playersNbr]["potions"];
     }
 
     public function goalMet(int $player_id): bool
