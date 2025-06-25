@@ -18,11 +18,24 @@ class ActCastSpell extends ActionManager
         parent::__construct($game);
     }
 
-    public function act(int $spell_id, ?int $meeple_id = null, ?int $tier = null, ?string $direction = null): void
+    public function validate()
     {
         if ($this->globals->get(G_SPELL_CASTED)) {
             throw new \BgaVisibleSystemException("You can't cast other spell this turn");
         }
+
+        if ($this->game->isSolo() && $this->globals->get(G_TURN_MOVE) === 0) {
+            throw new \BgaVisibleSystemException("You must play a movement before casting a spell");
+        }
+    }
+
+    public function act(
+        int $spell_id,
+        ?int $meeple_id = null,
+        ?int $tier = null,
+        ?string $direction = null
+    ): void {
+        $this->validate();
 
         switch ($spell_id) {
             case 1:
