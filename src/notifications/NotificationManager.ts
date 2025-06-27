@@ -71,6 +71,8 @@ class NotificationManager implements NotificationManager {
     const { potionCard } = args;
     const potion = new Potion(this.game, potionCard);
     potion.fill();
+
+    this.game.soundPlay("pour");
   }
 
   public notif_usePotions(args: { nbr: number; player_id: number }): void {
@@ -79,6 +81,8 @@ class NotificationManager implements NotificationManager {
     const voidStock = this.stocks.potions.void;
     const potionCards = cargo.getCards().slice(0, nbr);
     voidStock.addCards(potionCards);
+
+    this.game.soundPlay("drink");
   }
 
   public async notif_enterRavenskeep(args: {

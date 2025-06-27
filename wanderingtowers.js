@@ -281,6 +281,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         BgaAutoFit.init();
         this.initAutoHideWizards();
         this.buildHelp(gamedatas.spellCards);
+        this.loadSounds();
     };
     WanderingTowers.prototype.onEnteringState = function (stateName, args) {
         if (!this.isCurrentPlayerActive()) {
@@ -418,6 +419,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         }
     };
     WanderingTowers.prototype.bgaFormatText = function (log, args) {
+        var _a;
         try {
             if (log && args && !args.processed) {
                 args.processed = true;
@@ -425,7 +427,7 @@ var WanderingTowers = /** @class */ (function (_super) {
                     if (!key.includes("_label")) {
                         continue;
                     }
-                    var arg = args.i18n.includes(key) ? _(args[key]) : args[key];
+                    var arg = ((_a = args.i18n) === null || _a === void 0 ? void 0 : _a.includes(key)) ? _(args[key]) : args[key];
                     args[key] = "<span class=\"wtw_logHighlight\">".concat(arg, "</span>");
                 }
             }
@@ -498,6 +500,19 @@ var WanderingTowers = /** @class */ (function (_super) {
                     expandedHeight: "432px",
                 }),
             ],
+        });
+    };
+    WanderingTowers.prototype.soundPlay = function (sound_id) {
+        if (this.getGameUserPreference(102) == 1) {
+            this.disableNextMoveSound();
+            this.sounds.play(sound_id);
+        }
+    };
+    WanderingTowers.prototype.loadSounds = function () {
+        var _this = this;
+        var sounds_ids = ["pour", "drink"];
+        sounds_ids.forEach(function (sound_id) {
+            _this.sounds.load(sound_id);
         });
     };
     return WanderingTowers;
@@ -3228,6 +3243,7 @@ var NotificationManager = /** @class */ (function () {
         var potionCard = args.potionCard;
         var potion = new Potion(this.game, potionCard);
         potion.fill();
+        this.game.soundPlay("pour");
     };
     NotificationManager.prototype.notif_usePotions = function (args) {
         var nbr = args.nbr, player_id = args.player_id;
@@ -3235,6 +3251,7 @@ var NotificationManager = /** @class */ (function () {
         var voidStock = this.stocks.potions.void;
         var potionCards = cargo.getCards().slice(0, nbr);
         voidStock.addCards(potionCards);
+        this.game.soundPlay("drink");
     };
     NotificationManager.prototype.notif_enterRavenskeep = function (args) {
         return __awaiter(this, void 0, void 0, function () {

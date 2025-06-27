@@ -23,7 +23,7 @@ interface Counters {
 declare class WanderingTowersGui extends Game {
   wtw: {
     managers: {
-      help?: HelpManager,
+      help?: HelpManager;
       zoom: ZoomManager;
       dice: DiceManager;
       moves: CardManager<MoveCard>;
@@ -63,6 +63,8 @@ declare class WanderingTowersGui extends Game {
   loopWizardStocks(
     callback: (stock: WizardSpaceStock, space_id: number, tier: number) => void
   ): void;
+  
+  soundPlay(sound_id: "pour" | "drink"): void;
 }
 
 interface WanderingTowersGamedatas {

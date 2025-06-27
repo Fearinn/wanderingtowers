@@ -360,6 +360,7 @@ class WanderingTowers extends WanderingTowersGui {
     BgaAutoFit.init();
     this.initAutoHideWizards();
     this.buildHelp(gamedatas.spellCards);
+    this.loadSounds();
   }
 
   public onEnteringState(stateName: StateName, args?: any): void {
@@ -552,7 +553,7 @@ class WanderingTowers extends WanderingTowersGui {
             continue;
           }
 
-          const arg = args.i18n.includes(key) ? _(args[key]) : args[key];
+          const arg = args.i18n?.includes(key) ? _(args[key]) : args[key];
 
           args[key] = `<span class="wtw_logHighlight">${arg}</span>`;
         }
@@ -645,6 +646,20 @@ class WanderingTowers extends WanderingTowersGui {
           expandedHeight: "432px",
         }),
       ],
+    });
+  }
+
+  public soundPlay(sound_id: "pour" | "drink") {
+    if (this.getGameUserPreference(102) == 1) {
+      this.disableNextMoveSound();
+      this.sounds.play(sound_id);
+    }
+  }
+
+  private loadSounds() {
+    const sounds_ids = ["pour", "drink"];
+    sounds_ids.forEach((sound_id) => {
+      this.sounds.load(sound_id);
     });
   }
 }
