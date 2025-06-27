@@ -231,7 +231,7 @@ class Game extends \Table
         $ActCastSpell->act($spell_id, $meeple_id, $tier, $direction);
     }
 
-    public function ActSelectSpellss(#[IntArrayParam(min: 3, max: 3)] array $spell_ids)
+    public function ActSelectSpells(#[IntArrayParam(min: 3, max: 3)] array $spell_ids)
     {
         $ActSelectSpells = new ActSelectSpells($this);
         $ActSelectSpells->act($spell_ids);

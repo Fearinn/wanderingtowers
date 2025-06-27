@@ -120,7 +120,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         });
         var spellManager = new CardManager(this, {
             getId: function (card) {
-                return "wtw_spellCard-".concat(card.id);
+                return "wtw_spell-".concat(card.type_arg);
             },
             selectedCardClass: "wtw_spell-selected",
             setupDiv: function (card, element) {
@@ -280,6 +280,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         this.setupNotifications();
         BgaAutoFit.init();
         this.initAutoHideWizards();
+        this.buildHelp(gamedatas.spellCards);
     };
     WanderingTowers.prototype.onEnteringState = function (stateName, args) {
         if (!this.isCurrentPlayerActive()) {
@@ -467,6 +468,37 @@ var WanderingTowers = /** @class */ (function (_super) {
             attributeFilter: ["class"], // to catch class changes (like elevated being added/removed)
         });
         updateVisibility();
+    };
+    WanderingTowers.prototype.buildHelp = function (spellCards) {
+        var _this = this;
+        var cards = spellCards
+            .filter(function (spellCard) {
+            return spellCard.location === "table";
+        })
+            .sort(function (a, b) {
+            var spell_a = new Spell(_this, a);
+            var spell_b = new Spell(_this, b);
+            return spell_a.id - spell_b.id;
+        });
+        var spellHelp = document.createElement("div");
+        spellHelp.classList.add("wtw_spellHelp");
+        cards.forEach(function (spellCard) {
+            var spell = new Spell(_this, spellCard);
+            var spellTooltip = spell.createTooltip();
+            spellHelp.insertAdjacentHTML("beforeend", spellTooltip);
+        });
+        var unfoldedHelp = "<div id=\"wtw_unfoldedHelp\" class=\"wtw_unfoldedHelp\"> \n      ".concat(spellHelp.outerHTML, "\n    </div>");
+        this.wtw.managers.help = new HelpManager(this, {
+            buttons: [
+                new BgaHelpExpandableButton({
+                    // @ts-ignore
+                    title: _("spell reference"),
+                    foldedHtml: "<span class=\"wtw_foldedHelp\">?</span>",
+                    unfoldedHtml: unfoldedHelp,
+                    expandedHeight: "432px",
+                }),
+            ],
+        });
     };
     return WanderingTowers;
 }(WanderingTowersGui));
@@ -2943,14 +2975,21 @@ var Spell = /** @class */ (function (_super) {
         if (this.card.type_arg === 7) {
             element.style.backgroundPosition = "-800%";
         }
-        var cloneElement = element.parentElement.parentElement.cloneNode(true);
+        var tooltipHTML = this.createTooltip(element.parentElement.parentElement);
+        this.game.addTooltipHtml(element.id, tooltipHTML);
+    };
+    Spell.prototype.createTooltip = function (element) {
+        if (!element) {
+            element = document.getElementById("wtw_spell-".concat(this.id));
+        }
+        var cloneElement = element.cloneNode(true);
         cloneElement.removeAttribute("id");
         cloneElement.querySelectorAll("[id]").forEach(function (childElement) {
             childElement.removeAttribute("id");
         });
         cloneElement.classList.add("wtw_spell-tooltip");
         var tooltipHTML = "\n      <div class=\"wtw_spellTooltip\">\n      <h4 class=\"wtw_tooltipText wtw_tooltipTitle\">".concat(this.name, "</h4>\n      <div class=\"wtw_spellContent\">\n          ").concat(cloneElement.outerHTML, "\n          <p class=\"bga-autofit wtw_tooltipText wtw_spellDescription\">").concat(this.description, "</p>\n        </div>\n      </div>\n    ");
-        this.game.addTooltipHtml(element.id, tooltipHTML);
+        return tooltipHTML;
     };
     Spell.prototype.toggleSelection = function (enabled) {
         var _this = this;
@@ -4055,7 +4094,7 @@ var StSpellSelection = /** @class */ (function (_super) {
                     return spell.id;
                 });
                 _this.game.addConfirmationButton(_("spells"), function () {
-                    _this.game.performAction("ActSelectSpellss", {
+                    _this.game.performAction("actSelectSpells", {
                         spell_ids: spell_ids_1.join(","),
                     });
                 });

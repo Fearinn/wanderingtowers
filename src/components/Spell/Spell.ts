@@ -48,9 +48,15 @@ class Spell extends Card {
       element.style.backgroundPosition = "-800%";
     }
 
-    const cloneElement = element.parentElement.parentElement.cloneNode(
-      true
-    ) as HTMLDivElement;
+    const tooltipHTML = this.createTooltip(element.parentElement.parentElement);
+    this.game.addTooltipHtml(element.id, tooltipHTML);
+  }
+
+  createTooltip(element?: HTMLElement): string {
+    if (!element) {
+      element = document.getElementById(`wtw_spell-${this.id}`);
+    }
+    const cloneElement = element.cloneNode(true) as HTMLDivElement;
 
     cloneElement.removeAttribute("id");
     cloneElement.querySelectorAll("[id]").forEach((childElement) => {
@@ -68,7 +74,7 @@ class Spell extends Card {
       </div>
     `;
 
-    this.game.addTooltipHtml(element.id, tooltipHTML);
+    return tooltipHTML;
   }
 
   toggleSelection(enabled: boolean): void {

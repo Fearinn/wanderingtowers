@@ -26,7 +26,7 @@ class StSpellSelection extends StateManager {
         });
 
         this.game.addConfirmationButton(_("spells"), () => {
-          this.game.performAction("ActSelectSpellss", {
+          this.game.performAction("actSelectSpells", {
             spell_ids: spell_ids.join(","),
           });
         });

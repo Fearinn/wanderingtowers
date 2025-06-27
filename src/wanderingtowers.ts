@@ -102,7 +102,7 @@ class WanderingTowers extends WanderingTowersGui {
 
     const spellManager = new CardManager<SpellCard>(this, {
       getId: (card) => {
-        return `wtw_spellCard-${card.id}`;
+        return `wtw_spell-${card.type_arg}`;
       },
       selectedCardClass: "wtw_spell-selected",
       setupDiv: (card, element) => {
@@ -359,6 +359,7 @@ class WanderingTowers extends WanderingTowersGui {
     this.setupNotifications();
     BgaAutoFit.init();
     this.initAutoHideWizards();
+    this.buildHelp(gamedatas.spellCards);
   }
 
   public onEnteringState(stateName: StateName, args?: any): void {
@@ -609,5 +610,41 @@ class WanderingTowers extends WanderingTowersGui {
     });
 
     updateVisibility();
+  }
+
+  public buildHelp(spellCards: SpellCard[]): void {
+    const cards = spellCards
+      .filter((spellCard) => {
+        return spellCard.location === "table";
+      })
+      .sort((a, b) => {
+        const spell_a = new Spell(this, a);
+        const spell_b = new Spell(this, b);
+        return spell_a.id - spell_b.id;
+      });
+
+    const spellHelp = document.createElement("div");
+    spellHelp.classList.add("wtw_spellHelp");
+    cards.forEach((spellCard) => {
+      const spell = new Spell(this, spellCard);
+      const spellTooltip = spell.createTooltip();
+      spellHelp.insertAdjacentHTML("beforeend", spellTooltip);
+    });
+
+    const unfoldedHelp = `<div id="wtw_unfoldedHelp" class="wtw_unfoldedHelp"> 
+      ${spellHelp.outerHTML}
+    </div>`;
+
+    this.wtw.managers.help = new HelpManager(this, {
+      buttons: [
+        new BgaHelpExpandableButton({
+          // @ts-ignore
+          title: _("spell reference"),
+          foldedHtml: `<span class="wtw_foldedHelp">?</span>`,
+          unfoldedHtml: unfoldedHelp,
+          expandedHeight: "432px",
+        }),
+      ],
+    });
   }
 }

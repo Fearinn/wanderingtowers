@@ -93,3 +93,13 @@
   height: var(--spellWidth);
   width: calc(var(--spellWidth) * 2);
 }
+
+.wtw_spellHelp {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-image: url("img/background.png");
+  height: calc(var(--spellWidth) * 3);
+  padding: 4px;
+  overflow-y: auto;
+}

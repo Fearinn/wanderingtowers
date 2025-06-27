@@ -23,6 +23,7 @@ interface Counters {
 declare class WanderingTowersGui extends Game {
   wtw: {
     managers: {
+      help?: HelpManager,
       zoom: ZoomManager;
       dice: DiceManager;
       moves: CardManager<MoveCard>;
@@ -108,4 +109,4 @@ type ActionName =
   | "actPushTower"
   | "actCastSpell"
   | "actPass"
-  | "ActSelectSpellss";
+  | "actSelectSpells";

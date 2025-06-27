@@ -31,7 +31,7 @@ $machinestates = [
 		"args" => "arg_spellSelection",
 		"action" => "st_spellSelection",
 		"possibleactions" => [
-			"ActSelectSpellss",
+			"actSelectSpells",
 		],
 		"transitions" => [
 			TR_START_GAME => ST_PLAYER_TURN,
