@@ -140,8 +140,12 @@ class WizardManager extends CardManager
         }
     }
 
-    public function freeWizards(int $space_id, int $tier, int $player_id): void
-    {
+    public function freeWizard(
+        int $space_id,
+        int $tier,
+        int $player_id,
+        int $towerCard_id
+    ): void {
         $wizardCards = $this->getByOwnerAndTier($space_id, $tier, $player_id);
 
         if (!$wizardCards) {
@@ -152,7 +156,7 @@ class WizardManager extends CardManager
                 "failFreeWizard",
                 clienttranslate('${player_name} fails to free a wizard'),
                 [
-                    "towerCard" => $TowerManager->getByMaxTier($space_id),
+                    "towerCard" => $TowerManager->getCard($towerCard_id),
                     "space_id" => $space_id,
                     "tier" => $tier,
                 ],
@@ -164,7 +168,7 @@ class WizardManager extends CardManager
         $wizardCard = reset($wizardCards);
         $wizardCard_id = (int) $wizardCard["id"];
         $Wizard = new Wizard($this->game, $wizardCard_id);
-        $Wizard->free($player_id);
+        $Wizard->free($player_id, $towerCard_id);
     }
 
     public function getByOwner(int $player_id, bool $visibleOnly): array

@@ -123,22 +123,18 @@ class NotificationManager implements NotificationManager {
     space_id: number;
     tier: number;
   }): Promise<void> {
-    const { wizardCard, towerCard, space_id, tier } = args;
+    const { wizardCard, towerCard } = args;
 
     const towerElement = document.getElementById(`wtw_tower-${towerCard.id}`);
     towerElement.classList.add("wtw_tower-elevated");
-
-    const tierElement = document.getElementById(
-      `wtw_wizardTier-${space_id}-${tier}`
-    );
-    tierElement.classList.add("wtw_wizardTier-elevated");
+    towerElement.dataset.elevated = "1";
 
     const wizard = new Wizard(this.game, wizardCard);
     await wizard.free();
-    await this.game.wait(1000);
+    await this.game.wait(2000);
 
     towerElement.classList.remove("wtw_tower-elevated");
-    tierElement.classList.remove("wtw_wizardTier-elevated");
+    towerElement.removeAttribute("data-elevated");
   }
 
   public async notif_failFreeWizard(args: {
@@ -146,20 +142,16 @@ class NotificationManager implements NotificationManager {
     space_id: number;
     tier: number;
   }): Promise<void> {
-    const { towerCard, space_id, tier } = args;
+    const { towerCard } = args;
 
     const towerElement = document.getElementById(`wtw_tower-${towerCard.id}`);
     towerElement.classList.add("wtw_tower-elevated");
+    towerElement.setAttribute("data-elevated", "1");
 
-    const tierElement = document.getElementById(
-      `wtw_wizardTier-${space_id}-${tier}`
-    );
-    tierElement.classList.add("wtw_wizardTier-elevated");
-
-    await this.game.wait(1000);
+    await this.game.wait(2000);
 
     towerElement.classList.remove("wtw_tower-elevated");
-    tierElement.classList.remove("wtw_wizardTier-elevated");
+    towerElement.removeAttribute("data-elevated");
   }
 
   public notif_discardSpells(args: { spellCards: SpellCard[] }) {

@@ -138,7 +138,8 @@ class WanderingTowers extends WanderingTowersGui {
       for (let tier = 0; tier <= 10; tier++) {
         spaceElement.insertAdjacentHTML(
           "beforeend",
-          `<div id="wtw_wizardTier-${space_id}-${tier}" class="wtw_wizardTier" data-tier=${tier}></div>`
+          `<div id="wtw_wizardTier-${space_id}-${tier}" class="wtw_wizardTier" 
+          data-space=${space_id} data-tier=${tier}></div>`
         );
 
         wizardStocks.spaces[space_id][tier] = new WizardSpaceStock(
@@ -358,7 +359,7 @@ class WanderingTowers extends WanderingTowersGui {
 
     this.setupNotifications();
     BgaAutoFit.init();
-    this.initAutoHideWizards();
+    this.initObserver();
     this.buildHelp(gamedatas.spellCards);
     this.loadSounds();
   }
@@ -564,42 +565,74 @@ class WanderingTowers extends WanderingTowersGui {
     return { log, args };
   }
 
-  initAutoHideWizards(): void {
-    const tierElements = Array.from(
-      document.querySelectorAll<HTMLElement>(".wtw_wizardTier")
-    );
-
+  initObserver(): void {
     const updateVisibility = (): void => {
-      tierElements.forEach((tierElement) => {
-        const parent = tierElement.parentElement;
-        if (!parent) return;
+      const towerClass = "wtw_tower-elevated";
 
-        const space_id = Number(parent.dataset.space);
-        const tier = Number(tierElement.dataset.tier);
-        const counter = this.wtw.counters.spaces[space_id];
+      document
+        .querySelectorAll(".wtw_spaceTowers")
+        .forEach((spaceElement: HTMLElement) => {
+          const space_id = Number(spaceElement.dataset.space);
 
-        const isBelow = counter.getValue() > tier;
-
-        // Check if there is any sibling with the elevated class
-        const hasElevatedSibling = Array.from(parent.children).some(
-          (sibling) => {
-            if (sibling.classList.contains("bga-animations_animted")) {
-              console.log(sibling);
+          const towerElements = Array.from(spaceElement.children).filter(
+            (child) => {
+              return !child.classList.contains("wtw_tierCounter");
             }
-            return (
-              sibling !== tierElement &&
-              (sibling.classList.contains("wtw_wizardTier-elevated") ||
-                sibling.classList.contains("bga-animations_animated"))
-            );
-          }
-        );
+          );
 
-        const shouldBeImprisoned = isBelow && !hasElevatedSibling;
-        tierElement.classList.toggle(
-          "wtw_wizardTier-imprisoned",
-          shouldBeImprisoned
-        );
-      });
+          const elevatedTier =
+            towerElements.findIndex((sibling: HTMLElement) => {
+              return sibling.dataset.elevated === "1";
+            }) + 1;
+
+          towerElements.forEach((towerElement: HTMLElement, index: number) => {
+            const tier = index + 1;
+
+            if (!elevatedTier) {
+              towerElement.classList.remove(towerClass);
+            }
+
+            if (towerElement.classList.contains(towerClass)) {
+              return;
+            }
+
+            const mustElevate = elevatedTier > 0 && elevatedTier < tier;
+            towerElement.classList.toggle(towerClass, mustElevate);
+          });
+
+          const tierClass = "wtw_wizardTier-elevated";
+
+          const tierElements = document.querySelectorAll(
+            `[data-tier][data-space="${space_id}"]:not(:empty)`
+          );
+
+          tierElements.forEach((tierElement: HTMLElement) => {
+            const tier = Number(tierElement.dataset.tier);
+
+            if (tier === 0) {
+              return;
+            }
+
+            const revealedByElevation =
+              !towerElements[tier - 1]?.classList.contains(towerClass) &&
+              towerElements[tier]?.classList.contains(towerClass);
+
+            tierElement.classList.toggle(
+              "wtw_wizardTier-imprisoned",
+              !revealedByElevation && towerElements.length > tier
+            );
+
+            if (elevatedTier === 0) {
+              tierElements.forEach((tierElement) => {
+                tierElement.classList.remove(tierClass);
+              });
+              return;
+            }
+
+            const mustElevate = tier >= elevatedTier;
+            tierElement.classList.toggle(tierClass, mustElevate);
+          });
+        });
     };
 
     const observer = new MutationObserver(updateVisibility);
@@ -607,7 +640,7 @@ class WanderingTowers extends WanderingTowersGui {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ["class"], // to catch class changes (like elevated being added/removed)
+      attributeFilter: ["data-elevated"],
     });
 
     updateVisibility();

@@ -39,6 +39,6 @@ class SpFreeWizard extends Spell
 
         $Tower = new Tower($this->game, $towerCard_id);
         $WizardManager = new WizardManager($this->game);
-        $WizardManager->freeWizards($space_id, $tier - 1, $player_id);
+        $WizardManager->freeWizard($space_id, $tier - 1, $player_id, $towerCard_id);
     }
 }

@@ -146,7 +146,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             var spaceElement = document.getElementById("wtw_spaceWizards-".concat(space_id));
             wizardStocks.spaces[space_id] = {};
             for (var tier = 0; tier <= 10; tier++) {
-                spaceElement.insertAdjacentHTML("beforeend", "<div id=\"wtw_wizardTier-".concat(space_id, "-").concat(tier, "\" class=\"wtw_wizardTier\" data-tier=").concat(tier, "></div>"));
+                spaceElement.insertAdjacentHTML("beforeend", "<div id=\"wtw_wizardTier-".concat(space_id, "-").concat(tier, "\" class=\"wtw_wizardTier\" \n          data-space=").concat(space_id, " data-tier=").concat(tier, "></div>"));
                 wizardStocks.spaces[space_id][tier] = new WizardSpaceStock(this, wizardManager, space_id, tier);
             }
             var tierCount = gamedatas.tierCounts[space_id];
@@ -279,7 +279,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         });
         this.setupNotifications();
         BgaAutoFit.init();
-        this.initAutoHideWizards();
+        this.initObserver();
         this.buildHelp(gamedatas.spellCards);
         this.loadSounds();
     };
@@ -437,29 +437,50 @@ var WanderingTowers = /** @class */ (function (_super) {
         }
         return { log: log, args: args };
     };
-    WanderingTowers.prototype.initAutoHideWizards = function () {
-        var _this = this;
-        var tierElements = Array.from(document.querySelectorAll(".wtw_wizardTier"));
+    WanderingTowers.prototype.initObserver = function () {
         var updateVisibility = function () {
-            tierElements.forEach(function (tierElement) {
-                var parent = tierElement.parentElement;
-                if (!parent)
-                    return;
-                var space_id = Number(parent.dataset.space);
-                var tier = Number(tierElement.dataset.tier);
-                var counter = _this.wtw.counters.spaces[space_id];
-                var isBelow = counter.getValue() > tier;
-                // Check if there is any sibling with the elevated class
-                var hasElevatedSibling = Array.from(parent.children).some(function (sibling) {
-                    if (sibling.classList.contains("bga-animations_animted")) {
-                        console.log(sibling);
-                    }
-                    return (sibling !== tierElement &&
-                        (sibling.classList.contains("wtw_wizardTier-elevated") ||
-                            sibling.classList.contains("bga-animations_animated")));
+            var towerClass = "wtw_tower-elevated";
+            document
+                .querySelectorAll(".wtw_spaceTowers")
+                .forEach(function (spaceElement) {
+                var space_id = Number(spaceElement.dataset.space);
+                var towerElements = Array.from(spaceElement.children).filter(function (child) {
+                    return !child.classList.contains("wtw_tierCounter");
                 });
-                var shouldBeImprisoned = isBelow && !hasElevatedSibling;
-                tierElement.classList.toggle("wtw_wizardTier-imprisoned", shouldBeImprisoned);
+                var elevatedTier = towerElements.findIndex(function (sibling) {
+                    return sibling.dataset.elevated === "1";
+                }) + 1;
+                towerElements.forEach(function (towerElement, index) {
+                    var tier = index + 1;
+                    if (!elevatedTier) {
+                        towerElement.classList.remove(towerClass);
+                    }
+                    if (towerElement.classList.contains(towerClass)) {
+                        return;
+                    }
+                    var mustElevate = elevatedTier > 0 && elevatedTier < tier;
+                    towerElement.classList.toggle(towerClass, mustElevate);
+                });
+                var tierClass = "wtw_wizardTier-elevated";
+                var tierElements = document.querySelectorAll("[data-tier][data-space=\"".concat(space_id, "\"]:not(:empty)"));
+                tierElements.forEach(function (tierElement) {
+                    var _a, _b;
+                    var tier = Number(tierElement.dataset.tier);
+                    if (tier === 0) {
+                        return;
+                    }
+                    var revealedByElevation = !((_a = towerElements[tier - 1]) === null || _a === void 0 ? void 0 : _a.classList.contains(towerClass)) &&
+                        ((_b = towerElements[tier]) === null || _b === void 0 ? void 0 : _b.classList.contains(towerClass));
+                    tierElement.classList.toggle("wtw_wizardTier-imprisoned", !revealedByElevation && towerElements.length > tier);
+                    if (elevatedTier === 0) {
+                        tierElements.forEach(function (tierElement) {
+                            tierElement.classList.remove(tierClass);
+                        });
+                        return;
+                    }
+                    var mustElevate = tier >= elevatedTier;
+                    tierElement.classList.toggle(tierClass, mustElevate);
+                });
             });
         };
         var observer = new MutationObserver(updateVisibility);
@@ -467,7 +488,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             childList: true,
             subtree: true,
             attributes: true,
-            attributeFilter: ["class"], // to catch class changes (like elevated being added/removed)
+            attributeFilter: ["data-elevated"],
         });
         updateVisibility();
     };
@@ -3286,24 +3307,23 @@ var NotificationManager = /** @class */ (function () {
     };
     NotificationManager.prototype.notif_freeWizard = function (args) {
         return __awaiter(this, void 0, void 0, function () {
-            var wizardCard, towerCard, space_id, tier, towerElement, tierElement, wizard;
+            var wizardCard, towerCard, towerElement, wizard;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        wizardCard = args.wizardCard, towerCard = args.towerCard, space_id = args.space_id, tier = args.tier;
+                        wizardCard = args.wizardCard, towerCard = args.towerCard;
                         towerElement = document.getElementById("wtw_tower-".concat(towerCard.id));
                         towerElement.classList.add("wtw_tower-elevated");
-                        tierElement = document.getElementById("wtw_wizardTier-".concat(space_id, "-").concat(tier));
-                        tierElement.classList.add("wtw_wizardTier-elevated");
+                        towerElement.dataset.elevated = "1";
                         wizard = new Wizard(this.game, wizardCard);
                         return [4 /*yield*/, wizard.free()];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, this.game.wait(1000)];
+                        return [4 /*yield*/, this.game.wait(2000)];
                     case 2:
                         _a.sent();
                         towerElement.classList.remove("wtw_tower-elevated");
-                        tierElement.classList.remove("wtw_wizardTier-elevated");
+                        towerElement.removeAttribute("data-elevated");
                         return [2 /*return*/];
                 }
             });
@@ -3311,20 +3331,19 @@ var NotificationManager = /** @class */ (function () {
     };
     NotificationManager.prototype.notif_failFreeWizard = function (args) {
         return __awaiter(this, void 0, void 0, function () {
-            var towerCard, space_id, tier, towerElement, tierElement;
+            var towerCard, towerElement;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        towerCard = args.towerCard, space_id = args.space_id, tier = args.tier;
+                        towerCard = args.towerCard;
                         towerElement = document.getElementById("wtw_tower-".concat(towerCard.id));
                         towerElement.classList.add("wtw_tower-elevated");
-                        tierElement = document.getElementById("wtw_wizardTier-".concat(space_id, "-").concat(tier));
-                        tierElement.classList.add("wtw_wizardTier-elevated");
-                        return [4 /*yield*/, this.game.wait(1000)];
+                        towerElement.setAttribute("data-elevated", "1");
+                        return [4 /*yield*/, this.game.wait(2000)];
                     case 1:
                         _a.sent();
                         towerElement.classList.remove("wtw_tower-elevated");
-                        tierElement.classList.remove("wtw_wizardTier-elevated");
+                        towerElement.removeAttribute("data-elevated");
                         return [2 /*return*/];
                 }
             });
@@ -4054,7 +4073,7 @@ var StPlayerTurn = /** @class */ (function (_super) {
             }, { classes: ["wtw_button", "wtw_button-brown"] });
         }
         if (canPass) {
-            this.statusBar.setTitle(_("${you} must cast an spell or pass"));
+            this.statusBar.setTitle(_("${you} may cast a spell or pass"));
             this.statusBar.addActionButton(_("pass"), function () {
                 _this.game.performAction("actPass");
             }, {

@@ -152,7 +152,7 @@ class Wizard extends WizardManager
         $this->game->incStat(1, STAT_WIZARDS_IMPRISONED, $player_id);
     }
 
-    public function free(int $player_id): void
+    public function free(int $player_id, int $towerCard_id): void
     {
         $space_id = $this->getSpaceId();
         $TowerManager = new TowerManager($this->game);
@@ -165,7 +165,7 @@ class Wizard extends WizardManager
             clienttranslate('${player_name} successfully frees a wizard'),
             [
                 "wizardCard" => $this->getCard($this->card_id),
-                "towerCard" => $TowerManager->getByMaxTier($space_id),
+                "towerCard" => $TowerManager->getCard($towerCard_id),
                 "space_id" => $space_id,
                 "tier" => $this->tier,
             ],
