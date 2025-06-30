@@ -41,7 +41,8 @@
     filter: none !important;
   }
 
-  &-selected {
+  &-selected,
+  &.bga-cards_selectable-card:hover {
     border: 4px solid green;
     border-radius: 100%;
     transform: scale(1.2);
