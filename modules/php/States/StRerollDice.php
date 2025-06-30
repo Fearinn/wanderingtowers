@@ -17,7 +17,7 @@ class StRerollDice extends StateManager
         $rerolls = (int) $this->globals->get(G_REROLLS);
 
         if ($rerolls === 0) {
-            $ActAcceptRoll = new ActAcceptRoll($this->game);
+            $ActAcceptRoll = new ActAcceptRoll($this->game, null);
             $ActAcceptRoll->act();
         }
     }
