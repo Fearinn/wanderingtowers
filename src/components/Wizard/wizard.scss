@@ -39,8 +39,8 @@
   }
 
   &-elevated {
-    animation: 0.5s;
-    transform: translateY(160%);
+    animation-duration: 3s;
+    animation-name: elevateWizard;
     z-index: 9;
   }
 }
@@ -110,5 +110,19 @@
 @keyframes enterRavenskeep {
   100% {
     transform: translateY(40%) scale(0.1) rotate(1080deg);
+  }
+}
+
+@keyframes elevateWizard {
+  25% {
+    transform: translateY(160%);
+  }
+
+  50% {
+    transform: translateY(160%);
+  }
+
+  100% {
+    transform: translateY(0%);
   }
 }

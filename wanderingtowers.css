@@ -1001,11 +1001,24 @@ body > .card {
   transform: scale(1.2);
 }
 .wtw_tower-elevated {
-  animation: 0.5;
-  transform: translateY(110%);
+  animation-duration: 3s;
+  animation-name: elevateTower;
+  border: none;
+  transform: scale(1);
   z-index: 9;
 }
 
+@keyframes elevateTower {
+  25% {
+    transform: translateY(110%);
+  }
+  50% {
+    transform: translateY(110%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
 :root {
   --innerTowerWidth: calc(var(--towerWidth) * 0.7);
   --wizardWidth: calc(var(--innerTowerWidth) / 3);
@@ -1045,8 +1058,8 @@ body > .card {
   pointer-events: none;
 }
 .wtw_wizardTier-elevated {
-  animation: 0.5s;
-  transform: translateY(160%);
+  animation-duration: 3s;
+  animation-name: elevateWizard;
   z-index: 9;
 }
 
@@ -1109,6 +1122,17 @@ body > .card {
 @keyframes enterRavenskeep {
   100% {
     transform: translateY(40%) scale(0.1) rotate(1080deg);
+  }
+}
+@keyframes elevateWizard {
+  25% {
+    transform: translateY(160%);
+  }
+  50% {
+    transform: translateY(160%);
+  }
+  100% {
+    transform: translateY(0%);
   }
 }
 :root {

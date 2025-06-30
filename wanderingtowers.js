@@ -448,7 +448,7 @@ var WanderingTowers = /** @class */ (function (_super) {
                     return !child.classList.contains("wtw_tierCounter");
                 });
                 var elevatedTier = towerElements.findIndex(function (sibling) {
-                    return sibling.dataset.elevated === "1";
+                    return sibling.dataset.elevated;
                 }) + 1;
                 towerElements.forEach(function (towerElement, index) {
                     var tier = index + 1;
@@ -464,13 +464,15 @@ var WanderingTowers = /** @class */ (function (_super) {
                 var tierClass = "wtw_wizardTier-elevated";
                 var tierElements = document.querySelectorAll("[data-tier][data-space=\"".concat(space_id, "\"]:not(:empty)"));
                 tierElements.forEach(function (tierElement) {
-                    var _a, _b;
+                    var _a;
                     var tier = Number(tierElement.dataset.tier);
                     if (tier === 0) {
                         return;
                     }
+                    var towerAbove = towerElements[tier];
                     var revealedByElevation = !((_a = towerElements[tier - 1]) === null || _a === void 0 ? void 0 : _a.classList.contains(towerClass)) &&
-                        ((_b = towerElements[tier]) === null || _b === void 0 ? void 0 : _b.classList.contains(towerClass));
+                        (towerAbove === null || towerAbove === void 0 ? void 0 : towerAbove.classList.contains(towerClass)) &&
+                        (towerAbove === null || towerAbove === void 0 ? void 0 : towerAbove.dataset.elevated) === "1";
                     tierElement.classList.toggle("wtw_wizardTier-imprisoned", !revealedByElevation && towerElements.length > tier);
                     if (elevatedTier === 0) {
                         tierElements.forEach(function (tierElement) {
@@ -3316,14 +3318,21 @@ var NotificationManager = /** @class */ (function () {
                         towerElement.classList.add("wtw_tower-elevated");
                         towerElement.dataset.elevated = "1";
                         wizard = new Wizard(this.game, wizardCard);
-                        return [4 /*yield*/, wizard.free()];
+                        return [4 /*yield*/, this.game.wait(500)];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, this.game.wait(2000)];
+                        return [4 /*yield*/, wizard.free()];
                     case 2:
                         _a.sent();
-                        towerElement.classList.remove("wtw_tower-elevated");
+                        return [4 /*yield*/, this.game.wait(1000)];
+                    case 3:
+                        _a.sent();
+                        towerElement.dataset.elevated = "-1";
+                        return [4 /*yield*/, this.game.wait(1500)];
+                    case 4:
+                        _a.sent();
                         towerElement.removeAttribute("data-elevated");
+                        towerElement.classList.remove("wtw_tower-elevated");
                         return [2 /*return*/];
                 }
             });
@@ -3339,11 +3348,11 @@ var NotificationManager = /** @class */ (function () {
                         towerElement = document.getElementById("wtw_tower-".concat(towerCard.id));
                         towerElement.classList.add("wtw_tower-elevated");
                         towerElement.setAttribute("data-elevated", "1");
-                        return [4 /*yield*/, this.game.wait(2000)];
+                        return [4 /*yield*/, this.game.wait(3000)];
                     case 1:
                         _a.sent();
-                        towerElement.classList.remove("wtw_tower-elevated");
                         towerElement.removeAttribute("data-elevated");
+                        towerElement.classList.remove("wtw_tower-elevated");
                         return [2 /*return*/];
                 }
             });

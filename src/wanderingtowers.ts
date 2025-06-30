@@ -582,7 +582,7 @@ class WanderingTowers extends WanderingTowersGui {
 
           const elevatedTier =
             towerElements.findIndex((sibling: HTMLElement) => {
-              return sibling.dataset.elevated === "1";
+              return sibling.dataset.elevated;
             }) + 1;
 
           towerElements.forEach((towerElement: HTMLElement, index: number) => {
@@ -613,9 +613,12 @@ class WanderingTowers extends WanderingTowersGui {
               return;
             }
 
+            const towerAbove = towerElements[tier] as HTMLElement;
+
             const revealedByElevation =
               !towerElements[tier - 1]?.classList.contains(towerClass) &&
-              towerElements[tier]?.classList.contains(towerClass);
+              towerAbove?.classList.contains(towerClass) &&
+              towerAbove?.dataset.elevated === "1";
 
             tierElement.classList.toggle(
               "wtw_wizardTier-imprisoned",

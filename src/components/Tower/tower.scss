@@ -48,8 +48,24 @@
   }
 
   &-elevated {
-    animation: 0.5;
-    transform: translateY(110%);
+    animation-duration: 3s;
+    animation-name: elevateTower;
+    border: none;
+    transform: scale(1);
     z-index: 9;
+  }
+}
+
+@keyframes elevateTower {
+  25% {
+    transform: translateY(110%);
+  }
+
+  50% {
+    transform: translateY(110%);
+  }
+
+  100% {
+    transform: translateY(0%);
   }
 }

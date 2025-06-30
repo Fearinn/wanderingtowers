@@ -130,11 +130,14 @@ class NotificationManager implements NotificationManager {
     towerElement.dataset.elevated = "1";
 
     const wizard = new Wizard(this.game, wizardCard);
+    await this.game.wait(500);
     await wizard.free();
-    await this.game.wait(2000);
+    await this.game.wait(1000);
+    towerElement.dataset.elevated = "-1";
+    await this.game.wait(1500);
 
-    towerElement.classList.remove("wtw_tower-elevated");
     towerElement.removeAttribute("data-elevated");
+    towerElement.classList.remove("wtw_tower-elevated");
   }
 
   public async notif_failFreeWizard(args: {
@@ -148,10 +151,10 @@ class NotificationManager implements NotificationManager {
     towerElement.classList.add("wtw_tower-elevated");
     towerElement.setAttribute("data-elevated", "1");
 
-    await this.game.wait(2000);
+    await this.game.wait(3000);
 
-    towerElement.classList.remove("wtw_tower-elevated");
     towerElement.removeAttribute("data-elevated");
+    towerElement.classList.remove("wtw_tower-elevated");
   }
 
   public notif_discardSpells(args: { spellCards: SpellCard[] }) {
