@@ -1197,6 +1197,9 @@ body > .card {
   --potionWidth: 40px;
 }
 
+.wtw_potionCargo {
+  width: fit-content;
+}
 .wtw_potionCargo:empty {
   display: none;
 }

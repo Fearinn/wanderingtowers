@@ -3,6 +3,8 @@
 }
 
 .wtw_potionCargo {
+  width: fit-content;
+
   &:empty {
     display: none;
   }
