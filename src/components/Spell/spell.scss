@@ -1,5 +1,5 @@
 :root {
-  --spellWidth: calc(var(--towerWidth) * 0.8);
+  --spellWidth: 160px;
 }
 
 .wtw_spells {
@@ -28,6 +28,7 @@
     top: unset !important;
     left: unset !important;
     transform: none !important;
+    width: calc(var(--spellWidth) * 0.8);
   }
 
   &-selected {
@@ -84,14 +85,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 16px;
+  width: 100%;
 }
 
 .wtw_spellDescription {
   font-size: 32px;
   margin: 0;
   height: var(--spellWidth);
-  width: calc(var(--spellWidth) * 2);
+  width: calc(var(--spellWidth) * 1.75);
 }
 
 .wtw_spellHelp {

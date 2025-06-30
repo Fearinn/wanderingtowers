@@ -721,6 +721,11 @@ body > .card {
   font-weight: bold;
 }
 
+.wtw_unfoldedHelp {
+  padding-bottom: 36px;
+  background-image: url("img/background.png");
+}
+
 :root {
   --boardWidth: calc(var(--spaceWidth) * 5.8);
 }
@@ -1225,7 +1230,7 @@ body > .card {
 }
 
 :root {
-  --spellWidth: calc(var(--towerWidth) * 0.8);
+  --spellWidth: 160px;
 }
 
 .wtw_spells {
@@ -1253,6 +1258,7 @@ body > .card {
   top: unset !important;
   left: unset !important;
   transform: none !important;
+  width: calc(var(--spellWidth) * 0.8);
 }
 .wtw_spell-selected {
   border: 3px solid green;
@@ -1306,14 +1312,16 @@ body > .card {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 16px;
+  width: 100%;
 }
 
 .wtw_spellDescription {
   font-size: 32px;
   margin: 0;
   height: var(--spellWidth);
-  width: calc(var(--spellWidth) * 2);
+  width: calc(var(--spellWidth) * 1.75);
 }
 
 .wtw_spellHelp {

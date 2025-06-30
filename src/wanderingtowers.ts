@@ -681,7 +681,6 @@ class WanderingTowers extends WanderingTowersGui {
           title: _("spell reference"),
           foldedHtml: `<span class="wtw_foldedHelp">?</span>`,
           unfoldedHtml: unfoldedHelp,
-          expandedHeight: "432px",
         }),
       ],
     });

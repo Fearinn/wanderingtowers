@@ -521,7 +521,6 @@ var WanderingTowers = /** @class */ (function (_super) {
                     title: _("spell reference"),
                     foldedHtml: "<span class=\"wtw_foldedHelp\">?</span>",
                     unfoldedHtml: unfoldedHelp,
-                    expandedHeight: "432px",
                 }),
             ],
         });
