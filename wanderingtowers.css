@@ -1330,7 +1330,7 @@ body > .card {
   flex-direction: column;
   gap: 8px;
   background-image: url("img/background.png");
-  height: calc(var(--spellWidth) * 3);
+  height: calc(var(--spellWidth) * 2.5);
   padding: 4px;
   overflow-y: auto;
 }
