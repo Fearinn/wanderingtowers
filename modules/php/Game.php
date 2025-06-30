@@ -39,7 +39,6 @@ use Bga\Games\WanderingTowers\Components\Wizard\WizardManager;
 use Bga\Games\WanderingTowers\Components\Potion\PotionManager;
 use Bga\Games\WanderingTowers\Components\Move\MoveManager;
 use Bga\Games\WanderingTowers\Components\Dice\Dice;
-use Bga\Games\WanderingTowers\Components\Spell\Spell;
 use Bga\Games\WanderingTowers\Components\Spell\SpellManager;
 use Bga\Games\WanderingTowers\Components\Wizard\Wizard;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
@@ -150,96 +149,108 @@ class Game extends \Table
      */
 
     public function actMoveWizard(
+        ?int $GAME_VERSION,
         #[IntParam(min: 1, max: 90)] int $moveCard_id,
         #[IntParam(min: 1, max: 18)] int $wizardCard_id
     ): void {
         if ($this->getStateId() === ST_AFTER_ROLL) {
-            $ActMoveWizardDice = new ActMoveWizardDice($this);
+            $ActMoveWizardDice = new ActMoveWizardDice($this, $GAME_VERSION);
             $ActMoveWizardDice->act($wizardCard_id);
             return;
         }
 
-        $ActMoveWizard = new ActMoveWizard($this);
+        $ActMoveWizard = new ActMoveWizard($this, $GAME_VERSION);
         $ActMoveWizard->act($moveCard_id, $wizardCard_id);
     }
 
     public function ActMoveTower(
+        ?int $GAME_VERSION,
         #[IntParam(min: 1, max: 90)] int $moveCard_id,
         #[IntParam(min: 1, max: 16)] int $space_id,
         #[IntParam(min: 1, max: 10)] int $tier,
     ): void {
         if ($this->getStateId() === ST_AFTER_ROLL) {
-            $ActMoveTowerDice = new ActMoveTowerDice($this);
+            $ActMoveTowerDice = new ActMoveTowerDice($this, $GAME_VERSION);
             $ActMoveTowerDice->act($space_id, $tier);
             return;
         }
 
-        $ActMoveTower = new ActMoveTower($this);
+        $ActMoveTower = new ActMoveTower($this, $GAME_VERSION);
         $ActMoveTower->act($moveCard_id, $space_id, $tier);
     }
 
     public function actRollDice(
+        ?int $GAME_VERSION,
         #[IntParam(min: 1, max: 90)] int $moveCard_id,
     ): void {
-        $ActRollDice = new ActRollDice($this);
+        $ActRollDice = new ActRollDice($this, $GAME_VERSION);
         $ActRollDice->act($moveCard_id);
     }
 
-    public function actRerollDice(): void
-    {
-        $ActRerollDice = new ActRerollDice($this);
+    public function actRerollDice(
+        ?int $GAME_VERSION,
+    ): void {
+        $ActRerollDice = new ActRerollDice($this, $GAME_VERSION);
         $ActRerollDice->act();
     }
 
-    public function actAcceptRoll(): void
-    {
-        $ActAcceptRoll = new ActAcceptRoll($this);
+    public function actAcceptRoll(
+        ?int $GAME_VERSION,
+    ): void {
+        $ActAcceptRoll = new ActAcceptRoll($this, $GAME_VERSION);
         $ActAcceptRoll->act();
     }
 
     public function actMoveTowerDice(
+        ?int $GAME_VERSION,
         #[IntParam(min: 1, max: 16)] int $space_id,
         #[IntParam(min: 1, max: 10)] int $tier,
     ): void {
-        $ActMoveTowerDice = new ActMoveTowerDice($this);
+        $ActMoveTowerDice = new ActMoveTowerDice($this, $GAME_VERSION);
         $ActMoveTowerDice->act($space_id, $tier);
     }
 
     public function actMoveWizardDice(
+        ?int $GAME_VERSION,
         #[IntParam(min: 1, max: 16)] int $wizardCard_id,
         #[IntParam(min: 1, max: 10)] int $tier,
     ): void {
-        $ActMoveWizardDice = new ActMoveWizardDice($this);
+        $ActMoveWizardDice = new ActMoveWizardDice($this, $GAME_VERSION);
         $ActMoveWizardDice->act($wizardCard_id, $tier);
     }
 
     public function actPushTower(
+        ?int $GAME_VERSION,
         #[IntParam(min: 1, max: 16)] int $space_id,
         #[IntParam(min: 1, max: 10)] int $tier,
     ): void {
-        $ActPushTower = new ActPushTower($this);
+        $ActPushTower = new ActPushTower($this, $GAME_VERSION);
         $ActPushTower->act($space_id, $tier);
     }
 
     public function actCastSpell(
+        ?int $GAME_VERSION,
         #[IntParam(min: 1, max: 8)] int $spell_id,
         #[IntParam(min: 1, max: 16)] ?int $meeple_id,
         #[IntParam(min: 1, max: 10)] ?int $tier,
         #[StringParam(enum: ["counterclockwise", "clockwise"])] ?string $direction,
     ): void {
-        $ActCastSpell = new ActCastSpell($this);
+        $ActCastSpell = new ActCastSpell($this, $GAME_VERSION);
         $ActCastSpell->act($spell_id, $meeple_id, $tier, $direction);
     }
 
-    public function ActSelectSpells(#[IntArrayParam(min: 3, max: 3)] array $spell_ids)
-    {
-        $ActSelectSpells = new ActSelectSpells($this);
+    public function ActSelectSpells(
+        ?int $GAME_VERSION,
+        #[IntArrayParam(min: 3, max: 3)] array $spell_ids
+    ) {
+        $ActSelectSpells = new ActSelectSpells($this, $GAME_VERSION);
         $ActSelectSpells->act($spell_ids);
     }
 
-    public function actPass(): void
-    {
-        $ActPass = new ActPass($this);
+    public function actPass(
+        ?int $GAME_VERSION,
+    ): void {
+        $ActPass = new ActPass($this, $GAME_VERSION);
         $ActPass->act();
     }
 
@@ -472,21 +483,6 @@ class Game extends \Table
         throw new \feException("Zombie mode not supported at this game state: \"{$state_name}\".");
     }
 
-    public function debug_actMoveWizard(): void
-    {
-        $moveCard_id = 1;
-        $wizardCard_id = 1;
-        $this->actMoveWizard($moveCard_id, $wizardCard_id);
-    }
-
-    public function debug_actMoveTower(): void
-    {
-        $moveCard_id = 1;
-        $space_id = 1;
-
-        $this->actMoveTower($moveCard_id, $space_id, 1);
-    }
-
     public function debug_enterRavenskeep(): void
     {
         $player_id = (int) $this->getCurrentPlayerId();
@@ -529,7 +525,7 @@ class Game extends \Table
 
     public function debug_castSpell(): void
     {
-        $ActCastSpell = new ActCastSpell($this);
+        $ActCastSpell = new ActCastSpell($this, null);
         $ActCastSpell->act(7, 2, 1);
     }
 }

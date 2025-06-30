@@ -517,9 +517,11 @@ class WanderingTowers extends WanderingTowersGui {
 
   public performAction(
     action: ActionName,
-    args = {},
+    args: any = {},
     options = { lock: true, checkAction: true }
   ): void {
+    args.GAME_VERSION = this.gamedatas.GAME_VERSION;
+
     this.bgaPerformAction(action, args, options).catch((e) => {
       this.restoreServerGameState();
     });

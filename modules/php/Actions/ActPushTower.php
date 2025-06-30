@@ -10,9 +10,9 @@ use Bga\Games\WanderingTowers\Notifications\NotifManager;
 
 class ActPushTower extends ActionManager
 {
-    public function __construct(Table $game)
+    public function __construct(Table $game, ?int $CLIENT_VERSION)
     {
-        parent::__construct($game);
+        parent::__construct($game, $CLIENT_VERSION);
     }
 
     public function validate(int $space_id, int $tier): void

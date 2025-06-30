@@ -8,9 +8,9 @@ use Bga\Games\WanderingTowers\Components\Wizard\Wizard;
 
 class ActMoveWizard extends ActionManager
 {
-    public function __construct(Table $game)
+    public function __construct(Table $game, ?int $CLIENT_VERSION)
     {
-        parent::__construct($game);
+        parent::__construct($game, $CLIENT_VERSION);
     }
 
     public function validate(int $moveCard_id, int $wizardCard_id): void

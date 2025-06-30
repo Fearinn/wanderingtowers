@@ -400,6 +400,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         var _this = this;
         if (args === void 0) { args = {}; }
         if (options === void 0) { options = { lock: true, checkAction: true }; }
+        args.GAME_VERSION = this.gamedatas.GAME_VERSION;
         this.bgaPerformAction(action, args, options).catch(function (e) {
             _this.restoreServerGameState();
         });

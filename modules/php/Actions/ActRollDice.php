@@ -8,9 +8,9 @@ use Bga\Games\WanderingTowers\Components\Move\Move;
 
 class ActRollDice extends ActionManager
 {
-    public function __construct(Table $game)
+    public function __construct(Table $game, ?int $CLIENT_VERSION)
     {
-        parent::__construct($game);
+        parent::__construct($game, $CLIENT_VERSION);
     }
 
     public function validate(int $moveCard_id): void
@@ -35,7 +35,7 @@ class ActRollDice extends ActionManager
 
         $this->globals->set(G_REROLLS, $rerolls);
         $this->globals->set(G_MOVE, $moveCard_id);
-        
+
         $this->gamestate->nextState(TR_REROLL_DICE);
     }
 }

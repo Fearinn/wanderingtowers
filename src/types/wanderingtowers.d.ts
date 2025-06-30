@@ -94,6 +94,7 @@ interface WanderingTowersGamedatas {
   };
   ravenskeepGoal: number;
   spellCards: SpellCard[];
+  GAME_VERSION: number;
 }
 
 interface WanderingTowersGamestate extends Gamestate {

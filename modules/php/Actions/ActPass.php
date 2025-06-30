@@ -3,13 +3,12 @@
 namespace Bga\Games\WanderingTowers\Actions;
 
 use Bga\GameFramework\Table;
-use Bga\Games\WanderingTowers\Components\Spell\SpellManager;
 
 class ActPass extends ActionManager
 {
-    public function __construct(Table $game)
+    public function __construct(Table $game, ?int $CLIENT_VERSION)
     {
-        parent::__construct($game);
+        parent::__construct($game, $CLIENT_VERSION);
     }
 
     public function validate(): void

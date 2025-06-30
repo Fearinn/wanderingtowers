@@ -9,13 +9,16 @@ use Bga\Games\WanderingTowers\Components\Tower\TowerManager;
 
 class ActMoveTower extends ActionManager
 {
-    public function __construct(Table $game)
+    public function __construct(Table $game, ?int $CLIENT_VERSION)
     {
-        parent::__construct($game);
+        parent::__construct($game, $CLIENT_VERSION);
     }
 
-    public function validate(int $moveCard_id, int $space_id, int $tier): void
-    {
+    public function validate(
+        int $moveCard_id,
+        int $space_id,
+        int $tier
+    ): void {
         $TowerManager = new TowerManager($this->game);
         $towerCard = $TowerManager->getByTier($space_id, $tier);
         $towerCard_id = (int) $towerCard["id"];
@@ -24,8 +27,12 @@ class ActMoveTower extends ActionManager
         $Move->validate("tower", $towerCard_id, $this->player_id);
     }
 
-    public function act(int $moveCard_id, int $space_id, int $tier, int $steps = null): void
-    {
+    public function act(
+        int $moveCard_id,
+        int $space_id,
+        int $tier,
+        int $steps = null
+    ): void {
         $this->validate($moveCard_id, $space_id, $tier);
 
         $Move = new Move($this->game, $moveCard_id);
