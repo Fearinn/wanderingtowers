@@ -778,6 +778,7 @@ body > .card {
 }
 .wtw_pref-floatingHand .wtw_moveHand:hover, .wtw_pref-floatingHand .wtw_moveHand:has(.wtw_move-selected) {
   bottom: -5%;
+  z-index: 1052;
 }
 .wtw_pref-floatingHand .wtw_boardCenter {
   top: 50%;
