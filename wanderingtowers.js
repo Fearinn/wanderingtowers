@@ -2976,14 +2976,20 @@ var Space = /** @class */ (function () {
         var maxTier = towerCards.length;
         return maxTier;
     };
-    Space.prototype.getMinTier = function () {
+    Space.prototype.getMinTier = function (excludeRavenskeep) {
         var _this = this;
+        if (excludeRavenskeep === void 0) { excludeRavenskeep = true; }
         var towerCards = this.towerStock.getCards();
-        var hasRavenskeep = towerCards.some(function (towerCard) {
-            var tower = new Tower(_this.game, towerCard);
-            return tower.isRavenskeep;
-        });
-        var minTier = hasRavenskeep ? 2 : 1;
+        var minTier = 1;
+        if (excludeRavenskeep) {
+            var hasRavenskeep = towerCards.some(function (towerCard) {
+                var tower = new Tower(_this.game, towerCard);
+                return tower.isRavenskeep;
+            });
+            if (hasRavenskeep) {
+                minTier = 2;
+            }
+        }
         return minTier;
     };
     return Space;
@@ -3794,7 +3800,7 @@ var StPickSpellTower = /** @class */ (function (_super) {
     }
     StPickSpellTower.prototype.set = function () {
         this.game.setClientState(this.stateName, {
-            descriptionmyturn: _("${you} must pick a tower"),
+            descriptionmyturn: _("${you} must pick a tower for the spell"),
         });
     };
     StPickSpellTower.prototype.enter = function (args) {
@@ -3816,7 +3822,7 @@ var StPickSpellTower = /** @class */ (function (_super) {
                     var tower = new Tower(_this.game, towerCard);
                     var space = new Space(_this.game, tower.space_id);
                     var maxTier = space.getMaxTier();
-                    var minTier = space.getMinTier();
+                    var minTier = space.getMinTier(spell.id !== 7);
                     _this.game.wtw.globals.towerCard = tower.card;
                     _this.game.wtw.globals.maxTier = maxTier;
                     _this.game.wtw.globals.minTier = minTier;

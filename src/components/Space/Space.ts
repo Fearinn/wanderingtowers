@@ -27,15 +27,22 @@ class Space {
     return maxTier;
   }
 
-  getMinTier(): number {
+  getMinTier(excludeRavenskeep = true): number {
     const towerCards = this.towerStock.getCards();
 
-    const hasRavenskeep = towerCards.some((towerCard) => {
-      const tower = new Tower(this.game, towerCard);
-      return tower.isRavenskeep;
-    });
+    let minTier = 1;
 
-    const minTier = hasRavenskeep ? 2 : 1;
+    if (excludeRavenskeep) {
+      const hasRavenskeep = towerCards.some((towerCard) => {
+        const tower = new Tower(this.game, towerCard);
+        return tower.isRavenskeep;
+      });
+
+      if (hasRavenskeep) {
+        minTier = 2;
+      }
+    }
+
     return minTier;
   }
 }

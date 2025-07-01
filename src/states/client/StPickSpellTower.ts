@@ -5,7 +5,7 @@ class StPickSpellTower extends StateManager {
 
   set() {
     this.game.setClientState(this.stateName, {
-      descriptionmyturn: _("${you} must pick a tower"),
+      descriptionmyturn: _("${you} must pick a tower for the spell"),
     });
   }
 
@@ -33,7 +33,8 @@ class StPickSpellTower extends StateManager {
           const tower = new Tower(this.game, towerCard);
           const space = new Space(this.game, tower.space_id);
           const maxTier = space.getMaxTier();
-          const minTier = space.getMinTier();
+
+          const minTier = space.getMinTier(spell.id !== 7);
 
           this.game.wtw.globals.towerCard = tower.card;
           this.game.wtw.globals.maxTier = maxTier;
