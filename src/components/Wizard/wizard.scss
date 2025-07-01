@@ -66,8 +66,7 @@
     background-color: #ffffffaa;
   }
 
-  &-selected,
-  &-selectable:hover {
+  &-selected {
     background-color: #00aa0055;
     transform: scale(1.5) rotate(10deg);
     z-index: 2;
