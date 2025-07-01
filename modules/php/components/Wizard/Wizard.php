@@ -51,7 +51,7 @@ class Wizard extends WizardManager
 
         $NotifManager = new NotifManager($this->game);
 
-        $message = $silent ? "" : clienttranslate('${player_name} moves a wizard by ${steps_label} space(s)');
+        $message = $silent ? "" : clienttranslate('${player_name} moves a wizard by ${steps_label} space(s) ${direction_label}');
         $NotifManager->all(
             "moveWizard",
             $message,
@@ -59,7 +59,9 @@ class Wizard extends WizardManager
                 "space_id" => $space_id,
                 "wizardCard" => $this->getCard($this->card_id),
                 "steps" => $steps,
-                "steps_label" => $steps
+                "steps_label" => abs($steps),
+                "direction_label" => $steps > 0 ? clienttranslate("clockwise") : clienttranslate("counterclockwise"),
+                "i18n" => ["direction_label"],
             ]
         );
 

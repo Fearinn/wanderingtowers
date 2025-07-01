@@ -72,9 +72,11 @@ class Tower extends TowerManager
             $NotifManager = new NotifManager($this->game);
             $NotifManager->all(
                 "message",
-                clienttranslate('${player_name} moves a tower by ${steps_label} space(s)'),
+                clienttranslate('${player_name} moves a tower by ${steps_label} space(s) ${direction_label}'),
                 [
-                    "steps_label" => $steps
+                    "steps_label" => abs($steps),
+                    "direction_label" => $steps > 0 ? clienttranslate("clockwise") : clienttranslate("counterclockwise"),
+                    "i18n" => ["direction_label"],
                 ]
             );
 
