@@ -608,10 +608,6 @@ class WanderingTowers extends WanderingTowersGui {
           tierElements.forEach((tierElement: HTMLElement) => {
             const tier = Number(tierElement.dataset.tier);
 
-            if (tier === 0) {
-              return;
-            }
-
             const towerAbove = towerElements[tier] as HTMLElement;
 
             const revealedByElevation =

@@ -464,9 +464,6 @@ var WanderingTowers = /** @class */ (function (_super) {
                 tierElements.forEach(function (tierElement) {
                     var _a;
                     var tier = Number(tierElement.dataset.tier);
-                    if (tier === 0) {
-                        return;
-                    }
                     var towerAbove = towerElements[tier];
                     var revealedByElevation = !((_a = towerElements[tier - 1]) === null || _a === void 0 ? void 0 : _a.classList.contains(towerClass)) &&
                         (towerAbove === null || towerAbove === void 0 ? void 0 : towerAbove.classList.contains(towerClass)) &&
