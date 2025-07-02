@@ -723,7 +723,7 @@ body > .card {
 
 .wtw_unfoldedHelp {
   padding-bottom: 36px;
-  background-image: url("img/background.png");
+  background-image: url("img/background.jpg");
 }
 
 :root {
@@ -758,11 +758,11 @@ body > .card {
 }
 
 .wtw_pref-thematicBg {
-  background-image: url("img/background2.png");
+  background-image: url("img/background2.jpg");
   background-size: 100% 100%;
 }
 .wtw_pref-thematicBg .player-board {
-  background-image: url("img/background.png");
+  background-image: url("img/background.jpg");
   background-size: cover;
   background-position: center;
 }
@@ -1302,7 +1302,7 @@ body > .card {
   gap: 4px;
   align-items: center;
   justify-content: center;
-  background-image: url("img/background2.png");
+  background-image: url("img/background2.jpg");
   padding: 8px;
 }
 
@@ -1327,7 +1327,7 @@ body > .card {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background-image: url("img/background.png");
+  background-image: url("img/background.jpg");
   height: calc(var(--spellWidth) * 2.5);
   padding: 4px;
   overflow-y: auto;
