@@ -66,10 +66,12 @@ class ActCastSpell extends ActionManager
             case 6:
                 $SpSwapTower = new SpSwapTower($this->game);
                 $SpSwapTower->cast($this->player_id, $meeple_id);
+                break;
 
             case 7:
                 $SpFreeWizard = new SpFreeWizard($this->game);
                 $SpFreeWizard->cast($this->player_id, $meeple_id, $tier);
+                break;
         }
 
         $this->globals->set(G_SPELL_CASTED, true);

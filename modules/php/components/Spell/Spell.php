@@ -72,7 +72,6 @@ class Spell extends SpellManager
             $Ravenskeep = new Ravenskeep($this->game);
             $isCastable = $Ravenskeep->isNudgeable();
         }
-
         return $this->canPayCost($player_id) && $isCastable;
     }
 

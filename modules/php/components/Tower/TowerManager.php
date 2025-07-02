@@ -149,7 +149,7 @@ class TowerManager extends CardManager
 
             $space_id = $this->game->sumSteps($Tower->getSpaceId(), $steps);
 
-            if ($spell_id === 6 && !!$this->getByMaxTier($space_id)) {
+            if ($spell_id === 6 && !$this->getByMaxTier($space_id)) {
                 return false;
             }
 
