@@ -173,11 +173,12 @@ class WizardManager extends CardManager
 
     public function getByOwner(int $player_id, bool $visibleOnly): array
     {
-        $wizardCards = $this->getCardsByTypeArg($player_id);
+        $wizardCards = $this->game->getCollectionFromDB("SELECT {$this->fields} FROM {$this->dbTable} 
+        WHERE card_type_arg={$player_id} AND card_location='space'");
         $TowerManager = new TowerManager($this->game);
 
         if ($visibleOnly) {
-            array_filter($wizardCards, function ($wizardCard_id) use ($TowerManager) {
+           $wizardCards = array_filter($wizardCards, function ($wizardCard_id) use ($TowerManager) {
                 $Wizard = new Wizard($this->game, $wizardCard_id);
                 $space_id = $Wizard->getSpaceId();
 
