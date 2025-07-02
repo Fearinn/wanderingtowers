@@ -359,7 +359,7 @@ class Game extends \Table
             "towerCards" => $TowerManager->getCardsInLocation("space"),
             "wizardCards" => $WizardManager->getCardsInLocation("space"),
             "potionCards" => $PotionManager->getCargos(),
-            "moveDeck" => $MoveManager->getDeck(),
+            "moveDeckCount" => $MoveManager->getDeckCount(),
             "moveDiscard" => $MoveManager->getDiscard(),
             "hand" => $MoveManager->getPlayerHand($current_player_id),
             "spellCards" => $SpellManager->getAll(),

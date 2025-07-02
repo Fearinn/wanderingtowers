@@ -252,6 +252,7 @@ var WanderingTowers = /** @class */ (function (_super) {
                 },
             },
         };
+        this.wtw.stocks.moves.deck.setCardNumber(gamedatas.moveDeckCount);
         gamedatas.towerCards.forEach(function (card) {
             var tower = new Tower(_this, card);
             tower.setup();
@@ -263,10 +264,6 @@ var WanderingTowers = /** @class */ (function (_super) {
         gamedatas.potionCards.forEach(function (card) {
             var potion = new Potion(_this, card);
             potion.setup();
-        });
-        gamedatas.moveDeck.forEach(function (card) {
-            var move = new Move(_this, card);
-            move.setup();
         });
         gamedatas.moveDiscard.forEach(function (card) {
             var move = new Move(_this, card);

@@ -63,7 +63,7 @@ declare class WanderingTowersGui extends Game {
   loopWizardStocks(
     callback: (stock: WizardSpaceStock, space_id: number, tier: number) => void
   ): void;
-  
+
   soundPlay(sound_id: "pour" | "drink"): void;
 }
 
@@ -83,7 +83,7 @@ interface WanderingTowersGamedatas {
   towerCards: TowerCard[];
   wizardCards: WizardCard[];
   potionCards: PotionCard[];
-  moveDeck: MoveCard[];
+  moveDeckCount: number;
   moveDiscard: MoveCard[];
   hand: MoveCard[];
   tierCounts: {

@@ -82,6 +82,10 @@ class CardManager
         return $this->hideCards($deck);
     }
 
+    public function getDeckCount(): int {
+        return $this->countCardsInLocation("deck");
+    }
+
     public function getCardsByLocationArg(int $location_arg): array
     {
         return $this->game->getCollectionFromDB("SELECT {$this->fields} FROM {$this->dbTable} WHERE card_location_arg={$location_arg}");

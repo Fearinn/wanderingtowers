@@ -325,6 +325,8 @@ class WanderingTowers extends WanderingTowersGui {
       },
     };
 
+    this.wtw.stocks.moves.deck.setCardNumber(gamedatas.moveDeckCount);
+
     gamedatas.towerCards.forEach((card) => {
       const tower = new Tower(this, card);
       tower.setup();
@@ -338,11 +340,6 @@ class WanderingTowers extends WanderingTowersGui {
     gamedatas.potionCards.forEach((card) => {
       const potion = new Potion(this, card);
       potion.setup();
-    });
-
-    gamedatas.moveDeck.forEach((card) => {
-      const move = new Move(this, card);
-      move.setup();
     });
 
     gamedatas.moveDiscard.forEach((card) => {
