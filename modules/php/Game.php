@@ -352,7 +352,11 @@ class Game extends \Table
         $MoveManager = new MoveManager($this);
         $SpellManager = new SpellManager($this);
 
+        /**  @disregard P1014*/
+        $GAME_VERSION = (int) $this->gamestate->table_globals[300];
+
         $gamedatas = [
+            "GAME_VERSION" => $GAME_VERSION,
             "isSolo" => $this->isSolo(),
             "players" => $this->getCollectionFromDb("SELECT `player_id` `id`, `player_score` `score` FROM `player`"),
             "diceFace" => $this->globals->get(G_ROLL, 3),
