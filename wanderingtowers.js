@@ -3820,19 +3820,26 @@ var StPickSpellTower = /** @class */ (function (_super) {
                 _this.game.removeConfirmationButton();
                 if (selection.length > 0) {
                     stock.unselectOthers();
-                    var tower = new Tower(_this.game, towerCard);
-                    var space = new Space(_this.game, tower.space_id);
+                    var tower_1 = new Tower(_this.game, towerCard);
+                    var space = new Space(_this.game, tower_1.space_id);
                     var maxTier = space.getMaxTier();
                     var minTier = space.getMinTier(spell.id !== 7);
-                    _this.game.wtw.globals.towerCard = tower.card;
+                    _this.game.wtw.globals.towerCard = tower_1.card;
                     _this.game.wtw.globals.maxTier = maxTier;
                     _this.game.wtw.globals.minTier = minTier;
-                    if (maxTier > minTier) {
+                    if (maxTier > minTier && spell.id !== 6) {
                         var stPickSpellTier = new StPickSpellTier(_this.game);
                         stPickSpellTier.set();
                         return;
                     }
                     _this.game.addConfirmationButton(_("tower"), function () {
+                        if (spell.id === 6) {
+                            _this.game.performAction("actCastSpell", {
+                                spell_id: spell.id,
+                                meeple_id: tower_1.space_id,
+                            });
+                            return;
+                        }
                         var stPickSpellTier = new StPickSpellTier(_this.game);
                         stPickSpellTier.set();
                     });
