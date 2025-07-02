@@ -294,6 +294,7 @@ interface StatusBar {
       classes?: string[];
       destination?: HTMLElement;
       title?: string;
+      disabled?: boolean;
     }
   ) => HTMLButtonElement;
   setTitle: (title: string, args?: object) => void;

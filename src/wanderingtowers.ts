@@ -379,7 +379,7 @@ class WanderingTowers extends WanderingTowersGui {
         break;
 
       case "client_pickMoveSide":
-        new StPickMoveSide(this).enter();
+        new StPickMoveSide(this).enter(args.args);
         break;
 
       case "client_pickMoveWizard":

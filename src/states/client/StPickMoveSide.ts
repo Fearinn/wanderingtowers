@@ -11,8 +11,16 @@ class StPickMoveSide extends StateManager {
     });
   }
 
-  enter() {
+  enter(args: arg_StPickMoveSide) {
     super.enter();
+
+    const moveCard = this.game.wtw.globals.moveCard;
+    const move = new Move(this.game, moveCard);
+    move.toggleSelection(true);
+
+    const { movableMeeples } = args._private;
+    const { tower: movableTowers, wizard: movableWizards } =
+      movableMeeples[moveCard.id];
 
     this.statusBar.addActionButton(
       _("tower"),
@@ -20,7 +28,7 @@ class StPickMoveSide extends StateManager {
         const stPickMoveTower = new StPickMoveTower(this.game);
         stPickMoveTower.set();
       },
-      {}
+      { disabled: movableTowers.length === 0 }
     );
 
     this.statusBar.addActionButton(
@@ -29,19 +37,23 @@ class StPickMoveSide extends StateManager {
         const stPickMoveWizard = new StPickMoveWizard(this.game);
         stPickMoveWizard.set();
       },
-      {}
+      {
+        disabled: movableWizards.length === 0,
+      }
     );
-
-    const card = this.game.wtw.globals.moveCard;
-    const move = new Move(this.game, card);
-    move.toggleSelection(true);
   }
 
   leave() {
     super.leave();
-    
-    const card = this.game.wtw.globals.moveCard;
-    const move = new Move(this.game, card);
+
+    const moveCard = this.game.wtw.globals.moveCard;
+    const move = new Move(this.game, moveCard);
     move.toggleSelection(false);
   }
+}
+
+interface arg_StPickMoveSide {
+  _private: {
+    movableMeeples: MovableMeeples;
+  };
 }

@@ -295,7 +295,7 @@ var WanderingTowers = /** @class */ (function (_super) {
                 new StPlayMove(this).enter(args.args);
                 break;
             case "client_pickMoveSide":
-                new StPickMoveSide(this).enter();
+                new StPickMoveSide(this).enter(args.args);
                 break;
             case "client_pickMoveWizard":
                 new StPickMoveWizard(this).enter(args.args);
@@ -3454,25 +3454,29 @@ var StPickMoveSide = /** @class */ (function (_super) {
             descriptionmyturn: _("${you} must pick whether to move a wizard or a tower"),
         });
     };
-    StPickMoveSide.prototype.enter = function () {
+    StPickMoveSide.prototype.enter = function (args) {
         var _this = this;
         _super.prototype.enter.call(this);
+        var moveCard = this.game.wtw.globals.moveCard;
+        var move = new Move(this.game, moveCard);
+        move.toggleSelection(true);
+        var movableMeeples = args._private.movableMeeples;
+        var _a = movableMeeples[moveCard.id], movableTowers = _a.tower, movableWizards = _a.wizard;
         this.statusBar.addActionButton(_("tower"), function () {
             var stPickMoveTower = new StPickMoveTower(_this.game);
             stPickMoveTower.set();
-        }, {});
+        }, { disabled: movableTowers.length === 0 });
         this.statusBar.addActionButton(_("wizard"), function () {
             var stPickMoveWizard = new StPickMoveWizard(_this.game);
             stPickMoveWizard.set();
-        }, {});
-        var card = this.game.wtw.globals.moveCard;
-        var move = new Move(this.game, card);
-        move.toggleSelection(true);
+        }, {
+            disabled: movableWizards.length === 0,
+        });
     };
     StPickMoveSide.prototype.leave = function () {
         _super.prototype.leave.call(this);
-        var card = this.game.wtw.globals.moveCard;
-        var move = new Move(this.game, card);
+        var moveCard = this.game.wtw.globals.moveCard;
+        var move = new Move(this.game, moveCard);
         move.toggleSelection(false);
     };
     return StPickMoveSide;
