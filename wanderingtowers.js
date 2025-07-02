@@ -333,6 +333,9 @@ var WanderingTowers = /** @class */ (function (_super) {
         }
     };
     WanderingTowers.prototype.onLeavingState = function (stateName) {
+        if (!this.isCurrentPlayerActive()) {
+            return;
+        }
         switch (stateName) {
             case "client_playMove":
                 new StPlayMove(this).leave();
