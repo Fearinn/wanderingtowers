@@ -68,6 +68,7 @@ $machinestates = [
 		"action" => "st_betweenPlayers",
 		"transitions" => [
 			TR_NEXT_PLAYER => ST_PLAYER_TURN,
+			TR_GAME_END => ST_GAME_END,
 		],
 		"updateGameProgression" => true,
 	],
