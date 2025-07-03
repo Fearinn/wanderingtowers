@@ -742,9 +742,27 @@ var ZoomManager = /** @class */ (function () {
      */
     ZoomManager.prototype.zoomOrDimensionChanged = function () {
         var _a, _b;
-        this.settings.element.style.width = "".concat(this.wrapper.offsetWidth / this._zoom, "px");
-        this.wrapper.style.height = "".concat(this.settings.element.offsetHeight * this._zoom, "px");
-        (_b = (_a = this.settings).onDimensionsChange) === null || _b === void 0 ? void 0 : _b.call(_a, this._zoom);
+        // FIX FROM @lebololo
+        var targetElement = this.settings.element;
+        var wrapperRect = this.wrapper.getBoundingClientRect();
+        var currentZoom = this._zoom;
+        var expectedWidth = wrapperRect.width / currentZoom;
+        var currentStyledWidth = parseFloat(targetElement.style.width);
+        if (!isNaN(currentStyledWidth) && Math.abs(currentStyledWidth - expectedWidth) < 0.5) {
+            // Skip update if the width is already close enough
+            return;
+        }
+        // Update element width
+        targetElement.style.width = "".concat(expectedWidth, "px");
+        // Now update wrapper height based on new element height
+        var elementRect = targetElement.getBoundingClientRect();
+        var expectedHeight = elementRect.height;
+        var currentWrapperHeight = parseFloat(this.wrapper.style.height);
+        if (isNaN(currentWrapperHeight) || Math.abs(currentWrapperHeight - expectedHeight) >= 0.5) {
+            this.wrapper.style.height = "".concat(expectedHeight, "px");
+        }
+        // Trigger optional callback
+        (_b = (_a = this.settings).onDimensionsChange) === null || _b === void 0 ? void 0 : _b.call(_a, currentZoom);
     };
     /**
      * Simulates a click on the Zoom-in button.
