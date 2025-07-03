@@ -1157,6 +1157,7 @@ body > .card {
   aspect-ratio: 447/300;
   height: var(--moveHeight);
   padding: 0;
+  pointer-events: auto;
 }
 .wtw_moveDiscard .wtw_move {
   position: absolute;
