@@ -82,7 +82,7 @@ class Ravenskeep extends Tower
 
         foreach ($this->game->SPACES as $space_id => $space) {
             $tier = $this->countOnSpace($space_id);
-            $hasWizard = !!$this->game->getUniqueValueFromDB("SELECT card_id FROM {$WizardManager->dbTable} 
+            $hasWizard = !!$this->game->getUniqueValueFromDB("SELECT COUNT(card_id) FROM {$WizardManager->dbTable} 
                 WHERE card_location='space' AND card_location_arg={$space_id} AND tier={$tier}");
 
             if (!$hasWizard) {
