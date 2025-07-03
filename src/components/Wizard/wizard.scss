@@ -52,6 +52,7 @@
   width: var(--wizardWidth);
   z-index: 1;
   pointer-events: auto;
+  transform-style: flat;
 
   &.bga-animations_animated {
     z-index: 11 !important;

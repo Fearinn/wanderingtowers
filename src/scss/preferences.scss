@@ -10,7 +10,7 @@
 }
 
 .wtw_pref-floatingHand {
-  .wtw_moveHand {
+  .game_interface:not(.mode_3d) .wtw_moveHand {
     position: fixed;
     left: 50%;
     bottom: -10%;

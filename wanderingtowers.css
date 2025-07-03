@@ -767,7 +767,7 @@ body > .card {
   background-position: center;
 }
 
-.wtw_pref-floatingHand .wtw_moveHand {
+.wtw_pref-floatingHand .game_interface:not(.mode_3d) .wtw_moveHand {
   position: fixed;
   left: 50%;
   bottom: -10%;
@@ -776,7 +776,7 @@ body > .card {
   transition: 1s;
   z-index: 2;
 }
-.wtw_pref-floatingHand .wtw_moveHand:hover, .wtw_pref-floatingHand .wtw_moveHand:has(.wtw_move-selected) {
+.wtw_pref-floatingHand .game_interface:not(.mode_3d) .wtw_moveHand:hover, .wtw_pref-floatingHand .game_interface:not(.mode_3d) .wtw_moveHand:has(.wtw_move-selected) {
   bottom: -5%;
   z-index: 1052;
 }
@@ -1078,6 +1078,7 @@ body > .card {
   width: var(--wizardWidth);
   z-index: 1;
   pointer-events: auto;
+  transform-style: flat;
 }
 .wtw_wizard.bga-animations_animated {
   z-index: 11 !important;
