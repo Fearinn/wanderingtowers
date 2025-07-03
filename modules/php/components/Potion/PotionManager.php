@@ -61,10 +61,10 @@ class PotionManager extends CardManager
             return;
         }
 
-        $potionCard = $this->getCardInLocation("empty", $player_id);
+        $potionCard = $this->getCardInLocation("empty", $player_id, true);
 
         if (!$potionCard) {
-            throw new \BgaVisibleSystemException("Potion not found");
+            return;
         }
 
         $potionCard_id = (int) $potionCard["id"];

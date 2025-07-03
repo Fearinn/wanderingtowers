@@ -47,11 +47,14 @@ class CardManager
         return $card;
     }
 
-    public function getCardInLocation(string $location, int $location_arg = null): array
+    public function getCardInLocation(string $location, int $location_arg = null, bool $nullable = false): ?array
     {
         $cards = $this->getCardsInLocation($location, $location_arg);
 
         if (!$cards) {
+            if ($nullable) {
+                return null;
+            }
             throw new \BgaVisibleSystemException("No card found");
         }
 
@@ -82,7 +85,8 @@ class CardManager
         return $this->hideCards($deck);
     }
 
-    public function getDeckCount(): int {
+    public function getDeckCount(): int
+    {
         return $this->countCardsInLocation("deck");
     }
 
