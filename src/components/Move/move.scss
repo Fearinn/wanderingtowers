@@ -19,7 +19,7 @@
   }
 }
 
-.wtw_moveDiscardTitle {
+.wtw_discardTitle {
   color: black;
   font-size: 40px;
   font-weight: bold;
@@ -28,6 +28,11 @@
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
+}
+
+.wtw_discardCounter {
+  --bga-cards-deck-left: 50%;
+  --bga-cards-deck-top: -5%;
 }
 
 .wtw_deckCounter {

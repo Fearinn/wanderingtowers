@@ -140,7 +140,10 @@ var WanderingTowers = /** @class */ (function (_super) {
         };
         var counters = {
             spaces: {},
+            discard: new ebg.counter(),
         };
+        counters.discard.create("wtw_discardCounter");
+        counters.discard.setValue(gamedatas.moveDiscardCount);
         for (var space_id = 1; space_id <= 16; space_id++) {
             towerStocks.spaces[space_id] = new TowerSpaceStock(this, towerManager, space_id);
             var spaceElement = document.getElementById("wtw_spaceWizards-".concat(space_id));
@@ -3259,6 +3262,7 @@ var NotificationManager = /** @class */ (function () {
         var card = args.card, player_id = args.player_id;
         var move = new Move(this.game, card);
         move.discard(player_id);
+        this.game.wtw.counters.discard.incValue(1);
     };
     NotificationManager.prototype.notif_drawMove = function (args) {
         var _this = this;

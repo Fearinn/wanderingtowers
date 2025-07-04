@@ -18,6 +18,7 @@ interface Counters {
   [player_id: number]: {
     ravenskeep: Counter;
   };
+  discard: Counter;
 }
 
 declare class WanderingTowersGui extends Game {
@@ -85,6 +86,7 @@ interface WanderingTowersGamedatas {
   potionCards: PotionCard[];
   moveDeckCount: number;
   moveDiscard: MoveCard[];
+  moveDiscardCount: number;
   hand: MoveCard[];
   tierCounts: {
     [space_id: number]: number;

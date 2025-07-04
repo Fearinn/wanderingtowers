@@ -37,6 +37,7 @@ class NotificationManager implements NotificationManager {
 
     const move = new Move(this.game, card);
     move.discard(player_id);
+    this.game.wtw.counters.discard.incValue(1);
   }
 
   public notif_drawMove(args: { cards: MoveCard[]; player_id: number }): void {

@@ -365,6 +365,7 @@ class Game extends \Table
             "potionCards" => $PotionManager->getCargos(),
             "moveDeckCount" => $MoveManager->getDeckCount(),
             "moveDiscard" => $MoveManager->getDiscard(),
+            "moveDiscardCount" => $MoveManager->countCardsInDiscard(),
             "hand" => $MoveManager->getPlayerHand($current_player_id),
             "spellCards" => $SpellManager->getAll(),
             "tierCounts" => $TowerManager->getTierCounts(),

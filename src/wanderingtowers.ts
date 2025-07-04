@@ -123,7 +123,12 @@ class WanderingTowers extends WanderingTowersGui {
     };
     const counters: Counters = {
       spaces: {},
+      discard: new ebg.counter(),
     };
+    counters.discard.create("wtw_discardCounter");
+    counters.discard.setValue(gamedatas.moveDiscardCount);
+
+    
     for (let space_id = 1; space_id <= 16; space_id++) {
       towerStocks.spaces[space_id] = new TowerSpaceStock(
         this,

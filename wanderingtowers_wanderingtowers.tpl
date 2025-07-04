@@ -16,7 +16,12 @@
       <div id="wtw_moveDeck" class="wtw_moveDeck"></div>
       <div id="wtw_dice" class="wtw_dice"></div>
       <div id="wtw_moveDiscard" class="wtw_whiteblock wtw_moveDiscard">
-        <span class="wtw_moveDiscardTitle">Discard</span>
+        <span
+          id="wtw_discardCounter"
+          class="wtw_deckCounter bga-cards_deck-counter text-shadow wtw_discardCounter"
+          >0</span
+        >
+        <span class="wtw_discardTitle">Discard</span>
       </div>
       <div id="wtw_spells" class="wtw_spells"></div>
       <div id="wtw_potionVoid" class="wtw_potionVoid"></div>
