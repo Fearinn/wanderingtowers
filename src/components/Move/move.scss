@@ -67,4 +67,13 @@
   &-back {
     background-image: url("img/moveBack.jpg");
   }
+
+  &-icon {
+    --moveHeight: 60px;
+    margin: 2px auto 0 auto;
+
+    .card-side {
+      box-shadow: none !important;
+    }
+  }
 }

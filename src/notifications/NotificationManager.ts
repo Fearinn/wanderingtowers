@@ -32,10 +32,10 @@ class NotificationManager implements NotificationManager {
     });
   }
 
-  public notif_discardMove(args: { card: MoveCard; player_id: number }): void {
-    const { card, player_id } = args;
+  public notif_discardMove(args: { moveCard: MoveCard; player_id: number }): void {
+    const { moveCard, player_id } = args;
 
-    const move = new Move(this.game, card);
+    const move = new Move(this.game, moveCard);
     move.discard(player_id);
     this.game.wtw.counters.discard.incValue(1);
   }

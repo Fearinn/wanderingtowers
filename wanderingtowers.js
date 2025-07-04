@@ -427,6 +427,13 @@ var WanderingTowers = /** @class */ (function (_super) {
         try {
             if (log && args && !args.processed) {
                 args.processed = true;
+                if (args.move_icon !== undefined) {
+                    var moveCard = args.moveCard;
+                    var move = new Move(this, moveCard);
+                    var moveIcon = move.generateIcon();
+                    args.move_icon = moveIcon;
+                    return;
+                }
                 for (var key in args) {
                     if (!key.includes("_label")) {
                         continue;
@@ -2873,6 +2880,17 @@ var Move = /** @class */ (function (_super) {
     Move.prototype.setupBackDiv = function (element) {
         element.classList.add("wtw_move-back");
     };
+    Move.prototype.generateIcon = function () {
+        var element = document.getElementById("wtw_move-".concat(this.id));
+        var cloneElement = element.cloneNode(true);
+        cloneElement.removeAttribute("id");
+        cloneElement.querySelectorAll("[id]").forEach(function (childElement) {
+            childElement.removeAttribute("id");
+        });
+        cloneElement.classList.add("wtw_move-icon");
+        cloneElement.classList.remove("wtw_move-selected");
+        return cloneElement.outerHTML;
+    };
     Move.prototype.toggleSelection = function (enabled) {
         this.hand.toggleSelection(enabled);
         if (enabled) {
@@ -3259,8 +3277,8 @@ var NotificationManager = /** @class */ (function () {
         });
     };
     NotificationManager.prototype.notif_discardMove = function (args) {
-        var card = args.card, player_id = args.player_id;
-        var move = new Move(this.game, card);
+        var moveCard = args.moveCard, player_id = args.player_id;
+        var move = new Move(this.game, moveCard);
         move.discard(player_id);
         this.game.wtw.counters.discard.incValue(1);
     };

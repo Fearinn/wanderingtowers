@@ -128,7 +128,6 @@ class WanderingTowers extends WanderingTowersGui {
     counters.discard.create("wtw_discardCounter");
     counters.discard.setValue(gamedatas.moveDiscardCount);
 
-    
     for (let space_id = 1; space_id <= 16; space_id++) {
       towerStocks.spaces[space_id] = new TowerSpaceStock(
         this,
@@ -556,6 +555,14 @@ class WanderingTowers extends WanderingTowersGui {
     try {
       if (log && args && !args.processed) {
         args.processed = true;
+
+        if (args.move_icon !== undefined) {
+          const { moveCard } = args;
+          const move = new Move(this, moveCard);
+          const moveIcon = move.generateIcon();
+          args.move_icon = moveIcon;
+          return;
+        }
 
         for (const key in args) {
           if (!key.includes("_label")) {

@@ -74,6 +74,20 @@ class Move extends Card {
     element.classList.add("wtw_move-back");
   }
 
+  generateIcon(): string {
+    const element = document.getElementById(`wtw_move-${this.id}`);
+    const cloneElement = element.cloneNode(true) as HTMLDivElement;
+
+    cloneElement.removeAttribute("id");
+    cloneElement.querySelectorAll("[id]").forEach((childElement) => {
+      childElement.removeAttribute("id");
+    });
+    cloneElement.classList.add("wtw_move-icon");
+    cloneElement.classList.remove("wtw_move-selected");
+    
+    return cloneElement.outerHTML;
+  }
+
   toggleSelection(enabled: boolean): void {
     this.hand.toggleSelection(enabled);
 

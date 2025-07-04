@@ -1207,6 +1207,13 @@ body > .card {
 .wtw_move-back {
   background-image: url("img/moveBack.jpg");
 }
+.wtw_move-icon {
+  --moveHeight: 60px;
+  margin: 2px auto 0 auto;
+}
+.wtw_move-icon .card-side {
+  box-shadow: none !important;
+}
 
 :root {
   --potionWidth: 40px;
