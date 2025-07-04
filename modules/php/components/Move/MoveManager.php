@@ -153,6 +153,9 @@ class MoveManager extends CardManager
         $NotifManager->all(
             "autoreshuffle",
             clienttranslate('The deck is empty. All discarded cards are shuffled back to it'),
+            [
+                "deckCount" => $this->countCardsInDeck(),
+            ]
         );
     }
 }

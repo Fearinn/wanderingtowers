@@ -95,9 +95,13 @@ class NotificationManager implements NotificationManager {
     this.game.wtw.counters[player_id].ravenskeep.incValue(1);
   }
 
-  public notif_autoreshuffle(args: {}): void {
+  public async notif_autoreshuffle(args: { deckCount: number }): Promise<void> {
+    const { deckCount } = args;
     const { discard, deck } = this.stocks.moves;
-    deck.addCards(discard.getCards());
+
+    const discardCards = discard.getCards();
+    discard.removeCards(discardCards);
+    await deck.setCardNumber(deckCount);
     deck.shuffle({ animatedCardsMax: 5 });
   }
 

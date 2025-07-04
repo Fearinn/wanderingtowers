@@ -3315,9 +3315,23 @@ var NotificationManager = /** @class */ (function () {
         });
     };
     NotificationManager.prototype.notif_autoreshuffle = function (args) {
-        var _a = this.stocks.moves, discard = _a.discard, deck = _a.deck;
-        deck.addCards(discard.getCards());
-        deck.shuffle({ animatedCardsMax: 5 });
+        return __awaiter(this, void 0, void 0, function () {
+            var deckCount, _a, discard, deck, discardCards;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        deckCount = args.deckCount;
+                        _a = this.stocks.moves, discard = _a.discard, deck = _a.deck;
+                        discardCards = discard.getCards();
+                        discard.removeCards(discardCards);
+                        return [4 /*yield*/, deck.setCardNumber(deckCount)];
+                    case 1:
+                        _b.sent();
+                        deck.shuffle({ animatedCardsMax: 5 });
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     NotificationManager.prototype.notif_incScore = function (args) {
         var score = args.score, player_id = args.player_id;
