@@ -495,6 +495,11 @@ class Game extends \Table
         $Wizard->enterRavenskeep($player_id);
     }
 
+    public function debug_ravenskeepAll(): void {
+        $WizardManager = new WizardManager($this);
+        $WizardManager->deck->moveAllCardsInLocation("space", "ravenskeep");
+    }
+
     public function debug_rollDice(): void
     {
         $Dice = new Dice($this);

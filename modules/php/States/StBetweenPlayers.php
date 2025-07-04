@@ -50,6 +50,7 @@ class StBetweenPlayers extends StateManager
     public function checkGameEnd(): bool
     {
         $players = $this->game->loadPlayersBasicInfos();
+        $NotifManager = new NotifManager($this->game);
 
         $MoveManager = new MoveManager($this->game);
         $isSolo = $this->game->isSolo();
@@ -84,13 +85,18 @@ class StBetweenPlayers extends StateManager
                     $this->globals->set(G_FINAL_TURN, $finalTurn);
                 }
 
-                $NotifManager = new NotifManager($this->game);
                 $NotifManager->all(
                     "finalTurn",
                     clienttranslate('${player_name} achieves both goals. This is the last round'),
                     [],
                     $player_id,
                 );
+            } else if ($WizardManager->countCardsInLocation("space") === 0) {
+                $NotifManager->all(
+                    "message",
+                    clienttranslate("All wizards are in the Ravenskeep. Nobody may fill more potions")
+                );
+                return true;
             }
         }
 
