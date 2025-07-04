@@ -178,7 +178,7 @@ class WizardManager extends CardManager
         $TowerManager = new TowerManager($this->game);
 
         if ($visibleOnly) {
-           $wizardCards = array_filter($wizardCards, function ($wizardCard_id) use ($TowerManager) {
+            $wizardCards = array_filter($wizardCards, function ($wizardCard_id) use ($TowerManager) {
                 $Wizard = new Wizard($this->game, $wizardCard_id);
                 $space_id = $Wizard->getSpaceId();
 
@@ -215,11 +215,9 @@ class WizardManager extends CardManager
             $steps = $Move->getSteps("wizard");
         }
 
-        $movableWizards = array_filter($wizardCards, function ($wizardCard_id)  use ($steps) {
+        $movableWizards = array_filter($wizardCards, function ($wizardCard_id)  use ($steps, $player_id) {
             $Wizard = new Wizard($this->game, $wizardCard_id);
-            $space_id = $this->game->sumSteps($Wizard->getSpaceId(), $steps);
-
-            return $this->countOnSpace($space_id, $Wizard->tier) < 6;
+            return $Wizard->isMovable($steps, $player_id);
         }, ARRAY_FILTER_USE_KEY);
 
         return array_values($movableWizards);
@@ -236,11 +234,9 @@ class WizardManager extends CardManager
         $steps = $Spell->steps;
         $wizardCards = $this->getByOwner($player_id, true);
 
-        $spellableWizards = array_filter($wizardCards, function ($wizardCard_id) use ($steps) {
+        $spellableWizards = array_filter($wizardCards, function ($wizardCard_id) use ($steps, $player_id) {
             $Wizard = new Wizard($this->game, $wizardCard_id);
-            $space_id = $this->game->sumSteps($Wizard->getSpaceId(), $steps);
-
-            return $this->countOnSpace($space_id, $Wizard->tier) < 6;
+            return $Wizard->isMovable($steps, $player_id);
         }, ARRAY_FILTER_USE_KEY);
 
         return array_values($spellableWizards);

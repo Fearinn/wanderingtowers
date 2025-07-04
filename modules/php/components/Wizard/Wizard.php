@@ -178,4 +178,10 @@ class Wizard extends WizardManager
             $this->enterRavenskeep($player_id);
         }
     }
+
+    public function isMovable(int $steps, int $player_id): bool
+    {
+        $space_id = $this->game->sumSteps($this->getSpaceId(), $steps);
+        return $this->countOnSpace($space_id, $this->tier) < 6;
+    }
 }
