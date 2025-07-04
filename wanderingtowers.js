@@ -2928,7 +2928,7 @@ var MoveHandStock = /** @class */ (function (_super) {
     __extends(MoveHandStock, _super);
     function MoveHandStock(game, manager) {
         var _this = _super.call(this, manager, document.getElementById("wtw_moveHand"), {
-            cardOverlap: "0",
+            cardOverlap: "24px",
         }) || this;
         _this.game = game;
         _this.setSelectionMode("none");

@@ -84,7 +84,7 @@ class Move extends Card {
     });
     cloneElement.classList.add("wtw_move-icon");
     cloneElement.classList.remove("wtw_move-selected");
-    
+
     return cloneElement.outerHTML;
   }
 
@@ -152,7 +152,7 @@ interface MoveHandStock extends HandStock<MoveCard> {
 class MoveHandStock extends HandStock<MoveCard> {
   constructor(game: WanderingTowersGui, manager: CardManager<MoveCard>) {
     super(manager, document.getElementById("wtw_moveHand"), {
-      cardOverlap: "0",
+      cardOverlap: "24px",
     });
 
     this.game = game;
