@@ -13,18 +13,20 @@
     "default": 1
   },
   "101": {
-    "name": "Floating hand",
+    "name": "Hand",
     "values": {
-      "0": {
-        "name": "Disabled"
-      },
       "1": {
-        "name": "Enabled",
+        "name": "Floating",
         "cssPref": "wtw_pref-floatingHand"
+      },
+      "2": {
+        "name": "Static (fixed scale)"
+      },
+      "3": {
+        "name": "Static (variable scale)"
       }
     },
-    "default": 1,
-    "needReload": true
+    "default": 1
   },
   "102": {
     "name": "Sound effects",

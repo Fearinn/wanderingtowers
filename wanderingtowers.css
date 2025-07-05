@@ -730,11 +730,15 @@ body > .card {
   --boardWidth: calc(var(--spaceWidth) * 5.8);
 }
 
+.wtw_board {
+  position: relative;
+}
+
 .wtw_boardCenter {
   position: absolute;
   left: 50%;
-  top: 55%;
-  transform: translateX(-50%) translateY(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   justify-content: center;
