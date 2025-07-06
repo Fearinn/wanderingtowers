@@ -13,7 +13,7 @@
     "default": 1
   },
   "101": {
-    "name": "Hand",
+    "name": "Hand display",
     "values": {
       "1": {
         "name": "Floating",
@@ -26,7 +26,7 @@
         "name": "Static (variable scale)"
       }
     },
-    "default": 1
+    "default": 2
   },
   "102": {
     "name": "Sound effects",
