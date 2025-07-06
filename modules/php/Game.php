@@ -323,7 +323,12 @@ class Game extends \Table
         $wizardProgression = $WizardManager->getProgression();
         $potionProgression = $PotionManager->getProgression();
 
-        $progression = ($wizardProgression + $potionProgression) / 2 * 100;
+        $progression = ($wizardProgression + $potionProgression) * 100;
+
+        if (!$this->isSolo()) {
+            $progression /= 2;
+        }
+
         return round($progression);
     }
 
@@ -495,7 +500,8 @@ class Game extends \Table
         $Wizard->enterRavenskeep($player_id);
     }
 
-    public function debug_ravenskeepAll(): void {
+    public function debug_ravenskeepAll(): void
+    {
         $WizardManager = new WizardManager($this);
         $WizardManager->deck->moveAllCardsInLocation("space", "ravenskeep");
     }
