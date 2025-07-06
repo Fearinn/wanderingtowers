@@ -1243,11 +1243,9 @@ body > .card {
 }
 .wtw_potion-empty {
   background-image: url("img/potions_empty.png");
-  background-size: cover;
 }
 .wtw_potion-filled {
   background-image: url("img/potions_filled.png");
-  background-size: cover;
 }
 
 :root {
