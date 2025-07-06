@@ -78,7 +78,7 @@ class TowerManager extends CardManager
         $towerCards = $this->getCardsInLocation("space");
 
         if ($Move->isDice()) {
-            if ($this->game->gamestate->state_id() === ST_AFTER_ROLL) {
+            if ($this->game->gamestate->state_id() !== ST_AFTER_ROLL) {
                 return $towerCards;
             }
             $steps = $this->game->globals->get(G_ROLL);
