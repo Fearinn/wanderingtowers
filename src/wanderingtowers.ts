@@ -549,12 +549,12 @@ class WanderingTowers extends WanderingTowersGui {
       if (log && args && !args.processed) {
         args.processed = true;
 
-        if (args.move_icon !== undefined) {
+        if (args.move_icon !== undefined && args.moveCard) {
           const { moveCard } = args;
           const move = new Move(this, moveCard);
           const moveIcon = move.generateIcon();
           args.move_icon = moveIcon;
-          return;
+          return { log, args };
         }
 
         for (const key in args) {

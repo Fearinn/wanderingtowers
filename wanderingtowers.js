@@ -421,12 +421,12 @@ var WanderingTowers = /** @class */ (function (_super) {
         try {
             if (log && args && !args.processed) {
                 args.processed = true;
-                if (args.move_icon !== undefined) {
+                if (args.move_icon !== undefined && args.moveCard) {
                     var moveCard = args.moveCard;
                     var move = new Move(this, moveCard);
                     var moveIcon = move.generateIcon();
                     args.move_icon = moveIcon;
-                    return;
+                    return { log: log, args: args };
                 }
                 for (var key in args) {
                     if (!key.includes("_label")) {
