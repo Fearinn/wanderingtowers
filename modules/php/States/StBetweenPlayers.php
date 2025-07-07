@@ -55,13 +55,10 @@ class StBetweenPlayers extends StateManager
         $MoveManager = new MoveManager($this->game);
         $isSolo = $this->game->isSolo();
 
-        if ($isSolo && $MoveManager->countCardsInDeck() === 0) {
-            return true;
-        }
-
         $PotionManager = new PotionManager($this->game);
         $WizardManager = new WizardManager($this->game);
         $totalGoal = $PotionManager->getPotionsGoal() + $WizardManager->getRavenskeepGoal();
+        $allWizardsImprisoned = $WizardManager->countCardsInLocation("space") === 0;
 
         $ScoreManager = new ScoreManager($this->game);
 
@@ -72,13 +69,21 @@ class StBetweenPlayers extends StateManager
 
             $goalsMet = $ScoreManager->getScore($player_id) === $totalGoal;
 
-            if ($goalsMet) {
-                if ($isSolo) {
-                    $score = $MoveManager->countCardsInDiscard() > 30 ? 0 : 1;
-                    $ScoreManager->setScore($score, $player_id);
+            if ($isSolo) {
+                if ($goalsMet) {
+                    $ScoreManager->setScore(1, $player_id);
+
+                    $NotifManager->all(
+                        "message",
+                        clienttranslate('${player_name} achieves both goals')
+                    );
                     return true;
                 }
 
+                return $MoveManager->countCardsInDeck() === 0 || $MoveManager->countCardsInDiscard() >= 30 || $allWizardsImprisoned;
+            }
+
+            if ($goalsMet) {
                 $finalTurn = $this->game->getTurnsPlayed($player_id);
 
                 if ($finalTurn > $this->globals->get(G_FINAL_TURN, 0)) {
@@ -91,7 +96,7 @@ class StBetweenPlayers extends StateManager
                     [],
                     $player_id,
                 );
-            } else if ($WizardManager->countCardsInLocation("space") === 0) {
+            } else if ($allWizardsImprisoned) {
                 $NotifManager->all(
                     "message",
                     clienttranslate("All wizards are in the Ravenskeep. Nobody may fill more potions")
