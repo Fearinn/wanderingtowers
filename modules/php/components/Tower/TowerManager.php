@@ -135,10 +135,10 @@ class TowerManager extends CardManager
         $spellableTowers = array_filter($towerCards, function ($towerCard) use ($steps, $spell_id) {
             $towerCard_id = (int) $towerCard["id"];
             $Tower = new Tower($this->game, $towerCard_id);
+            $space_id = $Tower->getSpaceId();
 
             if ($spell_id === 7) {
                 $WizardManager = new WizardManager($this->game);
-                $space_id = $Tower->getSpaceId();
                 $tier = $Tower->countOnSpace($space_id);
                 return $WizardManager->countOnSpace($space_id, $tier) < 6;
             }
@@ -147,14 +147,17 @@ class TowerManager extends CardManager
                 return false;
             }
 
-            $space_id = $this->game->sumSteps($Tower->getSpaceId(), $steps);
+            $final_space_id = $this->game->sumSteps($space_id, $steps);
+            $ravenskeepSpace = (int) $this->getRavenskeepSpace();
 
-            if ($spell_id === 6 && !$this->getByMaxTier($space_id)) {
+            if (
+                $spell_id === 6 &&
+                (!$this->getByMaxTier($final_space_id) || $space_id === $ravenskeepSpace)
+            ) {
                 return false;
             }
 
-            $ravenskeepSpace = (int) $this->getRavenskeepSpace();
-            return $space_id !== $ravenskeepSpace;
+            return $final_space_id !== $ravenskeepSpace;
         });
 
         return array_values($spellableTowers);

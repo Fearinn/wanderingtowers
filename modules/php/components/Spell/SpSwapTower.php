@@ -28,7 +28,7 @@ class SpSwapTower extends Spell
         $spellableMeeples = (array) $this->getSpellableMeeples($player_id)[$this->type];
 
         if (in_array($towerCard_id, $spellableMeeples)) {
-            throw new \BgaVisibleSystemException("You can't cast Swap a Tower");
+            throw new \BgaVisibleSystemException("You can't swap this tower");
         }
     }
 
