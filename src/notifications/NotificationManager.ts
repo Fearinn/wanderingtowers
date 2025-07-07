@@ -32,7 +32,10 @@ class NotificationManager implements NotificationManager {
     });
   }
 
-  public notif_discardMove(args: { moveCard: MoveCard; player_id: number }): void {
+  public notif_discardMove(args: {
+    moveCard: MoveCard;
+    player_id: number;
+  }): void {
     const { moveCard, player_id } = args;
 
     const move = new Move(this.game, moveCard);
@@ -104,6 +107,8 @@ class NotificationManager implements NotificationManager {
     discard.removeCards(discardCards);
     await deck.setCardNumber(deckCount);
     deck.shuffle({ animatedCardsMax: 5 });
+
+    this.game.wtw.counters.discard.toValue(0);
   }
 
   public notif_incScore(args: { score: number; player_id: number }): void {

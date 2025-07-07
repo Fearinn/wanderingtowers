@@ -3360,6 +3360,7 @@ var NotificationManager = /** @class */ (function () {
                     case 1:
                         _b.sent();
                         deck.shuffle({ animatedCardsMax: 5 });
+                        this.game.wtw.counters.discard.toValue(0);
                         return [2 /*return*/];
                 }
             });
