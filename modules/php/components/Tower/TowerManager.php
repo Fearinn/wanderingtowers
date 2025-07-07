@@ -197,16 +197,9 @@ class TowerManager extends CardManager
         $WizardManager = new WizardManager($this->game);
         $WizardManager->swapWizardsAlongTower(
             $tower_space_id,
-            $tower2_space_id,
             $tower_tier,
-            $tower2_tier,
-        );
-
-        $WizardManager->swapWizardsAlongTower(
             $tower2_space_id,
-            $tower_space_id,
             $tower2_tier,
-            $tower_tier,
         );
 
         $Tower->updateTier($tower2_tier);

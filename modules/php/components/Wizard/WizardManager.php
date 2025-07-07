@@ -105,14 +105,21 @@ class WizardManager extends CardManager
         }
     }
 
-    public function swapWizardsAlongTower(int $space_id, int $final_space_id, int $current_tier, int $final_tier): void
+    public function swapWizardsAlongTower(int $space_id, int $tier, int $space_id2, int $tier2): void
     {
-        $wizardCards = $this->getByTier($space_id, $current_tier);
+        $wizardCards = $this->getByTier($space_id, $tier);
+        $wizardCards2 = $this->getByTier($space_id2, $tier2);
 
         foreach ($wizardCards as $wizardCard) {
             $wizardCard_id = (int) $wizardCard["id"];
             $Wizard = new Wizard($this->game, $wizardCard_id);
-            $Wizard->swapAlongTower($final_space_id, $final_tier);
+            $Wizard->swapAlongTower($space_id2, $tier2);
+        }
+
+        foreach ($wizardCards2 as $wizardCard2) {
+            $wizardCard_id = (int) $wizardCard2["id"];
+            $Wizard = new Wizard($this->game, $wizardCard_id);
+            $Wizard->swapAlongTower($space_id, $tier);
         }
     }
 
