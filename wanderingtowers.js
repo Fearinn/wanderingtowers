@@ -426,7 +426,6 @@ var WanderingTowers = /** @class */ (function (_super) {
                     var move = new Move(this, moveCard);
                     var moveIcon = move.generateIcon();
                     args.move_icon = moveIcon;
-                    return { log: log, args: args };
                 }
                 for (var key in args) {
                     if (!key.includes("_label")) {
@@ -2854,6 +2853,7 @@ var Move = /** @class */ (function (_super) {
             _this.card.location === "hand" && !isCurrentPlayer
                 ? _this.stocks[_this.player_id].hand
                 : null;
+        _this.id = _this.type_arg;
         return _this;
     }
     Move.prototype.setup = function () {
@@ -2869,11 +2869,11 @@ var Move = /** @class */ (function (_super) {
         element.classList.add("wtw_card", "wtw_move");
     };
     Move.prototype.setupFrontDiv = function (element) {
-        if (!this.type_arg) {
+        if (!this.card.type_arg) {
             return;
         }
         element.classList.add("wtw_move-front");
-        var spritePos = this.type_arg - 1;
+        var spritePos = this.card.type_arg - 1;
         if (spritePos >= 10) {
             element.style.backgroundImage = "url(\"".concat(g_gamethemeurl, "img/moves_2.png\")");
             spritePos -= 10;
@@ -2891,15 +2891,14 @@ var Move = /** @class */ (function (_super) {
         element.classList.add("wtw_move-back");
     };
     Move.prototype.generateIcon = function () {
-        var element = document.getElementById("wtw_move-".concat(this.id));
-        var cloneElement = element.cloneNode(true);
-        cloneElement.removeAttribute("id");
-        cloneElement.querySelectorAll("[id]").forEach(function (childElement) {
-            childElement.removeAttribute("id");
-        });
-        cloneElement.classList.add("wtw_move-icon");
-        cloneElement.classList.remove("wtw_move-selected");
-        return cloneElement.outerHTML;
+        var spritePos = this.card.type_arg - 1;
+        if (spritePos >= 10) {
+            spritePos -= 10;
+        }
+        var imgNumber = this.type_arg >= 10 ? 2 : 1;
+        var backgroundPosition = "".concat(spritePos * -100, "%");
+        var html = "<div data-side=\"front\" class=\"wtw_move wtw_move-icon wtw_card card\">\n      <div class=\"card-sides\">\n          <div class=\"card-side front wtw_move-front\" style=\"background-image: url(".concat(g_gamethemeurl, "img/moves_").concat(imgNumber, ".png); \n          background-position: ").concat(backgroundPosition, "\"></div>\n          <div class=\"card-side back wtw_move-back\"></div>\n      </div>\n    </div>");
+        return html;
     };
     Move.prototype.toggleSelection = function (enabled) {
         this.hand.toggleSelection(enabled);

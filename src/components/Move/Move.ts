@@ -25,6 +25,8 @@ class Move extends Card {
       this.card.location === "hand" && !isCurrentPlayer
         ? this.stocks[this.player_id].hand
         : null;
+
+    this.id = this.type_arg;
   }
 
   setup() {
@@ -43,13 +45,13 @@ class Move extends Card {
   }
 
   setupFrontDiv(element: HTMLDivElement): void {
-    if (!this.type_arg) {
+    if (!this.card.type_arg) {
       return;
     }
 
     element.classList.add("wtw_move-front");
 
-    let spritePos = this.type_arg - 1;
+    let spritePos = this.card.type_arg - 1;
 
     if (spritePos >= 10) {
       element.style.backgroundImage = `url("${g_gamethemeurl}img/moves_2.png")`;
@@ -75,17 +77,24 @@ class Move extends Card {
   }
 
   generateIcon(): string {
-    const element = document.getElementById(`wtw_move-${this.id}`);
-    const cloneElement = element.cloneNode(true) as HTMLDivElement;
+    let spritePos = this.card.type_arg - 1;
 
-    cloneElement.removeAttribute("id");
-    cloneElement.querySelectorAll("[id]").forEach((childElement) => {
-      childElement.removeAttribute("id");
-    });
-    cloneElement.classList.add("wtw_move-icon");
-    cloneElement.classList.remove("wtw_move-selected");
+    if (spritePos >= 10) {
+      spritePos -= 10;
+    }
 
-    return cloneElement.outerHTML;
+    const imgNumber = this.type_arg >= 10 ? 2 : 1;
+    const backgroundPosition = `${spritePos * -100}%`;
+
+    const html = `<div data-side="front" class="wtw_move wtw_move-icon wtw_card card">
+      <div class="card-sides">
+          <div class="card-side front wtw_move-front" style="background-image: url(${g_gamethemeurl}img/moves_${imgNumber}.png); 
+          background-position: ${backgroundPosition}"></div>
+          <div class="card-side back wtw_move-back"></div>
+      </div>
+    </div>`;
+
+    return html;
   }
 
   toggleSelection(enabled: boolean): void {
