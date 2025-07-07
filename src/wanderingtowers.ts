@@ -205,12 +205,17 @@ class WanderingTowers extends WanderingTowersGui {
       ),
     };
     for (let p_id in gamedatas.players) {
+      const player = gamedatas.players[p_id];
       const player_id = Number(p_id);
       const playerPanelElement = this.getPlayerPanelElement(player_id);
 
       playerPanelElement.insertAdjacentHTML(
         "beforeend",
-        `<div id="wtw_ravenskeepCounter-${player_id}" class="wtw_whiteblock wtw_ravenskeepCounter">
+        `<div id="wtw_turnCounter-${player_id}" class="wtw_whiteblock wtw_turnCounter">
+          <i class="fa6 fa6-user-clock"></i>
+          <span id="wtw_turnCount-${player_id}" class="wtw_turnCount">0</span>
+        </div>
+        <div id="wtw_ravenskeepCounter-${player_id}" class="wtw_whiteblock wtw_ravenskeepCounter">
           <div id="wtw_ravenskeepCounterIcon-${player_id}" class="wtw_ravenskeepCounterIcon"></div>
             <div class="wtw_ravenskeepCountContainer">
             <span id="wtw_ravenskeepCount-${player_id}" class="wtw_ravenskeepCount">0</span>
@@ -219,6 +224,13 @@ class WanderingTowers extends WanderingTowersGui {
           <div id="wtw_panelWizard-${player_id}" class="wtw_card wtw_wizard wtw_wizard-panel"></div>
         </div>
         <div id="wtw_potionCargo-${player_id}" class="wtw_whiteblock wtw_potionCargo"></div>`
+      );
+
+      this.addTooltipHtml(
+        `wtw_turnCounter-${player_id}`,
+        `<span class="wtw_tooltipText">
+          ${_("number of turns played")}
+        </span>`
       );
 
       this.addTooltipHtml(
@@ -236,11 +248,15 @@ class WanderingTowers extends WanderingTowersGui {
       counters[player_id] = {
         ...counters[player_id],
         ravenskeep: new ebg.counter(),
+        turn: new ebg.counter(),
       };
-      counters[player_id].ravenskeep.create(`wtw_ravenskeepCount-${player_id}`);
-      counters[player_id].ravenskeep.setValue(
-        gamedatas.ravenskeepCounts[player_id]
-      );
+
+      const { ravenskeep, turn } = counters[player_id];
+      ravenskeep.create(`wtw_ravenskeepCount-${player_id}`);
+      ravenskeep.setValue(gamedatas.ravenskeepCounts[player_id]);
+
+      turn.create(`wtw_turnCount-${player_id}`);
+      turn.setValue(player.turns_played);
 
       potionStocks[player_id] = {
         cargo: new PotionCargoStock(this, potionManager, player_id),
@@ -548,7 +564,7 @@ class WanderingTowers extends WanderingTowersGui {
     try {
       if (log && args && !args.processed) {
         args.processed = true;
-        
+
         if (args.move_icon !== undefined && args.moveCard) {
           const { moveCard } = args;
           const move = new Move(this, moveCard);

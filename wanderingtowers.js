@@ -180,14 +180,19 @@ var WanderingTowers = /** @class */ (function (_super) {
             void: new VoidStock(potionManager, document.getElementById("wtw_potionVoid")),
         };
         for (var p_id in gamedatas.players) {
+            var player = gamedatas.players[p_id];
             var player_id = Number(p_id);
             var playerPanelElement = this.getPlayerPanelElement(player_id);
-            playerPanelElement.insertAdjacentHTML("beforeend", "<div id=\"wtw_ravenskeepCounter-".concat(player_id, "\" class=\"wtw_whiteblock wtw_ravenskeepCounter\">\n          <div id=\"wtw_ravenskeepCounterIcon-").concat(player_id, "\" class=\"wtw_ravenskeepCounterIcon\"></div>\n            <div class=\"wtw_ravenskeepCountContainer\">\n            <span id=\"wtw_ravenskeepCount-").concat(player_id, "\" class=\"wtw_ravenskeepCount\">0</span>\n            <span id=\"wtw_ravenskeepGoal-").concat(player_id, "\" class=\"wtw_ravenskeepGoal\">/").concat(gamedatas.ravenskeepGoal, "</span>\n          </div>\n          <div id=\"wtw_panelWizard-").concat(player_id, "\" class=\"wtw_card wtw_wizard wtw_wizard-panel\"></div>\n        </div>\n        <div id=\"wtw_potionCargo-").concat(player_id, "\" class=\"wtw_whiteblock wtw_potionCargo\"></div>"));
+            playerPanelElement.insertAdjacentHTML("beforeend", "<div id=\"wtw_turnCounter-".concat(player_id, "\" class=\"wtw_whiteblock wtw_turnCounter\">\n          <i class=\"fa6 fa6-user-clock\"></i>\n          <span id=\"wtw_turnCount-").concat(player_id, "\" class=\"wtw_turnCount\">0</span>\n        </div>\n        <div id=\"wtw_ravenskeepCounter-").concat(player_id, "\" class=\"wtw_whiteblock wtw_ravenskeepCounter\">\n          <div id=\"wtw_ravenskeepCounterIcon-").concat(player_id, "\" class=\"wtw_ravenskeepCounterIcon\"></div>\n            <div class=\"wtw_ravenskeepCountContainer\">\n            <span id=\"wtw_ravenskeepCount-").concat(player_id, "\" class=\"wtw_ravenskeepCount\">0</span>\n            <span id=\"wtw_ravenskeepGoal-").concat(player_id, "\" class=\"wtw_ravenskeepGoal\">/").concat(gamedatas.ravenskeepGoal, "</span>\n          </div>\n          <div id=\"wtw_panelWizard-").concat(player_id, "\" class=\"wtw_card wtw_wizard wtw_wizard-panel\"></div>\n        </div>\n        <div id=\"wtw_potionCargo-").concat(player_id, "\" class=\"wtw_whiteblock wtw_potionCargo\"></div>"));
+            this.addTooltipHtml("wtw_turnCounter-".concat(player_id), "<span class=\"wtw_tooltipText\">\n          ".concat(_("number of turns played"), "\n        </span>"));
             this.addTooltipHtml("wtw_ravenskeepCounter-".concat(player_id), "<span class=\"wtw_tooltipText\">".concat(_("number of wizards in the Ravenskeep"), "</span>"));
             this.addTooltipHtml("wtw_potionCargo-".concat(player_id), "<span class=\"wtw_tooltipText\">".concat(_("potions remaining"), "</span>"));
-            counters[player_id] = __assign(__assign({}, counters[player_id]), { ravenskeep: new ebg.counter() });
-            counters[player_id].ravenskeep.create("wtw_ravenskeepCount-".concat(player_id));
-            counters[player_id].ravenskeep.setValue(gamedatas.ravenskeepCounts[player_id]);
+            counters[player_id] = __assign(__assign({}, counters[player_id]), { ravenskeep: new ebg.counter(), turn: new ebg.counter() });
+            var _a = counters[player_id], ravenskeep = _a.ravenskeep, turn = _a.turn;
+            ravenskeep.create("wtw_ravenskeepCount-".concat(player_id));
+            ravenskeep.setValue(gamedatas.ravenskeepCounts[player_id]);
+            turn.create("wtw_turnCount-".concat(player_id));
+            turn.setValue(player.turns_played);
             potionStocks[player_id] = {
                 cargo: new PotionCargoStock(this, potionManager, player_id),
             };
@@ -3432,6 +3437,10 @@ var NotificationManager = /** @class */ (function () {
             var spell = new Spell(_this.game, spellCard);
             spell.discard();
         });
+    };
+    NotificationManager.prototype.notif_incTurnsPlayed = function (args) {
+        var player_id = args.player_id;
+        this.game.wtw.counters[player_id].turn.incValue(1);
     };
     return NotificationManager;
 }());

@@ -175,4 +175,9 @@ class NotificationManager implements NotificationManager {
       spell.discard();
     });
   }
+
+  public notif_incTurnsPlayed(args: { player_id: number }) {
+    const { player_id } = args;
+    this.game.wtw.counters[player_id].turn.incValue(1);
+  }
 }

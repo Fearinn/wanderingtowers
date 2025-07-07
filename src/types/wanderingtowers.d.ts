@@ -2,6 +2,10 @@
  * Your game interfaces
  */
 
+interface Player {
+  turns_played: number;
+}
+
 interface Stocks {
   dice: DiceStock;
   towers: TowerStocks;
@@ -17,6 +21,7 @@ interface Counters {
   };
   [player_id: number]: {
     ravenskeep: Counter;
+    turn: Counter;
   };
   discard: Counter;
 }

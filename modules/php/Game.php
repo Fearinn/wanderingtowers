@@ -137,6 +137,14 @@ class Game extends \Table
     public function incTurnsPlayed(int $player_id): void
     {
         $this->DbQuery("UPDATE player SET turns_played=turns_played+1 WHERE player_id={$player_id}");
+
+        $NotifManager = new NotifManager($this);
+        $NotifManager->all(
+            "incTurnsPlayed",
+            "",
+            [],
+            $player_id
+        );
     }
 
     /**
@@ -363,7 +371,7 @@ class Game extends \Table
         $gamedatas = [
             "GAME_VERSION" => $GAME_VERSION,
             "isSolo" => $this->isSolo(),
-            "players" => $this->getCollectionFromDb("SELECT `player_id` `id`, `player_score` `score` FROM `player`"),
+            "players" => $this->getCollectionFromDb("SELECT `player_id` `id`, `player_score` `score`, `turns_played` FROM `player`"),
             "diceFace" => $this->globals->get(G_ROLL, 3),
             "towerCards" => $TowerManager->getCardsInLocation("space"),
             "wizardCards" => $WizardManager->getCardsInLocation("space"),
