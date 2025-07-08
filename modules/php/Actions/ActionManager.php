@@ -19,7 +19,7 @@ class ActionManager
         $this->globals = $this->game->globals;
         $this->player_id = (int) $this->game->getActivePlayerId();
 
-        $this->checkVersion($CLIENT_VERSION);
+        // $this->checkVersion($CLIENT_VERSION);
     }
 
     private function checkVersion(?int $CLIENT_VERSION)
@@ -29,7 +29,7 @@ class ActionManager
         }
 
         /**  @disregard P1014 */
-        $serverVersion = (int) $this->gamestate->table_globals[300];
+        $serverVersion = (int) $this->game->gamestate->table_globals[300];
 
         if ($CLIENT_VERSION !== $serverVersion) {
             throw new \BgaUserException(clienttranslate("A new version of this game is now available. Please reload the page (F5)."));
