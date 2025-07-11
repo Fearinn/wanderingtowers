@@ -75,6 +75,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             },
             selectableCardClass: "wtw_wizard-selectable",
             selectedCardClass: "wtw_wizard-selected",
+            unselectableCardClass: "wtw_wizard-unselectable",
             setupDiv: function (card, element) {
                 var wizard = new Wizard(_this, card);
                 wizard.setupDiv(element);
@@ -3196,6 +3197,12 @@ var Wizard = /** @class */ (function (_super) {
         var backgroundPosition = "".concat(Number(this.card.type) * -100, "%");
         element.style.backgroundPosition = backgroundPosition;
         var player_id = this.card.type_arg;
+        var color = this.game.gamedatas.players[player_id].color;
+        element.style.setProperty("--color", "#".concat(color, "aa"));
+        if (Number(this.card.type) === 5) {
+            // element.style.filter = "grayscale(20%)";
+        }
+        ;
         var tooltip = player_id === this.game.player_id
             ? _("Your wizard")
             : _("${player_name}'s wizard");

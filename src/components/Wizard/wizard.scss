@@ -43,6 +43,11 @@
     animation-name: elevateWizard;
     z-index: 9;
   }
+
+  .wtw_wizard:hover {
+    transform: scale(2);
+    z-index: 4;
+  }
 }
 
 .wtw_wizard {
@@ -53,6 +58,7 @@
   z-index: 1;
   pointer-events: auto;
   transform-style: flat;
+  filter: drop-shadow(2px 4px 1px #000000);
 
   &.bga-animations_animated {
     z-index: 11 !important;
@@ -62,15 +68,31 @@
     width: calc(var(--wizardWidth) * 2);
   }
 
+  &-panel {
+    filter: none;
+  }
+
   &-selectable {
     cursor: pointer;
     background-color: #ffffffaa;
+    transform: scale(1.5);
+    filter: none;
+    z-index: 2;
   }
 
   &-selected {
-    background-color: #00aa0055;
-    transform: scale(1.5) rotate(10deg);
-    z-index: 2;
+    background-color: #00aa0077;
+    transform: scale(2) rotate(10deg);
+    z-index: 3;
+
+    &:hover {
+      transform: scale(2) rotate(10deg) !important;
+    }
+  }
+
+  &-unselectable {
+    opacity: 0.7;
+    transform: none;
   }
 
   &-ravenskeep {

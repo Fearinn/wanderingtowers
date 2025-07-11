@@ -54,6 +54,7 @@ class WanderingTowers extends WanderingTowersGui {
       },
       selectableCardClass: "wtw_wizard-selectable",
       selectedCardClass: "wtw_wizard-selected",
+      unselectableCardClass: "wtw_wizard-unselectable",
       setupDiv: (card, element) => {
         const wizard = new Wizard(this, card);
         wizard.setupDiv(element);

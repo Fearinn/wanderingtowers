@@ -1019,7 +1019,7 @@ body > .card {
   background-position: 0;
   border-radius: 0;
   box-shadow: none;
-  filter: none !important;
+  filter: drop-shadow(2px 2px 8px #000000) !important;
 }
 .wtw_tower-ravenskeep:not(.bga-cards_selectable-card) {
   pointer-events: none;
@@ -1091,6 +1091,10 @@ body > .card {
   animation-name: elevateWizard;
   z-index: 9;
 }
+.wtw_wizardTier .wtw_wizard:hover {
+  transform: scale(2);
+  z-index: 4;
+}
 
 .wtw_wizard {
   background-image: url("img/wizards.png");
@@ -1100,6 +1104,7 @@ body > .card {
   z-index: 1;
   pointer-events: auto;
   transform-style: flat;
+  filter: drop-shadow(2px 4px 1px #000000);
 }
 .wtw_wizard.bga-animations_animated {
   z-index: 11 !important;
@@ -1107,14 +1112,27 @@ body > .card {
 .wtw_wizard-tooltip {
   width: calc(var(--wizardWidth) * 2);
 }
+.wtw_wizard-panel {
+  filter: none;
+}
 .wtw_wizard-selectable {
   cursor: pointer;
   background-color: rgba(255, 255, 255, 0.6666666667);
+  transform: scale(1.5);
+  filter: none;
+  z-index: 2;
 }
 .wtw_wizard-selected {
-  background-color: rgba(0, 170, 0, 0.3333333333);
-  transform: scale(1.5) rotate(10deg);
-  z-index: 2;
+  background-color: rgba(0, 170, 0, 0.4666666667);
+  transform: scale(2) rotate(10deg);
+  z-index: 3;
+}
+.wtw_wizard-selected:hover {
+  transform: scale(2) rotate(10deg) !important;
+}
+.wtw_wizard-unselectable {
+  opacity: 0.7;
+  transform: none;
 }
 .wtw_wizard-ravenskeep {
   animation: 1s linear forwards enterRavenskeep;

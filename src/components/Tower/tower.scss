@@ -37,7 +37,7 @@
     background-position: 0;
     border-radius: 0;
     box-shadow: none;
-    filter: none !important;
+    filter: drop-shadow(2px 2px 8px #000000) !important;
 
     &:not(.bga-cards_selectable-card) {
       pointer-events: none;
