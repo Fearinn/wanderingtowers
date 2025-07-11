@@ -1056,6 +1056,7 @@ body > .card {
 .wtw_spaceWizardsContainer {
   position: relative;
   width: 100%;
+  transform-style: flat;
 }
 
 .wtw_spaceWizards {
