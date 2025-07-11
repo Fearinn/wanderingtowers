@@ -1109,6 +1109,7 @@ body > .card {
 }
 .wtw_wizard.bga-animations_animated {
   z-index: 11 !important;
+  background-color: unset;
 }
 .wtw_wizard-tooltip {
   width: calc(var(--wizardWidth) * 2);
@@ -1119,7 +1120,6 @@ body > .card {
 .wtw_wizard-selectable {
   cursor: pointer;
   background-color: rgba(255, 255, 255, 0.6666666667);
-  transform: scale(1.5);
   filter: none;
   z-index: 2;
 }
@@ -1136,7 +1136,8 @@ body > .card {
   transform: none;
 }
 .wtw_wizard-ravenskeep {
-  animation: 1s linear forwards enterRavenskeep;
+  animation: 1s linear forwards ravenskeepSuck;
+  background-color: unset;
 }
 
 .wtw_ravenskeepCounter {
@@ -1168,9 +1169,21 @@ body > .card {
   gap: 4px;
 }
 
-@keyframes enterRavenskeep {
+@keyframes ravenskeepSuck {
+  0% {
+    transform: rotate(0deg) translate(40px) scale(1);
+  }
+  25% {
+    transform: rotate(270deg) translate(30px) scale(0.8);
+  }
+  50% {
+    transform: rotate(540deg) translate(20px) scale(0.5);
+  }
+  75% {
+    transform: rotate(810deg) translate(10px) scale(0.2);
+  }
   100% {
-    transform: translateY(40%) scale(0.1) rotate(1080deg);
+    transform: rotate(1080deg) translate(0px) scale(0);
   }
 }
 @keyframes elevateWizard {

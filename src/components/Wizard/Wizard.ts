@@ -41,10 +41,6 @@ class Wizard extends Card {
     const { color } = this.game.gamedatas.players[player_id];
     element.style.setProperty("--color", `#${color}aa`);
 
-    if (Number(this.card.type) === 5) {
-      // element.style.filter = "grayscale(20%)";
-    };
-
     const tooltip =
       player_id === this.game.player_id
         ? _("Your wizard")
