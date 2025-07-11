@@ -1279,6 +1279,7 @@ body > .card {
 .wtw_potion {
   aspect-ratio: 373/485;
   width: var(--potionWidth);
+  filter: drop-shadow(2px 2px 2px #000000);
 }
 .wtw_potion-empty {
   background-image: url("img/potions_empty.png");
