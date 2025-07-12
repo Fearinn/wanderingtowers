@@ -40,6 +40,7 @@ class WanderingTowers extends WanderingTowersGui {
       getId: (card) => {
         return `wtw_tower-${card.id}`;
       },
+      selectableCardClass: "wtw_tower-selectable",
       selectedCardClass: "wtw_tower-selected",
       setupDiv: (card, element) => {
         const tower = new Tower(this, card);
