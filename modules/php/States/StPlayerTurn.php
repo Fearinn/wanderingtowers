@@ -53,7 +53,7 @@ class StPlayerTurn extends StateManager
             "pushableTowers" => $pushableTowers,
             "castableSpells" => $castableSpells,
             "spellableMeeples" => $spellableMeeples,
-            "canPass" => $turnMove === $moveLimit && $castableSpells,
+            "canPass" => ($turnMove === $moveLimit || (!$playableMoves && $turnMove > 0)) && $castableSpells,
             "no_notify" => $endTurn || (!$playableMoves && !$pushableTowers && !$castableSpells),
         ];
 
