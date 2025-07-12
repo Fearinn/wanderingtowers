@@ -34,8 +34,12 @@
   src: url("img/kuhlenbach-font/kuhlenbach.ttf");
 }
 
+#bga-zoom-wrapper {
+  direction: ltr;
+}
+
 .wtw_gameArea {
-  direction: ltr !important;
+  direction: ltr;
   font-family: "Kuhlenbach", Roboto, Arial, sans-serif;
 
   display: flex;
