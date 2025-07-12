@@ -42,6 +42,7 @@ use Bga\Games\WanderingTowers\Components\Dice\Dice;
 use Bga\Games\WanderingTowers\Components\Spell\SpellManager;
 use Bga\Games\WanderingTowers\Components\Wizard\Wizard;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
+use Bga\Games\WanderingTowers\Score\ScoreManager;
 use Bga\Games\WanderingTowers\States\StAfterRoll;
 use Bga\Games\WanderingTowers\States\StBetweenPlayers;
 use Bga\Games\WanderingTowers\States\StPlayerTurn;
@@ -328,14 +329,11 @@ class Game extends \Table
         $WizardManager = new WizardManager($this);
         $PotionManager = new PotionManager($this);
 
-        $wizardProgression = $WizardManager->getProgression();
-        $potionProgression = $PotionManager->getProgression();
+        $ScoreManager = new ScoreManager($this);
+        $higherScore = $ScoreManager->getHigherScore();
 
-        $progression = ($wizardProgression + $potionProgression) * 100;
-
-        if (!$this->isSolo()) {
-            $progression /= 2;
-        }
+        $maxScore = $WizardManager->getRavenskeepGoal() + $PotionManager->getPotionsGoal();
+        $progression = ($higherScore / $maxScore) * 100;
 
         return round($progression);
     }

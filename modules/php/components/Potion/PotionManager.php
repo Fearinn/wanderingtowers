@@ -129,25 +129,4 @@ class PotionManager extends CardManager
         $emptyPotionsCount = $this->countEmpty($player_id);
         return $emptyPotionsCount === 0;
     }
-
-    public function getProgression(): float
-    {
-        if ($this->game->isSolo()) {
-            return 0;
-        }
-
-        $players = $this->game->loadPlayersBasicInfos();
-
-        $min = 0;
-        foreach ($players as $player_id => $player) {
-            $emptyPotionsCount = $this->countEmpty($player_id);
-            if ($emptyPotionsCount > $min) {
-                $min = $emptyPotionsCount;
-            }
-        }
-
-        $goal = $this->getPotionsGoal();
-        $progression = ($goal - $min) / $goal;
-        return $progression;
-    }
 }

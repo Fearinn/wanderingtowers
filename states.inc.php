@@ -58,6 +58,7 @@ $machinestates = [
 			TR_REROLL_DICE => ST_REROLL_DICE,
 			TR_PASS => ST_BETWEEN_PLAYERS,
 		],
+		"updateGameProgression" => true,
 	],
 
 	ST_BETWEEN_PLAYERS => [
@@ -70,7 +71,6 @@ $machinestates = [
 			TR_NEXT_PLAYER => ST_PLAYER_TURN,
 			TR_GAME_END => ST_GAME_END,
 		],
-		"updateGameProgression" => true,
 	],
 
 	ST_AFTER_ROLL => [

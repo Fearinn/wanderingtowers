@@ -46,4 +46,9 @@ class ScoreManager
     {
         $this->game->DbQuery("UPDATE player SET player_score_aux=player_score_aux+{$score} WHERE player_id={$player_id}");
     }
+
+    public function getHigherScore(): int
+    {
+        return $this->game->getUniqueValueFromDB("SELECT MAX(player_score) FROM player");
+    }
 }

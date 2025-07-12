@@ -279,11 +279,4 @@ class WizardManager extends CardManager
     {
         return $this->getRavenskeepCount($player_id) === $this->getRavenskeepGoal();
     }
-
-    public function getProgression(): float
-    {
-        $ravenskeepMax = max($this->getRavenskeepCounts());
-        $progression = $ravenskeepMax / $this->getRavenskeepGoal();
-        return $progression;
-    }
 }
