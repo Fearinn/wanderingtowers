@@ -1419,4 +1419,5 @@ body > .card {
   gap: 16px;
   padding: 8px;
   width: 100%;
+  user-select: none;
 }
