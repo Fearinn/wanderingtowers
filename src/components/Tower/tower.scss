@@ -25,9 +25,12 @@
   background-position: -200%;
   background-size: cover;
   border-radius: 100%;
-  box-shadow: 0 2px 16px 6px black;
   aspect-ratio: 1;
   width: var(--towerWidth);
+
+  &:first-child {
+    box-shadow: 0 2px 16px 8px black;
+  }
 
   &::before {
     content: "";
@@ -46,7 +49,7 @@
   &-ravenskeep {
     background-position: 0;
     border-radius: 0;
-    box-shadow: none;
+    box-shadow: none !important;
     filter: drop-shadow(2px 2px 8px #000000) !important;
 
     &:not(.wtw_tower-selectable) {
