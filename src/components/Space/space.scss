@@ -37,6 +37,7 @@
   background-size: cover;
   aspect-ratio: 3268 / 1501;
   width: var(--tileWidth);
+  filter: drop-shadow(0 0 2px #000000);
 
   &-1 {
     background-image: url("img/tile_1.png");
