@@ -40,6 +40,7 @@ class WanderingTowers extends WanderingTowersGui {
       getId: (card) => {
         return `wtw_tower-${card.id}`;
       },
+      unselectableCardClass: "wtw_tower-unselectable",
       selectableCardClass: "wtw_tower-selectable",
       selectedCardClass: "wtw_tower-selected",
       setupDiv: (card, element) => {

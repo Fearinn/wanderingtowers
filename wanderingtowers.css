@@ -1034,8 +1034,14 @@ body > .card {
   box-shadow: none !important;
   filter: drop-shadow(2px 2px 8px #000000) !important;
 }
-.wtw_tower-ravenskeep:not(.wtw_tower-selectable) {
+.wtw_tower-ravenskeep.wtw_tower-unselectable {
+  transform: scale(0.95);
   pointer-events: none;
+}
+.wtw_tower-unselectable {
+  cursor: not-allowed;
+  filter: grayscale(100%);
+  transform: scale(0.95);
 }
 .wtw_tower-selectable {
   cursor: pointer;

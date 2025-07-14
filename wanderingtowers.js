@@ -62,6 +62,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             getId: function (card) {
                 return "wtw_tower-".concat(card.id);
             },
+            unselectableCardClass: "wtw_tower-unselectable",
             selectableCardClass: "wtw_tower-selectable",
             selectedCardClass: "wtw_tower-selected",
             setupDiv: function (card, element) {
