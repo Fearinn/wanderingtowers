@@ -1103,13 +1103,12 @@ body > .card {
   aspect-ratio: 1;
   width: 100%;
   pointer-events: none;
-}
-.wtw_wizardTier-imprisoned {
-  opacity: 0;
+  visibility: hidden;
   z-index: -99;
 }
-.wtw_wizardTier-imprisoned .wtw_wizard {
-  pointer-events: none;
+.wtw_wizardTier-visible {
+  visibility: visible;
+  z-index: 0;
 }
 .wtw_wizardTier-elevated {
   animation-duration: 3s;
@@ -1161,7 +1160,7 @@ body > .card {
   transform: none;
 }
 .wtw_wizard-ravenskeep {
-  animation: 1s linear forwards ravenskeepSuck;
+  animation: 1s linear forwards enterRavenskeep;
   background-color: unset;
 }
 
@@ -1194,7 +1193,7 @@ body > .card {
   gap: 4px;
 }
 
-@keyframes ravenskeepSuck {
+@keyframes enterRavenskeep {
   0% {
     transform: rotate(0deg) translate(40px) scale(1);
   }

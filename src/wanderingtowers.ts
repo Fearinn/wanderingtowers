@@ -635,16 +635,24 @@ class WanderingTowers extends WanderingTowersGui {
             const tier = Number(tierElement.dataset.tier);
 
             const towerAbove = towerElements[tier] as HTMLElement;
+            const towerBelow = towerElements[tier - 1] as HTMLElement;
 
             const revealedByElevation =
-              !towerElements[tier - 1]?.classList.contains(towerClass) &&
+              !towerBelow?.classList.contains(towerClass) &&
               towerAbove?.classList.contains(towerClass) &&
               towerAbove?.dataset.elevated === "1";
 
-            tierElement.classList.toggle(
-              "wtw_wizardTier-imprisoned",
-              !revealedByElevation && towerElements.length > tier
-            );
+            const revealedByAnimation =
+              towerAbove?.dataset.animated === "1" &&
+              towerBelow?.dataset.animated !== "1";
+
+            let mustReveal =
+              (revealedByAnimation ||
+                revealedByElevation ||
+                towerElements.length <= tier) &&
+              tierElement.dataset.covered !== "1";
+
+            tierElement.classList.toggle("wtw_wizardTier-visible", mustReveal);
 
             if (elevatedTier === 0) {
               tierElements.forEach((tierElement) => {
@@ -664,7 +672,7 @@ class WanderingTowers extends WanderingTowersGui {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ["data-elevated"],
+      attributeFilter: ["data-elevated", "data-animated", "data-covered"],
     });
 
     updateVisibility();

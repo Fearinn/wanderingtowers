@@ -1,5 +1,5 @@
 interface TowerCard extends BgaCard {
-  type: "raven" | "ravenskeep" | "normal",
+  type: "raven" | "ravenskeep" | "normal";
   type_arg: number;
   tier: number;
 }
@@ -48,15 +48,15 @@ class Tower extends Card {
     this.stocks.spaces[this.space_id].selectCard(this.card, silent);
   }
 
-  place(space_id: number) {
+  async place(space_id: number) {
     this.space_id = space_id;
     const stock = this.stocks.spaces[space_id];
-    stock.addCard(this.card, {}, { visible: true });
+    await stock.addCard(this.card, {}, { visible: true });
   }
 
-  move(space_id: number, current_space_id: number) {
-    this.place(space_id);
-
+  async move(space_id: number, current_space_id: number) {
+    await this.place(space_id);
+    
     const prevSpace = new Space(this.game, current_space_id);
     prevSpace.updateTier();
 

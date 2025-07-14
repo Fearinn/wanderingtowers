@@ -102,21 +102,24 @@ class Wizard extends WizardManager
         $Tower = new Tower($this->game, $towerCard_id);
         $space_id = $Tower->getSpaceId();
 
-        $this->moveLocationArg($this->card_id, $space_id);
-
-        $TowerManager = new TowerManager($this->game);
-        $tier = $TowerManager->countOnSpace($space_id);
-        $this->updateTier($tier);
-
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(
             "moveWizard",
             "",
             [
                 "space_id" => $space_id,
-                "wizardCard" => $this->getCard($this->card_id)
+                "wizardCard" => $this->getCard($this->card_id),
+                "current_tier" => $this->tier,
+                "current_space_id" => $this->getSpaceId(),
+                "withTower" => true,
             ],
         );
+
+        $this->moveLocationArg($this->card_id, $space_id);
+
+        $TowerManager = new TowerManager($this->game);
+        $tier = $TowerManager->countOnSpace($space_id);
+        $this->updateTier($tier);
     }
 
     public function swapAlongTower(int $space_id, int $final_tier): void

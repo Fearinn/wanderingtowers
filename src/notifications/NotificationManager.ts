@@ -13,23 +13,59 @@ class NotificationManager implements NotificationManager {
     wizardCard: WizardCard;
     space_id: number;
     tier: number;
+    withTower?: boolean;
+    current_space_id?: number;
+    current_tier?: number;
   }) {
     const { wizardCard, space_id } = args;
     const wizard = new Wizard(this.game, wizardCard);
+
     wizard.move(space_id);
+
+    if (args.withTower) {
+      const { current_space_id, current_tier } = args;
+
+      const space = new Space(this.game, current_space_id);
+
+      if (space.tierCounter.getValue() > current_tier) {
+        const wizardCardElement =
+          this.game.wtw.managers.wizards.getCardElement(wizardCard);
+
+        wizardCardElement.parentElement.dataset.covered = "1";
+      }
+    }
   }
 
-  public notif_moveTower(args: {
+  public async notif_moveTower(args: {
     cards: TowerCard[];
     final_space_id: number;
     current_space_id: number;
-  }) {
+  }): Promise<void> {
     const { cards, final_space_id, current_space_id } = args;
 
-    cards.forEach((card) => {
-      const tower = new Tower(this.game, card);
-      tower.move(final_space_id, current_space_id);
+    const promises: Promise<void>[] = [];
+    cards.forEach((towerCard) => {
+      const tower = new Tower(this.game, towerCard);
+      promises.push(tower.move(final_space_id, current_space_id));
+
+      const towerCardElement =
+        this.game.wtw.managers.towers.getCardElement(towerCard);
+      towerCardElement.dataset.animated = "1";
     });
+
+    await Promise.all(promises);
+
+    cards.forEach((towerCard) => {
+      const towerCardElement =
+        this.game.wtw.managers.towers.getCardElement(towerCard);
+      towerCardElement.dataset.animated = "0";
+    });
+
+    document
+      .querySelectorAll(`[data-covered="${1}"]`)
+      .forEach((tierElement: HTMLElement) => {
+        tierElement.dataset.covered = "0";
+      });
   }
 
   public notif_discardMove(args: {
@@ -143,7 +179,7 @@ class NotificationManager implements NotificationManager {
     await this.game.wait(500);
     await wizard.free();
     await this.game.wait(1000);
-    towerElement.dataset.elevated = "-1";
+    towerElement.dataset.elevated = "0";
     await this.game.wait(1500);
 
     towerElement.removeAttribute("data-elevated");

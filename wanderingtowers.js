@@ -475,13 +475,19 @@ var WanderingTowers = /** @class */ (function (_super) {
                 var tierClass = "wtw_wizardTier-elevated";
                 var tierElements = document.querySelectorAll("[data-tier][data-space=\"".concat(space_id, "\"]:not(:empty)"));
                 tierElements.forEach(function (tierElement) {
-                    var _a;
                     var tier = Number(tierElement.dataset.tier);
                     var towerAbove = towerElements[tier];
-                    var revealedByElevation = !((_a = towerElements[tier - 1]) === null || _a === void 0 ? void 0 : _a.classList.contains(towerClass)) &&
+                    var towerBelow = towerElements[tier - 1];
+                    var revealedByElevation = !(towerBelow === null || towerBelow === void 0 ? void 0 : towerBelow.classList.contains(towerClass)) &&
                         (towerAbove === null || towerAbove === void 0 ? void 0 : towerAbove.classList.contains(towerClass)) &&
                         (towerAbove === null || towerAbove === void 0 ? void 0 : towerAbove.dataset.elevated) === "1";
-                    tierElement.classList.toggle("wtw_wizardTier-imprisoned", !revealedByElevation && towerElements.length > tier);
+                    var revealedByAnimation = (towerAbove === null || towerAbove === void 0 ? void 0 : towerAbove.dataset.animated) === "1" &&
+                        (towerBelow === null || towerBelow === void 0 ? void 0 : towerBelow.dataset.animated) !== "1";
+                    var mustReveal = (revealedByAnimation ||
+                        revealedByElevation ||
+                        towerElements.length <= tier) &&
+                        tierElement.dataset.covered !== "1";
+                    tierElement.classList.toggle("wtw_wizardTier-visible", mustReveal);
                     if (elevatedTier === 0) {
                         tierElements.forEach(function (tierElement) {
                             tierElement.classList.remove(tierClass);
@@ -498,7 +504,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             childList: true,
             subtree: true,
             attributes: true,
-            attributeFilter: ["data-elevated"],
+            attributeFilter: ["data-elevated", "data-animated", "data-covered"],
         });
         updateVisibility();
     };
@@ -3139,16 +3145,37 @@ var Tower = /** @class */ (function (_super) {
         this.stocks.spaces[this.space_id].selectCard(this.card, silent);
     };
     Tower.prototype.place = function (space_id) {
-        this.space_id = space_id;
-        var stock = this.stocks.spaces[space_id];
-        stock.addCard(this.card, {}, { visible: true });
+        return __awaiter(this, void 0, void 0, function () {
+            var stock;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.space_id = space_id;
+                        stock = this.stocks.spaces[space_id];
+                        return [4 /*yield*/, stock.addCard(this.card, {}, { visible: true })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     Tower.prototype.move = function (space_id, current_space_id) {
-        this.place(space_id);
-        var prevSpace = new Space(this.game, current_space_id);
-        prevSpace.updateTier();
-        var nextSpace = new Space(this.game, space_id);
-        nextSpace.updateTier();
+        return __awaiter(this, void 0, void 0, function () {
+            var prevSpace, nextSpace;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.place(space_id)];
+                    case 1:
+                        _a.sent();
+                        prevSpace = new Space(this.game, current_space_id);
+                        prevSpace.updateTier();
+                        nextSpace = new Space(this.game, space_id);
+                        nextSpace.updateTier();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     return Tower;
 }(Card));
@@ -3285,13 +3312,45 @@ var NotificationManager = /** @class */ (function () {
         var wizardCard = args.wizardCard, space_id = args.space_id;
         var wizard = new Wizard(this.game, wizardCard);
         wizard.move(space_id);
+        if (args.withTower) {
+            var current_space_id = args.current_space_id, current_tier = args.current_tier;
+            var space = new Space(this.game, current_space_id);
+            if (space.tierCounter.getValue() > current_tier) {
+                var wizardCardElement = this.game.wtw.managers.wizards.getCardElement(wizardCard);
+                wizardCardElement.parentElement.dataset.covered = "1";
+            }
+        }
     };
     NotificationManager.prototype.notif_moveTower = function (args) {
-        var _this = this;
-        var cards = args.cards, final_space_id = args.final_space_id, current_space_id = args.current_space_id;
-        cards.forEach(function (card) {
-            var tower = new Tower(_this.game, card);
-            tower.move(final_space_id, current_space_id);
+        return __awaiter(this, void 0, void 0, function () {
+            var cards, final_space_id, current_space_id, promises;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        cards = args.cards, final_space_id = args.final_space_id, current_space_id = args.current_space_id;
+                        promises = [];
+                        cards.forEach(function (towerCard) {
+                            var tower = new Tower(_this.game, towerCard);
+                            promises.push(tower.move(final_space_id, current_space_id));
+                            var towerCardElement = _this.game.wtw.managers.towers.getCardElement(towerCard);
+                            towerCardElement.dataset.animated = "1";
+                        });
+                        return [4 /*yield*/, Promise.all(promises)];
+                    case 1:
+                        _a.sent();
+                        cards.forEach(function (towerCard) {
+                            var towerCardElement = _this.game.wtw.managers.towers.getCardElement(towerCard);
+                            towerCardElement.dataset.animated = "0";
+                        });
+                        document
+                            .querySelectorAll("[data-covered=\"".concat(1, "\"]"))
+                            .forEach(function (tierElement) {
+                            tierElement.dataset.covered = "0";
+                        });
+                        return [2 /*return*/];
+                }
+            });
         });
     };
     NotificationManager.prototype.notif_discardMove = function (args) {
@@ -3403,7 +3462,7 @@ var NotificationManager = /** @class */ (function () {
                         return [4 /*yield*/, this.game.wait(1000)];
                     case 3:
                         _a.sent();
-                        towerElement.dataset.elevated = "-1";
+                        towerElement.dataset.elevated = "0";
                         return [4 /*yield*/, this.game.wait(1500)];
                     case 4:
                         _a.sent();

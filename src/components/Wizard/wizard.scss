@@ -29,14 +29,12 @@
   aspect-ratio: 1;
   width: 100%;
   pointer-events: none;
+  visibility: hidden;
+  z-index: -99;
 
-  &-imprisoned {
-    opacity: 0;
-    z-index: -99;
-
-    .wtw_wizard {
-      pointer-events: none;
-    }
+  &-visible {
+    visibility: visible;
+    z-index: 0;
   }
 
   &-elevated {
@@ -98,7 +96,7 @@
   }
 
   &-ravenskeep {
-    animation: 1s linear forwards ravenskeepSuck;
+    animation: 1s linear forwards enterRavenskeep;
     background-color: unset;
   }
 }
@@ -133,7 +131,7 @@
   gap: 4px;
 }
 
-@keyframes ravenskeepSuck {
+@keyframes enterRavenskeep {
   0% {
     transform: rotate(0deg) translate(40px) scale(1);
   }
