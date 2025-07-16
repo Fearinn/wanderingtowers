@@ -1121,6 +1121,11 @@ body > .card {
   animation-name: elevateWizard;
   z-index: 9;
 }
+.wtw_wizardTier-underMove {
+  animation-name: imprisonWizard;
+  animation-duration: 0.4s;
+  animation-fill-mode: forwards;
+}
 .wtw_wizardTier .wtw_wizard:hover {
   transform: scale(2);
   z-index: 4;
@@ -1225,6 +1230,11 @@ body > .card {
   }
   100% {
     transform: translateY(0%);
+  }
+}
+@keyframes imprisonWizard {
+  100% {
+    transform: scale(0.1);
   }
 }
 :root {

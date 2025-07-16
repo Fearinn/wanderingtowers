@@ -643,17 +643,19 @@ class WanderingTowers extends WanderingTowersGui {
               towerAbove?.classList.contains(towerClass) &&
               towerAbove?.dataset.elevated === "1";
 
-            const revealedByAnimation =
+            const revealedByMove =
               towerAbove?.dataset.animated === "1" &&
               towerBelow?.dataset.animated !== "1";
 
             let mustReveal =
-              (revealedByAnimation ||
+              (revealedByMove ||
                 revealedByElevation ||
                 towerElements.length <= tier) &&
               tierElement.dataset.covered !== "1";
+            
 
             tierElement.classList.toggle("wtw_wizardTier-visible", mustReveal);
+            tierElement.classList.toggle("wtw_wizardTier-underMove", revealedByMove);
 
             if (elevatedTier === 0) {
               tierElements.forEach((tierElement) => {

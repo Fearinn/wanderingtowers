@@ -482,13 +482,14 @@ var WanderingTowers = /** @class */ (function (_super) {
                     var revealedByElevation = !(towerBelow === null || towerBelow === void 0 ? void 0 : towerBelow.classList.contains(towerClass)) &&
                         (towerAbove === null || towerAbove === void 0 ? void 0 : towerAbove.classList.contains(towerClass)) &&
                         (towerAbove === null || towerAbove === void 0 ? void 0 : towerAbove.dataset.elevated) === "1";
-                    var revealedByAnimation = (towerAbove === null || towerAbove === void 0 ? void 0 : towerAbove.dataset.animated) === "1" &&
+                    var revealedByMove = (towerAbove === null || towerAbove === void 0 ? void 0 : towerAbove.dataset.animated) === "1" &&
                         (towerBelow === null || towerBelow === void 0 ? void 0 : towerBelow.dataset.animated) !== "1";
-                    var mustReveal = (revealedByAnimation ||
+                    var mustReveal = (revealedByMove ||
                         revealedByElevation ||
                         towerElements.length <= tier) &&
                         tierElement.dataset.covered !== "1";
                     tierElement.classList.toggle("wtw_wizardTier-visible", mustReveal);
+                    tierElement.classList.toggle("wtw_wizardTier-underMove", revealedByMove);
                     if (elevatedTier === 0) {
                         tierElements.forEach(function (tierElement) {
                             tierElement.classList.remove(tierClass);
@@ -2909,7 +2910,7 @@ var Move = /** @class */ (function (_super) {
         if (spritePos >= 10) {
             spritePos -= 10;
         }
-        var imgNumber = this.type_arg >= 10 ? 2 : 1;
+        var imgNumber = this.card.type_arg > 10 ? 2 : 1;
         var backgroundPosition = "".concat(spritePos * -100, "%");
         var html = "<div data-side=\"front\" class=\"wtw_move wtw_move-icon wtw_card card\">\n      <div class=\"card-sides\">\n          <div class=\"card-side front wtw_move-front\" style=\"background-image: url(".concat(g_gamethemeurl, "img/moves_").concat(imgNumber, ".png); \n          background-position: ").concat(backgroundPosition, "\"></div>\n          <div class=\"card-side back wtw_move-back\"></div>\n      </div>\n    </div>");
         return html;

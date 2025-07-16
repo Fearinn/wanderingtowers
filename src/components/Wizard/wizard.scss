@@ -43,6 +43,12 @@
     z-index: 9;
   }
 
+  &-underMove {
+    animation-name: imprisonWizard;
+    animation-duration: 0.4s;
+    animation-fill-mode: forwards;
+  }
+
   .wtw_wizard:hover {
     transform: scale(2);
     z-index: 4;
@@ -160,5 +166,11 @@
 
   100% {
     transform: translateY(0%);
+  }
+}
+
+@keyframes imprisonWizard {
+  100% {
+    transform: scale(0.1);
   }
 }

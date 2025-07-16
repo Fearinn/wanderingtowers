@@ -83,7 +83,7 @@ class Move extends Card {
       spritePos -= 10;
     }
 
-    const imgNumber = this.type_arg >= 10 ? 2 : 1;
+    const imgNumber = this.card.type_arg > 10 ? 2 : 1;
     const backgroundPosition = `${spritePos * -100}%`;
 
     const html = `<div data-side="front" class="wtw_move wtw_move-icon wtw_card card">
