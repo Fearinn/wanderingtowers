@@ -152,15 +152,35 @@ class NotificationManager implements NotificationManager {
     this.game.scoreCtrl[player_id].incValue(score);
   }
 
-  public notif_swapTower(args: {
+  public async notif_swapTowers(args: {
     towerCard: TowerCard;
-    final_space_id: number;
-    current_space_id: number;
-  }): void {
-    const { towerCard, final_space_id, current_space_id } = args;
+    space_id: number;
+    towerCard2: TowerCard;
+    space_id2: number;
+  }): Promise<void> {
+    const { towerCard, towerCard2, space_id, space_id2 } = args;
+    const promises = [];
 
     const tower = new Tower(this.game, towerCard);
-    tower.move(final_space_id, current_space_id);
+
+    const towerCardElement =
+      this.game.wtw.managers.towers.getCardElement(towerCard);
+    towerCardElement.dataset.animated = "1";
+
+    promises.push(tower.move(space_id2, space_id));
+
+    const tower2 = new Tower(this.game, towerCard2);
+
+    const towerCardElement2 =
+      this.game.wtw.managers.towers.getCardElement(towerCard2);
+    towerCardElement2.dataset.animated = "1";
+
+    promises.push(tower2.move(space_id, space_id2));
+
+    await Promise.all(promises);
+
+    towerCardElement.dataset.animated = "0";
+    towerCardElement2.dataset.animated = "0";
   }
 
   public async notif_freeWizard(args: {

@@ -3439,10 +3439,31 @@ var NotificationManager = /** @class */ (function () {
         var score = args.score, player_id = args.player_id;
         this.game.scoreCtrl[player_id].incValue(score);
     };
-    NotificationManager.prototype.notif_swapTower = function (args) {
-        var towerCard = args.towerCard, final_space_id = args.final_space_id, current_space_id = args.current_space_id;
-        var tower = new Tower(this.game, towerCard);
-        tower.move(final_space_id, current_space_id);
+    NotificationManager.prototype.notif_swapTowers = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var towerCard, towerCard2, space_id, space_id2, promises, tower, towerCardElement, tower2, towerCardElement2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        towerCard = args.towerCard, towerCard2 = args.towerCard2, space_id = args.space_id, space_id2 = args.space_id2;
+                        promises = [];
+                        tower = new Tower(this.game, towerCard);
+                        towerCardElement = this.game.wtw.managers.towers.getCardElement(towerCard);
+                        towerCardElement.dataset.animated = "1";
+                        promises.push(tower.move(space_id2, space_id));
+                        tower2 = new Tower(this.game, towerCard2);
+                        towerCardElement2 = this.game.wtw.managers.towers.getCardElement(towerCard2);
+                        towerCardElement2.dataset.animated = "1";
+                        promises.push(tower2.move(space_id, space_id2));
+                        return [4 /*yield*/, Promise.all(promises)];
+                    case 1:
+                        _a.sent();
+                        towerCardElement.dataset.animated = "0";
+                        towerCardElement2.dataset.animated = "0";
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     NotificationManager.prototype.notif_freeWizard = function (args) {
         return __awaiter(this, void 0, void 0, function () {

@@ -210,22 +210,13 @@ class TowerManager extends CardManager
 
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(
-            "swapTower",
+            "swapTowers",
             "",
             [
                 "towerCard" => $Tower->getCard($Tower->card_id),
-                "final_space_id" => $tower2_space_id,
-                "current_space_id" => $tower_space_id,
-            ],
-            $player_id,
-        );
-        $NotifManager->all(
-            "swapTower",
-            "",
-            [
-                "towerCard" => $Tower->getCard($Tower2->card_id),
-                "final_space_id" => $tower_space_id,
-                "current_space_id" => $tower2_space_id,
+                "space_id" => $tower_space_id,
+                "towerCard2" => $Tower->getCard($Tower2->card_id),
+                "space_id2" => $tower2_space_id,
             ],
             $player_id,
         );
