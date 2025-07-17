@@ -71,6 +71,8 @@ declare class WanderingTowersGui extends Game {
   ): void;
 
   soundPlay(sound_id: "pour" | "drink"): void;
+
+  finalTurnBanner(): void;
 }
 
 interface WanderingTowersGamedatas {
@@ -101,6 +103,7 @@ interface WanderingTowersGamedatas {
   };
   ravenskeepGoal: number;
   spellCards: SpellCard[];
+  finalTurn: boolean;
   GAME_VERSION: number;
 }
 

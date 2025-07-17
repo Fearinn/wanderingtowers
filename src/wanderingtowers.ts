@@ -370,6 +370,10 @@ class WanderingTowers extends WanderingTowersGui {
       spell.setup();
     });
 
+    if (gamedatas.finalTurn) {
+      this.finalTurnBanner();
+    }
+
     this.setupNotifications();
     BgaAutoFit.init();
     this.initObserver();
@@ -652,10 +656,12 @@ class WanderingTowers extends WanderingTowersGui {
                 revealedByElevation ||
                 towerElements.length <= tier) &&
               tierElement.dataset.covered !== "1";
-            
 
             tierElement.classList.toggle("wtw_wizardTier-visible", mustReveal);
-            tierElement.classList.toggle("wtw_wizardTier-underMove", revealedByMove);
+            tierElement.classList.toggle(
+              "wtw_wizardTier-underMove",
+              revealedByMove
+            );
 
             if (elevatedTier === 0) {
               tierElements.forEach((tierElement) => {
@@ -716,14 +722,22 @@ class WanderingTowers extends WanderingTowersGui {
     });
   }
 
-  public soundPlay(sound_id: "pour" | "drink") {
+  public finalTurnBanner(): void {
+    const pageTitle = document.getElementById("page-title");
+    pageTitle.insertAdjacentHTML(
+      "beforeend",
+      `<span class="wtw_finalTurn">${_("This is the last round!")}<span>`
+    );
+  }
+
+  public soundPlay(sound_id: "pour" | "drink"): void {
     if (this.getGameUserPreference(102) == 1) {
       this.disableNextMoveSound();
       this.sounds.play(sound_id);
     }
   }
 
-  private loadSounds() {
+  private loadSounds(): void {
     const sounds_ids = ["pour", "drink"];
     sounds_ids.forEach((sound_id) => {
       this.sounds.load(sound_id);

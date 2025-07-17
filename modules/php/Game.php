@@ -382,6 +382,7 @@ class Game extends \Table
             "tierCounts" => $TowerManager->getTierCounts(),
             "ravenskeepCounts" => $WizardManager->getRavenskeepCounts(),
             "ravenskeepGoal" => $WizardManager->getRavenskeepGoal(),
+            "finalTurn" => !!$this->globals->get(G_FINAL_TURN, 0),
         ];
 
         return $gamedatas;
@@ -549,5 +550,17 @@ class Game extends \Table
     {
         $ActCastSpell = new ActCastSpell($this, null);
         $ActCastSpell->act(7, 2, 1);
+    }
+
+    public function debug_finalTurn(): void
+    {
+        $NotifManager = new NotifManager($this);
+        $NotifManager->all(
+            "finalTurn",
+            clienttranslate('This is the last round'),
+            [],
+        );
+
+        $this->globals->set(G_FINAL_TURN, true);
     }
 }

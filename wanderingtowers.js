@@ -279,6 +279,9 @@ var WanderingTowers = /** @class */ (function (_super) {
             var spell = new Spell(_this, spellCard);
             spell.setup();
         });
+        if (gamedatas.finalTurn) {
+            this.finalTurnBanner();
+        }
         this.setupNotifications();
         BgaAutoFit.init();
         this.initObserver();
@@ -539,6 +542,10 @@ var WanderingTowers = /** @class */ (function (_super) {
                 }),
             ],
         });
+    };
+    WanderingTowers.prototype.finalTurnBanner = function () {
+        var pageTitle = document.getElementById("page-title");
+        pageTitle.insertAdjacentHTML("beforeend", "<span class=\"wtw_finalTurn\">".concat(_("This is the last round!"), "<span>"));
     };
     WanderingTowers.prototype.soundPlay = function (sound_id) {
         if (this.getGameUserPreference(102) == 1) {
@@ -3527,6 +3534,9 @@ var NotificationManager = /** @class */ (function () {
     NotificationManager.prototype.notif_incTurnsPlayed = function (args) {
         var player_id = args.player_id;
         this.game.wtw.counters[player_id].turn.incValue(1);
+    };
+    NotificationManager.prototype.notif_finalTurn = function () {
+        this.game.finalTurnBanner();
     };
     return NotificationManager;
 }());

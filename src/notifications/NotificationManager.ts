@@ -223,7 +223,7 @@ class NotificationManager implements NotificationManager {
     towerElement.classList.remove("wtw_tower-elevated");
   }
 
-  public notif_discardSpells(args: { spellCards: SpellCard[] }) {
+  public notif_discardSpells(args: { spellCards: SpellCard[] }): void {
     const { spellCards } = args;
 
     spellCards.forEach((spellCard) => {
@@ -232,8 +232,12 @@ class NotificationManager implements NotificationManager {
     });
   }
 
-  public notif_incTurnsPlayed(args: { player_id: number }) {
+  public notif_incTurnsPlayed(args: { player_id: number }): void {
     const { player_id } = args;
     this.game.wtw.counters[player_id].turn.incValue(1);
+  }
+
+  public notif_finalTurn(): void {
+    this.game.finalTurnBanner();
   }
 }
