@@ -48,6 +48,9 @@ class ActPushTower extends ActionManager
         $Tower = new Tower($this->game, $towerCard_id);
         $Tower->move(1, $this->player_id);
 
-        $this->gamestate->nextState(TR_NEXT_PLAYER);
+        $moveLimit = $this->game->MOVE_LIMIT();
+        $this->globals->set(G_TURN_MOVE, $moveLimit);
+
+        $this->gamestate->nextState(TR_NEXT_ACTION);
     }
 }
