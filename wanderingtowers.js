@@ -186,6 +186,12 @@ var WanderingTowers = /** @class */ (function (_super) {
             var player = gamedatas.players[p_id];
             var player_id = Number(p_id);
             var playerPanelElement = this.getPlayerPanelElement(player_id);
+            if (player.turns_played == gamedatas.finalTurn) {
+                this.disablePlayerPanel(player_id);
+                document
+                    .getElementById("overall_player_board_".concat(player_id))
+                    .classList.add("wtw_playerPanel-disabled");
+            }
             playerPanelElement.insertAdjacentHTML("beforeend", "<div id=\"wtw_turnCounter-".concat(player_id, "\" class=\"wtw_whiteblock wtw_turnCounter\">\n          <i class=\"fa6 fa6-user-clock\"></i>\n          <span id=\"wtw_turnCount-").concat(player_id, "\" class=\"wtw_turnCount\">0</span>\n        </div>\n        <div id=\"wtw_ravenskeepCounter-").concat(player_id, "\" class=\"wtw_whiteblock wtw_ravenskeepCounter\">\n          <div id=\"wtw_ravenskeepCounterIcon-").concat(player_id, "\" class=\"wtw_ravenskeepCounterIcon\"></div>\n            <div class=\"wtw_ravenskeepCountContainer\">\n            <span id=\"wtw_ravenskeepCount-").concat(player_id, "\" class=\"wtw_ravenskeepCount\">0</span>\n            <span id=\"wtw_ravenskeepGoal-").concat(player_id, "\" class=\"wtw_ravenskeepGoal\">/").concat(gamedatas.ravenskeepGoal, "</span>\n          </div>\n          <div id=\"wtw_panelWizard-").concat(player_id, "\" class=\"wtw_card wtw_wizard wtw_wizard-panel\"></div>\n        </div>\n        <div id=\"wtw_potionCargo-").concat(player_id, "\" class=\"wtw_whiteblock wtw_potionCargo\"></div>"));
             this.addTooltipHtml("wtw_turnCounter-".concat(player_id), "<span class=\"wtw_tooltipText\">\n          ".concat(_("number of turns played"), "\n        </span>"));
             this.addTooltipHtml("wtw_ravenskeepCounter-".concat(player_id), "<span class=\"wtw_tooltipText\">".concat(_("number of wizards in the Ravenskeep"), "</span>"));
@@ -3537,6 +3543,13 @@ var NotificationManager = /** @class */ (function () {
     };
     NotificationManager.prototype.notif_finalTurn = function () {
         this.game.finalTurnBanner();
+    };
+    NotificationManager.prototype.notif_disablePlayer = function (args) {
+        var player_id = args.player_id;
+        this.game.disablePlayerPanel(player_id);
+        document
+            .getElementById("overall_player_board_".concat(player_id))
+            .classList.add("wtw_playerPanel-disabled");
     };
     return NotificationManager;
 }());

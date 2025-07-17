@@ -6,6 +6,10 @@
     background-image: url("img/background.jpg");
     background-size: cover;
     background-position: center;
+
+    &.wtw_playerPanel-disabled {
+      filter: brightness(0.9);
+    }
   }
 }
 

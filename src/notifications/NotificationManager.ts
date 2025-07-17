@@ -240,4 +240,12 @@ class NotificationManager implements NotificationManager {
   public notif_finalTurn(): void {
     this.game.finalTurnBanner();
   }
+
+  public notif_disablePlayer(args: { player_id: number }): void {
+    const { player_id } = args;
+    this.game.disablePlayerPanel(player_id);
+    document
+      .getElementById(`overall_player_board_${player_id}`)
+      .classList.add("wtw_playerPanel-disabled");
+  }
 }

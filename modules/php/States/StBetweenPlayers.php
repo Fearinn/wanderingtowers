@@ -62,8 +62,10 @@ class StBetweenPlayers extends StateManager
 
         $ScoreManager = new ScoreManager($this->game);
 
+        $finalTurn = $this->globals->get(G_FINAL_TURN);
+
         foreach ($players as $player_id => $player) {
-            if ($this->globals->get(G_FINAL_TURN)) {
+            if ($finalTurn) {
                 break;
             }
 
@@ -86,7 +88,7 @@ class StBetweenPlayers extends StateManager
             if ($goalsMet) {
                 $finalTurn = $this->game->getTurnsPlayed($player_id);
 
-                if ($finalTurn > $this->globals->get(G_FINAL_TURN, 0)) {
+                if ($finalTurn > $this->globals->get(G_FINAL_TURN)) {
                     $this->globals->set(G_FINAL_TURN, $finalTurn);
                 }
 
@@ -105,16 +107,28 @@ class StBetweenPlayers extends StateManager
             }
         }
 
-        if (!$this->globals->get(G_FINAL_TURN, 0)) {
+        $finalTurn = $this->globals->get(G_FINAL_TURN);
+
+        if ($finalTurn === 0) {
             return false;
         }
 
         $gameEnd = true;
         foreach ($players as $player_id => $player) {
-            if ($this->globals->get(G_FINAL_TURN) !== $this->game->getTurnsPlayed($player_id)) {
-                $gameEnd = false;
-                break;
+            $turnsPlayed = $this->game->getTurnsPlayed($player_id);
+
+            if ($turnsPlayed === $finalTurn) {
+                $NotifManager->all(
+                    "disablePlayer",
+                    "",
+                    [],
+                    $player_id,
+                );
+                continue;
             }
+
+            $gameEnd = false;
+            break;
         }
 
         return $gameEnd;

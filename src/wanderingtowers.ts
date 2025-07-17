@@ -212,6 +212,13 @@ class WanderingTowers extends WanderingTowersGui {
       const player_id = Number(p_id);
       const playerPanelElement = this.getPlayerPanelElement(player_id);
 
+      if (player.turns_played == gamedatas.finalTurn) {
+        this.disablePlayerPanel(player_id);
+        document
+          .getElementById(`overall_player_board_${player_id}`)
+          .classList.add("wtw_playerPanel-disabled");
+      }
+
       playerPanelElement.insertAdjacentHTML(
         "beforeend",
         `<div id="wtw_turnCounter-${player_id}" class="wtw_whiteblock wtw_turnCounter">

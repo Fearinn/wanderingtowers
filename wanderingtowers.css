@@ -794,6 +794,9 @@ body > .card {
   background-size: cover;
   background-position: center;
 }
+.wtw_pref-thematicBg .player-board.wtw_playerPanel-disabled {
+  filter: brightness(0.9);
+}
 
 .wtw_pref-floatingHand .game_interface:not(.mode_3d) .wtw_moveHand {
   position: fixed;

@@ -382,7 +382,7 @@ class Game extends \Table
             "tierCounts" => $TowerManager->getTierCounts(),
             "ravenskeepCounts" => $WizardManager->getRavenskeepCounts(),
             "ravenskeepGoal" => $WizardManager->getRavenskeepGoal(),
-            "finalTurn" => !!$this->globals->get(G_FINAL_TURN, 0),
+            "finalTurn" => $this->globals->get(G_FINAL_TURN, 0),
         ];
 
         return $gamedatas;
@@ -561,6 +561,7 @@ class Game extends \Table
             [],
         );
 
-        $this->globals->set(G_FINAL_TURN, true);
+        $player_id = (int) $this->getActivePlayerId();
+        $this->globals->set(G_FINAL_TURN, $this->getTurnsPlayed($player_id) + 1);
     }
 }

@@ -87,6 +87,7 @@ interface WanderingTowersGamedatas {
   players: { [playerId: number]: Player };
   tablespeed: string;
 
+  GAME_VERSION: number;
   diceFace: number;
   towerCards: TowerCard[];
   wizardCards: WizardCard[];
@@ -103,8 +104,7 @@ interface WanderingTowersGamedatas {
   };
   ravenskeepGoal: number;
   spellCards: SpellCard[];
-  finalTurn: boolean;
-  GAME_VERSION: number;
+  finalTurn: number;
 }
 
 interface WanderingTowersGamestate extends Gamestate {
