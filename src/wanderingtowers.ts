@@ -212,13 +212,6 @@ class WanderingTowers extends WanderingTowersGui {
       const player_id = Number(p_id);
       const playerPanelElement = this.getPlayerPanelElement(player_id);
 
-      if (player.turns_played == gamedatas.finalTurn) {
-        this.disablePlayerPanel(player_id);
-        document
-          .getElementById(`overall_player_board_${player_id}`)
-          .classList.add("wtw_playerPanel-disabled");
-      }
-
       playerPanelElement.insertAdjacentHTML(
         "beforeend",
         `<div id="wtw_turnCounter-${player_id}" class="wtw_whiteblock wtw_turnCounter">
@@ -267,6 +260,14 @@ class WanderingTowers extends WanderingTowersGui {
 
       turn.create(`wtw_turnCount-${player_id}`);
       turn.setValue(player.turns_played);
+
+      const { finalTurn } = gamedatas;
+      if (finalTurn > 0 && finalTurn === player.turns_played) {
+        this.disablePlayerPanel(player_id);
+        document
+          .getElementById(`overall_player_board_${player_id}`)
+          .classList.add("wtw_playerPanel-disabled");
+      }
 
       potionStocks[player_id] = {
         cargo: new PotionCargoStock(this, potionManager, player_id),
