@@ -27,6 +27,8 @@ interface Counters {
 }
 
 declare class WanderingTowersGui extends Game {
+  gamedatas: WanderingTowersGamedatas;
+
   wtw: {
     managers: {
       help?: HelpManager;
@@ -46,11 +48,6 @@ declare class WanderingTowersGui extends Game {
       maxTier?: number;
       minTier?: number;
       action?: ActionName;
-    };
-    material: {
-      spells: {
-        [spell_id: number]: SpellInfo;
-      };
     };
   };
 
@@ -88,6 +85,9 @@ interface WanderingTowersGamedatas {
   tablespeed: string;
 
   GAME_VERSION: number;
+  SPELLS: {
+    [spell_id: number]: SpellInfo;
+  };
   diceFace: number;
   towerCards: TowerCard[];
   wizardCards: WizardCard[];

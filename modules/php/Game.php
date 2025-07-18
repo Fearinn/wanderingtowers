@@ -368,6 +368,7 @@ class Game extends \Table
 
         $gamedatas = [
             "GAME_VERSION" => $GAME_VERSION,
+            "SPELLS" => $this->SPELLS,
             "isSolo" => $this->isSolo(),
             "players" => $this->getCollectionFromDb("SELECT `player_id` `id`, `player_score` `score`, `turns_played` FROM `player`"),
             "diceFace" => $this->globals->get(G_ROLL, 3),

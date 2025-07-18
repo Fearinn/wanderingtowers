@@ -6,9 +6,9 @@ interface SpellCard extends BgaCard {
 }
 
 interface SpellInfo {
-  name: string;
+  tr_name: string;
   description: string;
-  details?: string;
+  cost: number;
 }
 
 interface Spell extends Card {
@@ -16,6 +16,7 @@ interface Spell extends Card {
   table: SpellStocks["table"];
   name: string;
   description: string;
+  cost: number;
 }
 
 class Spell extends Card {
@@ -24,9 +25,10 @@ class Spell extends Card {
     this.table = this.game.wtw.stocks.spells.table;
     this.id = this.card.type_arg;
 
-    const info = this.game.wtw.material.spells[this.id];
+    const info = this.game.gamedatas.SPELLS[this.id];
     this.description = info.description;
-    this.name = info.name;
+    this.name = info.tr_name;
+    this.cost = info.cost;
   }
 
   setup(): void {
@@ -64,15 +66,21 @@ class Spell extends Card {
     });
     cloneElement.classList.add("wtw_spell-tooltip");
 
-    const tooltipHTML = `
-      <div class="wtw_spellTooltip">
+    const tooltipHTML = `<div class="wtw_spellTooltip">
       <h4 class="wtw_tooltipText wtw_tooltipTitle">${this.name}</h4>
       <div class="wtw_spellContent">
           ${cloneElement.outerHTML}
-          <p class="bga-autofit wtw_tooltipText wtw_spellDescription">${this.description}</p>
+          <div class="bga-autofit wtw_spellDescription wtw_tooltipText">
+            <p>${this.description}</p>
+            <p>${this.game.format_string_recursive(
+              "Cost: ${cost} full bottle(s)",
+              {
+                cost: this.cost,
+              }
+            )}</p>
+          </div>
         </div>
-      </div>
-    `;
+      </div>`;
 
     return tooltipHTML;
   }

@@ -304,48 +304,53 @@ $this->MOVES = [
     ],
 ];
 
+
 $this->SPELLS = [
     1 => [
         "tr_name" => clienttranslate("Advance a Wizard"),
+        "description" => clienttranslate("Move any 1 visible wizard 1 space clockwise."),
         "cost" => 2,
         "type" => "wizard",
         "steps" => 1,
     ],
     2 => [
         "tr_name" => clienttranslate("Headwind for a Wizard"),
-
+        "description" => clienttranslate("Move any 1 visible wizard 1 space counterclockwise."),
         "cost" => 2,
         "type" => "wizard",
         "steps" => -1,
     ],
     3 => [
         "tr_name" => clienttranslate("Advance a Tower"),
-
+        "description" => clienttranslate("Move any 1 tower (and everything atop it) 2 spaces clockwise."),
         "cost" => 1,
         "type" => "tower",
         "steps" => 2,
     ],
     4 => [
         "tr_name" => clienttranslate("Headwind for a Tower"),
-
+        "description" => clienttranslate("Move any 1 tower (and everything atop it) 2 spaces counterclockwise."),
         "cost" => 1,
         "type" => "tower",
         "steps" => -2,
     ],
     5 => [
         "tr_name" => clienttranslate("Nudge a Ravenskeep"),
+        "description" => clienttranslate("Move Ravenskeep clockwise or counterclockwise to the next empty space or empty tower top, whichever it encounters first in that direction."),
         "cost" => 2,
         "type" => "direction",
         "steps" => 0,
     ],
     6 => [
         "tr_name" => clienttranslate("Swap a Tower"),
+        "description" => clienttranslate("Swap the topmost tower (and wizards atop them) in 2 spaces."),
         "cost" => 1,
         "type" => "tower",
         "steps" => 2,
     ],
     7 => [
         "tr_name" => clienttranslate("Free a Wizard"),
+        "description" => clienttranslate("Lift any 1 tower to free 1 of your wizards from beneath it, placing the wizard on top of the stack."),
         "cost" => 2,
         "type" => "tower",
         "steps" => 0,
