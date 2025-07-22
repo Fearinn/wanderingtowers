@@ -3568,32 +3568,26 @@ var StCastSpell = /** @class */ (function (_super) {
             var _a;
             (_a = document.getElementById("wtw_spellBtn")) === null || _a === void 0 ? void 0 : _a.remove();
             if (selection.length > 0) {
-                var spell_1 = new Spell(_this.game, spellCard);
-                _this.statusBar.addActionButton(_this.game.format_string_recursive(_("cast ${spell_label}"), {
-                    spell_label: _(spell_1.name),
-                }), function () {
-                    _this.game.wtw.globals.spellCard = spellCard;
-                    switch (spellCard.type) {
-                        case "wizard":
-                            var stPickSpellWizard = new StPickSpellWizard(_this.game);
-                            stPickSpellWizard.set();
+                var spell = new Spell(_this.game, spellCard);
+                _this.game.wtw.globals.spellCard = spellCard;
+                switch (spell.card.type) {
+                    case "wizard":
+                        var stPickSpellWizard = new StPickSpellWizard(_this.game);
+                        stPickSpellWizard.set();
+                        break;
+                    case "tower":
+                        if (spell.id === 6) {
+                            var stPickSwapTower = new StPickSwapTower(_this.game);
+                            stPickSwapTower.set();
                             break;
-                        case "tower":
-                            if (spell_1.id === 6) {
-                                var stPickSwapTower = new StPickSwapTower(_this.game);
-                                stPickSwapTower.set();
-                                break;
-                            }
-                            var stPickSpellTower = new StPickSpellTower(_this.game);
-                            stPickSpellTower.set();
-                            break;
-                        case "direction":
-                            var stPickSpellDirection = new StPickSpellDirection(_this.game);
-                            stPickSpellDirection.set();
-                    }
-                }, {
-                    id: "wtw_spellBtn",
-                });
+                        }
+                        var stPickSpellTower = new StPickSpellTower(_this.game);
+                        stPickSpellTower.set();
+                        break;
+                    case "direction":
+                        var stPickSpellDirection = new StPickSpellDirection(_this.game);
+                        stPickSpellDirection.set();
+                }
                 return;
             }
         };
@@ -4114,13 +4108,12 @@ var StPickSwapTower = /** @class */ (function (_super) {
                             });
                         });
                     }
+                    return;
                 }
-                else {
-                    spaces = spaces.filter(function (s_id) {
-                        return space_id !== s_id;
-                    });
-                    _this.game.wtw.globals.spaces = spaces;
-                }
+                spaces = spaces.filter(function (s_id) {
+                    return space_id !== s_id;
+                });
+                _this.game.wtw.globals.spaces = spaces;
             };
         };
         for (var space_id in towerStocks) {

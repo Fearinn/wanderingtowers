@@ -22,40 +22,28 @@ class StCastSpell extends StateManager {
       if (selection.length > 0) {
         const spell = new Spell(this.game, spellCard);
 
-        this.statusBar.addActionButton(
-          this.game.format_string_recursive(_("cast ${spell_label}"), {
-            spell_label: _(spell.name),
-          }),
-          () => {
-            this.game.wtw.globals.spellCard = spellCard;
+        this.game.wtw.globals.spellCard = spellCard;
 
-            switch (spellCard.type) {
-              case "wizard":
-                const stPickSpellWizard = new StPickSpellWizard(this.game);
-                stPickSpellWizard.set();
-                break;
+        switch (spell.card.type) {
+          case "wizard":
+            const stPickSpellWizard = new StPickSpellWizard(this.game);
+            stPickSpellWizard.set();
+            break;
 
-              case "tower":
-                if (spell.id === 6) {
-                  const stPickSwapTower = new StPickSwapTower(this.game);
-                  stPickSwapTower.set();
-                  break;
-                }
-                const stPickSpellTower = new StPickSpellTower(this.game);
-                stPickSpellTower.set();
-                break;
-
-              case "direction":
-                const stPickSpellDirection = new StPickSpellDirection(
-                  this.game
-                );
-                stPickSpellDirection.set();
+          case "tower":
+            if (spell.id === 6) {
+              const stPickSwapTower = new StPickSwapTower(this.game);
+              stPickSwapTower.set();
+              break;
             }
-          },
-          {
-            id: "wtw_spellBtn",
-          }
-        );
+            const stPickSpellTower = new StPickSpellTower(this.game);
+            stPickSpellTower.set();
+            break;
+
+          case "direction":
+            const stPickSpellDirection = new StPickSpellDirection(this.game);
+            stPickSpellDirection.set();
+        }
 
         return;
       }

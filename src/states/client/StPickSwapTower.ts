@@ -61,12 +61,14 @@ class StPickSwapTower extends StateManager {
               });
             });
           }
-        } else {
-          spaces = spaces.filter((s_id) => {
-            return space_id !== s_id;
-          });
-          this.game.wtw.globals.spaces = spaces;
+
+          return;
         }
+
+        spaces = spaces.filter((s_id) => {
+          return space_id !== s_id;
+        });
+        this.game.wtw.globals.spaces = spaces;
       };
     }
   }
