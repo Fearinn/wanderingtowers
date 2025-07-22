@@ -48,6 +48,7 @@ declare class WanderingTowersGui extends Game {
       maxTier?: number;
       minTier?: number;
       action?: ActionName;
+      spaces?: number[];
     };
   };
 

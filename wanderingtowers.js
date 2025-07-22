@@ -310,6 +310,9 @@ var WanderingTowers = /** @class */ (function (_super) {
             case "client_pickSpellDirection":
                 new StPickSpellDirection(this).enter();
                 break;
+            case "client_pickSwapTower":
+                new StPickSwapTower(this).enter();
+                break;
             case "spellSelection":
                 new StSpellSelection(this).enter();
                 break;
@@ -355,6 +358,9 @@ var WanderingTowers = /** @class */ (function (_super) {
                 break;
             case "client_pickSpellDirection":
                 new StPickSpellDirection(this).leave();
+                break;
+            case "client_pickSwapTower":
+                new StPickSwapTower(this).leave();
                 break;
             case "spellSelection":
                 new StSpellSelection(this).leave();
@@ -3563,9 +3569,9 @@ var StCastSpell = /** @class */ (function (_super) {
             var _a;
             (_a = document.getElementById("wtw_spellBtn")) === null || _a === void 0 ? void 0 : _a.remove();
             if (selection.length > 0) {
-                var spell = new Spell(_this.game, spellCard);
+                var spell_1 = new Spell(_this.game, spellCard);
                 _this.statusBar.addActionButton(_this.game.format_string_recursive(_("cast ${spell_label}"), {
-                    spell_label: _(spell.name),
+                    spell_label: _(spell_1.name),
                 }), function () {
                     _this.wtw.globals.spellCard = spellCard;
                     switch (spellCard.type) {
@@ -3574,6 +3580,11 @@ var StCastSpell = /** @class */ (function (_super) {
                             stPickSpellWizard.set();
                             break;
                         case "tower":
+                            if (spell_1.id === 6) {
+                                var stPickSwapTower = new StPickSwapTower(_this.game);
+                                stPickSwapTower.set();
+                                break;
+                            }
                             var stPickSpellTower = new StPickSpellTower(_this.game);
                             stPickSpellTower.set();
                             break;
@@ -4053,6 +4064,68 @@ var StPickSpellWizard = /** @class */ (function (_super) {
     };
     return StPickSpellWizard;
 }(StateManager));
+var StPickSwapTower = /** @class */ (function (_super) {
+    __extends(StPickSwapTower, _super);
+    function StPickSwapTower(game) {
+        return _super.call(this, game, "client_pickSwapTower") || this;
+    }
+    StPickSwapTower.prototype.set = function () {
+        this.game.setClientState(this.stateName, {
+            descriptionmyturn: _("${you} must pick 2 towers to swap"),
+        });
+    };
+    StPickSwapTower.prototype.enter = function () {
+        var _this = this;
+        _super.prototype.enter.call(this);
+        var spellCard = this.game.wtw.globals.spellCard;
+        var spell = new Spell(this.game, spellCard);
+        spell.toggleSelection(true);
+        var towerStocks = this.game.wtw.stocks.towers.spaces;
+        var _loop_8 = function (space_id) {
+            var stock = towerStocks[space_id];
+            stock.toggleSelection(true);
+            stock.onSelectionChange = function (selection, towerCard) {
+                var _a = _this.game.wtw.globals.spaces, spaces = _a === void 0 ? [] : _a;
+                console.log(spaces, "TEST");
+                _this.game.removeConfirmationButton();
+                var tower = new Tower(_this.game, towerCard);
+                var space_id = tower.space_id;
+                if (selection.length > 0) {
+                    spaces.push(space_id);
+                    _this.game.wtw.globals.spaces = spaces;
+                }
+                if (spaces.length > 2) {
+                    stock.unselectOthers();
+                    _this.game.wtw.globals.spaces = [space_id];
+                    return;
+                }
+                if (spaces.length === 2) {
+                    _this.game.addConfirmationButton(_("towers"), function () {
+                        _this.game.performAction("actCastSpell", {
+                            spell_id: spell.id,
+                            target_id: spaces[0],
+                            target2_id: spaces[1],
+                        });
+                    });
+                }
+            };
+        };
+        for (var space_id in towerStocks) {
+            _loop_8(space_id);
+        }
+    };
+    StPickSwapTower.prototype.leave = function () {
+        _super.prototype.leave.call(this);
+        var spellTable = this.wtw.stocks.spells.table;
+        spellTable.setSelectionMode("none");
+        var towerStocks = this.game.wtw.stocks.towers.spaces;
+        for (var space_id in towerStocks) {
+            var stock = towerStocks[space_id];
+            stock.toggleSelection(false);
+        }
+    };
+    return StPickSwapTower;
+}(StateManager));
 var StPlayMove = /** @class */ (function (_super) {
     __extends(StPlayMove, _super);
     function StPlayMove(game) {
@@ -4142,7 +4215,7 @@ var StAfterRoll = /** @class */ (function (_super) {
         }
         if (move.card.type === "tower") {
             var towerStocks = this.game.wtw.stocks.towers.spaces;
-            var _loop_8 = function (space_id) {
+            var _loop_9 = function (space_id) {
                 var stock = towerStocks[space_id];
                 stock.toggleSelection(true);
                 stock.setSelectableCards(movableMeeples[move.card.id].tower);
@@ -4172,7 +4245,7 @@ var StAfterRoll = /** @class */ (function (_super) {
                 };
             };
             for (var space_id in towerStocks) {
-                _loop_8(space_id);
+                _loop_9(space_id);
             }
             return;
         }

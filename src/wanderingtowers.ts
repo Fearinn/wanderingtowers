@@ -407,6 +407,10 @@ class WanderingTowers extends WanderingTowersGui {
         new StPickSpellDirection(this).enter();
         break;
 
+      case "client_pickSwapTower":
+        new StPickSwapTower(this).enter();
+        break;
+
       case "spellSelection":
         new StSpellSelection(this).enter();
         break;
@@ -465,6 +469,10 @@ class WanderingTowers extends WanderingTowersGui {
 
       case "client_pickSpellDirection":
         new StPickSpellDirection(this).leave();
+        break;
+
+      case "client_pickSwapTower":
+        new StPickSwapTower(this).leave();
         break;
 
       case "spellSelection":

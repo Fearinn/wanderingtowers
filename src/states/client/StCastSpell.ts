@@ -36,6 +36,11 @@ class StCastSpell extends StateManager {
                 break;
 
               case "tower":
+                if (spell.id === 6) {
+                  const stPickSwapTower = new StPickSwapTower(this.game);
+                  stPickSwapTower.set();
+                  break;
+                }
                 const stPickSpellTower = new StPickSpellTower(this.game);
                 stPickSpellTower.set();
                 break;

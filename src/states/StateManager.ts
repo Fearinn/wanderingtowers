@@ -21,6 +21,7 @@ type StateName =
   | "client_pickSpellTower"
   | "client_pickSpellTier"
   | "client_pickSpellDirection"
+  | "client_pickSwapTower"
   | "spellSelection";
 
 class StateManager implements StateManager {

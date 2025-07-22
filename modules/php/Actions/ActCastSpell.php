@@ -34,7 +34,7 @@ class ActCastSpell extends ActionManager
         ?int $target_id = null,
         ?int $tier = null,
         ?string $direction = null,
-        ?int $target_id2 = null,
+        ?int $target2_id = null,
     ): void {
         $this->validate();
 
@@ -66,7 +66,7 @@ class ActCastSpell extends ActionManager
 
             case 6:
                 $SpSwapTower = new SpSwapTower($this->game);
-                $SpSwapTower->cast($this->player_id, $target_id, $target_id2);
+                $SpSwapTower->cast($this->player_id, $target_id, $target2_id);
                 break;
 
             case 7:
