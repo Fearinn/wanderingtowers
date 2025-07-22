@@ -67,11 +67,11 @@
       },
       "1": {
         "name": "Random",
-        "description": "3 random spells and 6 full potions bottles"
+        "description": "3 random spells and 6 potions bottles"
       },
       "2": {
         "name": "Manual",
-        "description": "3 selected spells and 6 full potion bottles"
+        "description": "3 selected spells and 6 potion bottles"
       }
     },
     "default": 1,

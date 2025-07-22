@@ -82,7 +82,18 @@ class StBetweenPlayers extends StateManager
                     return true;
                 }
 
-                return $MoveManager->countCardsInDeck() === 0 || $MoveManager->countCardsInDiscard() >= 30 || $allWizardsImprisoned;
+                $soloLoss = $MoveManager->countCardsInDeck() === 0 || $MoveManager->countCardsInDiscard() >= 30 || $allWizardsImprisoned;
+
+                if ($soloLoss) {
+                    $ScoreManager->setScore(0, $player_id);
+
+                    $NotifManager->all(
+                        "message",
+                        clienttranslate('${player_name} fails to achieve his goals')
+                    );
+                    
+                    return true;
+                }
             }
 
             if ($goalsMet) {

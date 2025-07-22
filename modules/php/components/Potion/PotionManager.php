@@ -34,16 +34,6 @@ class PotionManager extends CardManager
         }
         $this->createCards($potionCards);
 
-        $isSolo = $this->game->isSolo();
-        if ($isSolo) {
-            if ($this->game->tableOptions->get(OPT_SPELLS_SOLO) > 0) {
-                $player_id = (int) $this->game->getActivePlayerId();
-                $this->game->DbQuery("UPDATE potion SET card_location='filled', card_location_arg={$player_id} WHERE card_type_arg={$player_id}");
-            }
-
-            return;
-        }
-
         foreach ($players as $player_id => $player) {
             $this->game->DbQuery("UPDATE potion SET card_location='empty', card_location_arg={$player_id} WHERE card_type_arg={$player_id}");
         }
@@ -57,7 +47,10 @@ class PotionManager extends CardManager
 
     public function fillPotion(int $player_id): void
     {
-        if ($this->game->isSolo()) {
+        if (
+            $this->game->isSolo() &&
+            $this->game->tableOptions->get(OPT_SPELLS_SOLO) === 0
+        ) {
             return;
         }
 
@@ -121,7 +114,7 @@ class PotionManager extends CardManager
     public function getPotionsGoal(): int
     {
         $playersNbr = $this->game->getPlayersNumber();
-        return $this->game->isSolo() ? 0 : $this->game->SETUP_COUNTS[$playersNbr]["potions"];
+        return $this->game->SETUP_COUNTS[$playersNbr]["potions"];
     }
 
     public function goalMet(int $player_id): bool
