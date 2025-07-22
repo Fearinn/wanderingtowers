@@ -16,7 +16,7 @@ class StPickSpellTier extends StateManager {
 
       this.game.performAction("actCastSpell", {
         spell_id: spell.id,
-        meeple_id: tower.space_id,
+        target_id: tower.space_id,
         tier: maxTier - 1 || 1,
       });
       return;
@@ -46,7 +46,7 @@ class StPickSpellTier extends StateManager {
         () => {
           this.game.performAction("actCastSpell", {
             spell_id: spell.id,
-            meeple_id: tower.space_id,
+            target_id: tower.space_id,
             tier: maxTier - i + 1,
           });
         },

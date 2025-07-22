@@ -31,31 +31,32 @@ class ActCastSpell extends ActionManager
 
     public function act(
         int $spell_id,
-        ?int $meeple_id = null,
+        ?int $target_id = null,
         ?int $tier = null,
-        ?string $direction = null
+        ?string $direction = null,
+        ?int $target_id2 = null,
     ): void {
         $this->validate();
 
         switch ($spell_id) {
             case 1:
                 $SpAdvanceWizard = new SpAdvanceWizard($this->game);
-                $SpAdvanceWizard->cast($this->player_id, $meeple_id);
+                $SpAdvanceWizard->cast($this->player_id, $target_id);
                 break;
 
             case 2:
                 $SpHeadwindWizard = new SpHeadwindWizard($this->game);
-                $SpHeadwindWizard->cast($this->player_id, $meeple_id);
+                $SpHeadwindWizard->cast($this->player_id, $target_id);
                 break;
 
             case 3:
                 $SpAdvanceTower = new SpAdvanceTower($this->game);
-                $SpAdvanceTower->cast($this->player_id, $meeple_id, $tier);
+                $SpAdvanceTower->cast($this->player_id, $target_id, $tier);
                 break;
 
             case 4:
                 $SpHeadwindTower = new SpHeadwindTower($this->game);
-                $SpHeadwindTower->cast($this->player_id, $meeple_id, $tier);
+                $SpHeadwindTower->cast($this->player_id, $target_id, $tier);
                 break;
 
             case 5:
@@ -65,12 +66,12 @@ class ActCastSpell extends ActionManager
 
             case 6:
                 $SpSwapTower = new SpSwapTower($this->game);
-                $SpSwapTower->cast($this->player_id, $meeple_id);
+                $SpSwapTower->cast($this->player_id, $target_id, $target_id2);
                 break;
 
             case 7:
                 $SpFreeWizard = new SpFreeWizard($this->game);
-                $SpFreeWizard->cast($this->player_id, $meeple_id, $tier);
+                $SpFreeWizard->cast($this->player_id, $target_id, $tier);
                 break;
         }
 

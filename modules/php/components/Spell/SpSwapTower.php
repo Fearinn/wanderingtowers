@@ -14,27 +14,31 @@ class SpSwapTower extends Spell
         parent::__construct($game, 6);
     }
 
-    public function validate(int $player_id, int $space_id): void
+    public function validate(int $player_id, int $space_id, int $space2_id): void
     {
-        $TowerManager = new TowerManager($this->game);
-        $tier = $TowerManager->countOnSpace($space_id);
-        $towerCard = $TowerManager->getByTier($space_id, $tier);
+        $space_ids = [$space_id, $space2_id];
 
-        if (!$towerCard) {
-            throw new \BgaVisibleSystemException("Tower not found");
-        }
+        foreach ($space_ids as $space_id) {
+            $TowerManager = new TowerManager($this->game);
+            $tier = $TowerManager->countOnSpace($space_id);
+            $towerCard = $TowerManager->getByTier($space_id, $tier);
 
-        $towerCard_id = (int) $towerCard["id"];
-        $spellableMeeples = (array) $this->getSpellableMeeples($player_id)[$this->type];
+            if (!$towerCard) {
+                throw new \BgaVisibleSystemException("Tower not found");
+            }
 
-        if (in_array($towerCard_id, $spellableMeeples)) {
-            throw new \BgaVisibleSystemException("You can't swap this tower");
+            $towerCard_id = (int) $towerCard["id"];
+            $spellableMeeples = (array) $this->getSpellableMeeples($player_id)[$this->type];
+
+            if (in_array($towerCard_id, $spellableMeeples)) {
+                throw new \BgaVisibleSystemException("You can't swap this tower");
+            }
         }
     }
 
-    public function cast(int $player_id, int $space_id): void
+    public function cast(int $player_id, int $space_id, int $space2_id): void
     {
-        $this->validate($player_id, $space_id);
+        $this->validate($player_id, $space_id, $space2_id);
 
         $this->usePotions($player_id);
 
@@ -42,7 +46,6 @@ class SpSwapTower extends Spell
         $towerCard = $TowerManager->getByMaxTier($space_id);
         $towerCard_id = (int) $towerCard["id"];
 
-        $space2_id = $this->game->sumSteps($space_id, $this->steps);
         $towerCard2 = $TowerManager->getByMaxTier($space2_id);
         $towerCard2_id = (int) $towerCard2["id"];
 

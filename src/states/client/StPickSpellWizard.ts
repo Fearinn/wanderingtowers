@@ -31,7 +31,7 @@ class StPickSpellWizard extends StateManager {
           this.game.addConfirmationButton(_("wizard"), () => {
             this.game.performAction("actCastSpell", {
               spell_id: spell.id,
-              meeple_id: wizardCard.id,
+              target_id: wizardCard.id,
             });
           });
         }

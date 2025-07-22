@@ -14,22 +14,22 @@ class SpAdvanceWizard extends Spell
         parent::__construct($game, 1);
     }
 
-    public function validate(int $player_id, int $meeple_id): void
+    public function validate(int $player_id, int $target_id): void
     {
         $this->baseValidation($player_id);
 
         $spellableMeeples = (array) $this->getSpellableMeeples($player_id)[$this->type];
-        if (in_array($meeple_id, $spellableMeeples)) {
+        if (in_array($target_id, $spellableMeeples)) {
             throw new \BgaVisibleSystemException("You can't cast Advance a Wizard");
         }
     }
 
-    public function cast(int $player_id, int $meeple_id): void
+    public function cast(int $player_id, int $target_id): void
     {
-        $this->validate($player_id, $meeple_id);
+        $this->validate($player_id, $target_id);
 
         $this->usePotions($player_id);
-        $Wizard = new Wizard($this->game, $meeple_id);
+        $Wizard = new Wizard($this->game, $target_id);
         $Wizard->move($this->steps, $player_id);
     }
 }

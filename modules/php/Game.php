@@ -240,12 +240,13 @@ class Game extends \Table
     public function actCastSpell(
         ?int $GAME_VERSION,
         #[IntParam(min: 1, max: 8)] int $spell_id,
-        #[IntParam(min: 1, max: 16)] ?int $meeple_id,
+        #[IntParam(min: 1, max: 16)] ?int $target_id,
+        #[IntParam(min: 1, max: 16)] ?int $target_id2,
         #[IntParam(min: 1, max: 10)] ?int $tier,
         #[StringParam(enum: ["counterclockwise", "clockwise"])] ?string $direction,
     ): void {
         $ActCastSpell = new ActCastSpell($this, $GAME_VERSION);
-        $ActCastSpell->act($spell_id, $meeple_id, $tier, $direction);
+        $ActCastSpell->act($spell_id, $target_id, $tier, $direction, $target_id2);
     }
 
     public function ActSelectSpells(

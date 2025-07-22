@@ -34,7 +34,6 @@ class StPickSpellTower extends StateManager {
           const space = new Space(this.game, tower.space_id);
 
           const maxTier = space.getMaxTier();
-
           const minTier = space.getMinTier(spell.id !== 7);
 
           this.game.wtw.globals.towerCard = tower.card;
@@ -48,14 +47,6 @@ class StPickSpellTower extends StateManager {
           }
 
           this.game.addConfirmationButton(_("tower"), () => {
-            if (spell.id === 6) {
-              this.game.performAction("actCastSpell", {
-                spell_id: spell.id,
-                meeple_id: tower.space_id,
-              });
-              return;
-            }
-
             const stPickSpellTier = new StPickSpellTier(this.game);
             stPickSpellTier.set();
           });

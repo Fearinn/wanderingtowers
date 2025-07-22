@@ -150,13 +150,6 @@ class TowerManager extends CardManager
             $final_space_id = $this->game->sumSteps($space_id, $steps);
             $ravenskeepSpace = (int) $this->getRavenskeepSpace();
 
-            if (
-                $spell_id === 6 &&
-                (!$this->getByMaxTier($final_space_id) || $space_id === $ravenskeepSpace)
-            ) {
-                return false;
-            }
-
             return $final_space_id !== $ravenskeepSpace;
         });
 
