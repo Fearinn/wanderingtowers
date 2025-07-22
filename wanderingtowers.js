@@ -311,7 +311,7 @@ var WanderingTowers = /** @class */ (function (_super) {
                 new StPickSpellDirection(this).enter();
                 break;
             case "client_pickSwapTower":
-                new StPickSwapTower(this).enter();
+                new StPickSwapTower(this).enter(args.args);
                 break;
             case "spellSelection":
                 new StSpellSelection(this).enter();
@@ -4073,39 +4073,53 @@ var StPickSwapTower = /** @class */ (function (_super) {
             descriptionmyturn: _("${you} must pick 2 towers to swap"),
         });
     };
-    StPickSwapTower.prototype.enter = function () {
+    StPickSwapTower.prototype.enter = function (args) {
         var _this = this;
         _super.prototype.enter.call(this);
         var spellCard = this.game.wtw.globals.spellCard;
         var spell = new Spell(this.game, spellCard);
+        var selectableTowers = args.spellableMeeples[spell.id].tower;
         spell.toggleSelection(true);
         var towerStocks = this.game.wtw.stocks.towers.spaces;
         var _loop_8 = function (space_id) {
             var stock = towerStocks[space_id];
             stock.toggleSelection(true);
+            stock.setSelectableCards(selectableTowers);
             stock.onSelectionChange = function (selection, towerCard) {
                 var _a = _this.game.wtw.globals.spaces, spaces = _a === void 0 ? [] : _a;
-                console.log(spaces, "TEST");
                 _this.game.removeConfirmationButton();
                 var tower = new Tower(_this.game, towerCard);
                 var space_id = tower.space_id;
                 if (selection.length > 0) {
-                    spaces.push(space_id);
-                    _this.game.wtw.globals.spaces = spaces;
-                }
-                if (spaces.length > 2) {
-                    stock.unselectOthers();
-                    _this.game.wtw.globals.spaces = [space_id];
-                    return;
-                }
-                if (spaces.length === 2) {
-                    _this.game.addConfirmationButton(_("towers"), function () {
-                        _this.game.performAction("actCastSpell", {
-                            spell_id: spell.id,
-                            target_id: spaces[0],
-                            target2_id: spaces[1],
+                    spaces = __spreadArray(__spreadArray([], spaces, true), [space_id], false);
+                    if (spaces.length > 2) {
+                        _this.game.showMessage(_("You must pick exactly 2 towers"), "error");
+                        stock.unselectCard(towerCard, true);
+                        _this.game.addConfirmationButton(_("towers"), function () {
+                            _this.game.performAction("actCastSpell", {
+                                spell_id: spell.id,
+                                target_id: spaces[0],
+                                target2_id: spaces[1],
+                            });
                         });
+                        return;
+                    }
+                    _this.game.wtw.globals.spaces = spaces;
+                    if (spaces.length === 2) {
+                        _this.game.addConfirmationButton(_("towers"), function () {
+                            _this.game.performAction("actCastSpell", {
+                                spell_id: spell.id,
+                                target_id: spaces[0],
+                                target2_id: spaces[1],
+                            });
+                        });
+                    }
+                }
+                else {
+                    spaces = spaces.filter(function (s_id) {
+                        return space_id !== s_id;
                     });
+                    _this.game.wtw.globals.spaces = spaces;
                 }
             };
         };

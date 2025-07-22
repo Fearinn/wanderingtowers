@@ -408,7 +408,7 @@ class WanderingTowers extends WanderingTowersGui {
         break;
 
       case "client_pickSwapTower":
-        new StPickSwapTower(this).enter();
+        new StPickSwapTower(this).enter(args.args);
         break;
 
       case "spellSelection":
