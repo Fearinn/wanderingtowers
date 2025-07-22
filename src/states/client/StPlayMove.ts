@@ -14,7 +14,7 @@ class StPlayMove extends StateManager {
 
     const { playableMoves } = args._private;
 
-    const moveHand = this.wtw.stocks.moves.hand;
+    const moveHand = this.game.wtw.stocks.moves.hand;
     moveHand.toggleSelection(true);
     moveHand.setSelectableCards(playableMoves);
 
@@ -73,7 +73,7 @@ class StPlayMove extends StateManager {
   leave() {
     super.leave();
 
-    const moveHand = this.wtw.stocks.moves.hand;
+    const moveHand = this.game.wtw.stocks.moves.hand;
     moveHand.toggleSelection(false);
   }
 }

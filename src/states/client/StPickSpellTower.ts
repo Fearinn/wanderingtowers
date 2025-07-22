@@ -12,7 +12,7 @@ class StPickSpellTower extends StateManager {
   enter(args: args_StPickSpellTower) {
     super.enter();
 
-    const { spellCard } = this.wtw.globals;
+    const { spellCard } = this.game.wtw.globals;
 
     const spell = new Spell(this.game, spellCard);
     spell.toggleSelection(true);
@@ -58,7 +58,7 @@ class StPickSpellTower extends StateManager {
   leave() {
     super.leave();
 
-    const spellTable = this.wtw.stocks.spells.table;
+    const spellTable = this.game.wtw.stocks.spells.table;
     spellTable.setSelectionMode("none");
 
     const towerStocks = this.game.wtw.stocks.towers.spaces;

@@ -3536,7 +3536,6 @@ var StateManager = /** @class */ (function () {
         this.game = game;
         this.stateName = stateName;
         this.statusBar = this.game.statusBar;
-        this.wtw = this.game.wtw;
     }
     StateManager.prototype.enter = function (args) {
         var _this = this;
@@ -3562,7 +3561,7 @@ var StCastSpell = /** @class */ (function (_super) {
     StCastSpell.prototype.enter = function (args) {
         var _this = this;
         _super.prototype.enter.call(this);
-        var spellTable = this.wtw.stocks.spells.table;
+        var spellTable = this.game.wtw.stocks.spells.table;
         spellTable.setSelectionMode("single");
         spellTable.setSelectableCards(args.castableSpells);
         spellTable.onSelectionChange = function (selection, spellCard) {
@@ -3573,7 +3572,7 @@ var StCastSpell = /** @class */ (function (_super) {
                 _this.statusBar.addActionButton(_this.game.format_string_recursive(_("cast ${spell_label}"), {
                     spell_label: _(spell_1.name),
                 }), function () {
-                    _this.wtw.globals.spellCard = spellCard;
+                    _this.game.wtw.globals.spellCard = spellCard;
                     switch (spellCard.type) {
                         case "wizard":
                             var stPickSpellWizard = new StPickSpellWizard(_this.game);
@@ -3601,7 +3600,7 @@ var StCastSpell = /** @class */ (function (_super) {
     };
     StCastSpell.prototype.leave = function () {
         _super.prototype.leave.call(this);
-        var spellTable = this.wtw.stocks.spells.table;
+        var spellTable = this.game.wtw.stocks.spells.table;
         spellTable.setSelectionMode("none");
     };
     return StCastSpell;
@@ -3972,7 +3971,7 @@ var StPickSpellTower = /** @class */ (function (_super) {
     StPickSpellTower.prototype.enter = function (args) {
         var _this = this;
         _super.prototype.enter.call(this);
-        var spellCard = this.wtw.globals.spellCard;
+        var spellCard = this.game.wtw.globals.spellCard;
         var spell = new Spell(this.game, spellCard);
         spell.toggleSelection(true);
         var selectableTowers = args.spellableMeeples[spell.id].tower;
@@ -4010,7 +4009,7 @@ var StPickSpellTower = /** @class */ (function (_super) {
     };
     StPickSpellTower.prototype.leave = function () {
         _super.prototype.leave.call(this);
-        var spellTable = this.wtw.stocks.spells.table;
+        var spellTable = this.game.wtw.stocks.spells.table;
         spellTable.setSelectionMode("none");
         var towerStocks = this.game.wtw.stocks.towers.spaces;
         for (var space_id in towerStocks) {
@@ -4033,7 +4032,7 @@ var StPickSpellWizard = /** @class */ (function (_super) {
     StPickSpellWizard.prototype.enter = function (args) {
         var _this = this;
         _super.prototype.enter.call(this);
-        var spellCard = this.wtw.globals.spellCard;
+        var spellCard = this.game.wtw.globals.spellCard;
         var spell = new Spell(this.game, spellCard);
         spell.toggleSelection(true);
         var selectableWizards = args.spellableMeeples[spell.id].wizard;
@@ -4056,7 +4055,7 @@ var StPickSpellWizard = /** @class */ (function (_super) {
     };
     StPickSpellWizard.prototype.leave = function () {
         _super.prototype.leave.call(this);
-        var spellTable = this.wtw.stocks.spells.table;
+        var spellTable = this.game.wtw.stocks.spells.table;
         spellTable.setSelectionMode("none");
         this.game.loopWizardStocks(function (stock) {
             stock.toggleSelection(false);
@@ -4116,7 +4115,7 @@ var StPickSwapTower = /** @class */ (function (_super) {
     };
     StPickSwapTower.prototype.leave = function () {
         _super.prototype.leave.call(this);
-        var spellTable = this.wtw.stocks.spells.table;
+        var spellTable = this.game.wtw.stocks.spells.table;
         spellTable.setSelectionMode("none");
         var towerStocks = this.game.wtw.stocks.towers.spaces;
         for (var space_id in towerStocks) {
@@ -4140,7 +4139,7 @@ var StPlayMove = /** @class */ (function (_super) {
         var _this = this;
         _super.prototype.enter.call(this);
         var playableMoves = args._private.playableMoves;
-        var moveHand = this.wtw.stocks.moves.hand;
+        var moveHand = this.game.wtw.stocks.moves.hand;
         moveHand.toggleSelection(true);
         moveHand.setSelectableCards(playableMoves);
         moveHand.onSelectionChange = function (selection, card) {
@@ -4183,7 +4182,7 @@ var StPlayMove = /** @class */ (function (_super) {
     };
     StPlayMove.prototype.leave = function () {
         _super.prototype.leave.call(this);
-        var moveHand = this.wtw.stocks.moves.hand;
+        var moveHand = this.game.wtw.stocks.moves.hand;
         moveHand.toggleSelection(false);
     };
     return StPlayMove;
@@ -4294,7 +4293,7 @@ var StPlayerTurn = /** @class */ (function (_super) {
     StPlayerTurn.prototype.enter = function (args) {
         var _this = this;
         _super.prototype.enter.call(this);
-        this.wtw.globals = {};
+        this.game.wtw.globals = {};
         var _private = args._private, pushableTowers = args.pushableTowers, castableSpells = args.castableSpells, canPass = args.canPass;
         var playableMoves = _private.playableMoves;
         if (playableMoves.length > 0) {
@@ -4357,12 +4356,12 @@ var StSpellSelection = /** @class */ (function (_super) {
     StSpellSelection.prototype.enter = function () {
         var _this = this;
         _super.prototype.enter.call(this);
-        var spellTable = this.wtw.stocks.spells.table;
+        var spellTable = this.game.wtw.stocks.spells.table;
         spellTable.setSelectionMode("multiple");
         spellTable.onSelectionChange = function (selection, spellCard) {
             if (selection.length > 3) {
                 _this.game.showMessage(_("You can't pick more than 3 spells"), "error");
-                var spellTable_1 = _this.wtw.stocks.spells.table;
+                var spellTable_1 = _this.game.wtw.stocks.spells.table;
                 spellTable_1.unselectCard(spellCard, true);
                 return;
             }
@@ -4383,7 +4382,7 @@ var StSpellSelection = /** @class */ (function (_super) {
     };
     StSpellSelection.prototype.leave = function () {
         _super.prototype.leave.call(this);
-        var spellTable = this.wtw.stocks.spells.table;
+        var spellTable = this.game.wtw.stocks.spells.table;
         spellTable.setSelectionMode("none");
     };
     return StSpellSelection;

@@ -6,7 +6,7 @@ class StPlayerTurn extends StateManager {
   enter(args: arg_playerTurn) {
     super.enter();
 
-    this.wtw.globals = {};
+    this.game.wtw.globals = {};
 
     const { _private, pushableTowers, castableSpells, canPass } = args;
     const { playableMoves } = _private;

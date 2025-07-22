@@ -29,7 +29,6 @@ class StateManager implements StateManager {
     this.game = game;
     this.stateName = stateName;
     this.statusBar = this.game.statusBar;
-    this.wtw = this.game.wtw;
   }
 
   enter(args?: object): void {

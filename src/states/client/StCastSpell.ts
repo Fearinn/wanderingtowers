@@ -12,7 +12,7 @@ class StCastSpell extends StateManager {
   enter(args: args_StCastSpell) {
     super.enter();
 
-    const spellTable = this.wtw.stocks.spells.table;
+    const spellTable = this.game.wtw.stocks.spells.table;
     spellTable.setSelectionMode("single");
     spellTable.setSelectableCards(args.castableSpells);
 
@@ -27,7 +27,7 @@ class StCastSpell extends StateManager {
             spell_label: _(spell.name),
           }),
           () => {
-            this.wtw.globals.spellCard = spellCard;
+            this.game.wtw.globals.spellCard = spellCard;
 
             switch (spellCard.type) {
               case "wizard":
@@ -65,7 +65,7 @@ class StCastSpell extends StateManager {
   leave() {
     super.leave();
 
-    const spellTable = this.wtw.stocks.spells.table;
+    const spellTable = this.game.wtw.stocks.spells.table;
     spellTable.setSelectionMode("none");
   }
 }
