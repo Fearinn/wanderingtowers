@@ -24,6 +24,7 @@ class StPickSpellTower extends StateManager {
       const stock = towerStocks[space_id];
       stock.toggleSelection(true);
       stock.setSelectableCards(selectableTowers);
+
       stock.onSelectionChange = (selection, towerCard) => {
         this.game.removeConfirmationButton();
 
@@ -34,13 +35,13 @@ class StPickSpellTower extends StateManager {
           const space = new Space(this.game, tower.space_id);
 
           const maxTier = space.getMaxTier();
-          const minTier = space.getMinTier(spell.id !== 7);
+          const minTier = space.getMinTier();
 
           this.game.wtw.globals.towerCard = tower.card;
           this.game.wtw.globals.maxTier = maxTier;
           this.game.wtw.globals.minTier = minTier;
 
-          if (maxTier > minTier && spell.id !== 6) {
+          if (maxTier > minTier) {
             const stPickSpellTier = new StPickSpellTier(this.game);
             stPickSpellTier.set();
             return;

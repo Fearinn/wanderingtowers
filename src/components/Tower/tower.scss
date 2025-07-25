@@ -46,22 +46,18 @@
     background-position: -100%;
   }
 
-  &-ravenskeep {
-    background-position: 0;
-    border-radius: 0;
-    box-shadow: none !important;
-    filter: drop-shadow(2px 2px 8px #000000) !important;
-
-    &.wtw_tower-unselectable {
-      transform: scale(0.95);
-      pointer-events: none;
-    }
-  }
-
   &-unselectable {
     cursor: not-allowed;
     filter: grayscale(100%);
     transform: scale(0.95);
+  }
+
+  &-ravenskeep {
+    background-position: 0;
+    border-radius: 0;
+    box-shadow: none !important;
+    filter: drop-shadow(2px 2px 8px #000000);
+    pointer-events: none;
   }
 
   &-selectable {

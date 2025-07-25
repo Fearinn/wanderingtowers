@@ -38,6 +38,7 @@ class Tower extends Card {
 
   toggleSelection(enabled: boolean): void {
     this.stocks.spaces[this.space_id].toggleSelection(enabled);
+    this.stocks.spaces[this.space_id].setSelectableCards([this.card]);
 
     if (enabled) {
       this.select(true);
@@ -56,7 +57,7 @@ class Tower extends Card {
 
   async move(space_id: number, current_space_id: number) {
     await this.place(space_id);
-    
+
     const prevSpace = new Space(this.game, current_space_id);
     prevSpace.updateTier();
 

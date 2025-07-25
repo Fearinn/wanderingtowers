@@ -3129,6 +3129,7 @@ var Tower = /** @class */ (function (_super) {
     };
     Tower.prototype.toggleSelection = function (enabled) {
         this.stocks.spaces[this.space_id].toggleSelection(enabled);
+        this.stocks.spaces[this.space_id].setSelectableCards([this.card]);
         if (enabled) {
             this.select(true);
         }
@@ -3981,11 +3982,11 @@ var StPickSpellTower = /** @class */ (function (_super) {
                     var tower = new Tower(_this.game, towerCard);
                     var space = new Space(_this.game, tower.space_id);
                     var maxTier = space.getMaxTier();
-                    var minTier = space.getMinTier(spell.id !== 7);
+                    var minTier = space.getMinTier();
                     _this.game.wtw.globals.towerCard = tower.card;
                     _this.game.wtw.globals.maxTier = maxTier;
                     _this.game.wtw.globals.minTier = minTier;
-                    if (maxTier > minTier && spell.id !== 6) {
+                    if (maxTier > minTier) {
                         var stPickSpellTier = new StPickSpellTier(_this.game);
                         stPickSpellTier.set();
                         return;
