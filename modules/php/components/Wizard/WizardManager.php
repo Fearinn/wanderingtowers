@@ -73,7 +73,8 @@ class WizardManager extends CardManager
 
     public function countOnSpace(int $space_id, int $tier): int
     {
-        $count = (int) $this->game->getUniqueValueFromDB("SELECT COUNT(card_id) FROM {$this->dbTable} WHERE card_location_arg={$space_id} AND tier={$tier}");
+        $count = (int) $this->game->getUniqueValueFromDB("SELECT COUNT(card_id) FROM {$this->dbTable} 
+        WHERE card_location='space' AND card_location_arg={$space_id} AND tier={$tier}");
         return $count;
     }
 
