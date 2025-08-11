@@ -1266,6 +1266,9 @@ body > .card {
   position: absolute;
   z-index: 1;
 }
+.wtw_moveDiscard .wtw_move:not(:first-child) .card-side {
+  box-shadow: none !important;
+}
 
 .wtw_discardTitle {
   color: black;
@@ -1301,7 +1304,7 @@ body > .card {
   height: calc(var(--moveHeight) * 1.2);
 }
 .wtw_move .card-side {
-  box-shadow: 1px 2px 1px 2px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 1px 2px 4px 2px !important;
   background-size: cover;
 }
 .wtw_move-front {
@@ -1315,7 +1318,7 @@ body > .card {
   margin: 2px auto 0 auto;
 }
 .wtw_move-icon .card-side {
-  box-shadow: none !important;
+  box-shadow: 1px 1px 4px !important;
 }
 
 :root {

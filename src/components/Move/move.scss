@@ -20,6 +20,12 @@
   .wtw_move {
     position: absolute;
     z-index: 1;
+
+    &:not(:first-child) {
+      .card-side {
+        box-shadow: none !important;
+      }
+    }
   }
 }
 
@@ -60,7 +66,7 @@
   }
 
   .card-side {
-    box-shadow: 1px 2px 1px 2px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 1px 2px 4px 2px !important;
     background-size: cover;
   }
 
@@ -77,7 +83,7 @@
     margin: 2px auto 0 auto;
 
     .card-side {
-      box-shadow: none !important;
+      box-shadow: 1px 1px 4px !important;
     }
   }
 }
