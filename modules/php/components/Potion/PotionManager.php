@@ -16,6 +16,13 @@ class PotionManager extends CardManager
 
     public function setupCards(): void
     {
+        if (
+            $this->game->isSolo()
+            && $this->game->tableOptions->get(OPT_SPELLS_SOLO) === 0
+        ) {
+            return;
+        }
+
         $players = $this->game->loadPlayersBasicInfos();
         $playerNbr = count($players);
 
@@ -35,13 +42,15 @@ class PotionManager extends CardManager
         $this->createCards($potionCards);
 
         foreach ($players as $player_id => $player) {
-            $this->game->DbQuery("UPDATE potion SET card_location='empty', card_location_arg={$player_id} WHERE card_type_arg={$player_id}");
+            $this->game->DbQuery("UPDATE potion SET card_location='empty', card_location_arg={$player_id} 
+            WHERE card_type_arg={$player_id}");
         }
     }
 
     public function getCargos(): array
     {
-        $potionCards = $this->game->getCollectionFromDB("SELECT {$this->fields} FROM {$this->dbTable} WHERE card_location='empty' OR card_location='filled'");
+        $potionCards = $this->game->getCollectionFromDB("SELECT {$this->fields} FROM {$this->dbTable} 
+        WHERE card_location='empty' OR card_location='filled'");
         return array_values($potionCards);
     }
 
@@ -94,7 +103,8 @@ class PotionManager extends CardManager
 
     public function usePotions(int $nbr, int $player_id): void
     {
-        $this->game->DbQuery("UPDATE {$this->dbTable} SET card_location='discard' WHERE card_location='filled' AND card_location_arg={$player_id} LIMIT {$nbr}");
+        $this->game->DbQuery("UPDATE {$this->dbTable} SET card_location='discard' 
+        WHERE card_location='filled' AND card_location_arg={$player_id} LIMIT {$nbr}");
 
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(
@@ -113,6 +123,13 @@ class PotionManager extends CardManager
 
     public function getPotionsGoal(): int
     {
+        if (
+            $this->game->isSolo()
+            && $this->game->tableOptions->get(OPT_SPELLS_SOLO) === 0
+        ) {
+            return 0;
+        }
+
         $playersNbr = $this->game->getPlayersNumber();
         return $this->game->SETUP_COUNTS[$playersNbr]["potions"];
     }
