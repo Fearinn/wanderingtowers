@@ -8,6 +8,7 @@
 
 .wtw_moveHand {
   margin: 16px 0 32px 0;
+  z-index: 1;
 }
 
 .wtw_moveDiscard {
@@ -16,6 +17,7 @@
   height: var(--moveHeight);
   padding: 0;
   pointer-events: auto;
+  z-index: 1;
 
   .wtw_move {
     position: absolute;
