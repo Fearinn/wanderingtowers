@@ -33,8 +33,8 @@ class Wizard extends Card {
   setupDiv(element: HTMLDivElement) {
     element.classList.add("wtw_card", "wtw_wizard");
 
-    const backgroundPosition = `${Number(this.card.type) * -100}%`;
-    element.style.backgroundPosition = backgroundPosition;
+    const backgroundImage = `url(${g_gamethemeurl}img/wizard_${this.card.type}.png)`;
+    element.style.backgroundImage = backgroundImage;
 
     const player_id = this.card.type_arg;
 
@@ -55,15 +55,15 @@ class Wizard extends Card {
       element.id,
       `
       <div class="wtw_wizardTooltip">
-        <div class="wtw_card wtw_wizard wtw_wizard-tooltip" style="background-position: ${backgroundPosition}"></div>
+        <div class="wtw_card wtw_wizard wtw_wizard-tooltip" style="background-image: #${backgroundImage}"></div>
         <span class="wtw_tooltipText">${tooltipText}</span>
       </div>
       `
     );
 
     const panelWizard = document.getElementById(`wtw_panelWizard-${player_id}`);
-    if (!panelWizard.style.backgroundPosition) {
-      panelWizard.style.backgroundPosition = backgroundPosition;
+    if (!panelWizard.style.backgroundImage) {
+      panelWizard.style.backgroundImage = backgroundImage;
     }
   }
 

@@ -1134,7 +1134,6 @@ body > .card {
 }
 
 .wtw_wizard {
-  background-image: url("img/wizards.png");
   background-size: cover;
   aspect-ratio: 1/1.41;
   width: var(--wizardWidth);

@@ -2975,11 +2975,11 @@ var Potion = /** @class */ (function (_super) {
             return;
         }
         element.classList.add("wtw_potion-empty");
-        element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/potionEmpty_").concat(Number(this.card.type), ".png)");
+        element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/potionEmpty_").concat(this.card.type, ".png)");
     };
     Potion.prototype.setupBackDiv = function (element) {
         element.classList.add("wtw_potion-filled");
-        element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/potion_").concat(Number(this.card.type), ".png)");
+        element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/potion_").concat(this.card.type, ".png)");
     };
     Potion.prototype.fill = function () {
         this.cargo.setCardVisible(this.card, false);
@@ -3212,8 +3212,8 @@ var Wizard = /** @class */ (function (_super) {
     };
     Wizard.prototype.setupDiv = function (element) {
         element.classList.add("wtw_card", "wtw_wizard");
-        var backgroundPosition = "".concat(Number(this.card.type) * -100, "%");
-        element.style.backgroundPosition = backgroundPosition;
+        var backgroundImage = "url(".concat(g_gamethemeurl, "img/wizard_").concat(this.card.type, ".png)");
+        element.style.backgroundImage = backgroundImage;
         var player_id = this.card.type_arg;
         var color = this.game.gamedatas.players[player_id].color;
         element.style.setProperty("--color", "#".concat(color, "aa"));
@@ -3224,10 +3224,10 @@ var Wizard = /** @class */ (function (_super) {
             player_id: player_id,
             player_name: this.game.gamedatas.players[player_id].name,
         });
-        this.game.addTooltipHtml(element.id, "\n      <div class=\"wtw_wizardTooltip\">\n        <div class=\"wtw_card wtw_wizard wtw_wizard-tooltip\" style=\"background-position: ".concat(backgroundPosition, "\"></div>\n        <span class=\"wtw_tooltipText\">").concat(tooltipText, "</span>\n      </div>\n      "));
+        this.game.addTooltipHtml(element.id, "\n      <div class=\"wtw_wizardTooltip\">\n        <div class=\"wtw_card wtw_wizard wtw_wizard-tooltip\" style=\"background-image: #".concat(backgroundImage, "\"></div>\n        <span class=\"wtw_tooltipText\">").concat(tooltipText, "</span>\n      </div>\n      "));
         var panelWizard = document.getElementById("wtw_panelWizard-".concat(player_id));
-        if (!panelWizard.style.backgroundPosition) {
-            panelWizard.style.backgroundPosition = backgroundPosition;
+        if (!panelWizard.style.backgroundImage) {
+            panelWizard.style.backgroundImage = backgroundImage;
         }
     };
     Wizard.prototype.place = function (space_id) {
