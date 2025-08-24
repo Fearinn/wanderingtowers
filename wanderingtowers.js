@@ -764,26 +764,22 @@ var ZoomManager = /** @class */ (function () {
      */
     ZoomManager.prototype.zoomOrDimensionChanged = function () {
         var _a, _b;
-        // FIX FROM @lebololo
         var targetElement = this.settings.element;
-        var wrapperRect = this.wrapper.getBoundingClientRect();
+        var wrapper = this.wrapper;
         var currentZoom = this._zoom;
-        var expectedWidth = wrapperRect.width / currentZoom;
+        // --- Width ---
+        var expectedWidth = wrapper.offsetWidth / currentZoom;
         var currentStyledWidth = parseFloat(targetElement.style.width);
-        if (!isNaN(currentStyledWidth) && Math.abs(currentStyledWidth - expectedWidth) < 0.5) {
-            // Skip update if the width is already close enough
-            return;
+        if (isNaN(currentStyledWidth) || Math.abs(currentStyledWidth - expectedWidth) >= 0.5) {
+            targetElement.style.width = "".concat(expectedWidth, "px");
         }
-        // Update element width
-        targetElement.style.width = "".concat(expectedWidth, "px");
-        // Now update wrapper height based on new element height
-        var elementRect = targetElement.getBoundingClientRect();
-        var expectedHeight = elementRect.height;
-        var currentWrapperHeight = parseFloat(this.wrapper.style.height);
+        // --- Height ---
+        var expectedHeight = targetElement.offsetHeight * currentZoom;
+        var currentWrapperHeight = parseFloat(wrapper.style.height);
         if (isNaN(currentWrapperHeight) || Math.abs(currentWrapperHeight - expectedHeight) >= 0.5) {
-            this.wrapper.style.height = "".concat(expectedHeight, "px");
+            wrapper.style.height = "".concat(expectedHeight, "px");
         }
-        // Trigger optional callback
+        // --- Callback ---
         (_b = (_a = this.settings).onDimensionsChange) === null || _b === void 0 ? void 0 : _b.call(_a, currentZoom);
     };
     /**
