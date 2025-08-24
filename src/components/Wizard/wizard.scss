@@ -48,11 +48,6 @@
     animation-duration: 0.4s;
     animation-fill-mode: forwards;
   }
-
-  .wtw_wizard:hover {
-    transform: scale(2);
-    z-index: 4;
-  }
 }
 
 .wtw_wizard {
@@ -89,10 +84,6 @@
     background-color: #00aa00aa;
     transform: scale(2) rotate(10deg);
     z-index: 3;
-
-    &:hover {
-      transform: scale(2) rotate(10deg) !important;
-    }
   }
 
   &-unselectable {
