@@ -1,5 +1,5 @@
 :root {
-  --potionWidth: 40px;
+  --potionWidth: 45px;
 }
 
 .wtw_potionCargo {
@@ -22,11 +22,7 @@
   width: var(--potionWidth);
   filter: drop-shadow(2px 2px 2px #000000);
 
-  &-empty {
-    background-image: url("img/potions_empty.png");
-  }
-
-  &-filled {
-    background-image: url("img/potions_filled.png");
+  .card-side {
+    background-size: cover;
   }
 }

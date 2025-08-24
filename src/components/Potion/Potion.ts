@@ -30,12 +30,16 @@ class Potion extends Card {
     }
 
     element.classList.add("wtw_potion-empty");
-    element.style.backgroundPosition = `${Number(this.card.type) * -100}%`;
+    element.style.backgroundImage = `url(${g_gamethemeurl}img/potionEmpty_${Number(
+      this.card.type
+    )}.png)`;
   }
 
   setupBackDiv(element: HTMLDivElement): void {
     element.classList.add("wtw_potion-filled");
-    element.style.backgroundPosition = `${Number(this.card.type) * -100}%`;
+    element.style.backgroundImage = `url(${g_gamethemeurl}img/potion_${Number(
+      this.card.type
+    )}.png)`;
   }
 
   fill() {

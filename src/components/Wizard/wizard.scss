@@ -57,7 +57,7 @@
   width: var(--wizardWidth);
   pointer-events: auto;
   transform-style: flat;
-  filter: drop-shadow(4px 4px 1px #000000);
+  filter: drop-shadow(4px -2px 2px #000000);
   z-index: 1;
 
   &.bga-animations_animated {
@@ -102,13 +102,14 @@
   align-items: center;
   gap: 4px;
   width: fit-content;
-}
 
-.wtw_ravenskeepCounterIcon {
-  background-image: url("img/ravenShield.png");
-  background-size: cover;
-  aspect-ratio: 1;
-  width: 50px;
+  &Icon {
+    background-image: url("img/ravenShield.png");
+    background-size: cover;
+    aspect-ratio: 1;
+    width: 50px;
+    filter: drop-shadow(2px 2px 2px #000000);
+  }
 }
 
 .wtw_ravenskeepCountContainer {

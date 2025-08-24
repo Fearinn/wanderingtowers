@@ -44,7 +44,7 @@ var WanderingTowers = /** @class */ (function (_super) {
             element: document.getElementById("wtw_gameArea"),
             localStorageZoomKey: "wanderingtowers-zoom",
             zoomLevels: [
-                0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5,
+                0.25, 0.3, 0.375, 0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5,
             ],
         });
         var diceManager = new DiceManager(this, {
@@ -2979,11 +2979,11 @@ var Potion = /** @class */ (function (_super) {
             return;
         }
         element.classList.add("wtw_potion-empty");
-        element.style.backgroundPosition = "".concat(Number(this.card.type) * -100, "%");
+        element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/potionEmpty_").concat(Number(this.card.type), ".png)");
     };
     Potion.prototype.setupBackDiv = function (element) {
         element.classList.add("wtw_potion-filled");
-        element.style.backgroundPosition = "".concat(Number(this.card.type) * -100, "%");
+        element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/potion_").concat(Number(this.card.type), ".png)");
     };
     Potion.prototype.fill = function () {
         this.cargo.setCardVisible(this.card, false);
