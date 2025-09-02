@@ -56,7 +56,7 @@
   width: var(--wizardWidth);
   pointer-events: auto;
   transform-style: flat;
-  filter: drop-shadow(4px -2px 2px #000000);
+  filter: drop-shadow(4px 2px 2px #000000);
   z-index: 1;
 
   &.bga-animations_animated {
@@ -65,7 +65,7 @@
   }
 
   &-tooltip {
-    width: calc(var(--wizardWidth) * 2);
+    width: 100px;
   }
 
   &-selectable {
@@ -89,6 +89,10 @@
   &-ravenskeep {
     animation: 1s linear forwards enterRavenskeep;
     background-color: unset;
+  }
+
+  &-panel {
+    width: 50px;
   }
 }
 

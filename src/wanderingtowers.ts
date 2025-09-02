@@ -14,9 +14,7 @@ class WanderingTowers extends WanderingTowersGui {
     const zoomManager = new ZoomManager({
       element: document.getElementById("wtw_gameArea"),
       localStorageZoomKey: "wanderingtowers-zoom",
-      zoomLevels: [
-        0.25, 0.3, 0.375, 0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5,
-      ],
+      zoomLevels: [0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5, 1.75, 2],
     });
 
     const diceManager = new DiceManager(this, {
@@ -65,8 +63,8 @@ class WanderingTowers extends WanderingTowersGui {
     });
 
     const moveManager = new CardManager<MoveCard>(this, {
-      cardHeight: 100,
-      cardWidth: 146,
+      cardHeight: 60,
+      cardWidth: (447 / 300) * 60,
       selectedCardClass: "wtw_move-selected",
       getId: (card) => {
         return `wtw_move-${card.id}`;

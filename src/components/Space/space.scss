@@ -1,5 +1,5 @@
 :root {
-  --spaceWidth: 200px;
+  --spaceWidth: 100px;
   --tileWidth: calc(var(--spaceWidth) * 3.75);
 }
 
@@ -10,7 +10,7 @@
 }
 
 .wtw_tierCounter {
-  font-size: 60px;
+  font-size: 40px;
   font-weight: bold;
   color: white;
   text-shadow: 0 0 3px black, 0 0 6px black, 0 0 9px black, 0 0 12px black;

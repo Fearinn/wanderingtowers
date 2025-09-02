@@ -799,6 +799,7 @@ body > .card {
 }
 
 .wtw_pref-floatingHand .game_interface:not(.mode_3d) .wtw_moveHand {
+  --moveHeight: 100px;
   position: fixed;
   left: 50%;
   bottom: -10%;
@@ -816,7 +817,7 @@ body > .card {
 }
 
 :root {
-  --spaceWidth: 200px;
+  --spaceWidth: 100px;
   --tileWidth: calc(var(--spaceWidth) * 3.75);
 }
 
@@ -827,7 +828,7 @@ body > .card {
 }
 
 .wtw_tierCounter {
-  font-size: 60px;
+  font-size: 40px;
   font-weight: bold;
   color: white;
   text-shadow: 0 0 3px black, 0 0 6px black, 0 0 9px black, 0 0 12px black;
@@ -1139,7 +1140,7 @@ body > .card {
   width: var(--wizardWidth);
   pointer-events: auto;
   transform-style: flat;
-  filter: drop-shadow(4px -2px 2px #000000);
+  filter: drop-shadow(4px 2px 2px #000000);
   z-index: 1;
 }
 .wtw_wizard.bga-animations_animated {
@@ -1147,7 +1148,7 @@ body > .card {
   z-index: 11 !important;
 }
 .wtw_wizard-tooltip {
-  width: calc(var(--wizardWidth) * 2);
+  width: 100px;
 }
 .wtw_wizard-selectable {
   cursor: pointer;
@@ -1167,6 +1168,9 @@ body > .card {
 .wtw_wizard-ravenskeep {
   animation: 1s linear forwards enterRavenskeep;
   background-color: unset;
+}
+.wtw_wizard-panel {
+  width: 50px;
 }
 
 .wtw_ravenskeepCounter {
@@ -1232,7 +1236,7 @@ body > .card {
   }
 }
 :root {
-  --moveHeight: 100px;
+  --moveHeight: 60px;
 }
 
 .wtw_moveVoid {
@@ -1240,7 +1244,7 @@ body > .card {
 }
 
 .wtw_moveHand {
-  margin: 16px 0 32px 0;
+  margin: 8px 0 16px 0;
   z-index: 1;
 }
 
@@ -1262,7 +1266,7 @@ body > .card {
 
 .wtw_discardTitle {
   color: black;
-  font-size: 40px;
+  font-size: 16px;
   font-weight: bold;
   position: absolute;
   top: 50%;
@@ -1276,7 +1280,7 @@ body > .card {
 }
 
 .wtw_deckCounter {
-  font-size: 60px !important;
+  font-size: 36px !important;
   font-weight: bold;
   text-shadow: 0 0 3px black, 0 0 6px black, 0 0 9px black, 0 0 12px black !important;
 }
@@ -1286,15 +1290,15 @@ body > .card {
   height: var(--moveHeight);
 }
 .wtw_move-selected {
-  outline: 3px solid green;
+  outline: 2px solid green;
   transform: translateY(-20%) !important;
   z-index: 1;
 }
 .wtw_move-tooltip {
-  height: calc(var(--moveHeight) * 1.2);
+  --moveHeight: 100px;
 }
 .wtw_move .card-side {
-  box-shadow: 1px 2px 4px 2px !important;
+  box-shadow: 1px 1px 4px 1px !important;
   background-size: cover;
 }
 .wtw_move-front {
@@ -1339,7 +1343,8 @@ body > .card {
 }
 
 :root {
-  --spellWidth: 160px;
+  --spellWidth: 80px;
+  --spellTooltipWidth: 160px;
 }
 
 .wtw_spells {
@@ -1367,38 +1372,38 @@ body > .card {
   top: unset !important;
   left: unset !important;
   transform: none !important;
-  width: calc(var(--spellWidth) * 0.8);
+  width: calc(var(--spellTooltipWidth) * 0.8);
 }
 .wtw_spell-selected {
   border: 3px solid green;
   transform: scale(1.2) translate(-50%, -50%);
 }
 .wtw_spell:nth-child(1) {
-  top: 30%;
-  left: 20%;
+  top: 27.5%;
+  left: 22.5%;
 }
 .wtw_spell:nth-child(2) {
-  top: 20%;
+  top: 17.5%;
   left: 50%;
 }
 .wtw_spell:nth-child(3) {
-  top: 30%;
-  left: 80%;
+  top: 27.5%;
+  left: 77.5%;
 }
 .wtw_spell:nth-child(4) {
-  top: 65%;
+  top: 70%;
   left: 15%;
 }
 .wtw_spell:nth-child(5) {
-  top: 80%;
+  top: 85%;
   left: 37.5%;
 }
 .wtw_spell:nth-child(6) {
-  top: 80%;
+  top: 85%;
   left: 62.5%;
 }
 .wtw_spell:nth-child(7) {
-  top: 65%;
+  top: 70%;
   left: 85%;
 }
 
@@ -1425,8 +1430,8 @@ body > .card {
 .wtw_spellDescription {
   font-size: 32px;
   margin: 0;
-  height: var(--spellWidth);
-  width: calc(var(--spellWidth) * 1.75);
+  height: var(--spellTooltipWidth);
+  width: calc(var(--spellTooltipWidth) * 1.75);
 }
 
 .wtw_spellHelp {
@@ -1434,7 +1439,7 @@ body > .card {
   flex-direction: column;
   gap: 8px;
   background-image: url("img/background.jpg");
-  height: calc(var(--spellWidth) * 2.5);
+  height: calc(var(--spellTooltipWidth) * 2.5);
   padding: 4px;
   overflow-y: auto;
 }

@@ -161,7 +161,8 @@ interface MoveHandStock extends HandStock<MoveCard> {
 class MoveHandStock extends HandStock<MoveCard> {
   constructor(game: WanderingTowersGui, manager: CardManager<MoveCard>) {
     super(manager, document.getElementById("wtw_moveHand"), {
-      cardOverlap: "24px",
+      cardOverlap: "12px",
+      cardShift: "12px",
     });
 
     this.game = game;

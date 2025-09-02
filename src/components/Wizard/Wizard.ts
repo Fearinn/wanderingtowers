@@ -55,7 +55,7 @@ class Wizard extends Card {
       element.id,
       `
       <div class="wtw_wizardTooltip">
-        <div class="wtw_card wtw_wizard wtw_wizard-tooltip" style="background-image: #${backgroundImage}"></div>
+        <div class="wtw_card wtw_wizard wtw_wizard-tooltip" style="background-image: ${backgroundImage}"></div>
         <span class="wtw_tooltipText">${tooltipText}</span>
       </div>
       `

@@ -43,9 +43,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         var zoomManager = new ZoomManager({
             element: document.getElementById("wtw_gameArea"),
             localStorageZoomKey: "wanderingtowers-zoom",
-            zoomLevels: [
-                0.25, 0.3, 0.375, 0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5,
-            ],
+            zoomLevels: [0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5, 1.75, 2],
         });
         var diceManager = new DiceManager(this, {
             dieTypes: {
@@ -85,8 +83,8 @@ var WanderingTowers = /** @class */ (function (_super) {
             setupFrontDiv: function (card, element) { },
         });
         var moveManager = new CardManager(this, {
-            cardHeight: 100,
-            cardWidth: 146,
+            cardHeight: 60,
+            cardWidth: (447 / 300) * 60,
             selectedCardClass: "wtw_move-selected",
             getId: function (card) {
                 return "wtw_move-".concat(card.id);
@@ -2936,7 +2934,8 @@ var MoveHandStock = /** @class */ (function (_super) {
     __extends(MoveHandStock, _super);
     function MoveHandStock(game, manager) {
         var _this = _super.call(this, manager, document.getElementById("wtw_moveHand"), {
-            cardOverlap: "24px",
+            cardOverlap: "12px",
+            cardShift: "12px",
         }) || this;
         _this.game = game;
         _this.setSelectionMode("none");
@@ -3224,7 +3223,7 @@ var Wizard = /** @class */ (function (_super) {
             player_id: player_id,
             player_name: this.game.gamedatas.players[player_id].name,
         });
-        this.game.addTooltipHtml(element.id, "\n      <div class=\"wtw_wizardTooltip\">\n        <div class=\"wtw_card wtw_wizard wtw_wizard-tooltip\" style=\"background-image: #".concat(backgroundImage, "\"></div>\n        <span class=\"wtw_tooltipText\">").concat(tooltipText, "</span>\n      </div>\n      "));
+        this.game.addTooltipHtml(element.id, "\n      <div class=\"wtw_wizardTooltip\">\n        <div class=\"wtw_card wtw_wizard wtw_wizard-tooltip\" style=\"background-image: ".concat(backgroundImage, "\"></div>\n        <span class=\"wtw_tooltipText\">").concat(tooltipText, "</span>\n      </div>\n      "));
         var panelWizard = document.getElementById("wtw_panelWizard-".concat(player_id));
         if (!panelWizard.style.backgroundImage) {
             panelWizard.style.backgroundImage = backgroundImage;
