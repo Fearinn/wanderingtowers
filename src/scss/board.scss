@@ -20,3 +20,7 @@
   pointer-events: none;
   z-index: 99;
 }
+
+.wtw_spacesContainer:has(.bga-animations_animated) {
+  z-index: 100;
+}

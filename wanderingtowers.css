@@ -773,6 +773,10 @@ body > .card {
   z-index: 99;
 }
 
+.wtw_spacesContainer:has(.bga-animations_animated) {
+  z-index: 100;
+}
+
 .wtw_card {
   position: relative;
 }
@@ -806,7 +810,6 @@ body > .card {
   margin: 0;
   transform: translateX(-50%) translateY(-50%);
   transition: 1s;
-  z-index: 2;
 }
 .wtw_pref-floatingHand .game_interface:not(.mode_3d) .wtw_moveHand:hover, .wtw_pref-floatingHand .game_interface:not(.mode_3d) .wtw_moveHand:has(.wtw_move-selected) {
   bottom: -5%;
@@ -975,6 +978,11 @@ body > .card {
   top: calc(var(--spaceWidth) * 1.45);
   left: calc(var(--spaceWidth) * -0.05);
   background-position: -1500% 0;
+}
+
+.wtw_dice {
+  position: relative;
+  z-index: 99;
 }
 
 .wtw_die {
@@ -1244,8 +1252,9 @@ body > .card {
 }
 
 .wtw_moveHand {
-  margin: 8px 0 16px 0;
-  z-index: 1;
+  position: relative;
+  margin: 12px 0 24px 0;
+  z-index: 101;
 }
 
 .wtw_moveDiscard {
