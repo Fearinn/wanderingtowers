@@ -21,6 +21,11 @@ class ActMoveTower extends ActionManager
     ): void {
         $TowerManager = new TowerManager($this->game);
         $towerCard = $TowerManager->getByTier($space_id, $tier);
+
+        if (!$towerCard) {
+            throw new \BgaVisibleSystemException("Invalid tower or tier: {$tier}");
+        }
+
         $towerCard_id = (int) $towerCard["id"];
 
         $Move = new Move($this->game, $moveCard_id);
