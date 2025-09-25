@@ -67,13 +67,13 @@ class Spell extends Card {
     cloneElement.classList.add("wtw_spell-tooltip");
 
     const tooltipHTML = `<div class="wtw_spellTooltip">
-      <h4 class="wtw_tooltipText wtw_tooltipTitle">${this.name}</h4>
+      <h4 class="wtw_tooltipText wtw_tooltipTitle">${_(this.name)}</h4>
       <div class="wtw_spellContent">
           ${cloneElement.outerHTML}
           <div class="bga-autofit wtw_spellDescription wtw_tooltipText">
-            <p>${this.description}</p>
+            <p>${_(this.description)}</p>
             <p>${this.game.format_string_recursive(
-              "Cost: ${cost} full bottle(s)",
+              _("Cost: ${cost} full bottle(s)"),
               {
                 cost: this.cost,
               }

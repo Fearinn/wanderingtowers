@@ -3076,7 +3076,7 @@ var Spell = /** @class */ (function (_super) {
             childElement.removeAttribute("id");
         });
         cloneElement.classList.add("wtw_spell-tooltip");
-        var tooltipHTML = "<div class=\"wtw_spellTooltip\">\n      <h4 class=\"wtw_tooltipText wtw_tooltipTitle\">".concat(this.name, "</h4>\n      <div class=\"wtw_spellContent\">\n          ").concat(cloneElement.outerHTML, "\n          <div class=\"bga-autofit wtw_spellDescription wtw_tooltipText\">\n            <p>").concat(this.description, "</p>\n            <p>").concat(this.game.format_string_recursive("Cost: ${cost} full bottle(s)", {
+        var tooltipHTML = "<div class=\"wtw_spellTooltip\">\n      <h4 class=\"wtw_tooltipText wtw_tooltipTitle\">".concat(_(this.name), "</h4>\n      <div class=\"wtw_spellContent\">\n          ").concat(cloneElement.outerHTML, "\n          <div class=\"bga-autofit wtw_spellDescription wtw_tooltipText\">\n            <p>").concat(_(this.description), "</p>\n            <p>").concat(this.game.format_string_recursive(_("Cost: ${cost} full bottle(s)"), {
             cost: this.cost,
         }), "</p>\n          </div>\n        </div>\n      </div>");
         return tooltipHTML;
