@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\WanderingTowers\States;
+namespace Bga\Games\WanderingTowers\states;
 
 use Bga\GameFramework\Db\Globals;
 use Bga\GameFramework\Table;

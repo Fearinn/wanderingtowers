@@ -6,7 +6,7 @@ use Bga\GameFramework\Actions\Types\IntArrayParam;
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\Spell\SpellManager;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
-use Bga\Games\WanderingTowers\States\StateManager;
+use Bga\Games\WanderingTowers\states\StateManager;
 
 class ActSelectSpells extends StateManager
 {

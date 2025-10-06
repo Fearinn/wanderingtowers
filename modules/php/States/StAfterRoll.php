@@ -1,6 +1,6 @@
 <?php
 
-namespace Bga\Games\WanderingTowers\States;
+namespace Bga\Games\WanderingTowers\states;
 
 use Bga\GameFramework\Table;
 use Bga\Games\WanderingTowers\Components\Move\Move;

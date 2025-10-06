@@ -43,11 +43,11 @@ use Bga\Games\WanderingTowers\Components\Spell\SpellManager;
 use Bga\Games\WanderingTowers\Components\Wizard\Wizard;
 use Bga\Games\WanderingTowers\Notifications\NotifManager;
 use Bga\Games\WanderingTowers\Score\ScoreManager;
-use Bga\Games\WanderingTowers\States\StAfterRoll;
-use Bga\Games\WanderingTowers\States\StBetweenPlayers;
-use Bga\Games\WanderingTowers\States\StPlayerTurn;
-use Bga\Games\WanderingTowers\States\StRerollDice;
-use Bga\Games\WanderingTowers\States\StSpellSelection;
+use Bga\Games\WanderingTowers\states\StAfterRoll;
+use Bga\Games\WanderingTowers\states\StBetweenPlayers;
+use Bga\Games\WanderingTowers\states\StPlayerTurn;
+use Bga\Games\WanderingTowers\states\StRerollDice;
+use Bga\Games\WanderingTowers\states\StSpellSelection;
 
 require_once(APP_GAMEMODULE_PATH . "module/table/table.game.php");
 
