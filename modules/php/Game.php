@@ -395,10 +395,6 @@ class Game extends \Table
      *
      * IMPORTANT: Please do not modify.
      */
-    protected function getGameName()
-    {
-        return "wanderingtowers";
-    }
 
     /**
      * This method is called only once, when a new game is launched. In this method, you must setup the game

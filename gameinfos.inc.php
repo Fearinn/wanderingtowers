@@ -14,7 +14,7 @@
 $gameinfos = array(
 	"game_name" => "Wandering Towers",
 	"publisher" => "Capstone Games",
-	"publisher_website" => "https://capstone-games.com/?srsltid=AfmBOorm7HLP_mR_lJ41rOxbft5pPOLFpX8ubxuFBIVVj2sWhJvEYGZm",
+	"publisher_website" => "https://capstone-games.com",
 	"publisher_bgg_id" => 30958,
 	"bgg_id" => 355483,
 	"players" => [1, 2, 3, 4, 5, 6],
@@ -27,11 +27,10 @@ $gameinfos = array(
 	"fast_additional_time" => 30,
 	"medium_additional_time" => 40,
 	"slow_additional_time" => 50,
-	"tie_breaker_description" => "Most full unused potion bottles",
+	"tie_breaker_description" => totranslate("Most full unused potion bottles"),
 	"losers_not_ranked" => false,
 	"solo_mode_ranked" => false,
 	"is_coop" => 0,
-	"is_beta" => 1,
 	"language_dependency" => false,
 	"game_interface_width" => array(
 		"autoscale" => false,
