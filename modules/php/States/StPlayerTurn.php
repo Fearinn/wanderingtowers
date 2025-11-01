@@ -17,7 +17,7 @@ class StPlayerTurn extends StateManager
     public function enter(): void
     {
         $args = $this->getArgs();
-        if ($args["no_notify"]) {
+        if ($args["_no_notify"]) {
             $this->gamestate->nextState(TR_NEXT_PLAYER);
         }
     }
@@ -54,7 +54,7 @@ class StPlayerTurn extends StateManager
             "castableSpells" => $castableSpells,
             "spellableMeeples" => $spellableMeeples,
             "canPass" => ($turnMove === $moveLimit || (!$playableMoves && $turnMove > 0)) && $castableSpells,
-            "no_notify" => $endTurn || (!$playableMoves && !$pushableTowers && !$castableSpells),
+            "_no_notify" => $endTurn || (!$playableMoves && !$pushableTowers && !$castableSpells),
         ];
 
         return $args;

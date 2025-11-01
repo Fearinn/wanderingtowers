@@ -14,7 +14,7 @@ class StSpellSelection extends StateManager
     public function enter(): void
     {
         $args = $this->getArgs();
-        if ($args["no_notify"]) {
+        if ($args["_no_notify"]) {
             $this->gamestate->nextState(TR_START_GAME);
         }
     }
@@ -25,7 +25,7 @@ class StSpellSelection extends StateManager
             $this->game->tableOptions->get(OPT_SPELLS_SOLO) === 2;
 
         $args = [
-            "no_notify" => !$soloManualSpells,
+            "_no_notify" => !$soloManualSpells,
         ];
 
         return $args;
