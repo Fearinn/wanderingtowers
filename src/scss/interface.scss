@@ -49,20 +49,6 @@
   margin: 0;
 }
 
-.wtw_button {
-  background: var(--color);
-  border: 1px solid var(--borderColor);
-
-  &:hover {
-    background: var(--color) !important;
-  }
-
-  &-brown {
-    --color: peru;
-    --borderColor: sienna;
-  }
-}
-
 .wtw_logHighlight {
   font-weight: bold;
 }

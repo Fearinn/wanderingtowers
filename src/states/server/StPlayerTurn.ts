@@ -40,7 +40,9 @@ class StPlayerTurn extends StateManager {
           const stPickPushTower = new StPickPushTower(this.game);
           stPickPushTower.set();
         },
-        { classes: ["wtw_button", "wtw_button-brown"] }
+        {
+          color: "secondary",
+        }
       );
     }
 

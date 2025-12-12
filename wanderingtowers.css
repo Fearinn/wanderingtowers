@@ -717,18 +717,6 @@ body > .card {
   margin: 0;
 }
 
-.wtw_button {
-  background: var(--color);
-  border: 1px solid var(--borderColor);
-}
-.wtw_button:hover {
-  background: var(--color) !important;
-}
-.wtw_button-brown {
-  --color: peru;
-  --borderColor: sienna;
-}
-
 .wtw_logHighlight {
   font-weight: bold;
 }
@@ -1495,7 +1483,7 @@ body > .card {
   align-items: center;
   justify-content: center;
   gap: 16px;
-  padding: 8px;
+  padding: 8px 8px 16px 8px;
   width: 100%;
   user-select: none;
 }

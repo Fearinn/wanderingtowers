@@ -4340,7 +4340,9 @@ var StPlayerTurn = /** @class */ (function (_super) {
             this.statusBar.addActionButton(_("push a tower (discards hand)"), function () {
                 var stPickPushTower = new StPickPushTower(_this.game);
                 stPickPushTower.set();
-            }, { classes: ["wtw_button", "wtw_button-brown"] });
+            }, {
+                color: "secondary",
+            });
         }
         if (canPass) {
             this.statusBar.setTitle(_("${you} may cast a spell or pass"));
