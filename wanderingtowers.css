@@ -694,7 +694,7 @@ body > .card {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 24px;
+  font-size: 20px;
   width: fit-content;
 }
 
@@ -702,7 +702,7 @@ body > .card {
   font-family: "Kuhlenbach", Roboto, Arial, sans-serif;
   font-size: 40px;
   font-weight: bold;
-  line-height: 60px;
+  line-height: 40px;
 }
 
 .wtw_tooltipText {
@@ -1189,7 +1189,7 @@ body > .card {
   background-color: unset;
 }
 .wtw_wizard-panel {
-  width: 50px;
+  width: 30px;
 }
 
 .wtw_ravenskeepCounter {
@@ -1205,7 +1205,7 @@ body > .card {
   background-image: url("img/ravenShield.png");
   background-size: cover;
   aspect-ratio: 1;
-  width: 50px;
+  width: 30px;
   filter: drop-shadow(2px 2px 2px #000000);
 }
 
@@ -1351,7 +1351,7 @@ body > .card {
 }
 
 :root {
-  --potionWidth: 45px;
+  --potionWidth: 30px;
 }
 
 .wtw_potionCargo {
