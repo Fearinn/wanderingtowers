@@ -15,6 +15,7 @@ class WanderingTowers extends WanderingTowersGui {
       element: document.getElementById("wtw_gameArea"),
       localStorageZoomKey: "wanderingtowers-zoom",
       zoomLevels: [0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5, 1.75, 2],
+      defaultZoom: window.innerWidth <= 400 ? 0.625 : 1,
     });
 
     const diceManager = new DiceManager(this, {
