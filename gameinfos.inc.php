@@ -37,4 +37,5 @@ $gameinfos = array(
 		"min" => 740,
 		"max" => null,
 	),
+	"enable_3d" => false,
 );
