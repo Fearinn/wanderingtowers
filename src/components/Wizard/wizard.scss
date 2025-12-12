@@ -127,6 +127,16 @@
   gap: 4px;
 }
 
+.wtw_floatingWizards {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+
+  .wtw_wizard {
+    position: absolute !important;
+  }
+}
+
 @keyframes enterRavenskeep {
   0% {
     transform: rotate(0deg) translate(40px) scale(1);

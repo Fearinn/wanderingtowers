@@ -118,10 +118,32 @@ class WanderingTowers extends WanderingTowersGui {
 
     const towerStocks: TowerStocks = {
       spaces: {},
+      floating: {
+        1: new CardStock(
+          towerManager,
+          document.getElementById("wtw_floatingTower-1")
+        ),
+        2: new CardStock(
+          towerManager,
+          document.getElementById("wtw_floatingTower-2")
+        ),
+      },
     };
+
     const wizardStocks: WizardStocks = {
       spaces: {},
+      floating: {
+        1: new CardStock(
+          wizardManager,
+          document.getElementById("wtw_floatingWizards-1")
+        ),
+        2: new CardStock(
+          wizardManager,
+          document.getElementById("wtw_floatingWizards-2")
+        ),
+      },
     };
+
     const counters: Counters = {
       spaces: {},
       discard: new ebg.counter(),

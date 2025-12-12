@@ -4,7 +4,8 @@ interface WizardCard extends BgaCard {
 }
 
 interface WizardStocks {
-  spaces: { [space_id: number]: { [tier: number]: WizardSpaceStock } };
+  spaces: Record<number, Record<number, WizardSpaceStock>>;
+  floating: Record<number, CardStock<WizardCard>>;
 }
 
 interface Wizard extends Card {

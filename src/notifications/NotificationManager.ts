@@ -16,7 +16,7 @@ class NotificationManager implements NotificationManager {
     withTower?: boolean;
     current_space_id?: number;
     current_tier?: number;
-  }) {
+  }): void {
     const { wizardCard, space_id } = args;
     const wizard = new Wizard(this.game, wizardCard);
 
@@ -34,6 +34,14 @@ class NotificationManager implements NotificationManager {
         wizardCardElement.parentElement.dataset.covered = "1";
       }
     }
+  }
+
+  public notif_swapWizard(args: { wizardCard: WizardCard }): void {
+    const { wizardCard } = args;
+    const wizard = new Wizard(this.game, wizardCard);
+    const { floating } = this.stocks.wizards;
+
+    floating[1].addCard(wizard.card);
   }
 
   public async notif_moveTower(args: {
@@ -161,20 +169,22 @@ class NotificationManager implements NotificationManager {
     const { towerCard, towerCard2, space_id, space_id2 } = args;
     const promises = [];
 
+    const { towers } = this.game.wtw.managers;
+    const { floating } = this.game.wtw.stocks.towers;
+
     const tower = new Tower(this.game, towerCard);
-
-    const towerCardElement =
-      this.game.wtw.managers.towers.getCardElement(towerCard);
+    const towerCardElement = towers.getCardElement(towerCard);
     towerCardElement.dataset.animated = "1";
-
-    promises.push(tower.move(space_id2, space_id));
+    await floating[1].addCard(tower.card);
 
     const tower2 = new Tower(this.game, towerCard2);
-
-    const towerCardElement2 =
-      this.game.wtw.managers.towers.getCardElement(towerCard2);
+    const towerCardElement2 = towers.getCardElement(towerCard2);
     towerCardElement2.dataset.animated = "1";
+    await floating[2].addCard(tower2.card);
 
+    await this.game.wait(2000);
+
+    promises.push(tower.move(space_id2, space_id));
     promises.push(tower2.move(space_id, space_id2));
 
     await Promise.all(promises);

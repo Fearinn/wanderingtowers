@@ -12,6 +12,22 @@
 <div id="wtw_moveHand" class="wtw_moveHand"></div>
 <div id="wtw_gameArea" class="wtw_gameArea">
   <div id="wtw_board" class="wtw_board">
+    <div
+      id="wtw_floatingTower-1"
+      class="wtw_floatingTower wtw_floatingTower-1"
+    ></div>
+    <div
+      id="wtw_floatingTower-2"
+      class="wtw_floatingTower wtw_floatingTower-2"
+    ></div>
+    <div
+      id="wtw_floatingWizards-1"
+      class="wtw_floatingWizards wtw_floatingWizards-1"
+    ></div>
+    <div
+      id="wtw_floatingWizards-2"
+      class="wtw_floatingWizards wtw_floatingWizards-2"
+    ></div>
     <div id="wtw_boardCenter" class="wtw_boardCenter">
       <div id="wtw_moveDeck" class="wtw_moveDeck"></div>
       <div id="wtw_dice" class="wtw_dice"></div>

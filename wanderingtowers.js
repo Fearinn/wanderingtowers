@@ -135,9 +135,17 @@ var WanderingTowers = /** @class */ (function (_super) {
         });
         var towerStocks = {
             spaces: {},
+            floating: {
+                1: new CardStock(towerManager, document.getElementById("wtw_floatingTower-1")),
+                2: new CardStock(towerManager, document.getElementById("wtw_floatingTower-2")),
+            },
         };
         var wizardStocks = {
             spaces: {},
+            floating: {
+                1: new CardStock(wizardManager, document.getElementById("wtw_floatingWizards-1")),
+                2: new CardStock(wizardManager, document.getElementById("wtw_floatingWizards-2")),
+            },
         };
         var counters = {
             spaces: {},
@@ -3310,6 +3318,12 @@ var NotificationManager = /** @class */ (function () {
             }
         }
     };
+    NotificationManager.prototype.notif_swapWizard = function (args) {
+        var wizardCard = args.wizardCard;
+        var wizard = new Wizard(this.game, wizardCard);
+        var floating = this.stocks.wizards.floating;
+        floating[1].addCard(wizard.card);
+    };
     NotificationManager.prototype.notif_moveTower = function (args) {
         return __awaiter(this, void 0, void 0, function () {
             var cards, final_space_id, current_space_id, promises;
@@ -3428,22 +3442,33 @@ var NotificationManager = /** @class */ (function () {
     };
     NotificationManager.prototype.notif_swapTowers = function (args) {
         return __awaiter(this, void 0, void 0, function () {
-            var towerCard, towerCard2, space_id, space_id2, promises, tower, towerCardElement, tower2, towerCardElement2;
+            var towerCard, towerCard2, space_id, space_id2, promises, towers, floating, tower, towerCardElement, tower2, towerCardElement2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         towerCard = args.towerCard, towerCard2 = args.towerCard2, space_id = args.space_id, space_id2 = args.space_id2;
                         promises = [];
+                        towers = this.game.wtw.managers.towers;
+                        floating = this.game.wtw.stocks.towers.floating;
                         tower = new Tower(this.game, towerCard);
-                        towerCardElement = this.game.wtw.managers.towers.getCardElement(towerCard);
+                        towerCardElement = towers.getCardElement(towerCard);
                         towerCardElement.dataset.animated = "1";
-                        promises.push(tower.move(space_id2, space_id));
+                        return [4 /*yield*/, floating[1].addCard(tower.card)];
+                    case 1:
+                        _a.sent();
                         tower2 = new Tower(this.game, towerCard2);
-                        towerCardElement2 = this.game.wtw.managers.towers.getCardElement(towerCard2);
+                        towerCardElement2 = towers.getCardElement(towerCard2);
                         towerCardElement2.dataset.animated = "1";
+                        return [4 /*yield*/, floating[2].addCard(tower2.card)];
+                    case 2:
+                        _a.sent();
+                        return [4 /*yield*/, this.game.wait(2000)];
+                    case 3:
+                        _a.sent();
+                        promises.push(tower.move(space_id2, space_id));
                         promises.push(tower2.move(space_id, space_id2));
                         return [4 /*yield*/, Promise.all(promises)];
-                    case 1:
+                    case 4:
                         _a.sent();
                         towerCardElement.dataset.animated = "0";
                         towerCardElement2.dataset.animated = "0";

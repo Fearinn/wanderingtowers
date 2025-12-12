@@ -67,9 +67,8 @@ class Tower extends Card {
 }
 
 interface TowerStocks {
-  spaces: {
-    [space_id: number]: TowerSpaceStock;
-  };
+  spaces: Record<number, TowerSpaceStock>;
+  floating: Record<number, CardStock<TowerCard>>;
 }
 
 interface TowerSpaceStock extends CardStock<TowerCard> {

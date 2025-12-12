@@ -125,8 +125,24 @@ class Wizard extends WizardManager
         );
     }
 
-    public function swapAlongTower(int $space_id, int $final_tier): void
-    {
+    public function swapAlongTower(
+        int $space_id,
+    ): void {
+        $NotifManager = new NotifManager($this->game);
+        $NotifManager->all(
+            "swapWizard",
+            "",
+            [
+                "space_id" => $space_id,
+                "wizardCard" => $this->getCard($this->card_id),
+            ],
+        );
+    }
+
+    public function confirmSwap(
+        int $space_id,
+        int $final_tier,
+    ): void {
         $this->moveLocationArg($this->card_id, $space_id);
         $this->updateTier($final_tier);
 

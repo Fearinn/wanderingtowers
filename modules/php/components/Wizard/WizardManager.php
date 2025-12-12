@@ -106,21 +106,47 @@ class WizardManager extends CardManager
         }
     }
 
-    public function swapWizardsAlongTower(int $space_id, int $tier, int $space_id2, int $tier2): void
-    {
+    public function swapWizardsAlongTower(
+        int $space_id,
+        int $tier,
+        int $space_id2,
+        int $tier2,
+    ): void {
         $wizardCards = $this->getByTier($space_id, $tier);
         $wizardCards2 = $this->getByTier($space_id2, $tier2);
 
         foreach ($wizardCards as $wizardCard) {
             $wizardCard_id = (int) $wizardCard["id"];
             $Wizard = new Wizard($this->game, $wizardCard_id);
-            $Wizard->swapAlongTower($space_id2, $tier2);
+            $Wizard->swapAlongTower($space_id2);
         }
 
         foreach ($wizardCards2 as $wizardCard2) {
             $wizardCard_id = (int) $wizardCard2["id"];
             $Wizard = new Wizard($this->game, $wizardCard_id);
-            $Wizard->swapAlongTower($space_id, $tier);
+            $Wizard->swapAlongTower($space_id);
+        }
+    }
+
+    public function confirmSwaps(
+        int $space_id,
+        int $tier,
+        int $space_id2,
+        int $tier2
+    ) {
+        $wizardCards = $this->getByTier($space_id, $tier);
+        $wizardCards2 = $this->getByTier($space_id2, $tier2);
+
+        foreach ($wizardCards as $wizardCard) {
+            $wizardCard_id = (int) $wizardCard["id"];
+            $Wizard = new Wizard($this->game, $wizardCard_id);
+            $Wizard->confirmSwap($space_id2, $tier2);
+        }
+
+        foreach ($wizardCards2 as $wizardCard2) {
+            $wizardCard_id = (int) $wizardCard2["id"];
+            $Wizard = new Wizard($this->game, $wizardCard_id);
+            $Wizard->confirmSwap($space_id, $tier);
         }
     }
 
