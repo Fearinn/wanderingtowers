@@ -344,7 +344,7 @@ $this->SPELLS = [
     6 => [
         "tr_name" => clienttranslate("Swap a Tower"),
         "description" => clienttranslate("Swap the topmost tower (and wizards atop them) in 2 spaces."),
-        "cost" => 1,
+        "cost" => 2,
         "type" => "tower",
         "steps" => 0,
     ],
