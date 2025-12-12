@@ -3319,10 +3319,10 @@ var NotificationManager = /** @class */ (function () {
         }
     };
     NotificationManager.prototype.notif_swapWizard = function (args) {
-        var wizardCard = args.wizardCard;
+        var wizardCard = args.wizardCard, sequence = args.sequence;
         var wizard = new Wizard(this.game, wizardCard);
         var floating = this.stocks.wizards.floating;
-        floating[1].addCard(wizard.card);
+        floating[sequence].addCard(wizard.card);
     };
     NotificationManager.prototype.notif_moveTower = function (args) {
         return __awaiter(this, void 0, void 0, function () {

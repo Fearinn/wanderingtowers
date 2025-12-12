@@ -129,11 +129,18 @@
 
 .wtw_floatingWizards {
   position: absolute;
-  top: 40%;
-  left: 50%;
+  top: 3%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: var(--towerWidth);
 
-  .wtw_wizard {
-    position: absolute !important;
+  &-1 {
+    left: 0;
+  }
+
+  &-2 {
+    right: 0;
   }
 }
 

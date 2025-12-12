@@ -770,11 +770,11 @@ body > .card {
   aspect-ratio: 1;
   width: calc(var(--boardWidth) * 0.7);
   pointer-events: none;
-  z-index: 99;
+  z-index: 9;
 }
 
 .wtw_spacesContainer:has(.bga-animations_animated) {
-  z-index: 100;
+  z-index: 10;
 }
 
 .wtw_card {
@@ -1223,11 +1223,17 @@ body > .card {
 
 .wtw_floatingWizards {
   position: absolute;
-  top: 40%;
-  left: 50%;
+  top: 3%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: var(--towerWidth);
 }
-.wtw_floatingWizards .wtw_wizard {
-  position: absolute !important;
+.wtw_floatingWizards-1 {
+  left: 0;
+}
+.wtw_floatingWizards-2 {
+  right: 0;
 }
 
 @keyframes enterRavenskeep {

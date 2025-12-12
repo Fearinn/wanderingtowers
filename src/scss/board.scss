@@ -18,9 +18,9 @@
   aspect-ratio: 1;
   width: calc(var(--boardWidth) * 0.7);
   pointer-events: none;
-  z-index: 99;
+  z-index: 9;
 }
 
 .wtw_spacesContainer:has(.bga-animations_animated) {
-  z-index: 100;
+  z-index: 10;
 }

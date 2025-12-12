@@ -118,13 +118,13 @@ class WizardManager extends CardManager
         foreach ($wizardCards as $wizardCard) {
             $wizardCard_id = (int) $wizardCard["id"];
             $Wizard = new Wizard($this->game, $wizardCard_id);
-            $Wizard->swapAlongTower($space_id2);
+            $Wizard->swapAlongTower($space_id2, 1);
         }
 
         foreach ($wizardCards2 as $wizardCard2) {
             $wizardCard_id = (int) $wizardCard2["id"];
             $Wizard = new Wizard($this->game, $wizardCard_id);
-            $Wizard->swapAlongTower($space_id);
+            $Wizard->swapAlongTower($space_id, 2);
         }
     }
 

@@ -36,12 +36,15 @@ class NotificationManager implements NotificationManager {
     }
   }
 
-  public notif_swapWizard(args: { wizardCard: WizardCard }): void {
-    const { wizardCard } = args;
+  public notif_swapWizard(args: {
+    wizardCard: WizardCard;
+    sequence: number;
+  }): void {
+    const { wizardCard, sequence } = args;
     const wizard = new Wizard(this.game, wizardCard);
     const { floating } = this.stocks.wizards;
 
-    floating[1].addCard(wizard.card);
+    floating[sequence].addCard(wizard.card);
   }
 
   public async notif_moveTower(args: {
