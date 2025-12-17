@@ -250,8 +250,16 @@ class WanderingTowers extends WanderingTowersGui {
         <div id="wtw_potionCargo-${player_id}" class="wtw_whiteblock wtw_potionCargo"></div>`
       );
 
+      const turnCounterElement = document.getElementById(
+        `wtw_turnCounter-${player_id}`
+      );
+
+      if (gamedatas.isSolo) {
+        turnCounterElement.style.display = "none";
+      }
+
       this.addTooltipHtml(
-        `wtw_turnCounter-${player_id}`,
+        turnCounterElement.id,
         `<span class="wtw_tooltipText">
           ${_("number of turns played")}
         </span>`

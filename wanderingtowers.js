@@ -194,7 +194,11 @@ var WanderingTowers = /** @class */ (function (_super) {
             var player_id = Number(p_id);
             var playerPanelElement = this.getPlayerPanelElement(player_id);
             playerPanelElement.insertAdjacentHTML("beforeend", "<div id=\"wtw_turnCounter-".concat(player_id, "\" class=\"wtw_whiteblock wtw_turnCounter\">\n          <i class=\"fa6 fa6-user-clock\"></i>\n          <span id=\"wtw_turnCount-").concat(player_id, "\" class=\"wtw_turnCount\">0</span>\n        </div>\n        <div id=\"wtw_ravenskeepCounter-").concat(player_id, "\" class=\"wtw_whiteblock wtw_ravenskeepCounter\">\n          <div id=\"wtw_ravenskeepCounterIcon-").concat(player_id, "\" class=\"wtw_ravenskeepCounterIcon\"></div>\n            <div class=\"wtw_ravenskeepCountContainer\">\n            <span id=\"wtw_ravenskeepCount-").concat(player_id, "\" class=\"wtw_ravenskeepCount\">0</span>\n            <span id=\"wtw_ravenskeepGoal-").concat(player_id, "\" class=\"wtw_ravenskeepGoal\">/").concat(gamedatas.ravenskeepGoal, "</span>\n          </div>\n          <div id=\"wtw_panelWizard-").concat(player_id, "\" class=\"wtw_card wtw_wizard wtw_wizard-panel\"></div>\n        </div>\n        <div id=\"wtw_potionCargo-").concat(player_id, "\" class=\"wtw_whiteblock wtw_potionCargo\"></div>"));
-            this.addTooltipHtml("wtw_turnCounter-".concat(player_id), "<span class=\"wtw_tooltipText\">\n          ".concat(_("number of turns played"), "\n        </span>"));
+            var turnCounterElement = document.getElementById("wtw_turnCounter-".concat(player_id));
+            if (gamedatas.isSolo) {
+                turnCounterElement.style.display = "none";
+            }
+            this.addTooltipHtml(turnCounterElement.id, "<span class=\"wtw_tooltipText\">\n          ".concat(_("number of turns played"), "\n        </span>"));
             this.addTooltipHtml("wtw_ravenskeepCounter-".concat(player_id), "<span class=\"wtw_tooltipText\">".concat(_("number of wizards in the Ravenskeep"), "</span>"));
             this.addTooltipHtml("wtw_potionCargo-".concat(player_id), "<span class=\"wtw_tooltipText\">".concat(_("potions remaining"), "</span>"));
             counters[player_id] = __assign(__assign({}, counters[player_id]), { ravenskeep: new ebg.counter(), turn: new ebg.counter() });
