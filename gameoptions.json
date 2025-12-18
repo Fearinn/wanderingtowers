@@ -244,32 +244,5 @@
         "value": [2, 3, 4, 5, 6]
       }
     ]
-  },
-  "110": {
-    "name": "Maintenance",
-    "values": [
-      {
-        "name": "Maintenance"
-      },
-      {
-        "name": "Maintenance"
-      }
-    ],
-    "startcondition": {
-      "0": [
-        {
-          "type": "minplayers",
-          "value": 32,
-          "message": "Maintenance in progress.  Table creation is disabled."
-        }
-      ],
-      "1": [
-        {
-          "type": "minplayers",
-          "value": 32,
-          "message": "Maintenance in progress.  Table creation is disabled."
-        }
-      ]
-    }
   }
 }
