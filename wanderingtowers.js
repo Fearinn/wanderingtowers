@@ -526,11 +526,11 @@ var WanderingTowers = /** @class */ (function (_super) {
         var unfoldedHelp = "<div id=\"wtw_unfoldedHelp\" class=\"wtw_unfoldedHelp\"> \n      ".concat(spellHelp.outerHTML, "\n    </div>");
         this.wtw.managers.help = new HelpManager(this, {
             buttons: [
-                new BgaHelpExpandableButton({
-                    // @ts-ignore
-                    title: _("spell reference"),
-                    foldedHtml: "<span class=\"wtw_foldedHelp\">?</span>",
-                    unfoldedHtml: unfoldedHelp,
+                new BgaHelpPopinButton({
+                    title: _("Spell Reference"),
+                    html: unfoldedHelp,
+                    buttonBackground: "white",
+                    buttonColor: "black",
                 }),
             ],
         });

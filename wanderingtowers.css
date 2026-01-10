@@ -721,21 +721,20 @@ body > .card {
   font-weight: bold;
 }
 
-.wtw_foldedHelp {
+.wtw_finalTurn {
+  display: block;
+  background-color: #92d3e6;
+  margin-top: 8px;
+}
+
+.bga-help_button {
   font-family: "Kuhlenbach", Roboto, Arial, sans-serif;
   font-size: 52px;
   font-weight: bold;
 }
 
-.wtw_unfoldedHelp {
-  padding-bottom: 36px;
-  background-image: url("img/background.jpg");
-}
-
-.wtw_finalTurn {
-  display: block;
-  background-color: #92d3e6;
-  margin-top: 8px;
+#popin_bgaHelpDialog {
+  background: url("img/background2.jpg");
 }
 
 :root {
@@ -1460,9 +1459,6 @@ body > .card {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background-image: url("img/background.jpg");
-  height: calc(var(--spellTooltipWidth) * 2.5);
-  padding: 4px;
   overflow-y: auto;
 }
 
