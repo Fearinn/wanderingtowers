@@ -20,10 +20,7 @@
         "cssPref": "wtw_pref-floatingHand"
       },
       "2": {
-        "name": "Static (fixed scale)"
-      },
-      "3": {
-        "name": "Static (variable scale)"
+        "name": "Static"
       }
     },
     "default": 2

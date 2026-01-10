@@ -753,7 +753,7 @@ class WanderingTowers extends WanderingTowersGui {
       case 101:
         const moveHandElement = document.getElementById("wtw_moveHand");
 
-        if (pref_value == 3) {
+        if (pref_value == 2) {
           document
             .getElementById("wtw_gameArea")
             .insertAdjacentElement("afterbegin", moveHandElement);

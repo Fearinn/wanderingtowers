@@ -1317,7 +1317,7 @@ body > .card {
   z-index: 1;
 }
 .wtw_move-tooltip {
-  --moveHeight: 100px;
+  --moveHeight: 200px;
 }
 .wtw_move .card-side {
   box-shadow: 1px 1px 4px 1px !important;

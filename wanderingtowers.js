@@ -556,7 +556,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         switch (pref_id) {
             case 101:
                 var moveHandElement = document.getElementById("wtw_moveHand");
-                if (pref_value == 3) {
+                if (pref_value == 2) {
                     document
                         .getElementById("wtw_gameArea")
                         .insertAdjacentElement("afterbegin", moveHandElement);
