@@ -3,8 +3,7 @@
 declare(strict_types=1);
 
 if (!defined("ST_GAME_END")) {
-    define("ST_SETUP", 1);
-    define("ST_SPELL_SELECTION",2);
+    define("ST_SPELL_SELECTION", 2);
     define("ST_PLAYER_TURN", 3);
     define("ST_BETWEEN_PLAYERS", 4);
     define("ST_REROLL_DICE", 5);

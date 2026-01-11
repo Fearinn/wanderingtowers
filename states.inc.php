@@ -14,15 +14,6 @@ declare(strict_types=1);
 require "modules/php/constants.inc.php";
 
 $machinestates = [
-	ST_SETUP => [
-		"name" => "gameSetup",
-		"description" => "",
-		"type" => "manager",
-		"action" => "stGameSetup",
-		"transitions" => [
-			"" => 2,
-		],
-	],
 	ST_SPELL_SELECTION => [
 		"name" => "spellSelection",
 		"description" => clienttranslate('${actplayer} must pick 3 spells to use during the game'),
@@ -104,13 +95,5 @@ $machinestates = [
 			TR_AFTER_ROLL => ST_AFTER_ROLL,
 			TR_NEXT_PLAYER => ST_BETWEEN_PLAYERS,
 		],
-	],
-
-	ST_GAME_END => [
-		"name" => "gameEnd",
-		"description" => clienttranslate("End of game"),
-		"type" => "manager",
-		"action" => "stGameEnd",
-		"args" => "argGameEnd",
 	],
 ];

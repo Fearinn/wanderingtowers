@@ -400,7 +400,7 @@ class Game extends \Table
      * This method is called only once, when a new game is launched. In this method, you must setup the game
      *  according to the game rules, so that the game is ready to be played.
      */
-    protected function setupNewGame($players, $options = [])
+    protected function setupNewGame($players, $options = []): int
     {
         $gameinfos = $this->getGameinfos();
         $default_colors = $gameinfos["player_colors"];
@@ -462,6 +462,8 @@ class Game extends \Table
             $this->initStat("player", STAT_SPELLS_CASTED, 0, $player_id);
             $this->initStat("player", STAT_POTIONS_USED, 0, $player_id);
         }
+
+        return 2;
     }
 
     /**
