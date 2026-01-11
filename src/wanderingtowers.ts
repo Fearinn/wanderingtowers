@@ -368,7 +368,6 @@ class WanderingTowers extends WanderingTowersGui {
     }
 
     this.setupNotifications();
-    BgaAutoFit.init();
     this.initObserver();
     this.buildHelp(gamedatas.spellCards);
     this.loadSounds();

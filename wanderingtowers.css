@@ -168,6 +168,20 @@
   overflow: auto;
 }
 
+.bga-help_button {
+  font-family: "Kuhlenbach", Roboto, Arial, sans-serif;
+  font-size: 52px;
+  font-weight: bold;
+}
+
+#help-dialog-content {
+  width: 100%;
+}
+
+#popin_bgaHelpDialog {
+  background: url("img/background2.jpg");
+}
+
 body > .bga-dice_die {
   position: absolute;
   left: -9999px;
@@ -714,6 +728,7 @@ body > .card {
   font-size: 32px;
   font-family: "Kuhlenbach", Roboto, Arial, sans-serif;
   font-weight: bold;
+  text-align: center;
   margin: 0;
 }
 
@@ -725,16 +740,6 @@ body > .card {
   display: block;
   background-color: #92d3e6;
   margin-top: 8px;
-}
-
-.bga-help_button {
-  font-family: "Kuhlenbach", Roboto, Arial, sans-serif;
-  font-size: 52px;
-  font-weight: bold;
-}
-
-#popin_bgaHelpDialog {
-  background: url("img/background2.jpg");
 }
 
 :root {
@@ -1451,7 +1456,6 @@ body > .card {
 .wtw_spellDescription {
   font-size: 32px;
   margin: 0;
-  height: var(--spellTooltipWidth);
   width: calc(var(--spellTooltipWidth) * 1.75);
 }
 

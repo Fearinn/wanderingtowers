@@ -46,6 +46,7 @@
   font-size: 32px;
   font-family: "Kuhlenbach", Roboto, Arial, sans-serif;
   font-weight: bold;
+  text-align: center;
   margin: 0;
 }
 
@@ -57,14 +58,4 @@
   display: block;
   background-color: #92d3e6;
   margin-top: 8px;
-}
-
-.bga-help_button {
-  font-family: "Kuhlenbach", Roboto, Arial, sans-serif;
-  font-size: 52px;
-  font-weight: bold;
-}
-
-#popin_bgaHelpDialog {
-  background: url("img/background2.jpg");
 }

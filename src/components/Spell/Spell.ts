@@ -70,7 +70,7 @@ class Spell extends Card {
       <h4 class="wtw_tooltipText wtw_tooltipTitle">${_(this.name)}</h4>
       <div class="wtw_spellContent">
           ${cloneElement.outerHTML}
-          <div class="bga-autofit wtw_spellDescription wtw_tooltipText">
+          <div class="wtw_spellDescription wtw_tooltipText">
             <p>${_(this.description)}</p>
             <p>${this.game.format_string_recursive(
               _("Cost: ${cost} full bottle(s)"),
