@@ -43,7 +43,10 @@ class Dice
             clienttranslate('${player_name} rerolls the die'),
         );
 
-        $this->globals->inc(G_REROLLS, -1);
+        if ($this->globals->get(G_REROLLS) > 0) {
+            $this->globals->inc(G_REROLLS, -1);
+        }
+
         return $this->roll();
     }
 }

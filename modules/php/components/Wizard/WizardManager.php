@@ -241,7 +241,8 @@ class WizardManager extends CardManager
         $wizardCards = $this->getByOwner($player_id, true);
 
         if ($Move->isDice()) {
-            if ($this->game->gamestate->state_id() !== ST_AFTER_ROLL) {
+            $state_id = (int) $this->game->gamestate->state_id();
+            if ($state_id !== ST_AFTER_ROLL && $state_id !== ST_REROLL_DICE) {
                 return array_values($wizardCards);
             }
             $steps = $this->game->globals->get(G_ROLL);
