@@ -30,12 +30,12 @@ class Potion extends Card {
     }
 
     element.classList.add("wtw_potion-empty");
-    element.style.backgroundImage = `url(${g_gamethemeurl}img/potionEmpty_${this.card.type}.png)`;
+    element.style.backgroundImage = `url(${g_gamethemeurl}img/potions/potionEmpty_${this.card.type}.png)`;
   }
 
   setupBackDiv(element: HTMLDivElement): void {
     element.classList.add("wtw_potion-filled");
-    element.style.backgroundImage = `url(${g_gamethemeurl}img/potion_${this.card.type}.png)`;
+    element.style.backgroundImage = `url(${g_gamethemeurl}img/potions/potion_${this.card.type}.png)`;
   }
 
   fill() {
@@ -56,7 +56,7 @@ class PotionCargoStock extends LineStock<PotionCard> {
   constructor(
     game: WanderingTowersGui,
     manager: CardManager<PotionCard>,
-    player_id: number
+    player_id: number,
   ) {
     super(manager, document.getElementById(`wtw_potionCargo-${player_id}`));
 

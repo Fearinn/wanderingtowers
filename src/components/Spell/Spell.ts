@@ -44,14 +44,15 @@ class Spell extends Card {
   }
 
   setupFrontDiv(element: HTMLDivElement): void {
-    element.style.backgroundPosition = `${this.card.type_arg * -100}%`;
-
-    if (this.card.type_arg === 7) {
-      element.style.backgroundPosition = "-800%";
-    }
+    const { type_arg } = this.card;
+    element.style.backgroundImage = `url(${g_gamethemeurl}img/spells/spell_${type_arg}.png)`;
 
     const tooltipHTML = this.createTooltip(element.parentElement.parentElement);
     this.game.addTooltipHtml(element.id, tooltipHTML);
+  }
+
+  setupBackDiv(element: HTMLDivElement): void {
+    element.style.backgroundImage = `url(${g_gamethemeurl}img/spells/spell_0.png)`;
   }
 
   createTooltip(element?: HTMLElement): string {
@@ -76,7 +77,7 @@ class Spell extends Card {
               _("Cost: ${cost} full bottle(s)"),
               {
                 cost: this.cost,
-              }
+              },
             )}</p>
           </div>
         </div>

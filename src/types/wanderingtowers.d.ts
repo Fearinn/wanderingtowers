@@ -26,7 +26,7 @@ interface Counters {
   discard: Counter;
 }
 
-declare class WanderingTowersGui extends Game {
+declare class WanderingTowersGui extends GameGui {
   gamedatas: WanderingTowersGamedatas;
 
   wtw: {

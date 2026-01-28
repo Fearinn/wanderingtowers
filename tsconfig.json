@@ -5,8 +5,8 @@
     "module": "none",
     "lib": ["dom", "esnext"],
     "sourceMap": false,
-    "typeRoots": ["./node_modules/@types"],
-    "outFile": "wanderingtowers.js",
+    "typeRoots": ["./node_modules/@types", "src/types/bga-framework.d.ts"],
+    "outFile": "wanderingtowers.js"
   },
   "include": [
     "src/**/wanderingtowers.ts",
@@ -30,7 +30,7 @@
     "node_modules/bga-cards/src/stocks/void-stock.ts",
     "node_modules/bga-cards/src/card-manager.ts",
     "node_modules/bga-cards/src/sort.ts",
-    "src/**/*.ts",
+    "src/**/*.ts"
   ],
   "exclude": ["**/*.spec.ts", "src/libs/types/bga-zoom.d.ts"]
 }

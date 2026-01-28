@@ -28,7 +28,7 @@ class WanderingTowers extends WanderingTowersGui {
 
     const diceStock = new DiceStock(
       diceManager,
-      document.getElementById("wtw_dice")
+      document.getElementById("wtw_dice"),
     );
 
     diceStock.addDie({
@@ -117,6 +117,11 @@ class WanderingTowers extends WanderingTowersGui {
         const spellCard = new Spell(this, card);
         spellCard.setupFrontDiv(element);
       },
+
+      setupBackDiv: (card, element) => {
+        const spellCard = new Spell(this, card);
+        spellCard.setupBackDiv(element);
+      },
     });
 
     const towerStocks: TowerStocks = {
@@ -124,11 +129,11 @@ class WanderingTowers extends WanderingTowersGui {
       floating: {
         1: new CardStock(
           towerManager,
-          document.getElementById("wtw_floatingTower-1")
+          document.getElementById("wtw_floatingTower-1"),
         ),
         2: new CardStock(
           towerManager,
-          document.getElementById("wtw_floatingTower-2")
+          document.getElementById("wtw_floatingTower-2"),
         ),
       },
     };
@@ -138,11 +143,11 @@ class WanderingTowers extends WanderingTowersGui {
       floating: {
         1: new CardStock(
           wizardManager,
-          document.getElementById("wtw_floatingWizards-1")
+          document.getElementById("wtw_floatingWizards-1"),
         ),
         2: new CardStock(
           wizardManager,
-          document.getElementById("wtw_floatingWizards-2")
+          document.getElementById("wtw_floatingWizards-2"),
         ),
       },
     };
@@ -158,25 +163,25 @@ class WanderingTowers extends WanderingTowersGui {
       towerStocks.spaces[space_id] = new TowerSpaceStock(
         this,
         towerManager,
-        space_id
+        space_id,
       );
 
       const spaceElement = document.getElementById(
-        `wtw_spaceWizards-${space_id}`
+        `wtw_spaceWizards-${space_id}`,
       );
       wizardStocks.spaces[space_id] = {};
       for (let tier = 0; tier <= 10; tier++) {
         spaceElement.insertAdjacentHTML(
           "beforeend",
           `<div id="wtw_wizardTier-${space_id}-${tier}" class="wtw_wizardTier" 
-          data-space=${space_id} data-tier=${tier}></div>`
+          data-space=${space_id} data-tier=${tier}></div>`,
         );
 
         wizardStocks.spaces[space_id][tier] = new WizardSpaceStock(
           this,
           wizardManager,
           space_id,
-          tier
+          tier,
         );
       }
 
@@ -187,8 +192,8 @@ class WanderingTowers extends WanderingTowersGui {
       this.addTooltipHtml(
         `wtw_tierCounter-${space_id}`,
         `<span class="wtw_tooltipText">${_(
-          "number of towers at this space"
-        )}</span>`
+          "number of towers at this space",
+        )}</span>`,
       );
     }
 
@@ -204,7 +209,7 @@ class WanderingTowers extends WanderingTowersGui {
       discard: new CardStock(
         moveManager,
         document.getElementById("wtw_moveDiscard"),
-        { sort: sortFunction("location_arg") }
+        { sort: sortFunction("location_arg") },
       ),
     };
 
@@ -213,13 +218,13 @@ class WanderingTowers extends WanderingTowersGui {
 
       this.getPlayerPanelElement(player_id).insertAdjacentHTML(
         "beforeend",
-        `<div id="wtw_moveVoid-${player_id}" class="wtw_moveVoid"></div>`
+        `<div id="wtw_moveVoid-${player_id}" class="wtw_moveVoid"></div>`,
       );
 
       moveStocks[player_id] = {
         hand: new VoidStock(
           moveManager,
-          document.getElementById(`wtw_moveVoid-${player_id}`)
+          document.getElementById(`wtw_moveVoid-${player_id}`),
         ),
       };
     }
@@ -227,7 +232,7 @@ class WanderingTowers extends WanderingTowersGui {
     const potionStocks = {
       void: new VoidStock(
         potionManager,
-        document.getElementById("wtw_potionVoid")
+        document.getElementById("wtw_potionVoid"),
       ),
     };
     for (let p_id in gamedatas.players) {
@@ -249,11 +254,11 @@ class WanderingTowers extends WanderingTowersGui {
           </div>
           <div id="wtw_panelWizard-${player_id}" class="wtw_card wtw_wizard wtw_wizard-panel"></div>
         </div>
-        <div id="wtw_potionCargo-${player_id}" class="wtw_whiteblock wtw_potionCargo"></div>`
+        <div id="wtw_potionCargo-${player_id}" class="wtw_whiteblock wtw_potionCargo"></div>`,
       );
 
       const turnCounterElement = document.getElementById(
-        `wtw_turnCounter-${player_id}`
+        `wtw_turnCounter-${player_id}`,
       );
 
       if (gamedatas.isSolo) {
@@ -264,19 +269,19 @@ class WanderingTowers extends WanderingTowersGui {
         turnCounterElement.id,
         `<span class="wtw_tooltipText">
           ${_("number of turns played")}
-        </span>`
+        </span>`,
       );
 
       this.addTooltipHtml(
         `wtw_ravenskeepCounter-${player_id}`,
         `<span class="wtw_tooltipText">${_(
-          "number of wizards in the Ravenskeep"
-        )}</span>`
+          "number of wizards in the Ravenskeep",
+        )}</span>`,
       );
 
       this.addTooltipHtml(
         `wtw_potionCargo-${player_id}`,
-        `<span class="wtw_tooltipText">${_("potions remaining")}</span>`
+        `<span class="wtw_tooltipText">${_("potions remaining")}</span>`,
       );
 
       counters[player_id] = {
@@ -311,7 +316,7 @@ class WanderingTowers extends WanderingTowersGui {
         document.getElementById(`wtw_spells`),
         {
           sort: sortFunction("type_arg"),
-        }
+        },
       ),
     };
 
@@ -523,14 +528,14 @@ class WanderingTowers extends WanderingTowersGui {
 
   public addConfirmationButton(
     selection: string,
-    callback: () => void
+    callback: () => void,
   ): HTMLButtonElement {
     return this.statusBar.addActionButton(
       this.format_string_recursive(_("confirm ${selection}"), {
         selection: _(selection),
       }),
       callback,
-      { id: "wtw_confirmationButton" }
+      { id: "wtw_confirmationButton" },
     );
   }
 
@@ -541,7 +546,7 @@ class WanderingTowers extends WanderingTowersGui {
   public performAction(
     action: ActionName,
     args: any = {},
-    options = { lock: true, checkAction: true }
+    options = { lock: true, checkAction: true },
   ): void {
     args.GAME_VERSION = this.gamedatas.GAME_VERSION;
 
@@ -555,7 +560,7 @@ class WanderingTowers extends WanderingTowersGui {
   }
 
   public loopWizardStocks(
-    callback: (stock: WizardSpaceStock, space_id: number, tier: number) => void
+    callback: (stock: WizardSpaceStock, space_id: number, tier: number) => void,
   ): void {
     const spaces = this.wtw.stocks.wizards.spaces;
 
@@ -609,7 +614,7 @@ class WanderingTowers extends WanderingTowersGui {
           const towerElements = Array.from(spaceElement.children).filter(
             (child) => {
               return !child.classList.contains("wtw_tierCounter");
-            }
+            },
           );
 
           const elevatedTier =
@@ -635,7 +640,7 @@ class WanderingTowers extends WanderingTowersGui {
           const tierClass = "wtw_wizardTier-elevated";
 
           const tierElements = document.querySelectorAll(
-            `[data-tier][data-space="${space_id}"]:not(:empty)`
+            `[data-tier][data-space="${space_id}"]:not(:empty)`,
           );
 
           tierElements.forEach((tierElement: HTMLElement) => {
@@ -662,7 +667,7 @@ class WanderingTowers extends WanderingTowersGui {
             tierElement.classList.toggle("wtw_wizardTier-visible", mustReveal);
             tierElement.classList.toggle(
               "wtw_wizardTier-underMove",
-              revealedByMove
+              revealedByMove,
             );
 
             if (elevatedTier === 0) {
@@ -728,7 +733,7 @@ class WanderingTowers extends WanderingTowersGui {
     const pageTitle = document.getElementById("page-title");
     pageTitle.insertAdjacentHTML(
       "beforeend",
-      `<span class="wtw_finalTurn">${_("This is the last round!")}<span>`
+      `<span class="wtw_finalTurn">${_("This is the last round!")}<span>`,
     );
   }
 
@@ -742,13 +747,13 @@ class WanderingTowers extends WanderingTowersGui {
   private loadSounds(): void {
     const sounds_ids = ["pour", "drink"];
     sounds_ids.forEach((sound_id) => {
-      this.sounds.load(sound_id);
+      this.sounds.load(sound_id, sound_id);
     });
   }
 
   onGameUserPreferenceChanged(
     pref_id: 100 | 101 | 102,
-    pref_value: number
+    pref_value: number,
   ): void {
     switch (pref_id) {
       case 101:

@@ -1391,7 +1391,6 @@ body > .card {
   pointer-events: auto;
 }
 .wtw_spell .card-side {
-  background-image: url("img/spells.png");
   background-size: cover;
 }
 .wtw_spell-tooltip {

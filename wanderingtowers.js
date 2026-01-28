@@ -135,6 +135,10 @@ var WanderingTowers = /** @class */ (function (_super) {
                 var spellCard = new Spell(_this, card);
                 spellCard.setupFrontDiv(element);
             },
+            setupBackDiv: function (card, element) {
+                var spellCard = new Spell(_this, card);
+                spellCard.setupBackDiv(element);
+            },
         });
         var towerStocks = {
             spaces: {},
@@ -550,7 +554,7 @@ var WanderingTowers = /** @class */ (function (_super) {
         var _this = this;
         var sounds_ids = ["pour", "drink"];
         sounds_ids.forEach(function (sound_id) {
-            _this.sounds.load(sound_id);
+            _this.sounds.load(sound_id, sound_id);
         });
     };
     WanderingTowers.prototype.onGameUserPreferenceChanged = function (pref_id, pref_value) {
@@ -2972,11 +2976,11 @@ var Potion = /** @class */ (function (_super) {
             return;
         }
         element.classList.add("wtw_potion-empty");
-        element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/potionEmpty_").concat(this.card.type, ".png)");
+        element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/potions/potionEmpty_").concat(this.card.type, ".png)");
     };
     Potion.prototype.setupBackDiv = function (element) {
         element.classList.add("wtw_potion-filled");
-        element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/potion_").concat(this.card.type, ".png)");
+        element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/potions/potion_").concat(this.card.type, ".png)");
     };
     Potion.prototype.fill = function () {
         this.cargo.setCardVisible(this.card, false);
@@ -3057,12 +3061,13 @@ var Spell = /** @class */ (function (_super) {
         element.classList.add("wtw_card", "wtw_spell");
     };
     Spell.prototype.setupFrontDiv = function (element) {
-        element.style.backgroundPosition = "".concat(this.card.type_arg * -100, "%");
-        if (this.card.type_arg === 7) {
-            element.style.backgroundPosition = "-800%";
-        }
+        var type_arg = this.card.type_arg;
+        element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/spells/spell_").concat(type_arg, ".png)");
         var tooltipHTML = this.createTooltip(element.parentElement.parentElement);
         this.game.addTooltipHtml(element.id, tooltipHTML);
+    };
+    Spell.prototype.setupBackDiv = function (element) {
+        element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/spells/spell_0.png)");
     };
     Spell.prototype.createTooltip = function (element) {
         if (!element) {
